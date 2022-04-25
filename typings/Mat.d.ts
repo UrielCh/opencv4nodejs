@@ -92,7 +92,7 @@ export class OptimalNewCameraMatrix {
    * 	Optional output rectangle that outlines all-good-pixels region in the undistorted image. See roi1, roi2 description in stereoRectify .
    */
   validPixROI: Rect;
-};
+}
 
 export class Mat {
   /**
