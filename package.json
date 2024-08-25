@@ -74,7 +74,7 @@
     "@u4/opencv-build": "1.1.1",
     "eslint": "^9.9.0",
     "glob": "^11.0.0",
-    "nan": "^2.20.0",
+    "node-addon-api": "^8.1.0",
     "node-gyp": "^10.2.0",
     "picocolors": "^1.0.1",
     "typescript-eslint": "8.1.0"

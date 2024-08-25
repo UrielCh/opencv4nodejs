@@ -8,12 +8,14 @@
 			"<!@(node ./bin/install.js OPENCV4NODEJS_INCLUDES)",
 			"cc",
 			"cc/core",
-			"<!(node -e \"require('nan')\")",
+            "<!(node -p \"require('node-addon-api').include_dir\")"
 			"cc/native-node-utils",
 		],
 		"libraries": [
 			"<!@(node ./bin/install.js OPENCV4NODEJS_LIBRARIES)",
 		],
+		'defines': [ 'NAPI_DISABLE_CPP_EXCEPTIONS',
+                     'NODE_ADDON_API_ENABLE_MAYBE' ],
 		"sources": [
 			"cc/opencv4nodejs.cc",
 			"cc/CustomMatAllocator.cc",
@@ -163,9 +165,13 @@
 	        ["OS==\"mac\"",
 	          {
 				 "cflags": [
+					 "-fvisibility=hidden",
 	                 "-std=c++17",
     	             "-Wno-error=deprecated-declarations"
 	            ],
+				"xcode_settings": {
+                       "GCC_SYMBOLS_PRIVATE_EXTERN": "YES", # -fvisibility=hidden
+                },
 	            "link_settings": {
 	              "libraries": [
 					"-Wl,-rpath,@loader_path/../../../opencv-build/opencv/build/lib"

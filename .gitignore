@@ -61,3 +61,4 @@ esm/install/
 esm/lib/
 u4-opencv4nodejs-*.tgz
 examples/yolo_out_py.avi
+package-lock.json
