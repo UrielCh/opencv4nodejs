@@ -84,6 +84,7 @@ public:
   public:
     virtual ~Constructor() {
     }
+
     Constructor(const Napi::CallbackInfo& info) {
       auto winSize = opt<Size::Converter>("winSize", cv::Size2d(64, 128));
       auto blockSize = opt<Size::Converter>("blockSize", cv::Size2d(16, 16));

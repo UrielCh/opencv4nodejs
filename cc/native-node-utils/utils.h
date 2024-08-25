@@ -16,13 +16,14 @@ static inline Napi::Function getFunction(Napi::FunctionReference fnTempl) {
 }
 
 static inline Napi::Object newInstance(Napi::FunctionReference ctor) {
-  Napi::Maybe<Napi::Object> maybeObj = ctor.New({});
-  if (maybeObj.IsNothing()) {
+  Napi::MaybeOrValue<Napi::Object> maybeObj = ctor.New({});
+  if (maybeObj.IsNull() || maybeObj.IsEmpty()) {
     // Handle the error appropriately, e.g., throw an exception or return a default object
     Napi::Error::New(ctor.Env(), "Failed to create new instance").ThrowAsJavaScriptException();
     return Napi::Object::New(ctor.Env());
   }
-  return maybeObj.Unwrap();
+  //  return maybeObj.Unwrap();
+  return maybeObj.As<Napi::Object>();
 }
 
 static inline bool hasArg(const Napi::CallbackInfo& info, int argN) {
@@ -38,13 +39,14 @@ static inline Napi::String newString(Napi::Env env, std::string str) {
 }
 
 static inline bool hasOwnProperty(Napi::Object obj, const char* prop) {
-  Napi::Maybe<bool> maybeHasProp = obj.HasOwnProperty(prop);
-  if (maybeHasProp.IsNothing()) {
+  // Napi::Maybe<bool> maybeHasProp = obj.HasOwnProperty(prop);
+  Napi::MaybeOrValue<bool> maybeHasProp = obj.HasOwnProperty(prop);
+  if (maybeHasProp) {
     // Handle the error appropriately, e.g., throw an exception or return a default value
     Napi::Error::New(obj.Env(), "Failed to check property").ThrowAsJavaScriptException();
     return false;
   }
-  return maybeHasProp.Unwrap();
+  return true;
 }
 
 template <class TClass>

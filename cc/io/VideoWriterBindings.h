@@ -30,11 +30,14 @@ public:
 struct GetWorker : public CatchCvExceptionWorker {
 public:
   cv::VideoWriter self;
+
   GetWorker(cv::VideoWriter self) {
     this->self = self;
   }
+
   virtual ~GetWorker() {
   }
+
   int prop;
   double val;
 
@@ -56,9 +59,11 @@ public:
 struct SetWorker : public CatchCvExceptionWorker {
 public:
   cv::VideoWriter self;
+
   SetWorker(cv::VideoWriter self) {
     this->self = self;
   }
+
   virtual ~SetWorker() {
   }
 
@@ -108,9 +113,11 @@ public:
 struct WriteWorker : CatchCvExceptionWorker {
 public:
   cv::VideoWriter writer;
+
   WriteWorker(cv::VideoWriter writer) {
     this->writer = writer;
   }
+
   virtual ~WriteWorker() {
   }
 

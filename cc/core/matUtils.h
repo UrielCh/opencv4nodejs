@@ -36,6 +36,7 @@ static inline void matPutVec2(cv::Mat mat, Napi::Value vector, int r, int c, int
       (type)FF::DoubleConverter::unwrapUnchecked(Nan::Get(vec, 0).ToLocalChecked()),
       (type)FF::DoubleConverter::unwrapUnchecked(Nan::Get(vec, 1).ToLocalChecked()));
 }
+
 /**
  * 2,3-Dimmentions Macro seters for a Vec<3> Value
  */
@@ -56,6 +57,7 @@ static inline void matPutVec3(cv::Mat mat, Napi::Value vector, int r, int c, int
       (type)FF::DoubleConverter::unwrapUnchecked(Nan::Get(vec, 1).ToLocalChecked()),
       (type)FF::DoubleConverter::unwrapUnchecked(Nan::Get(vec, 2).ToLocalChecked()));
 }
+
 /**
  * 2,3-Dimmentions Macro seters for a Vec<4> Value
  */

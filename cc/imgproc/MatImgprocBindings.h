@@ -9,9 +9,11 @@ namespace MatImgprocBindings {
 struct BaseResizeWorker : public CatchCvExceptionWorker {
 public:
   cv::Mat self;
+
   BaseResizeWorker(cv::Mat self) {
     this->self = self;
   }
+
   virtual ~BaseResizeWorker() {
   }
 
@@ -27,6 +29,7 @@ public:
   RescaleWorker(cv::Mat self)
       : BaseResizeWorker(self) {
   }
+
   virtual ~RescaleWorker() {
   }
 
@@ -101,6 +104,7 @@ public:
   ResizeToMaxWorker(cv::Mat self)
       : BaseResizeWorker(self) {
   }
+
   virtual ~ResizeToMaxWorker() {
   }
 
@@ -127,6 +131,7 @@ public:
   ThresholdWorker(cv::Mat mat) {
     this->mat = mat;
   }
+
   virtual ~ThresholdWorker() {
   }
 
@@ -158,6 +163,7 @@ public:
   AdaptiveThresholdWorker(cv::Mat mat) {
     this->mat = mat;
   }
+
   virtual ~AdaptiveThresholdWorker() {
   }
 
@@ -191,6 +197,7 @@ public:
   InRangeWorker(cv::Mat mat) {
     this->mat = mat;
   }
+
   virtual ~InRangeWorker() {
   }
 
@@ -229,9 +236,11 @@ public:
 struct CvtColorWorker : public CatchCvExceptionWorker {
 public:
   cv::Mat self;
+
   CvtColorWorker(cv::Mat self) {
     this->self = self;
   }
+
   virtual ~CvtColorWorker() {
   }
 
@@ -263,9 +272,11 @@ public:
 struct BgrToGrayWorker : public CatchCvExceptionWorker {
 public:
   cv::Mat self;
+
   BgrToGrayWorker(cv::Mat self) {
     this->self = self;
   }
+
   virtual ~BgrToGrayWorker() {
   }
 
@@ -291,6 +302,7 @@ public:
     this->mat = mat;
     this->size = cv::Size2d(mat.cols, mat.rows);
   }
+
   virtual ~WarpWorker() {
   }
 
@@ -357,6 +369,7 @@ public:
     this->mat = mat;
     this->withOp = withOp;
   }
+
   virtual ~MorphWorker() {
   }
 
@@ -401,6 +414,7 @@ struct ErodeWorker : public MorphWorker {
   ErodeWorker(cv::Mat mat)
       : MorphWorker(mat) {
   }
+
   virtual ~ErodeWorker() {
   }
 
@@ -414,6 +428,7 @@ struct DilateWorker : public MorphWorker {
   DilateWorker(cv::Mat mat)
       : MorphWorker(mat) {
   }
+
   virtual ~DilateWorker() {
   }
 
@@ -428,6 +443,7 @@ public:
   MorphologyExWorker(cv::Mat mat)
       : MorphWorker(mat, true) {
   }
+
   virtual ~MorphologyExWorker() {
   }
 
@@ -440,9 +456,11 @@ public:
 struct DistanceTransformWorker : public CatchCvExceptionWorker {
 public:
   cv::Mat self;
+
   DistanceTransformWorker(cv::Mat self) {
     this->self = self;
   }
+
   virtual ~DistanceTransformWorker() {
   }
 
@@ -476,6 +494,7 @@ struct DistanceTransformWithLabelsWorker : public DistanceTransformWorker {
   DistanceTransformWithLabelsWorker(cv::Mat self)
       : DistanceTransformWorker(self) {
   }
+
   virtual ~DistanceTransformWithLabelsWorker() {
   }
 
@@ -503,9 +522,11 @@ struct DistanceTransformWithLabelsWorker : public DistanceTransformWorker {
 struct ConnectedComponentsWorker : public CatchCvExceptionWorker {
 public:
   cv::Mat self;
+
   ConnectedComponentsWorker(cv::Mat self) {
     this->self = self;
   }
+
   virtual ~ConnectedComponentsWorker() {
   }
 
@@ -559,6 +580,7 @@ struct ConnectedComponentsWithStatsWorker : public ConnectedComponentsWorker {
     Nan::Set(ret, Nan::New("centroids").ToLocalChecked(), Mat::Converter::wrap(centroids));
     return ret;
   }
+
   virtual ~ConnectedComponentsWithStatsWorker() {
   }
 };
@@ -566,6 +588,7 @@ struct ConnectedComponentsWithStatsWorker : public ConnectedComponentsWorker {
 struct GrabCutWorker : public CatchCvExceptionWorker {
 public:
   cv::Mat self;
+
   GrabCutWorker(cv::Mat self) {
     this->self = self;
   }
@@ -595,6 +618,7 @@ public:
     return (
         FF::IntConverter::optArg(5, &mode, info));
   }
+
   virtual ~GrabCutWorker() {
   }
 };
@@ -602,6 +626,7 @@ public:
 struct WatershedWorker : public CatchCvExceptionWorker {
 public:
   cv::Mat self;
+
   WatershedWorker(cv::Mat self) {
     this->self = self;
   }
@@ -621,6 +646,7 @@ public:
     return (
         Mat::Converter::arg(0, &markers, info));
   }
+
   virtual ~WatershedWorker() {
   }
 };
@@ -628,6 +654,7 @@ public:
 struct MomentsWorker : public CatchCvExceptionWorker {
 public:
   cv::Mat self;
+
   MomentsWorker(cv::Mat self) {
     this->self = self;
   }
@@ -649,6 +676,7 @@ public:
     return (
         FF::BoolConverter::optArg(0, &binaryImage, info));
   }
+
   virtual ~MomentsWorker() {
   }
 };
@@ -656,6 +684,7 @@ public:
 struct FindContoursWorker : public CatchCvExceptionWorker {
 public:
   cv::Mat self;
+
   FindContoursWorker(cv::Mat self) {
     this->self = self;
   }
@@ -693,6 +722,7 @@ public:
     return (
         Point2::Converter::optArg(2, &offset, info));
   }
+
   virtual ~FindContoursWorker() {
   }
 };
@@ -736,6 +766,7 @@ public:
     return (
         Vec3::Converter::optProp(&color, "color", opts) || (hasThickness && FF::IntConverter::optProp(&thickness, "thickness", opts)) || FF::IntConverter::optProp(&lineType, "lineType", opts) || FF::IntConverter::optProp(&shift, "shift", opts));
   }
+
   virtual ~DrawWorker() {
   }
 };
@@ -761,6 +792,7 @@ struct DrawLineWorker : public DrawWorker {
   int getDrawParamsIndex() {
     return 2;
   }
+
   virtual ~DrawLineWorker() {
   }
 };
@@ -797,6 +829,7 @@ struct DrawArrowedLineWorker : public DrawWorker {
   int getDrawParamsIndex() {
     return 2;
   }
+
   virtual ~DrawArrowedLineWorker() {
   }
 };
@@ -834,6 +867,7 @@ struct DrawRectangleWorker : public DrawWorker {
   int getDrawParamsIndex() {
     return isArgRect ? 1 : 2;
   }
+
   virtual ~DrawRectangleWorker() {
   }
 };
@@ -859,6 +893,7 @@ struct DrawCircleWorker : public DrawWorker {
   int getDrawParamsIndex() {
     return 2;
   }
+
   virtual ~DrawCircleWorker() {
   }
 };
@@ -898,6 +933,7 @@ struct DrawEllipseWorker : public DrawWorker {
   int getDrawParamsIndex() {
     return isArgBox ? 1 : 5;
   }
+
   virtual ~DrawEllipseWorker() {
   }
 };
@@ -923,6 +959,7 @@ struct DrawPolylinesWorker : public DrawWorker {
   int getDrawParamsIndex() {
     return 2;
   }
+
   virtual ~DrawPolylinesWorker() {
   }
 };
@@ -958,6 +995,7 @@ struct DrawFillPolyWorker : public DrawWorker {
   int getDrawParamsIndex() {
     return 1;
   }
+
   virtual ~DrawFillPolyWorker() {
   }
 };
@@ -982,6 +1020,7 @@ struct DrawFillConvexPolyWorker : public DrawWorker {
   int getDrawParamsIndex() {
     return 1;
   }
+
   virtual ~DrawFillConvexPolyWorker() {
   }
 };
@@ -990,6 +1029,7 @@ struct PutTextWorker : public DrawWorker {
   PutTextWorker(cv::Mat self)
       : DrawWorker(self) {
   }
+
   virtual ~PutTextWorker() {
   }
 
@@ -1031,6 +1071,7 @@ public:
   MatchTemplateWorker(cv::Mat mat) {
     this->mat = mat;
   }
+
   virtual ~MatchTemplateWorker() {
   }
 
@@ -1066,6 +1107,7 @@ public:
   CannyWorker(cv::Mat mat) {
     this->mat = mat;
   }
+
   virtual ~CannyWorker() {
   }
 
@@ -1115,6 +1157,7 @@ public:
     this->mat = mat;
     this->hasKsize = hasKsize;
   }
+
   virtual ~SobelScharrWorker() {
   }
 
@@ -1158,6 +1201,7 @@ struct SobelWorker : SobelScharrWorker {
   SobelWorker(cv::Mat mat, bool hasKsize)
       : SobelScharrWorker(mat, hasKsize) {
   }
+
   virtual ~SobelWorker() {
   }
 
@@ -1171,6 +1215,7 @@ struct ScharrWorker : SobelScharrWorker {
   ScharrWorker(cv::Mat mat, bool hasKsize)
       : SobelScharrWorker(mat, hasKsize) {
   }
+
   virtual ~ScharrWorker() {
   }
 
@@ -1187,6 +1232,7 @@ public:
   LaplacianWorker(cv::Mat mat) {
     this->mat = mat;
   }
+
   virtual ~LaplacianWorker() {
   }
 
@@ -1236,6 +1282,7 @@ public:
     this->mat = mat;
     this->isUp = isUp;
   }
+
   virtual ~PyrWorker() {
   }
 
@@ -1284,6 +1331,7 @@ public:
   BuildPyramidWorker(cv::Mat mat) {
     this->mat = mat;
   }
+
   virtual ~BuildPyramidWorker() {
   }
 
@@ -1317,6 +1365,7 @@ public:
   HoughLinesWorker(cv::Mat mat) {
     this->mat = mat;
   }
+
   virtual ~HoughLinesWorker() {
   }
 
@@ -1365,6 +1414,7 @@ public:
   HoughLinesPWorker(cv::Mat mat)
       : HoughLinesWorker(mat) {
   }
+
   virtual ~HoughLinesPWorker() {
   }
 
@@ -1405,6 +1455,7 @@ public:
   HoughCirclesWorker(cv::Mat mat) {
     this->mat = mat;
   }
+
   virtual ~HoughCirclesWorker() {
   }
 
@@ -1451,9 +1502,11 @@ public:
 struct EqualizeHistWorker : public CatchCvExceptionWorker {
 public:
   cv::Mat self;
+
   EqualizeHistWorker(cv::Mat self) {
     this->self = self;
   }
+
   virtual ~EqualizeHistWorker() {
   }
 
@@ -1472,9 +1525,11 @@ public:
 struct CompareHistWorker : public CatchCvExceptionWorker {
 public:
   cv::Mat self;
+
   CompareHistWorker(cv::Mat self) {
     this->self = self;
   }
+
   virtual ~CompareHistWorker() {
   }
 
@@ -1501,9 +1556,11 @@ public:
 struct FloodFillWorker : public CatchCvExceptionWorker {
 public:
   cv::Mat self;
+
   FloodFillWorker(cv::Mat self) {
     this->self = self;
   }
+
   virtual ~FloodFillWorker() {
   }
 
@@ -1568,9 +1625,11 @@ public:
 struct BilateralFilterWorker : public CatchCvExceptionWorker {
 public:
   cv::Mat self;
+
   BilateralFilterWorker(cv::Mat self) {
     this->self = self;
   }
+
   virtual ~BilateralFilterWorker() {
   }
 
@@ -1604,9 +1663,11 @@ public:
 struct BoxFilterWorker : public CatchCvExceptionWorker {
 public:
   cv::Mat self;
+
   BoxFilterWorker(cv::Mat self) {
     this->self = self;
   }
+
   virtual ~BoxFilterWorker() {
   }
 
@@ -1653,6 +1714,7 @@ public:
   SqrBoxFilterWorker(cv::Mat self)
       : BoxFilterWorker(self) {
   }
+
   virtual ~SqrBoxFilterWorker() {
   }
 
@@ -1665,9 +1727,11 @@ public:
 struct Filter2DWorker : public CatchCvExceptionWorker {
 public:
   cv::Mat self;
+
   Filter2DWorker(cv::Mat self) {
     this->self = self;
   }
+
   virtual ~Filter2DWorker() {
   }
 
@@ -1712,9 +1776,11 @@ public:
 struct SepFilter2DWorker : public CatchCvExceptionWorker {
 public:
   cv::Mat self;
+
   SepFilter2DWorker(cv::Mat self) {
     this->self = self;
   }
+
   virtual ~SepFilter2DWorker() {
   }
 
@@ -1760,9 +1826,11 @@ public:
 struct CornerHarrisWorker : public CatchCvExceptionWorker {
 public:
   cv::Mat self;
+
   CornerHarrisWorker(cv::Mat self) {
     this->self = self;
   }
+
   virtual ~CornerHarrisWorker() {
   }
 
@@ -1796,9 +1864,11 @@ public:
 struct CornerSubPixWorker : public CatchCvExceptionWorker {
 public:
   cv::Mat self;
+
   CornerSubPixWorker(cv::Mat self) {
     this->self = self;
   }
+
   virtual ~CornerSubPixWorker() {
   }
 
@@ -1825,9 +1895,11 @@ public:
 struct BaseCornerEigenValWorker : public CatchCvExceptionWorker {
 public:
   cv::Mat self;
+
   BaseCornerEigenValWorker(cv::Mat self) {
     this->self = self;
   }
+
   virtual ~BaseCornerEigenValWorker() {
   }
 
@@ -1867,6 +1939,7 @@ public:
   CornerMinEigenValWorker(cv::Mat self)
       : BaseCornerEigenValWorker(self) {
   }
+
   virtual ~CornerMinEigenValWorker() {
   }
 
@@ -1881,6 +1954,7 @@ public:
   CornerEigenValsAndVecsWorker(cv::Mat self)
       : BaseCornerEigenValWorker(self) {
   }
+
   virtual ~CornerEigenValsAndVecsWorker() {
   }
 
@@ -1893,9 +1967,11 @@ public:
 struct IntegralWorker : public CatchCvExceptionWorker {
 public:
   cv::Mat self;
+
   IntegralWorker(cv::Mat self) {
     this->self = self;
   }
+
   virtual ~IntegralWorker() {
   }
 
@@ -1938,9 +2014,11 @@ public:
 struct DrawContoursWorker : public CatchCvExceptionWorker {
 public:
   cv::Mat self;
+
   DrawContoursWorker(cv::Mat self) {
     this->self = self;
   }
+
   virtual ~DrawContoursWorker() {
   }
 
@@ -1997,6 +2075,7 @@ public:
       cv::undistort(self, undistortedMat->ref(), cameraMatrix->ref(), distCoeffs->ref());
     };
   };
+
   virtual ~Undistort() {
   }
 };

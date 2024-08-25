@@ -12,6 +12,7 @@
 class FacemarkAAMData : public FF::ObjectWrap<FacemarkAAMData, cv::face::FacemarkAAM::Data> {
 public:
   static Nan::Persistent<v8::FunctionTemplate> constructor;
+
   static const char* getClassName() {
     return "FacemarkAAMData";
   }

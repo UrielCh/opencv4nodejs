@@ -8,11 +8,14 @@ namespace VideoCaptureBindings {
 struct GetWorker : public CatchCvExceptionWorker {
 public:
   cv::VideoCapture self;
+
   GetWorker(cv::VideoCapture self) {
     this->self = self;
   }
+
   virtual ~GetWorker() {
   }
+
   int prop;
   double val;
 
@@ -34,11 +37,14 @@ public:
 struct ReadWorker : public CatchCvExceptionWorker {
 public:
   cv::VideoCapture self;
+
   ReadWorker(cv::VideoCapture self) {
     this->self = self;
   }
+
   virtual ~ReadWorker() {
   }
+
   cv::Mat frame;
 
   std::string executeCatchCvExceptionWorker() {
@@ -54,9 +60,11 @@ public:
 struct SetWorker : public CatchCvExceptionWorker {
 public:
   cv::VideoCapture self;
+
   SetWorker(cv::VideoCapture self) {
     this->self = self;
   }
+
   virtual ~SetWorker() {
   }
 

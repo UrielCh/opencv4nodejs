@@ -19,6 +19,7 @@ public:
       cv::cartToPolar(x->ref(), y->ref(), magnitude->ref(), angle->ref(), angleInDegrees->ref());
     };
   };
+
   virtual ~CartToPolar() {
   }
 };
@@ -36,6 +37,7 @@ public:
       cv::polarToCart(magnitude->ref(), angle->ref(), x->ref(), y->ref(), angleInDegrees->ref());
     };
   };
+
   virtual ~PolarToCart() {
   }
 };
@@ -56,6 +58,7 @@ public:
       cv::addWeighted(self->ref(), alpha->ref(), src2->ref(), beta->ref(), gamma->ref(), dst->ref(), dtype->ref());
     };
   };
+
   virtual ~AddWeighted() {
   }
 };
@@ -73,6 +76,7 @@ public:
       cv::minMaxLoc(self->ref(), minVal->ptr(), maxVal->ptr(), minLoc->ptr(), maxLoc->ptr(), mask->ref());
     };
   };
+
   virtual ~MinMaxLoc() {
   }
 };
@@ -86,6 +90,7 @@ public:
       cv::findNonZero(self->ref(), idx->ref());
     };
   };
+
   virtual ~FindNonZero() {
   }
 };
@@ -99,6 +104,7 @@ public:
       num->ref() = cv::countNonZero(self->ref());
     };
   };
+
   virtual ~CountNonZero() {
   }
 };
@@ -112,6 +118,7 @@ public:
       cv::split(self->ref(), mv->ref());
     };
   };
+
   virtual ~Split() {
   }
 };
@@ -128,6 +135,7 @@ public:
       cv::mulSpectrums(self->ref(), mat2->ref(), dst->ref(), flags->ref(), conjB->ref());
     };
   };
+
   virtual ~MulSpectrums() {
   }
 };
@@ -142,6 +150,7 @@ public:
       cv::transform(self->ref(), dst->ref(), m->ref());
     };
   };
+
   virtual ~Transform() {
   }
 };
@@ -156,6 +165,7 @@ public:
       cv::perspectiveTransform(self->ref(), dst->ref(), m->ref());
     };
   };
+
   virtual ~PerspectiveTransform() {
   }
 };
@@ -164,6 +174,7 @@ class Sum : public CvClassMethodBinding<Mat> {
 public:
   std::shared_ptr<FF::Value<cv::Mat>> self;
   cv::Scalar sum;
+
   void createBinding(std::shared_ptr<FF::Value<cv::Mat>> self) {
     this->self = self;
     executeBinding = [=]() {
@@ -185,6 +196,7 @@ public:
       return Nan::Undefined();
     }
   }
+
   virtual ~Sum() {
   }
 };
@@ -200,6 +212,7 @@ public:
       cv::convertScaleAbs(self->ref(), dst->ref(), alpha->ref(), beta->ref());
     };
   };
+
   virtual ~ConvertScaleAbs() {
   }
 };
@@ -214,6 +227,7 @@ public:
       mean->ref() = cv::mean(self->ref(), mask->ref());
     };
   };
+
   virtual ~Mean() {
   }
 };
@@ -229,6 +243,7 @@ public:
       cv::meanStdDev(self->ref(), mean->ref(), stddev->ref(), mask->ref());
     };
   };
+
   virtual ~MeanStdDev() {
   }
 };
@@ -245,6 +260,7 @@ public:
       cv::reduce(self->ref(), result->ref(), dim->ref(), rtype->ref(), dtype->ref());
     };
   };
+
   virtual ~Reduce() {
   }
 };
@@ -260,6 +276,7 @@ public:
       cv::min(src1->ref(), src2->ref(), dest->ref());
     };
   };
+
   virtual ~Min() {
   }
 };
@@ -275,6 +292,7 @@ public:
       cv::max(src1->ref(), src2->ref(), dest->ref());
     };
   };
+
   virtual ~Max() {
   }
 };
@@ -288,6 +306,7 @@ public:
       cv::eigen(self->ref(), eigenvalues->ref());
     };
   };
+
   virtual ~Eigen() {
   }
 };
@@ -303,6 +322,7 @@ public:
       cv::solve(self->ref(), mat2->ref(), dst->ref(), flags->ref());
     };
   };
+
   virtual ~Solve() {
   }
 };
@@ -321,6 +341,7 @@ public:
       cv::normalize(self->ref(), dst->ref(), alpha->ref(), beta->ref(), normType->ref(), dtype->ref(), mask->ref());
     };
   };
+
   virtual ~Normalize() {
   }
 };
@@ -336,6 +357,7 @@ public:
       cv::magnitude(x->ref(), y->ref(), magnitude->ref());
     };
   };
+
   virtual ~Magnitude() {
   }
 };

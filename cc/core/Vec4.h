@@ -30,9 +30,11 @@ public:
   FF_GETTER_CUSTOM(z, FF::DoubleConverter, self[3]);
 
   FF_INIT_VEC4_OPERATIONS();
+
   static NAN_METHOD(Dot) {
     FF_OPERATOR_RET_SCALAR(&cv::Vec4d::dot, FF_APPLY_CLASS_FUNC, Vec4, "Dot");
   }
+
   static NAN_METHOD(Norm) {
     info.GetReturnValue().Set(Nan::New(cv::norm(Vec4::unwrapSelf(info))));
   }

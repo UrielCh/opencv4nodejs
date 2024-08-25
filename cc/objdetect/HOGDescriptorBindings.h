@@ -12,6 +12,7 @@ public:
   ComputeWorker(std::shared_ptr<cv::HOGDescriptor> hog) {
     this->hog = hog;
   }
+
   virtual ~ComputeWorker() {
   }
 
@@ -58,6 +59,7 @@ public:
   ComputeGradientWorker(std::shared_ptr<cv::HOGDescriptor> self) {
     this->self = self;
   }
+
   virtual ~ComputeGradientWorker() {
   }
 
@@ -104,9 +106,11 @@ public:
 struct DetectWorker : public CatchCvExceptionWorker {
 public:
   std::shared_ptr<cv::HOGDescriptor> self;
+
   DetectWorker(std::shared_ptr<cv::HOGDescriptor> self) {
     this->self = self;
   }
+
   virtual ~DetectWorker() {
   }
 
@@ -155,9 +159,11 @@ public:
 struct DetectROIWorker : public CatchCvExceptionWorker {
 public:
   std::shared_ptr<cv::HOGDescriptor> self;
+
   DetectROIWorker(std::shared_ptr<cv::HOGDescriptor> self) {
     this->self = self;
   }
+
   virtual ~DetectROIWorker() {
   }
 
@@ -206,9 +212,11 @@ public:
 struct DetectMultiScaleWorker : public CatchCvExceptionWorker {
 public:
   std::shared_ptr<cv::HOGDescriptor> self;
+
   DetectMultiScaleWorker(std::shared_ptr<cv::HOGDescriptor> self) {
     this->self = self;
   }
+
   virtual ~DetectMultiScaleWorker() {
   }
 
@@ -259,9 +267,11 @@ public:
 struct DetectMultiScaleROIWorker : public CatchCvExceptionWorker {
 public:
   std::shared_ptr<cv::HOGDescriptor> self;
+
   DetectMultiScaleROIWorker(std::shared_ptr<cv::HOGDescriptor> self) {
     this->self = self;
   }
+
   virtual ~DetectMultiScaleROIWorker() {
   }
 
@@ -305,9 +315,11 @@ public:
 struct GroupRectanglesWorker : public CatchCvExceptionWorker {
 public:
   std::shared_ptr<cv::HOGDescriptor> self;
+
   GroupRectanglesWorker(std::shared_ptr<cv::HOGDescriptor> self) {
     this->self = self;
   }
+
   virtual ~GroupRectanglesWorker() {
   }
 

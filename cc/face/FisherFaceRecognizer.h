@@ -6,6 +6,7 @@
 class FisherFaceRecognizer : public FaceRecognizer {
 public:
   cv::Ptr<cv::face::FaceRecognizer> faceRecognizer;
+
   void save(std::string path) {
     faceRecognizer->save(path);
   }

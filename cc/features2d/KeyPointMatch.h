@@ -20,6 +20,7 @@ public:
   static Nan::Persistent<v8::FunctionTemplate> constructor;
 
   void setNativeProps(KeyPoint* kpFrom, KeyPoint* kpTo, float distance);
+
   KeyPoint* getKpFrom() {
     return Nan::ObjectWrap::Unwrap<KeyPoint>(Nan::New(this->kpFrom));
   }

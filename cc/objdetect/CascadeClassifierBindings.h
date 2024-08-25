@@ -22,6 +22,7 @@ struct DetectMultiScaleWorker : CatchCvExceptionWorker {
 public:
   cv::CascadeClassifier classifier;
   bool isGpu;
+
   virtual ~DetectMultiScaleWorker() {
   }
 

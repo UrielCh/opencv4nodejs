@@ -8,15 +8,18 @@ namespace ContourBindings {
 struct ApproxPolyDPWorker : public CatchCvExceptionWorker {
 public:
   std::vector<cv::Point2i> self;
+
   ApproxPolyDPWorker(std::vector<cv::Point2i> self) {
     this->self = self;
   }
+
   virtual ~ApproxPolyDPWorker() {
   }
 
   double epsilon;
   bool closed;
   std::vector<cv::Point2i> curve;
+
   std::string executeCatchCvExceptionWorker() {
     cv::approxPolyDP(self, curve, epsilon, closed);
     return "";

@@ -8,9 +8,11 @@ namespace MatXimgprocBindings {
 struct GuidedFilterWorker : public CatchCvExceptionWorker {
 public:
   cv::Mat self;
+
   GuidedFilterWorker(cv::Mat self) {
     this->self = self;
   }
+
   virtual ~GuidedFilterWorker() {
   }
 

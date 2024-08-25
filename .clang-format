@@ -7,6 +7,7 @@ BreakBeforeBraces: Attach
 BreakBeforeBinaryOperators: NonAssignment
 AllowShortFunctionsOnASingleLine: None
 IndentFunctionDeclarationAfterType: true
+SeparateDefinitionBlocks: Always
 PointerAlignment: Left
 # do not alter lines with trailing comments
 ColumnLimit: 0

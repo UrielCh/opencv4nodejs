@@ -21,6 +21,7 @@ public:
   static NAN_METHOD(New);
 
   static Nan::Persistent<v8::FunctionTemplate> constructor;
+
   cv::Ptr<cv::face::Facemark> getFacemark() {
     return facemark;
   }

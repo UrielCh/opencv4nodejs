@@ -31,6 +31,7 @@ public:
   BaseRunWorker(cv::Ptr<cv::text::OCRHMMDecoder> decoder) {
     this->decoder = decoder;
   }
+
   virtual ~BaseRunWorker() {
   }
 
@@ -47,6 +48,7 @@ public:
   RunWorker(cv::Ptr<cv::text::OCRHMMDecoder> decoder)
       : BaseRunWorker(decoder) {
   }
+
   virtual ~RunWorker() {
   }
 

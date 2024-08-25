@@ -22,6 +22,7 @@ public:
 struct LoadOCRHMMClassifierNMWorker : public LoadOCRHMMClassifierWorker {
   virtual ~LoadOCRHMMClassifierNMWorker() {
   }
+
   std::string executeCatchCvExceptionWorker() {
     classifier = cv::text::loadOCRHMMClassifierNM(file);
     return "";
@@ -33,6 +34,7 @@ struct LoadOCRHMMClassifierNMWorker : public LoadOCRHMMClassifierWorker {
 struct LoadOCRHMMClassifierCNNWorker : public LoadOCRHMMClassifierWorker {
   virtual ~LoadOCRHMMClassifierCNNWorker() {
   }
+
   std::string executeCatchCvExceptionWorker() {
     classifier = cv::text::loadOCRHMMClassifierCNN(file);
     return "";

@@ -11,6 +11,7 @@ namespace FacemarkBindings {
 struct LoadModelWorker : public CatchCvExceptionWorker {
 public:
   cv::Ptr<cv::face::Facemark> self;
+
   LoadModelWorker(cv::Ptr<cv::face::Facemark> self) {
     this->self = self;
   }
@@ -33,9 +34,11 @@ public:
 struct FitWorker : public CatchCvExceptionWorker {
 public:
   cv::Ptr<cv::face::Facemark> self;
+
   FitWorker(cv::Ptr<cv::face::Facemark> self) {
     this->self = self;
   }
+
   virtual ~FitWorker() {
   }
 
@@ -62,6 +65,7 @@ public:
 struct AddTrainingSampleWorker : public CatchCvExceptionWorker {
 public:
   cv::Ptr<cv::face::Facemark> self;
+
   AddTrainingSampleWorker(cv::Ptr<cv::face::Facemark> self) {
     this->self = self;
   }
@@ -88,6 +92,7 @@ public:
 struct GetDataWorker : public CatchCvExceptionWorker {
 public:
   cv::Ptr<cv::face::Facemark> self;
+
   GetDataWorker(cv::Ptr<cv::face::Facemark> self) {
     this->self = self;
   }
@@ -108,6 +113,7 @@ public:
 struct GetFacesWorker : public CatchCvExceptionWorker {
 public:
   cv::Ptr<cv::face::Facemark> self;
+
   GetFacesWorker(cv::Ptr<cv::face::Facemark> self) {
     this->self = self;
   }
@@ -134,6 +140,7 @@ public:
 struct TrainingWorker : public CatchCvExceptionWorker {
 public:
   cv::Ptr<cv::face::Facemark> self;
+
   TrainingWorker(cv::Ptr<cv::face::Facemark> self) {
     this->self = self;
   }

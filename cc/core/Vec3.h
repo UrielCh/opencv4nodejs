@@ -29,12 +29,15 @@ public:
   FF_GETTER_CUSTOM(z, FF::DoubleConverter, self[2]);
 
   FF_INIT_VEC3_OPERATIONS();
+
   static NAN_METHOD(Dot) {
     FF_OPERATOR_RET_SCALAR(&cv::Vec3d::dot, FF_APPLY_CLASS_FUNC, Vec3, "Dot");
   }
+
   static NAN_METHOD(Cross) {
     FF_OPERATOR(&cv::Vec3d::cross, FF_APPLY_CLASS_FUNC, Vec3, "Cross");
   }
+
   static NAN_METHOD(Norm) {
     info.GetReturnValue().Set(Nan::New(cv::norm(Vec3::unwrapSelf(info))));
   }

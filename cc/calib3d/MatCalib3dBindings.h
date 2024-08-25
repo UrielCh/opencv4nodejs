@@ -9,6 +9,7 @@ namespace MatCalib3dBindings {
 struct RodriguesWorker : public CatchCvExceptionWorker {
 public:
   cv::Mat self;
+
   RodriguesWorker(cv::Mat self) {
     this->self = self;
   }
@@ -35,9 +36,11 @@ public:
 struct RQDecomp3x3Worker : public CatchCvExceptionWorker {
 public:
   cv::Mat self;
+
   RQDecomp3x3Worker(cv::Mat self) {
     this->self = self;
   }
+
   virtual ~RQDecomp3x3Worker() {
   }
 
@@ -68,9 +71,11 @@ public:
 struct DecomposeProjectionMatrixWorker : public CatchCvExceptionWorker {
 public:
   cv::Mat self;
+
   DecomposeProjectionMatrixWorker(cv::Mat self) {
     this->self = self;
   }
+
   virtual ~DecomposeProjectionMatrixWorker() {
   }
 
@@ -102,9 +107,11 @@ public:
 struct MatMulDerivWorker : public CatchCvExceptionWorker {
 public:
   cv::Mat self;
+
   MatMulDerivWorker(cv::Mat self) {
     this->self = self;
   }
+
   virtual ~MatMulDerivWorker() {
   }
 
@@ -134,9 +141,11 @@ public:
 struct FindChessboardCornersWorker : public CatchCvExceptionWorker {
 public:
   cv::Mat self;
+
   FindChessboardCornersWorker(cv::Mat self) {
     this->self = self;
   }
+
   virtual ~FindChessboardCornersWorker() {
   }
 
@@ -172,9 +181,11 @@ public:
 struct DrawChessboardCornersWorker : public CatchCvExceptionWorker {
 public:
   cv::Mat self;
+
   DrawChessboardCornersWorker(cv::Mat self) {
     this->self = self;
   }
+
   virtual ~DrawChessboardCornersWorker() {
   }
 
@@ -196,9 +207,11 @@ public:
 struct Find4QuadCornerSubpixWorker : public CatchCvExceptionWorker {
 public:
   cv::Mat self;
+
   Find4QuadCornerSubpixWorker(cv::Mat self) {
     this->self = self;
   }
+
   virtual ~Find4QuadCornerSubpixWorker() {
   }
 
@@ -225,9 +238,11 @@ public:
 struct CalibrationMatrixValuesWorker : public CatchCvExceptionWorker {
 public:
   cv::Mat self;
+
   CalibrationMatrixValuesWorker(cv::Mat self) {
     this->self = self;
   }
+
   virtual ~CalibrationMatrixValuesWorker() {
   }
 
@@ -265,9 +280,11 @@ public:
 struct StereoRectifyWorker : public CatchCvExceptionWorker {
 public:
   cv::Mat self;
+
   StereoRectifyWorker(cv::Mat self) {
     this->self = self;
   }
+
   virtual ~StereoRectifyWorker() {
   }
 
@@ -330,9 +347,11 @@ public:
 struct Rectify3CollinearWorker : public CatchCvExceptionWorker {
 public:
   cv::Mat self;
+
   Rectify3CollinearWorker(cv::Mat self) {
     this->self = self;
   }
+
   virtual ~Rectify3CollinearWorker() {
   }
 
@@ -392,9 +411,11 @@ public:
 struct GetOptimalNewCameraMatrixWorker : public CatchCvExceptionWorker {
 public:
   cv::Mat self;
+
   GetOptimalNewCameraMatrixWorker(cv::Mat self) {
     this->self = self;
   }
+
   virtual ~GetOptimalNewCameraMatrixWorker() {
   }
 
@@ -439,14 +460,17 @@ public:
         Size::Converter::optProp(&newImgSize, "newImgSize", opts) || FF::BoolConverter::optProp(&centerPrincipalPoint, "centerPrincipalPoint", opts));
   }
 };
+
 ;
 
 struct DecomposeEssentialMatWorker : public CatchCvExceptionWorker {
 public:
   cv::Mat self;
+
   DecomposeEssentialMatWorker(cv::Mat self) {
     this->self = self;
   }
+
   virtual ~DecomposeEssentialMatWorker() {
   }
 
@@ -471,9 +495,11 @@ public:
 struct TriangulatePointsWorker : public CatchCvExceptionWorker {
 public:
   cv::Mat self;
+
   TriangulatePointsWorker(cv::Mat self) {
     this->self = self;
   }
+
   virtual ~TriangulatePointsWorker() {
   }
 
@@ -501,9 +527,11 @@ public:
 struct CorrectMatchesWorker : public CatchCvExceptionWorker {
 public:
   cv::Mat self;
+
   CorrectMatchesWorker(cv::Mat self) {
     this->self = self;
   }
+
   virtual ~CorrectMatchesWorker() {
   }
 
@@ -534,9 +562,11 @@ public:
 struct FilterSpecklesWorker : public CatchCvExceptionWorker {
 public:
   cv::Mat self;
+
   FilterSpecklesWorker(cv::Mat self) {
     this->self = self;
   }
+
   virtual ~FilterSpecklesWorker() {
   }
 
@@ -563,9 +593,11 @@ public:
 struct ValidateDisparityWorker : public CatchCvExceptionWorker {
 public:
   cv::Mat self;
+
   ValidateDisparityWorker(cv::Mat self) {
     this->self = self;
   }
+
   virtual ~ValidateDisparityWorker() {
   }
 
@@ -598,9 +630,11 @@ public:
 struct ReprojectImageTo3DWorker : public CatchCvExceptionWorker {
 public:
   cv::Mat self;
+
   ReprojectImageTo3DWorker(cv::Mat self) {
     this->self = self;
   }
+
   virtual ~ReprojectImageTo3DWorker() {
   }
 
@@ -643,9 +677,11 @@ public:
 struct DecomposeHomographyMatWorker : public CatchCvExceptionWorker {
 public:
   cv::Mat self;
+
   DecomposeHomographyMatWorker(cv::Mat self) {
     this->self = self;
   }
+
   virtual ~DecomposeHomographyMatWorker() {
   }
 
@@ -680,9 +716,11 @@ public:
 struct FindEssentialMatWorker : public CatchCvExceptionWorker {
 public:
   cv::Mat self;
+
   FindEssentialMatWorker(cv::Mat self) {
     this->self = self;
   }
+
   virtual ~FindEssentialMatWorker() {
   }
 
@@ -731,9 +769,11 @@ public:
 struct RecoverPoseWorker : public CatchCvExceptionWorker {
 public:
   cv::Mat self;
+
   RecoverPoseWorker(cv::Mat self) {
     this->self = self;
   }
+
   virtual ~RecoverPoseWorker() {
   }
 
@@ -778,6 +818,7 @@ class Undistort : public CvBinding {
 public:
   virtual ~Undistort() {
   }
+
   void setup(cv::Mat self) {
     auto cameraMatrix = req<Mat::Converter>();
     auto distCoeffs = req<Mat::Converter>();

@@ -8,9 +8,11 @@ namespace NetBindings {
 struct SetInputWorker : public CatchCvExceptionWorker {
 public:
   cv::dnn::Net self;
+
   SetInputWorker(cv::dnn::Net self) {
     this->self = self;
   }
+
   virtual ~SetInputWorker() {
   }
 
@@ -36,9 +38,11 @@ public:
 struct ForwardWorker : public CatchCvExceptionWorker {
 public:
   cv::dnn::Net self;
+
   ForwardWorker(cv::dnn::Net self) {
     this->self = self;
   }
+
   virtual ~ForwardWorker() {
   }
 
@@ -82,9 +86,11 @@ public:
 struct GetLayerNamesWorker : public CatchCvExceptionWorker {
 public:
   cv::dnn::Net self;
+
   GetLayerNamesWorker(cv::dnn::Net self) {
     this->self = self;
   }
+
   virtual ~GetLayerNamesWorker() {
   }
 
@@ -107,9 +113,11 @@ public:
 struct GetUnconnectedOutLayersWorker : public CatchCvExceptionWorker {
 public:
   cv::dnn::Net self;
+
   GetUnconnectedOutLayersWorker(cv::dnn::Net self) {
     this->self = self;
   }
+
   virtual ~GetUnconnectedOutLayersWorker() {
   }
 

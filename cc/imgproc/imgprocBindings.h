@@ -33,6 +33,7 @@ public:
     return (
         FF::StringConverter::arg(0, &text, info) || FF::IntConverter::arg(1, &fontFace, info) || FF::DoubleConverter::arg(2, &fontScale, info) || FF::IntConverter::arg(3, &thickness, info));
   }
+
   virtual ~GetTextSizeWorker() {
   }
 };
@@ -66,6 +67,7 @@ public:
     return (
         FF::BoolConverter::optArg(4, &L2gradient, info));
   }
+
   virtual ~CannyWorker() {
   }
 };
@@ -120,6 +122,7 @@ class UndistortPoints : public CvBinding {
 public:
   virtual ~UndistortPoints() {
   }
+
   void setup() {
     auto srcPoints = req<Point2::ArrayWithCastConverter<cv::Point2f>>();
     auto cameraMatrix = req<Mat::Converter>();
@@ -137,6 +140,7 @@ class GoodFeaturesToTrack : public CvClassMethodBinding<Mat> {
 public:
   virtual ~GoodFeaturesToTrack() {
   }
+
   void createBinding(std::shared_ptr<FF::Value<cv::Mat>> self) {
     auto maxCorners = req<FF::IntConverter>();
     auto qualityLevel = req<FF::DoubleConverter>();
@@ -163,6 +167,7 @@ class Blur : public CvClassMethodBinding<Mat> {
 public:
   virtual ~Blur() {
   }
+
   void createBinding(std::shared_ptr<FF::Value<cv::Mat>> self) {
     auto kSize = req<Size::Converter>();
     auto anchor = opt<Point2::Converter>("anchor", cv::Point2d());
@@ -183,6 +188,7 @@ class GaussianBlur : public CvClassMethodBinding<Mat> {
 public:
   virtual ~GaussianBlur() {
   }
+
   void createBinding(std::shared_ptr<FF::Value<cv::Mat>> self) {
     auto kSize = req<Size::Converter>();
     auto sigmaX = req<FF::DoubleConverter>();
@@ -200,6 +206,7 @@ class MedianBlur : public CvClassMethodBinding<Mat> {
 public:
   virtual ~MedianBlur() {
   }
+
   void createBinding(std::shared_ptr<FF::Value<cv::Mat>> self) {
     auto kSize = req<FF::IntConverter>();
     auto blurMat = ret<Mat::Converter>("blurMat");
@@ -214,6 +221,7 @@ class Accumulate : public CvBinding {
 public:
   virtual ~Accumulate() {
   }
+
   void setup() {
     auto src = req<Mat::Converter>();
     auto dst = req<Mat::Converter>();
@@ -231,6 +239,7 @@ class AccumulateProduct : public CvBinding {
 public:
   virtual ~AccumulateProduct() {
   }
+
   void setup() {
     auto src1 = req<Mat::Converter>();
     auto src2 = req<Mat::Converter>();
@@ -250,6 +259,7 @@ class AccumulateSquare : public CvBinding {
 public:
   virtual ~AccumulateSquare() {
   }
+
   void setup() {
     auto src = req<Mat::Converter>();
     auto dst = req<Mat::Converter>();
@@ -268,6 +278,7 @@ class AccumulateWeighted : public CvBinding {
 public:
   virtual ~AccumulateWeighted() {
   }
+
   void setup() {
     auto src = req<Mat::Converter>();
     auto dst = req<Mat::Converter>();
@@ -287,6 +298,7 @@ class CalcHist : public CvBinding {
 public:
   virtual ~CalcHist() {
   }
+
   void setup() {
 
     auto src = req<Mat::Converter>();

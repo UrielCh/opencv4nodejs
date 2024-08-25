@@ -35,6 +35,7 @@ public:
   T* ptr() {
     return &val;
   }
+
   virtual ~Value() {
   }
 
@@ -196,7 +197,7 @@ public:
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
     int optArgsIdx = requiredArgs.size();
-    Napi::Object opts = info[optArgsIdx]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    Napi::Object opts = info[optArgsIdx].As<Napi::Object>();
     for (uint idx = 0; idx < optionalArgs.size(); idx++) {
       if (optionalArgs[idx]->unwrapProp(opts)) {
         return true;
@@ -205,16 +206,16 @@ public:
     return false;
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     if (returnValues.size() == 0) {
-      return Nan::Undefined();
+      return env.Undefined();
     }
     if (returnValues.size() == 1) {
       return returnValues[0]->wrap();
     }
-    Napi::Object ret = Nan::New<v8::Object>();
+    Napi::Object ret = Napi::Object::New(env);
     for (std::shared_ptr<INamedValue> val : returnValues) {
-      Nan::Set(ret, Nan::New(val->getName()).ToLocalChecked(), val->wrap());
+      ret.Set(Napi::String::New(env, val->getName()), val->wrap());
     }
     return ret;
   }

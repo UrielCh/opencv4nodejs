@@ -9,6 +9,7 @@ namespace MatBindings {
 struct SetToWorker : public CatchCvExceptionWorker {
 public:
   cv::Mat self;
+
   SetToWorker(cv::Mat self) {
     this->self = self;
   }
@@ -66,6 +67,7 @@ public:
     return (
         Mat::Converter::optArg(1, &mask, info));
   }
+
   virtual ~SetToWorker() {
   }
 };
@@ -79,6 +81,7 @@ public:
       res->ref().push_back(mat->ref());
     };
   };
+
   virtual ~PushBack() {
   }
 };
@@ -92,6 +95,7 @@ public:
       res->ref().pop_back(num->ref());
     };
   };
+
   virtual ~PopBack() {
   }
 };
@@ -127,6 +131,7 @@ public:
     free(data);
     return copyData;
   }
+
   virtual ~GetDataWorker() {
   }
 };
@@ -141,6 +146,7 @@ public:
       self.copyTo(dst->ref(), mask->ref());
     };
   };
+
   virtual ~Copy() {
   }
 };
@@ -157,6 +163,7 @@ public:
       dstRet->ref() = dst->ref();
     };
   };
+
   virtual ~CopyTo() {
   }
 };
@@ -173,6 +180,7 @@ public:
       self.convertTo(dst->ref(), rtype->ref(), alpha->ref(), beta->ref());
     };
   };
+
   virtual ~ConvertTo() {
   }
 };
@@ -197,6 +205,7 @@ public:
       self.copyTo(roi);
     };
   };
+
   virtual ~PadToSquare() {
   }
 };
@@ -242,6 +251,7 @@ struct DCTWorker : public DTWorker {
   bool unwrapOptionalArgs(const Napi::CallbackInfo& info) {
     return FF::IntConverter::optArg(0, &flags, info);
   }
+
   virtual ~DCTWorker() {
   }
 };
@@ -276,6 +286,7 @@ struct DFTWorker : public DTWorker {
     return (
         FF::IntConverter::optProp(&flags, "flags", opts) || FF::IntConverter::optProp(&nonzeroRows, "nonzeroRows", opts));
   }
+
   virtual ~DFTWorker() {
   }
 };
@@ -283,6 +294,7 @@ struct DFTWorker : public DTWorker {
 struct OpWithCodeWorker : public CatchCvExceptionWorker {
 public:
   cv::Mat self;
+
   OpWithCodeWorker(cv::Mat self) {
     this->self = self;
   }
@@ -316,6 +328,7 @@ public:
     cv::flip(self, dst, code);
     return "";
   }
+
   virtual ~FlipWorker() {
   }
 };
@@ -323,6 +336,7 @@ public:
 struct CopyMakeBorderWorker : public CatchCvExceptionWorker {
 public:
   cv::Mat self;
+
   CopyMakeBorderWorker(cv::Mat self) {
     this->self = self;
   }
@@ -370,6 +384,7 @@ public:
     return (
         FF::IntConverter::optProp(&borderType, "borderType", opts) || ((self.channels() == 1 && FF::DoubleConverter::optProp(&v1, "value", opts)) || (self.channels() == 2 && Vec2::Converter::optProp(&v2, "value", opts)) || (self.channels() == 3 && Vec3::Converter::optProp(&v3, "value", opts)) || (self.channels() == 4 && Vec4::Converter::optProp(&v4, "value", opts))));
   }
+
   virtual ~CopyMakeBorderWorker() {
   }
 };
@@ -385,6 +400,7 @@ public:
     cv::rotate(self, dst, code);
     return "";
   }
+
   virtual ~RotateWorker() {
   }
 };

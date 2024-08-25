@@ -138,6 +138,7 @@ public:
 
   virtual ~SolvePnPWorker() {
   }
+
   std::string executeCatchCvExceptionWorker() {
     returnValue = cv::solvePnP(objectPoints, imagePoints, cameraMatrix, distCoeffs, rvec, tvec, useExtrinsicGuess, flags);
     return "";
@@ -341,6 +342,7 @@ public:
 
   virtual ~StereoRectifyUncalibratedWorker() {
   }
+
   std::string executeCatchCvExceptionWorker() {
     returnValue = cv::stereoRectifyUncalibrated(points1, points2, F, imgSize, H1, H2, threshold);
     return "";
@@ -772,6 +774,7 @@ public:
 struct EstimateAffinePartial2DWorker : public EstimateAffine2DWorker {
   virtual ~EstimateAffinePartial2DWorker() {
   }
+
   std::string executeCatchCvExceptionWorker() {
     out = cv::estimateAffinePartial2D(from, to, inliers, method, ransacReprojThreshold, maxIters, confidence, refineIters);
     return "";

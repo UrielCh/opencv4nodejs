@@ -8,9 +8,11 @@ namespace FeatureDetectorBindings {
 struct DetectWorker : public CatchCvExceptionWorker {
 public:
   cv::Ptr<cv::FeatureDetector> det;
+
   DetectWorker(cv::Ptr<cv::FeatureDetector> _det) {
     this->det = _det;
   }
+
   virtual ~DetectWorker() {
   }
 
@@ -40,9 +42,11 @@ public:
 struct ComputeWorker : public CatchCvExceptionWorker {
 public:
   cv::Ptr<cv::FeatureDetector> det;
+
   ComputeWorker(cv::Ptr<cv::FeatureDetector> _det) {
     this->det = _det;
   }
+
   virtual ~ComputeWorker() {
   }
 

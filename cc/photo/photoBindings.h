@@ -84,6 +84,7 @@ class SeamlessClone : public CvClassMethodBinding<Mat> {
 public:
   virtual ~SeamlessClone() {
   }
+
   void createBinding(std::shared_ptr<FF::Value<cv::Mat>> self) {
     auto dst = req<Mat::Converter>();
     auto mask = req<Mat::Converter>();

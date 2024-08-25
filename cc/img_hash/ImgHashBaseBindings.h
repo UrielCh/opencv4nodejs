@@ -8,6 +8,7 @@ namespace ImgHashBaseBindings {
 struct CompareWorker : public CatchCvExceptionWorker {
 public:
   cv::Ptr<cv::img_hash::ImgHashBase> self;
+
   CompareWorker(cv::Ptr<cv::img_hash::ImgHashBase> self) {
     this->self = self;
   }
@@ -37,6 +38,7 @@ public:
 struct ComputeWorker : public CatchCvExceptionWorker {
 public:
   cv::Ptr<cv::img_hash::ImgHashBase> self;
+
   ComputeWorker(cv::Ptr<cv::img_hash::ImgHashBase> self) {
     this->self = self;
   }

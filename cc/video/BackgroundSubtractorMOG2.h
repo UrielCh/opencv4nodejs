@@ -4,6 +4,7 @@
 
 #ifndef __FF_BACKGROUNDSUBTRACTORMOG2_H__
 #define __FF_BACKGROUNDSUBTRACTORMOG2_H__
+
 class BackgroundSubtractorMOG2 : public BackgroundSubtractor, public FF::ObjectWrapTemplate<BackgroundSubtractorMOG2, cv::Ptr<cv::BackgroundSubtractorMOG2>> {
 public:
   static Nan::Persistent<v8::FunctionTemplate> constructor;

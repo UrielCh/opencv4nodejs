@@ -49,6 +49,7 @@ public:
             upright->ref());
       };
     };
+
     virtual ~Constructor() {
     }
   };

@@ -40,6 +40,7 @@ public:
   std::string path;
   cv::Mat img;
   std::vector<int> flags;
+
   virtual ~ImwriteWorker() {
   }
 

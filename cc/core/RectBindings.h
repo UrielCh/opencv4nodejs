@@ -35,6 +35,7 @@ public:
     outRect = rect & rect2;
     return "";
   }
+
   virtual ~AndWorker() {
   }
 };
@@ -49,6 +50,7 @@ public:
     outRect = rect | rect2;
     return "";
   }
+
   virtual ~OrWorker() {
   }
 };
@@ -75,6 +77,7 @@ public:
   Napi::Value getReturnValue() {
     return Rect::Converter::wrap(outRect);
   }
+
   virtual ~ToSquareWorker() {
   }
 };
@@ -115,6 +118,7 @@ public:
   Napi::Value getReturnValue() {
     return Rect::Converter::wrap(outRect);
   }
+
   virtual ~PadWorker() {
   }
 };
@@ -142,6 +146,7 @@ public:
   Napi::Value getReturnValue() {
     return Rect::Converter::wrap(outRect);
   }
+
   virtual ~RescaleWorker() {
   }
 };

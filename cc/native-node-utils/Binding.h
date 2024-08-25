@@ -7,37 +7,49 @@
 
 namespace FF {
 static inline void executeSyncBinding(std::shared_ptr<ISyncWorker> worker, std::string methodName, const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch(methodName);
-  if (worker->applyUnwrappers(info)) {
-    return tryCatch.reThrow();
-  }
+  Napi::Env env = info.Env();
+  Napi::HandleScope scope(env);
 
-  std::string err = worker->execute();
-  if (!err.empty()) {
-    tryCatch.throwError(err);
-    return;
-  }
+  try {
+    // if (worker && worker->applyUnwrappers(info)) {
+    if (worker->applyUnwrappers(info)) {
+      Napi::Error::New(env, "Error in applyUnwrappers").ThrowAsJavaScriptException();
+      return;
+    }
 
-  info.GetReturnValue().Set(worker->getReturnValue(info));
+    std::string err = worker->execute();
+    if (!err.empty()) {
+      Napi::Error::New(env, err).ThrowAsJavaScriptException();
+      return;
+    }
+
+    info.GetReturnValue().Set(worker->getReturnValue(info));
+    // info.ReturnValue().Set(worker->getReturnValue(info));
+  } catch (const std::exception& e) {
+    Napi::Error::New(env, e.what()).ThrowAsJavaScriptException();
+  }
 }
 
 static inline void executeAsyncBinding(std::shared_ptr<IAsyncWorker> worker, std::string methodName, const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch(methodName);
-  if (!hasArg(info, info.Length() - 1) || !info[info.Length() - 1]->IsFunction()) {
-    tryCatch.throwError("callback function required");
+  Napi::Env env = info.Env();
+  Napi::HandleScope scope(env);
+
+  if (!info[info.Length() - 1].IsFunction()) {
+    Napi::TypeError::New(env, "callback function required").ThrowAsJavaScriptException();
     return;
   }
-  Nan::Callback* callback = new Nan::Callback(info[info.Length() - 1].As<v8::Function>());
+
+  Napi::Function callback = info[info.Length() - 1].As<Napi::Function>();
+
   if (worker->applyUnwrappers(info)) {
-    Napi::Value argv[] = {
-        Nan::Error(tryCatch.extendWithPrefix(tryCatch.getCaughtErrorMessageUnchecked()).c_str()),
-        Nan::Null()};
-    tryCatch.Reset();
-    Nan::AsyncResource resource("native-node-utils:AsyncBindingBase::run");
-    resource.runInAsyncScope(Nan::GetCurrentContext()->Global(), **callback, 2, argv);
+    Napi::Error error = Napi::Error::New(env, "Error in applyUnwrappers");
+    Napi::Value argv[] = {error.Value(), env.Null()};
+    callback.Call(env.Global(), argv);
     return;
   }
-  Nan::AsyncQueueWorker(new FF::AsyncWorker(callback, worker));
+
+  auto asyncWorker = new FF::AsyncWorker(callback, worker);
+  Napi::AsyncWorker::Queue(asyncWorker);
 }
 
 template <class WorkerImpl>

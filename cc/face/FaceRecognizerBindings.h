@@ -28,9 +28,11 @@ public:
 struct TrainWorker : public CatchCvExceptionWorker {
 public:
   cv::Ptr<cv::face::FaceRecognizer> self;
+
   TrainWorker(cv::Ptr<cv::face::FaceRecognizer> self) {
     this->self = self;
   }
+
   virtual ~TrainWorker() {
   }
 
@@ -51,9 +53,11 @@ public:
 struct PredictWorker : public CatchCvExceptionWorker {
 public:
   cv::Ptr<cv::face::FaceRecognizer> self;
+
   PredictWorker(cv::Ptr<cv::face::FaceRecognizer> self) {
     this->self = self;
   }
+
   virtual ~PredictWorker() {
   }
 

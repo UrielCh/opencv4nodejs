@@ -16,8 +16,8 @@ public:
     return TClass::getClassName();
   }
 
-  static bool assertType(Napi::Value jsVal) {
-    return !jsVal->IsNull() && !jsVal->IsUndefined() && Nan::New(TClass::constructor)->HasInstance(jsVal);
+  static bool assertType(Napi::Value& jsVal) {
+    return !jsVal.IsNull() && !jsVal.IsUndefined() && Nan::New(TClass::constructor)->HasInstance(jsVal);
   }
 
   static T unwrapUnchecked(Napi::Value jsVal) {

@@ -10,8 +10,8 @@ namespace FF {
 template <class ConverterImpl, class T>
 class PrimitiveTypeConverter : public UnwrapperBase<ConverterImpl, T> {
 public:
-  static Napi::Value wrap(T val) {
-    return Nan::New(val);
+  static Napi::Value wrap(Napi::Env env, T val) {
+    return Napi::Value::From(env, val);
   }
 };
 
@@ -24,11 +24,11 @@ public:
   }
 
   static bool assertType(Napi::Value jsVal) {
-    return jsVal->IsInt32();
+    return jsVal.IsNumber();
   }
 
   static int unwrapUnchecked(Napi::Value jsVal) {
-    return Nan::To<int>(jsVal).ToChecked();
+    return jsVal.As<Napi::Number>().Int32Value();
   }
 };
 
@@ -41,11 +41,11 @@ public:
   }
 
   static bool assertType(Napi::Value jsVal) {
-    return jsVal->IsUint32();
+    return jsVal.IsNumber();
   }
 
-  static uint unwrapUnchecked(Napi::Value jsVal) {
-    return Nan::To<uint>(jsVal).ToChecked();
+  static uint32_t unwrapUnchecked(Napi::Value jsVal) {
+    return jsVal.As<Napi::Number>().Uint32Value();
   }
 };
 
@@ -58,11 +58,11 @@ public:
   }
 
   static bool assertType(Napi::Value jsVal) {
-    return jsVal->IsNumber();
+    return jsVal.IsNumber();
   }
 
   static long unwrapUnchecked(Napi::Value jsVal) {
-    return (long)Nan::To<int>(jsVal).ToChecked();
+    return jsVal.As<Napi::Number>().Int64Value();
   }
 };
 
@@ -74,12 +74,12 @@ public:
     return std::string("ulong");
   }
 
-  static bool assertType(Napi::Value jsVal) {
-    return jsVal->IsNumber();
+  static bool assertType(Napi::Value& jsVal) {
+    return jsVal.IsNumber();
   }
 
   static ulong unwrapUnchecked(Napi::Value jsVal) {
-    return (ulong)Nan::To<uint>(jsVal).ToChecked();
+    return static_cast<ulong>(jsVal.As<Napi::Number>().Uint32Value());
   }
 };
 
@@ -92,11 +92,11 @@ public:
   }
 
   static bool assertType(Napi::Value jsVal) {
-    return jsVal->IsNumber();
+    return jsVal.IsNumber();
   }
 
   static char unwrapUnchecked(Napi::Value jsVal) {
-    return (char)Nan::To<int>(jsVal).ToChecked();
+    return static_cast<char>(jsVal.As<Napi::Number>().Int32Value());
   }
 };
 
@@ -109,11 +109,11 @@ public:
   }
 
   static bool assertType(Napi::Value jsVal) {
-    return jsVal->IsNumber();
+    return jsVal.IsNumber();
   }
 
   static char unwrapUnchecked(Napi::Value jsVal) {
-    return (uchar)Nan::To<uint>(jsVal).ToChecked();
+    return static_cast<uchar>(jsVal.As<Napi::Number>().Uint32Value());
   }
 };
 
@@ -126,11 +126,11 @@ public:
   }
 
   static bool assertType(Napi::Value jsVal) {
-    return jsVal->IsBoolean();
+    return jsVal.IsBoolean();
   }
 
   static bool unwrapUnchecked(Napi::Value jsVal) {
-    return Nan::To<bool>(jsVal).ToChecked();
+    return jsVal.As<Napi::Boolean>().Value();
   }
 };
 
@@ -143,11 +143,11 @@ public:
   }
 
   static bool assertType(Napi::Value jsVal) {
-    return jsVal->IsNumber();
+    return jsVal.IsNumber();
   }
 
   static double unwrapUnchecked(Napi::Value jsVal) {
-    return Nan::To<double>(jsVal).ToChecked();
+    return jsVal.As<Napi::Number>().DoubleValue();
   }
 };
 
@@ -160,11 +160,11 @@ public:
   }
 
   static bool assertType(Napi::Value jsVal) {
-    return jsVal->IsNumber();
+    return jsVal.IsNumber();
   }
 
   static float unwrapUnchecked(Napi::Value jsVal) {
-    return (float)Nan::To<double>(jsVal).ToChecked();
+    return jsVal.As<Napi::Number>().FloatValue();
   }
 };
 
@@ -176,16 +176,16 @@ public:
     return std::string("string");
   }
 
-  static bool assertType(Napi::Value jsVal) {
-    return jsVal->IsString();
+  static bool assertType(Napi::Value& jsVal) {
+    return jsVal.IsString();
   }
 
-  static std::string unwrapUnchecked(Napi::Value jsVal) {
-    return std::string(*Nan::Utf8String(jsVal->ToString(Nan::GetCurrentContext()).ToLocalChecked()));
+  static std::string unwrapUnchecked(Napi::Value& jsVal) {
+    return jsVal.As<Napi::String>().Utf8Value();
   }
 
-  static Napi::Value wrap(std::string val) {
-    return Nan::New(val).ToLocalChecked();
+  static Napi::Value wrap(Napi::Env env, std::string val) {
+    return Napi::String::New(env, val);
   }
 };
 

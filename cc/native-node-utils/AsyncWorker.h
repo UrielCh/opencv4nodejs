@@ -16,6 +16,7 @@ public:
       std::shared_ptr<IAsyncWorker> worker)
       : Napi::AsyncWorker(callback), worker(worker) {
   }
+
   ~AsyncWorker() {
   }
 
@@ -25,6 +26,7 @@ public:
       this->SetError(err);
     }
   }
+
   void HandleOKCallback() {
     Napi::HandleScope scope(Env());
     Napi::Env env = Env();
@@ -33,11 +35,12 @@ public:
   }
 
   void HandleErrorCallback() {
-      Napi::HandleScope scope(Env());
-      Napi::Env env = Env();
-      Napi::Value argv[] = { Napi::String::New(env, this->ErrorMessage()), env.Null() };
-      Callback().Call({ argv[0], argv[1] });
-  }};
+    Napi::HandleScope scope(Env());
+    Napi::Env env = Env();
+    Napi::Value argv[] = {Napi::String::New(env, this->ErrorMessage()), env.Null()};
+    Callback().Call({argv[0], argv[1]});
+  }
+};
 
 } // namespace FF
 

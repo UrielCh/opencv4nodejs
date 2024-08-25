@@ -15,6 +15,7 @@ public:
 
   virtual ~ReadNetFromDarknetWorker() {
   }
+
   std::string executeCatchCvExceptionWorker() {
     net = cv::dnn::readNetFromDarknet(cfgFile, darknetModelFile);
     if (net.empty()) {
@@ -180,9 +181,11 @@ public:
 struct BlobFromImageWorker : public CatchCvExceptionWorker {
 public:
   bool isSingleImage;
+
   BlobFromImageWorker(bool isSingleImage = true) {
     this->isSingleImage = isSingleImage;
   }
+
   virtual ~BlobFromImageWorker() {
   }
 

@@ -33,9 +33,11 @@ public:
   static NAN_GETTER(GetElemSize) {
     info.GetReturnValue().Set((int)Mat::unwrapSelf(info).elemSize());
   };
+
   static NAN_GETTER(GetStep) {
     info.GetReturnValue().Set((int)Mat::unwrapSelf(info).step.operator size_t());
   };
+
   static NAN_GETTER(GetSizes) {
     cv::Mat m = Mat::unwrapSelf(info);
     std::vector<int> sizes;
@@ -46,6 +48,7 @@ public:
   };
 
   FF_INIT_MAT_OPERATIONS();
+
   static NAN_METHOD(Dot) {
     FF_OPERATOR_RET_SCALAR(&cv::Mat::dot, FF_APPLY_CLASS_FUNC, Mat, "Dot");
   }

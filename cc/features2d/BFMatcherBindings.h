@@ -13,6 +13,7 @@ public:
   MatchWorker(cv::BFMatcher _bfmatcher) {
     this->bfmatcher = _bfmatcher;
   }
+
   virtual ~MatchWorker() {
   }
 
@@ -42,6 +43,7 @@ public:
   MatchKnnWorker(cv::BFMatcher _bfmatcher) {
     this->bfmatcher = _bfmatcher;
   }
+
   virtual ~MatchKnnWorker() {
   }
 

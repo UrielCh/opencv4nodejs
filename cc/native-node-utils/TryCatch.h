@@ -6,15 +6,18 @@
 
 namespace FF {
 
-class TryCatch : public Nan::TryCatch {
+class TryCatch {
 public:
   // errorPrefix can be used to prefix errors in a method binding with the method name
   std::string errorPrefix;
-  TryCatch(std::string errorPrefix)
-      : errorPrefix(errorPrefix) {};
+  Napi::Env env;
+  Napi::EscapableHandleScope scope;
+
+  TryCatch(Napi::Env env, std::string errorPrefix)
+      : env(env), errorPrefix(errorPrefix), scope(env) {};
 
   std::string getCaughtErrorMessageUnchecked() {
-    return *Nan::Utf8String(Exception()->ToString(Nan::GetCurrentContext()).ToLocalChecked());
+    return Exception().ToString().Utf8Value();
   }
 
   std::string extendWithPrefix(std::string errorMessage) {
@@ -25,17 +28,20 @@ public:
   }
 
   void throwError(Napi::Value message) {
-    Nan::ThrowError(message);
-    // need to call ReThrow to prevent this try catch to catch the error thrown by itself
-    ReThrow();
+    Napi::Error::New(env, message.ToString()).ThrowAsJavaScriptException();
   }
 
   void throwError(std::string errorMessage) {
-    throwError(StringConverter::wrap(extendWithPrefix(errorMessage)));
+    throwError(Napi::String::New(env, extendWithPrefix(errorMessage)));
   }
 
   void reThrow() {
-    throwError(StringConverter::wrap(extendWithPrefix(getCaughtErrorMessageUnchecked())));
+    throwError(Napi::String::New(env, extendWithPrefix(getCaughtErrorMessageUnchecked())));
+  }
+
+private:
+  Napi::Error Exception() {
+    return Napi::Error::New(env, "An error occurred");
   }
 };
 
