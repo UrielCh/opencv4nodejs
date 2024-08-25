@@ -39,6 +39,7 @@ static inline void matPutVec2(cv::Mat mat, Napi::Value vector, const cv::Vec<int
       (type)FF::DoubleConverter::unwrapUnchecked(Nan::Get(vec, 0).ToLocalChecked()),
       (type)FF::DoubleConverter::unwrapUnchecked(Nan::Get(vec, 1).ToLocalChecked()));
 }
+
 /**
  * 2,3-Dimmentions Macro seters for a Vec<3> Value
  */
@@ -51,6 +52,7 @@ static inline void matPutVec3(cv::Mat mat, Napi::Value vector, const cv::Vec<int
       (type)FF::DoubleConverter::unwrapUnchecked(Nan::Get(vec, 1).ToLocalChecked()),
       (type)FF::DoubleConverter::unwrapUnchecked(Nan::Get(vec, 2).ToLocalChecked()));
 }
+
 /**
  * 2,3-Dimmentions Macro seters for a Vec<4> Value
  */
@@ -1122,6 +1124,7 @@ NAN_METHOD(Mat::FlipAsync) {
       "Mat::FlipAsync",
       info);
 }
+
 NAN_METHOD(Mat::CopyMakeBorder) {
   FF::executeSyncBinding(
       std::make_shared<MatBindings::CopyMakeBorderWorker>(Mat::unwrapSelf(info)),

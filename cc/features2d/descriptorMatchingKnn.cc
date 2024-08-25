@@ -110,9 +110,11 @@ NAN_METHOD(DescriptorMatchingKnn::MatchKnnBruteForceHammingAsync) {
 struct DescriptorMatchingKnn::MatchKnnWorker : public CatchCvExceptionWorker {
 public:
   cv::Ptr<cv::DescriptorMatcher> matcher;
+
   MatchKnnWorker(cv::Ptr<cv::DescriptorMatcher> _matcher) {
     this->matcher = _matcher;
   }
+
   virtual ~MatchKnnWorker() {
   }
 

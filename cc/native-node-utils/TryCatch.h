@@ -17,7 +17,7 @@ public:
       : env(env), errorPrefix(errorPrefix), scope(env) {};
 
   std::string getCaughtErrorMessageUnchecked() {
-    return Exception().ToString().Utf8Value();
+    return Exception().Message(); //  .ToString().Utf8Value();
   }
 
   std::string extendWithPrefix(std::string errorMessage) {

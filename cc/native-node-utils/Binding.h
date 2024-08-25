@@ -6,27 +6,26 @@
 #define __FF_BINDING_H__
 
 namespace FF {
-static inline void executeSyncBinding(std::shared_ptr<ISyncWorker> worker, std::string methodName, const Napi::CallbackInfo& info) {
+static inline Napi::Value executeSyncBinding(std::shared_ptr<ISyncWorker> worker, std::string methodName, const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
-  Napi::HandleScope scope(env);
+  // Remove the redundant Napi::HandleScope
 
   try {
-    // if (worker && worker->applyUnwrappers(info)) {
     if (worker->applyUnwrappers(info)) {
       Napi::Error::New(env, "Error in applyUnwrappers").ThrowAsJavaScriptException();
-      return;
+      return env.Null();
     }
 
     std::string err = worker->execute();
     if (!err.empty()) {
       Napi::Error::New(env, err).ThrowAsJavaScriptException();
-      return;
+      return env.Null();
     }
 
-    info.GetReturnValue().Set(worker->getReturnValue(info));
-    // info.ReturnValue().Set(worker->getReturnValue(info));
+    return worker->getReturnValue(info);
   } catch (const std::exception& e) {
     Napi::Error::New(env, e.what()).ThrowAsJavaScriptException();
+    return env.Null();
   }
 }
 
@@ -48,8 +47,35 @@ static inline void executeAsyncBinding(std::shared_ptr<IAsyncWorker> worker, std
     return;
   }
 
-  auto asyncWorker = new FF::AsyncWorker(callback, worker);
-  Napi::AsyncWorker::Queue(asyncWorker);
+  class AsyncWorker : public Napi::AsyncWorker {
+  public:
+    AsyncWorker(Napi::Function& callback, std::shared_ptr<IAsyncWorker> worker)
+        : Napi::AsyncWorker(callback), worker(worker) {
+    }
+
+    void Execute() override {
+      std::string err = worker->execute();
+      if (!err.empty()) {
+        SetError(err);
+      }
+    }
+
+    void OnOK() override {
+      Napi::HandleScope scope(Env());
+      Callback().Call({Env().Null(), worker->getReturnValue(Env())});
+    }
+
+    void OnError(const Napi::Error& e) override {
+      Napi::HandleScope scope(Env());
+      Callback().Call({e.Value(), Env().Null()});
+    }
+
+  private:
+    std::shared_ptr<IAsyncWorker> worker;
+  };
+
+  auto asyncWorker = new AsyncWorker(callback, worker);
+  asyncWorker->Queue();
 }
 
 template <class WorkerImpl>

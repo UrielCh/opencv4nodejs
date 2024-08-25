@@ -161,9 +161,9 @@ bool Facemark::detector(cv::InputArray image, cv::OutputArray faces,
 
   Nan::AsyncResource resource("opencv4nodejs:Facemark::Detector");
   Napi::Object jsObject = resource.runInAsyncScope(Nan::GetCurrentContext()->Global(), **callback, 1, argv)
-                                       .ToLocalChecked()
-                                       ->ToObject(Nan::GetCurrentContext())
-                                       .ToLocalChecked();
+                              .ToLocalChecked()
+                              ->ToObject(Nan::GetCurrentContext())
+                              .ToLocalChecked();
 
   std::vector<cv::Rect2d> _faces;
   Rect::ArrayConverter::unwrapTo(&_faces, jsObject);

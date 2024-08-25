@@ -21,11 +21,11 @@ public:
     return unwrapClassPtrUnchecked(info.This());
   }
 
-  static TClass* unwrapThis(Nan::NAN_GETTER_ARGS_TYPE info) {
+  static TClass* unwrapThis(const Napi::PropertyDescriptor::GetterCallback& info) {
     return unwrapClassPtrUnchecked(info.This());
   }
 
-  static TClass* unwrapThis(Nan::NAN_SETTER_ARGS_TYPE info) {
+  static TClass* unwrapThis(const Napi::PropertyDescriptor::SetterCallback& info) {
     return unwrapClassPtrUnchecked(info.This());
   }
 };
@@ -84,12 +84,12 @@ public:
     return unwrapSelf(info.This());
   }
 
-  static T unwrapSelf(Nan::NAN_GETTER_ARGS_TYPE info) {
-    return unwrapSelf(info.This());
+  static T unwrapSelf(const Napi::CallbackInfo& info) {
+    return unwrapSelf(info.This().As<Napi::Object>());
   }
 
-  static T unwrapSelf(Nan::NAN_SETTER_ARGS_TYPE info) {
-    return unwrapSelf(info.This());
+  static T unwrapSelf(const Napi::CallbackInfo& info) {
+    return unwrapSelf(info.This().As<Napi::Object>());
   }
 
 protected:
@@ -98,7 +98,7 @@ protected:
   template <class TPropertyConverter>
   static void setter(
       const char* setterName,
-      Nan::NAN_SETTER_ARGS_TYPE info,
+      const Napi::CallbackInfo& info,
       Napi::Value value,
       void (*setProperty)(TClass*, typename TPropertyConverter::Type)) {
     FF::TryCatch tryCatch(setterName);
@@ -106,14 +106,17 @@ protected:
     if (TPropertyConverter::unwrapTo(&val, value)) {
       return tryCatch.reThrow();
     }
-    setProperty(super::unwrapThis(info), val);
+    setProperty(super::unwrapThis(info.This().As<Napi::Object>()), val);
   }
 
   template <class TPropertyConverter>
-  static void getter(
-      Nan::NAN_GETTER_ARGS_TYPE info,
+  static Napi::Value getter(
+      const Napi::CallbackInfo& info,
       typename TPropertyConverter::Type (*getProperty)(TClass*)) {
-    info.GetReturnValue().Set(TPropertyConverter::wrap(getProperty(super::unwrapThis(info))));
+    Napi::Env env = info.Env();
+    TClass* obj = super::unwrapThis(info);
+    typename TPropertyConverter::Type property = getProperty(obj);
+    return TPropertyConverter::wrap(env, property);
   }
 
   template <class ConstructorImpl>
@@ -164,7 +167,7 @@ private:
 };
 
 template <class TClass, class T>
-class ObjectWrap : public ObjectWrapTemplate<TClass, T>, public Nan::ObjectWrap {
+class ObjectWrap : public ObjectWrapTemplate<TClass, T>, public Napi::ObjectWrap<ObjectWrap> {
 public:
   void Wrap(Napi::Object object) {
     Nan::ObjectWrap::Wrap(object);

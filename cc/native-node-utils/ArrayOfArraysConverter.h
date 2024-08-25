@@ -37,7 +37,7 @@ public:
       Napi::HandleScope scope(env);
       // Napi::Value element = jsArr.Get(i);
       Napi::MaybeOrValue<Napi::Value> maybeElement = jsArr.Get(i);
-      if (maybeElement.IsEmpty()) {
+      if (maybeElement.IsNothing()) {
         // Handle the error case
         Napi::Error::New(env, "Element is empty").ThrowAsJavaScriptException();
         return env.Null();
@@ -52,8 +52,8 @@ public:
     return false;
   }
 
-  static Napi::Value wrap(Type vec) {
-    Napi::Env env = Napi::Env::GetCurrent();
+  static Napi::Value wrap(Napi::Env env, Type vec) {
+    // Napi::Env env = Napi::Env::GetCurrent();
     Napi::Array jsArr = Napi::Array::New(env, vec.size());
     for (uint i = 0; i < jsArr.Length(); i++) {
       jsArr.Set(i, super::wrap(vec.at(i)));
