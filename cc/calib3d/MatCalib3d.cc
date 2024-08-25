@@ -5,7 +5,7 @@
 #include "MatCalib3d.h"
 #include "MatCalib3dBindings.h"
 
-void MatCalib3d::Init(v8::Local<v8::FunctionTemplate> ctor) {
+void MatCalib3d::Init(Napi::FunctionReference ctor) {
   Nan::SetPrototypeMethod(ctor, "rodrigues", Rodrigues);
   Nan::SetPrototypeMethod(ctor, "rodriguesAsync", RodriguesAsync);
   Nan::SetPrototypeMethod(ctor, "rqDecomp3x3", RQDecomp3x3);

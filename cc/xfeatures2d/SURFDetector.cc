@@ -7,7 +7,7 @@
 Nan::Persistent<v8::FunctionTemplate> SURFDetector::constructor;
 
 NAN_MODULE_INIT(SURFDetector::Init) {
-  v8::Local<v8::FunctionTemplate> ctor = Nan::New<v8::FunctionTemplate>(SURFDetector::New);
+  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(SURFDetector::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
   FeatureDetector::Init(ctor);

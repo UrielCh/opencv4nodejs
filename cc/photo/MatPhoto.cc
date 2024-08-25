@@ -5,7 +5,7 @@
 #include "MatPhoto.h"
 #include "photoBindings.h"
 
-void MatPhoto::Init(v8::Local<v8::FunctionTemplate> ctor) {
+void MatPhoto::Init(Napi::FunctionReference ctor) {
   Nan::SetPrototypeMethod(ctor, "seamlessClone", SeamlessClone);
   Nan::SetPrototypeMethod(ctor, "seamlessCloneAsync", SeamlessCloneAsync);
 };

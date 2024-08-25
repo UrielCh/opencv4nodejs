@@ -13,7 +13,7 @@ class ImgHashBase : public FF::ObjectWrapBase<ImgHashBase>, public Nan::ObjectWr
 public:
   virtual cv::Ptr<cv::img_hash::ImgHashBase> getImgHashBase() = 0;
 
-  static void Init(v8::Local<v8::FunctionTemplate>);
+  static void Init(Napi::FunctionReference);
 
   static NAN_METHOD(Compare);
   static NAN_METHOD(CompareAsync);

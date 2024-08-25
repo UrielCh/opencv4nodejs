@@ -161,22 +161,22 @@ NAN_METHOD(Io::ImdecodeAsync) {
 
   std::shared_ptr<IoBindings::ImdecodeWorker> worker = std::make_shared<IoBindings::ImdecodeWorker>();
 
-  v8::Local<v8::Function> cbFunc;
+  Napi::Function cbFunc;
   if (FF::hasArg(info, 1) && FF::IntConverterImpl::assertType(info[1])) {
     worker->flags = info[1]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value();
     if (!info[2]->IsFunction()) {
       return tryCatch.throwError("expected argument 2 to be of type Function");
     }
-    cbFunc = v8::Local<v8::Function>::Cast(info[2]);
+    cbFunc = Napi::Function::Cast(info[2]);
   } else {
     if (!info[1]->IsFunction()) {
       return tryCatch.throwError("expected argument 1 to be of type Function");
     }
-    cbFunc = v8::Local<v8::Function>::Cast(info[1]);
+    cbFunc = Napi::Function::Cast(info[1]);
     worker->flags = cv::IMREAD_ANYCOLOR;
   }
 
-  v8::Local<v8::Object> jsBuf = info[0]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+  Napi::Object jsBuf = info[0]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
   worker->data = static_cast<char*>(node::Buffer::Data(jsBuf));
   worker->dataSize = node::Buffer::Length(jsBuf);
 

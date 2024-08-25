@@ -33,17 +33,17 @@ public:
     int octaves = 3;
     double patternScale = 1.0;
 
-    bool unwrapOptionalArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+    bool unwrapOptionalArgs(const Napi::CallbackInfo& info) {
       return (
           FF::IntConverter::optArg(0, &thresh, info) || FF::IntConverter::optArg(1, &octaves, info) || FF::DoubleConverter::optArg(2, &patternScale, info));
     }
 
-    bool hasOptArgsObject(Nan::NAN_METHOD_ARGS_TYPE info) {
+    bool hasOptArgsObject(const Napi::CallbackInfo& info) {
       return FF::isArgObject(info, 0);
     }
 
-    bool unwrapOptionalArgsFromOpts(Nan::NAN_METHOD_ARGS_TYPE info) {
-      v8::Local<v8::Object> opts = info[0]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
+      Napi::Object opts = info[0]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
       return (
           FF::IntConverter::optProp(&thresh, "thresh", opts) || FF::IntConverter::optProp(&octaves, "octaves", opts) || FF::DoubleConverter::optProp(&patternScale, "patternScale", opts));
     }

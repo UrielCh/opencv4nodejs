@@ -73,84 +73,84 @@ NAN_MODULE_INIT(init) {
   cv::redirectError(customCvErrorHandler);
 
   // hand craft version object { major: number; minor: number; revision: number;}
-  v8::Local<v8::Object> version = Nan::New<v8::Object>();
-  Nan::Set(version, FF::newString("major"), Nan::New(CV_VERSION_MAJOR));
-  Nan::Set(version, FF::newString("minor"), Nan::New(CV_VERSION_MINOR));
-  Nan::Set(version, FF::newString("revision"), Nan::New(CV_VERSION_REVISION));
+  Napi::Object version = Nan::New<v8::Object>();
+  Nan::Set(version, FF::newString(env, "major"), Nan::New(CV_VERSION_MAJOR));
+  Nan::Set(version, FF::newString(env, "minor"), Nan::New(CV_VERSION_MINOR));
+  Nan::Set(version, FF::newString(env, "revision"), Nan::New(CV_VERSION_REVISION));
   // attache the newly created version object
-  Nan::Set(target, FF::newString("version"), version);
+  Nan::Set(target, FF::newString(env, "version"), version);
 
   // hand craft modules Object containing available modules {modulename: true; ...}
-  v8::Local<v8::Object> modules = Nan::New<v8::Object>();
+  Napi::Object modules = Nan::New<v8::Object>();
   // attache the newly created modules object
-  Nan::Set(target, FF::newString("modules"), modules);
-  Nan::Set(target, FF::newString("xmodules"), modules);
+  Nan::Set(target, FF::newString(env, "modules"), modules);
+  Nan::Set(target, FF::newString(env, "xmodules"), modules);
 
-  Nan::Set(modules, FF::newString("core"), Nan::New(true));
+  Nan::Set(modules, FF::newString(env, "core"), Nan::New(true));
   Core::Init(target);
 
 #ifdef HAVE_OPENCV_HIGHGUI
-  Nan::Set(modules, FF::newString("highgui"), Nan::New(true));
+  Nan::Set(modules, FF::newString(env, "highgui"), Nan::New(true));
   Highgui::Init(target);
 #endif
 #ifdef HAVE_OPENCV_CALIB3D
-  Nan::Set(modules, FF::newString("calib3d"), Nan::New(true));
+  Nan::Set(modules, FF::newString(env, "calib3d"), Nan::New(true));
   Calib3d::Init(target);
 #endif
 #ifdef HAVE_OPENCV_DNN
-  Nan::Set(modules, FF::newString("dnn"), Nan::New(true));
+  Nan::Set(modules, FF::newString(env, "dnn"), Nan::New(true));
   Dnn::Init(target);
 #endif
 #ifdef HAVE_OPENCV_FACE
-  Nan::Set(modules, FF::newString("face"), Nan::New(true));
+  Nan::Set(modules, FF::newString(env, "face"), Nan::New(true));
   Face::Init(target);
 #endif
 #ifdef HAVE_OPENCV_FEATURES2D
-  Nan::Set(modules, FF::newString("features2d"), Nan::New(true));
+  Nan::Set(modules, FF::newString(env, "features2d"), Nan::New(true));
   Features2d::Init(target);
 #endif
 #ifdef HAVE_OPENCV_IMGPROC
-  Nan::Set(modules, FF::newString("imgproc"), Nan::New(true));
+  Nan::Set(modules, FF::newString(env, "imgproc"), Nan::New(true));
   Imgproc::Init(target);
 #endif
 #ifdef HAVE_IO
-  Nan::Set(modules, FF::newString("io"), Nan::New(true));
+  Nan::Set(modules, FF::newString(env, "io"), Nan::New(true));
   Io::Init(target);
 #endif
 #ifdef HAVE_OPENCV_ML
-  Nan::Set(modules, FF::newString("ml"), Nan::New(true));
+  Nan::Set(modules, FF::newString(env, "ml"), Nan::New(true));
   MachineLearning::Init(target);
 #endif
 #ifdef HAVE_OPENCV_OBJDETECT
-  Nan::Set(modules, FF::newString("objdetect"), Nan::New(true));
+  Nan::Set(modules, FF::newString(env, "objdetect"), Nan::New(true));
   Objdetect::Init(target);
 #endif
 #ifdef HAVE_OPENCV_PHOTO
-  Nan::Set(modules, FF::newString("photo"), Nan::New(true));
+  Nan::Set(modules, FF::newString(env, "photo"), Nan::New(true));
   Photo::Init(target);
 #endif
 #ifdef HAVE_OPENCV_TEXT
-  Nan::Set(modules, FF::newString("text"), Nan::New(true));
+  Nan::Set(modules, FF::newString(env, "text"), Nan::New(true));
   Text::Init(target);
 #endif
 #ifdef HAVE_OPENCV_TRACKING
-  Nan::Set(modules, FF::newString("tracking"), Nan::New(true));
+  Nan::Set(modules, FF::newString(env, "tracking"), Nan::New(true));
   Tracking::Init(target);
 #endif
 #ifdef HAVE_OPENCV_VIDEO
-  Nan::Set(modules, FF::newString("video"), Nan::New(true));
+  Nan::Set(modules, FF::newString(env, "video"), Nan::New(true));
   Video::Init(target);
 #endif
 #ifdef HAVE_OPENCV_XFEATURES2D
-  Nan::Set(modules, FF::newString("xfeatures2d"), Nan::New(true));
+  Nan::Set(modules, FF::newString(env, "xfeatures2d"), Nan::New(true));
   XFeatures2d::Init(target);
 #endif
 #ifdef HAVE_OPENCV_XIMGPROC
-  Nan::Set(modules, FF::newString("ximgproc"), Nan::New(true));
+  Nan::Set(modules, FF::newString(env, "ximgproc"), Nan::New(true));
   XImgproc::Init(target);
 #endif
 #ifdef HAVE_OPENCV_IMG_HASH
-  Nan::Set(modules, FF::newString("img_hash"), Nan::New(true));
+  Nan::Set(modules, FF::newString(env, "img_hash"), Nan::New(true));
   ImgHash::Init(target);
 #endif
 };

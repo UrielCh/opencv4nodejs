@@ -15,9 +15,9 @@
 
 /* TODO fix non scalar matrix multiplication, division */
 
-#define FF_SELF_OPERATOR(func)                                          \
-  v8::Local<v8::Object> jsObj = FF::newInstance(Nan::New(constructor)); \
-  func(unwrapSelf(info), unwrapClassPtrUnchecked(jsObj)->self);         \
+#define FF_SELF_OPERATOR(func)                                  \
+  Napi::Object jsObj = FF::newInstance(Nan::New(constructor));  \
+  func(unwrapSelf(info), unwrapClassPtrUnchecked(jsObj)->self); \
   return info.GetReturnValue().Set(jsObj);
 
 #define FF_SCALAR_OPERATOR(func, applyFunc, clazz, methodName)               \
@@ -25,7 +25,7 @@
   if (!info[0]->IsNumber()) {                                                \
     return tryCatch.throwError("expected arg to be a Scalar");               \
   }                                                                          \
-  v8::Local<v8::Object> jsObj = FF::newInstance(Nan::New(constructor));      \
+  Napi::Object jsObj = FF::newInstance(Nan::New(constructor));               \
   applyFunc(                                                                 \
       func,                                                                  \
       unwrapSelf(info),                                                      \
@@ -38,7 +38,7 @@
   if (!Nan::New(constructor)->HasInstance(info[0])) {                                              \
     return tryCatch.throwError("expected arg to be an instance of " + std::string(#clazz));        \
   }                                                                                                \
-  v8::Local<v8::Object> jsObj = FF::newInstance(Nan::New(constructor));                            \
+  Napi::Object jsObj = FF::newInstance(Nan::New(constructor));                                     \
   applyFunc(                                                                                       \
       func,                                                                                        \
       unwrapSelf(info),                                                                            \

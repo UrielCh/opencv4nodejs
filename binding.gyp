@@ -8,7 +8,7 @@
 			"<!@(node ./bin/install.js OPENCV4NODEJS_INCLUDES)",
 			"cc",
 			"cc/core",
-            "<!(node -p \"require('node-addon-api').include_dir\")"
+            "<!(node -p \"require('node-addon-api').include_dir\")",
 			"cc/native-node-utils",
 		],
 		"libraries": [

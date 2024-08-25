@@ -33,11 +33,11 @@ NAN_MODULE_INIT(Tracking::Init) {
 #if CV_VERSION_GREATER_EQUAL(3, 1, 0)
   TrackerKCF::Init(target);
   MultiTracker::Init(target);
-  v8::Local<v8::Object> trackerKCFModes = Nan::New<v8::Object>();
+  Napi::Object trackerKCFModes = Nan::New<v8::Object>();
   FF_SET_JS_PROP(trackerKCFModes, GRAY, Nan::New<v8::Integer>(cv::TrackerKCF::MODE::GRAY));
   FF_SET_JS_PROP(trackerKCFModes, CN, Nan::New<v8::Integer>(cv::TrackerKCF::MODE::CN));
   FF_SET_JS_PROP(trackerKCFModes, CUSTOM, Nan::New<v8::Integer>(cv::TrackerKCF::MODE::CUSTOM));
-  Nan::Set(target, FF::newString("trackerKCFModes"), trackerKCFModes);
+  Nan::Set(target, FF::newString(env, "trackerKCFModes"), trackerKCFModes);
 #endif
 
 #if CV_VERSION_GREATER_EQUAL(3, 2, 0)

@@ -7,19 +7,19 @@
 Nan::Persistent<v8::FunctionTemplate> BackgroundSubtractorKNN::constructor;
 
 NAN_MODULE_INIT(BackgroundSubtractorKNN::Init) {
-  v8::Local<v8::FunctionTemplate> ctor = Nan::New<v8::FunctionTemplate>(BackgroundSubtractorKNN::New);
+  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(BackgroundSubtractorKNN::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
   BackgroundSubtractor::Init(ctor);
   constructor.Reset(ctor);
-  ctor->SetClassName(FF::newString("BackgroundSubtractorKNN"));
+  ctor->SetClassName(FF::newString(env, "BackgroundSubtractorKNN"));
   instanceTemplate->SetInternalFieldCount(1);
 
-  Nan::SetAccessor(instanceTemplate, FF::newString("history"), history_getter);
-  Nan::SetAccessor(instanceTemplate, FF::newString("dist2Threshold"), dist2Threshold_getter);
-  Nan::SetAccessor(instanceTemplate, FF::newString("detectShadows"), detectShadows_getter);
+  Nan::SetAccessor(instanceTemplate, FF::newString(env, "history"), history_getter);
+  Nan::SetAccessor(instanceTemplate, FF::newString(env, "dist2Threshold"), dist2Threshold_getter);
+  Nan::SetAccessor(instanceTemplate, FF::newString(env, "detectShadows"), detectShadows_getter);
 
-  Nan::Set(target, FF::newString("BackgroundSubtractorKNN"), FF::getFunction(ctor));
+  Nan::Set(target, FF::newString(env, "BackgroundSubtractorKNN"), FF::getFunction(ctor));
 };
 
 NAN_METHOD(BackgroundSubtractorKNN::New) {

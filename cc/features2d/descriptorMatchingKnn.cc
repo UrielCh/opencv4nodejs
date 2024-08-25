@@ -126,23 +126,23 @@ public:
     return "";
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return Mat::Converter::arg(0, &descFrom, info)
            || Mat::Converter::arg(1, &descTo, info)
            || FF::IntConverter::arg(2, &k, info);
   }
 
-  v8::Local<v8::Value> getReturnValue() {
+  Napi::Value getReturnValue() {
     return DescriptorMatch::ArrayOfArraysConverter::wrap(dmatches);
   }
 };
 
 #if CV_VERSION_GREATER_EQUAL(4, 0, 0)
-void DescriptorMatchingKnn::matchKnn(Nan::NAN_METHOD_ARGS_TYPE info, cv::DescriptorMatcher::MatcherType matcherType) {
+void DescriptorMatchingKnn::matchKnn(const Napi::CallbackInfo& info, cv::DescriptorMatcher::MatcherType matcherType) {
 #elif CV_VERSION_GREATER_EQUAL(3, 2, 0)
-void DescriptorMatchingKnn::matchKnn(Nan::NAN_METHOD_ARGS_TYPE info, int matcherType) {
+void DescriptorMatchingKnn::matchKnn(const Napi::CallbackInfo& info, int matcherType) {
 #else
-void DescriptorMatchingKnn::matchKnn(Nan::NAN_METHOD_ARGS_TYPE info, std::string matcherType) {
+void DescriptorMatchingKnn::matchKnn(const Napi::CallbackInfo& info, std::string matcherType) {
 #endif
   FF::executeSyncBinding(
       std::make_shared<MatchKnnWorker>(cv::DescriptorMatcher::create(matcherType)),
@@ -151,11 +151,11 @@ void DescriptorMatchingKnn::matchKnn(Nan::NAN_METHOD_ARGS_TYPE info, std::string
 }
 
 #if CV_VERSION_GREATER_EQUAL(4, 0, 0)
-void DescriptorMatchingKnn::matchKnnAsync(Nan::NAN_METHOD_ARGS_TYPE info, cv::DescriptorMatcher::MatcherType matcherType) {
+void DescriptorMatchingKnn::matchKnnAsync(const Napi::CallbackInfo& info, cv::DescriptorMatcher::MatcherType matcherType) {
 #elif CV_VERSION_GREATER_EQUAL(3, 2, 0)
-void DescriptorMatchingKnn::matchKnnAsync(Nan::NAN_METHOD_ARGS_TYPE info, int matcherType) {
+void DescriptorMatchingKnn::matchKnnAsync(const Napi::CallbackInfo& info, int matcherType) {
 #else
-void DescriptorMatchingKnn::matchKnnAsync(Nan::NAN_METHOD_ARGS_TYPE info, std::string matcherType) {
+void DescriptorMatchingKnn::matchKnnAsync(const Napi::CallbackInfo& info, std::string matcherType) {
 #endif
   FF::executeAsyncBinding(
       std::make_shared<MatchKnnWorker>(cv::DescriptorMatcher::create(matcherType)),

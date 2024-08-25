@@ -7,16 +7,16 @@
 Nan::Persistent<v8::FunctionTemplate> ParamGrid::constructor;
 
 NAN_MODULE_INIT(ParamGrid::Init) {
-  v8::Local<v8::FunctionTemplate> ctor = Nan::New<v8::FunctionTemplate>(ParamGrid::New);
+  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(ParamGrid::New);
   constructor.Reset(ctor);
   ctor->InstanceTemplate()->SetInternalFieldCount(1);
-  ctor->SetClassName(FF::newString("ParamGrid"));
+  ctor->SetClassName(FF::newString(env, "ParamGrid"));
 
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString("minVal"), minVal_getter, minVal_setter);
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString("maxVal"), maxVal_getter, maxVal_setter);
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString("logStep"), logStep_getter, logStep_setter);
+  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "minVal"), minVal_getter, minVal_setter);
+  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "maxVal"), maxVal_getter, maxVal_setter);
+  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "logStep"), logStep_getter, logStep_setter);
 
-  Nan::Set(target, FF::newString("ParamGrid"), FF::getFunction(ctor));
+  Nan::Set(target, FF::newString(env, "ParamGrid"), FF::getFunction(ctor));
 };
 
 NAN_METHOD(ParamGrid::New) {

@@ -24,7 +24,7 @@ public:
     return errorMessage;
   }
 
-  void throwError(v8::Local<v8::Value> message) {
+  void throwError(Napi::Value message) {
     Nan::ThrowError(message);
     // need to call ReThrow to prevent this try catch to catch the error thrown by itself
     ReThrow();

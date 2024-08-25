@@ -24,7 +24,7 @@ namespace FF {
  * 2,3-Dimmentions Macro seters for a single Value
  */
 template <typename type, int n>
-static inline void matPutVal(cv::Mat mat, v8::Local<v8::Value> value, const cv::Vec<int, n>& idx) {
+static inline void matPutVal(cv::Mat mat, Napi::Value value, const cv::Vec<int, n>& idx) {
   mat.at<type>(idx) = (type)value->ToNumber(Nan::GetCurrentContext()).ToLocalChecked()->Value();
 }
 
@@ -33,7 +33,7 @@ static inline void matPutVal(cv::Mat mat, v8::Local<v8::Value> value, const cv::
  */
 
 template <typename type, int n>
-static inline void matPutVec2(cv::Mat mat, v8::Local<v8::Value> vector, const cv::Vec<int, n>& idx) {
+static inline void matPutVec2(cv::Mat mat, Napi::Value vector, const cv::Vec<int, n>& idx) {
   v8::Local<v8::Array> vec = v8::Local<v8::Array>::Cast(vector);
   mat.at<cv::Vec<type, 2>>(idx) = cv::Vec<type, 2>(
       (type)FF::DoubleConverter::unwrapUnchecked(Nan::Get(vec, 0).ToLocalChecked()),
@@ -44,7 +44,7 @@ static inline void matPutVec2(cv::Mat mat, v8::Local<v8::Value> vector, const cv
  */
 
 template <typename type, int n>
-static inline void matPutVec3(cv::Mat mat, v8::Local<v8::Value> vector, const cv::Vec<int, n>& idx) {
+static inline void matPutVec3(cv::Mat mat, Napi::Value vector, const cv::Vec<int, n>& idx) {
   v8::Local<v8::Array> vec = v8::Local<v8::Array>::Cast(vector);
   mat.at<cv::Vec<type, 3>>(idx) = cv::Vec<type, 3>(
       (type)FF::DoubleConverter::unwrapUnchecked(Nan::Get(vec, 0).ToLocalChecked()),
@@ -56,7 +56,7 @@ static inline void matPutVec3(cv::Mat mat, v8::Local<v8::Value> vector, const cv
  */
 
 template <typename type, int n>
-static inline void matPutVec4(cv::Mat mat, v8::Local<v8::Value> vector, const cv::Vec<int, n>& idx) {
+static inline void matPutVec4(cv::Mat mat, Napi::Value vector, const cv::Vec<int, n>& idx) {
   v8::Local<v8::Array> vec = v8::Local<v8::Array>::Cast(vector);
   mat.at<cv::Vec<type, 4>>(idx) = cv::Vec<type, 4>(
       (type)FF::DoubleConverter::unwrapUnchecked(Nan::Get(vec, 0).ToLocalChecked()),
@@ -66,12 +66,12 @@ static inline void matPutVec4(cv::Mat mat, v8::Local<v8::Value> vector, const cv
 }
 
 template <typename type, int n>
-static inline v8::Local<v8::Value> matGetVal(cv::Mat mat, cv::Vec<int, n>& idx) {
+static inline Napi::Value matGetVal(cv::Mat mat, cv::Vec<int, n>& idx) {
   return Nan::New(mat.at<type>(idx));
 }
 
 template <typename type, int n>
-static inline v8::Local<v8::Value> matGetVec2(cv::Mat mat, const cv::Vec<int, n>& idx) {
+static inline Napi::Value matGetVec2(cv::Mat mat, const cv::Vec<int, n>& idx) {
   v8::Local<v8::Array> vec = Nan::New<v8::Array>(2);
   Nan::Set(vec, 0, Nan::New(mat.at<cv::Vec<type, 2>>(idx)[0]));
   Nan::Set(vec, 1, Nan::New(mat.at<cv::Vec<type, 2>>(idx)[1]));
@@ -79,7 +79,7 @@ static inline v8::Local<v8::Value> matGetVec2(cv::Mat mat, const cv::Vec<int, n>
 }
 
 template <typename type, int n>
-static inline v8::Local<v8::Value> matGetVec3(cv::Mat mat, const cv::Vec<int, n>& idx) {
+static inline Napi::Value matGetVec3(cv::Mat mat, const cv::Vec<int, n>& idx) {
   v8::Local<v8::Array> vec = Nan::New<v8::Array>(3);
   Nan::Set(vec, 0, Nan::New(mat.at<cv::Vec<type, 3>>(idx)[0]));
   Nan::Set(vec, 1, Nan::New(mat.at<cv::Vec<type, 3>>(idx)[1]));
@@ -88,7 +88,7 @@ static inline v8::Local<v8::Value> matGetVec3(cv::Mat mat, const cv::Vec<int, n>
 }
 
 template <typename type, int n>
-static inline v8::Local<v8::Value> matGetVec4(cv::Mat mat, const cv::Vec<int, n>& idx) {
+static inline Napi::Value matGetVec4(cv::Mat mat, const cv::Vec<int, n>& idx) {
   v8::Local<v8::Array> vec = Nan::New<v8::Array>(4);
   Nan::Set(vec, 0, Nan::New(mat.at<cv::Vec<type, 4>>(idx)[0]));
   Nan::Set(vec, 1, Nan::New(mat.at<cv::Vec<type, 4>>(idx)[1]));
@@ -101,7 +101,7 @@ static inline v8::Local<v8::Value> matGetVec4(cv::Mat mat, const cv::Vec<int, n>
 
 NAN_MODULE_INIT(Mat::Init) {
 
-  v8::Local<v8::FunctionTemplate> ctor = Nan::New<v8::FunctionTemplate>(Mat::New);
+  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(Mat::New);
   constructor.Reset(ctor);
   ctor->InstanceTemplate()->SetInternalFieldCount(1);
   ctor->SetClassName(Nan::New("Mat").ToLocalChecked());
@@ -439,7 +439,7 @@ NAN_METHOD(Mat::New) {
     v8::Local<v8::Array> jsChannelMats = v8::Local<v8::Array>::Cast(info[0]);
     std::vector<cv::Mat> channels;
     for (uint i = 0; i < jsChannelMats->Length(); i++) {
-      v8::Local<v8::Object> jsChannelMat = Nan::To<v8::Object>(Nan::Get(jsChannelMats, i).ToLocalChecked()).ToLocalChecked();
+      Napi::Object jsChannelMat = Nan::To<v8::Object>(Nan::Get(jsChannelMats, i).ToLocalChecked()).ToLocalChecked();
       if (!Nan::New(Mat::constructor)->HasInstance(jsChannelMat)) {
         return tryCatch.throwError("expected channel " + std::to_string(i) + " to be an instance of Mat");
       }
@@ -686,8 +686,8 @@ NAN_METHOD(Mat::At) {
   FF::TryCatch tryCatch("Mat::At");
 
   cv::Mat matSelf = Mat::unwrapSelf(info);
-  v8::Local<v8::Value> val;
-  v8::Local<v8::Value> jsVal;
+  Napi::Value val;
+  Napi::Value jsVal;
   if (info[0]->IsArray()) {
     if ((long)v8::Local<v8::Array>::Cast(info[0])->Length() != matSelf.dims) {
       tryCatch.throwError("expected array length to be equal to the dims, get " + std::to_string((long)v8::Local<v8::Array>::Cast(info[0])->Length()) + " expecting " + std::to_string(matSelf.dims));
@@ -701,7 +701,7 @@ NAN_METHOD(Mat::At) {
 
   if (val->IsArray()) {
     v8::Local<v8::Array> vec = v8::Local<v8::Array>::Cast(val);
-    v8::Local<v8::Value> jsVec;
+    Napi::Value jsVec;
     if (vec->Length() == 2) {
       jsVec = Vec2::Converter::wrap(cv::Vec2d(FF::DoubleConverter::unwrapUnchecked(Nan::Get(vec, 0).ToLocalChecked()), FF::DoubleConverter::unwrapUnchecked(Nan::Get(vec, 1).ToLocalChecked())));
     } else if (vec->Length() == 3) {
@@ -741,7 +741,7 @@ NAN_METHOD(Mat::At) {
     //    }
     //  }
     // tryCatch.throwError(str);
-    jsVal = v8::Local<v8::Value>::Cast(val);
+    jsVal = Napi::Value::Cast(val);
   }
   info.GetReturnValue().Set(jsVal);
 }
@@ -751,7 +751,7 @@ NAN_METHOD(Mat::AtRaw) {
   cv::Mat matSelf = Mat::unwrapSelf(info);
   FF_ASSERT_INDEX_RANGE(info[0]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value(), matSelf.size[0] - 1, "Mat::At row");
   FF_ASSERT_INDEX_RANGE(info[1]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value(), matSelf.size[1] - 1, "Mat::At col");
-  v8::Local<v8::Value> val;
+  Napi::Value val;
   FF_MAT_APPLY_TYPED_OPERATOR(matSelf, val, matSelf.type(), FF_MAT_AT, FF::matGet);
   info.GetReturnValue().Set(val);
 }
@@ -918,7 +918,7 @@ NAN_METHOD(Mat::Norm) {
 
   // optional args
   bool hasOptArgsObj = FF::isArgObject(info, i);
-  v8::Local<v8::Object> optArgs = hasOptArgsObj ? info[i]->ToObject(Nan::GetCurrentContext()).ToLocalChecked() : Nan::New<v8::Object>();
+  Napi::Object optArgs = hasOptArgsObj ? info[i]->ToObject(Nan::GetCurrentContext()).ToLocalChecked() : Nan::New<v8::Object>();
 
   uint normType = cv::NORM_L2;
   cv::Mat mask = cv::noArray().getMat();

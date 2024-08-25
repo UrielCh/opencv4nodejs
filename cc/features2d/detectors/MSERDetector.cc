@@ -9,7 +9,7 @@
 Nan::Persistent<v8::FunctionTemplate> MSERDetector::constructor;
 
 NAN_MODULE_INIT(MSERDetector::Init) {
-  v8::Local<v8::FunctionTemplate> ctor = Nan::New<v8::FunctionTemplate>(MSERDetector::New);
+  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(MSERDetector::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
   FeatureDetector::Init(ctor);
@@ -78,15 +78,15 @@ public:
     return "";
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     // we only need input image
     return Mat::Converter::arg(0, &img, info);
   }
 
-  v8::Local<v8::Value> getReturnValue() {
-    v8::Local<v8::Object> ret = Nan::New<v8::Object>();
-    Nan::Set(ret, FF::newString("msers"), Point2::ArrayOfArraysWithCastConverter<cv::Point2i>::wrap(regions));
-    Nan::Set(ret, FF::newString("bboxes"), Rect::ArrayWithCastConverter<cv::Rect>::wrap(mser_bbox));
+  Napi::Value getReturnValue() {
+    Napi::Object ret = Nan::New<v8::Object>();
+    Nan::Set(ret, FF::newString(env, "msers"), Point2::ArrayOfArraysWithCastConverter<cv::Point2i>::wrap(regions));
+    Nan::Set(ret, FF::newString(env, "bboxes"), Rect::ArrayWithCastConverter<cv::Rect>::wrap(mser_bbox));
     return ret;
   }
 };

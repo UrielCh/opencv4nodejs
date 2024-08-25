@@ -11,7 +11,7 @@
 Nan::Persistent<v8::FunctionTemplate> Net::constructor;
 
 NAN_MODULE_INIT(Net::Init) {
-  v8::Local<v8::FunctionTemplate> ctor = Nan::New<v8::FunctionTemplate>(Net::New);
+  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(Net::New);
   Net::constructor.Reset(ctor);
   ctor->InstanceTemplate()->SetInternalFieldCount(1);
   ctor->SetClassName(Nan::New("Net").ToLocalChecked());
@@ -141,7 +141,7 @@ NAN_METHOD(Net::GetPerfProfile) {
   std::vector<double> layersTimes;
   int64 time = self.getPerfProfile(layersTimes);
 
-  v8::Local<v8::Object> obj = Nan::New<v8::Object>();
+  Napi::Object obj = Nan::New<v8::Object>();
 
   Nan::Set(obj, Nan::New("retval").ToLocalChecked(), FF::DoubleConverter::wrap(time));
   Nan::Set(obj, Nan::New("timings").ToLocalChecked(), FF::DoubleArrayConverter::wrap(layersTimes));

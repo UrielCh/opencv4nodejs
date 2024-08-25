@@ -8,11 +8,11 @@
 Nan::Persistent<v8::FunctionTemplate> OCRHMMDecoder::constructor;
 
 NAN_MODULE_INIT(OCRHMMDecoder::Init) {
-  v8::Local<v8::FunctionTemplate> ctor = Nan::New<v8::FunctionTemplate>(OCRHMMDecoder::New);
+  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(OCRHMMDecoder::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
   constructor.Reset(ctor);
-  ctor->SetClassName(FF::newString("OCRHMMDecoder"));
+  ctor->SetClassName(FF::newString(env, "OCRHMMDecoder"));
   instanceTemplate->SetInternalFieldCount(1);
 
   Nan::SetPrototypeMethod(ctor, "run", Run);
@@ -20,7 +20,7 @@ NAN_MODULE_INIT(OCRHMMDecoder::Init) {
   Nan::SetPrototypeMethod(ctor, "runWithInfo", RunWithInfo);
   Nan::SetPrototypeMethod(ctor, "runWithInfoAsync", RunWithInfoAsync);
 
-  Nan::Set(target, FF::newString("OCRHMMDecoder"), FF::getFunction(ctor));
+  Nan::Set(target, FF::newString(env, "OCRHMMDecoder"), FF::getFunction(ctor));
 };
 
 NAN_METHOD(OCRHMMDecoder::New) {

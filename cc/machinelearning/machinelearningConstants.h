@@ -6,7 +6,7 @@
 
 class MachineLearningConstants {
 public:
-  static void Init(v8::Local<v8::Object> module);
+  static void Init(Napi::Object module);
 };
 
 #endif

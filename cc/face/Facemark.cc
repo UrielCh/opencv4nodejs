@@ -27,7 +27,7 @@ NAN_METHOD(Facemark::Load) {
   Nan::ObjectWrap::Unwrap<Facemark>(info.This())->load(path);
 }
 
-void Facemark::Init(v8::Local<v8::FunctionTemplate> ctor) {
+void Facemark::Init(Napi::FunctionReference ctor) {
   Nan::SetPrototypeMethod(ctor, "loadModel", LoadModel);
   Nan::SetPrototypeMethod(ctor, "loadModelAsync", LoadModelAsync);
   Nan::SetPrototypeMethod(ctor, "fit", Fit);
@@ -124,7 +124,7 @@ NAN_METHOD(Facemark::SetFaceDetector) {
   if (!info[0]->IsFunction()) {
     return tryCatch.throwError("expected argument 0 to be of type");
   }
-  v8::Local<v8::Function> cbFunc = v8::Local<v8::Function>::Cast(info[0]);
+  Napi::Function cbFunc = Napi::Function::Cast(info[0]);
   Nan::Callback* callback = new Nan::Callback(cbFunc);
 
   bool results = Facemark::unwrapThis(info)
@@ -155,12 +155,12 @@ bool Facemark::detector(cv::InputArray image, cv::OutputArray faces,
   Nan::HandleScope scope;
 
   cv::Mat frame = image.getMat().clone();
-  v8::Local<v8::Value> jsMat = Mat::Converter::wrap(frame);
+  Napi::Value jsMat = Mat::Converter::wrap(frame);
 
-  v8::Local<v8::Value> argv[] = {jsMat};
+  Napi::Value argv[] = {jsMat};
 
   Nan::AsyncResource resource("opencv4nodejs:Facemark::Detector");
-  v8::Local<v8::Object> jsObject = resource.runInAsyncScope(Nan::GetCurrentContext()->Global(), **callback, 1, argv)
+  Napi::Object jsObject = resource.runInAsyncScope(Nan::GetCurrentContext()->Global(), **callback, 1, argv)
                                        .ToLocalChecked()
                                        ->ToObject(Nan::GetCurrentContext())
                                        .ToLocalChecked();

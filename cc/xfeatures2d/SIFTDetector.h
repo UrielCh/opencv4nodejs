@@ -22,7 +22,7 @@ public:
     return self;
   }
 
-  void Wrap(v8::Local<v8::Object> object) {
+  void Wrap(Napi::Object object) {
     FeatureDetector::Wrap(object);
   }
 
@@ -43,7 +43,7 @@ public:
 
   class Constructor : public ConstructorBase {
   public:
-    Constructor(Nan::NAN_METHOD_ARGS_TYPE info) {
+    Constructor(const Napi::CallbackInfo& info) {
       auto nFeatures = opt<FF::IntConverter>("nFeatures", 0);
       auto nOctaveLayers = opt<FF::IntConverter>("nOctaveLayers", 3);
       auto contrastThreshold = opt<FF::DoubleConverter>("contrastThreshold", 0.04);

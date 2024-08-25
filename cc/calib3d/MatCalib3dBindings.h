@@ -24,8 +24,8 @@ public:
     return "";
   }
 
-  v8::Local<v8::Value> getReturnValue() {
-    v8::Local<v8::Object> ret = Nan::New<v8::Object>();
+  Napi::Value getReturnValue() {
+    Napi::Object ret = Nan::New<v8::Object>();
     Nan::Set(ret, Nan::New("dst").ToLocalChecked(), Mat::Converter::wrap(dst));
     Nan::Set(ret, Nan::New("jacobian").ToLocalChecked(), Mat::Converter::wrap(jacobian));
     return ret;
@@ -53,8 +53,8 @@ public:
     return "";
   }
 
-  v8::Local<v8::Value> getReturnValue() {
-    v8::Local<v8::Object> ret = Nan::New<v8::Object>();
+  Napi::Value getReturnValue() {
+    Napi::Object ret = Nan::New<v8::Object>();
     Nan::Set(ret, Nan::New("returnValue").ToLocalChecked(), Vec3::Converter::wrap(returnValue));
     Nan::Set(ret, Nan::New("mtxR").ToLocalChecked(), Mat::Converter::wrap(mtxR));
     Nan::Set(ret, Nan::New("mtxQ").ToLocalChecked(), Mat::Converter::wrap(mtxQ));
@@ -87,8 +87,8 @@ public:
     return "";
   }
 
-  v8::Local<v8::Value> getReturnValue() {
-    v8::Local<v8::Object> ret = Nan::New<v8::Object>();
+  Napi::Value getReturnValue() {
+    Napi::Object ret = Nan::New<v8::Object>();
     Nan::Set(ret, Nan::New("cameraMatrix").ToLocalChecked(), Mat::Converter::wrap(cameraMatrix));
     Nan::Set(ret, Nan::New("rotMatrix").ToLocalChecked(), Mat::Converter::wrap(rotMatrix));
     Nan::Set(ret, Nan::New("transVect").ToLocalChecked(), Vec4::Converter::wrap(transVect));
@@ -118,14 +118,14 @@ public:
     return "";
   }
 
-  v8::Local<v8::Value> getReturnValue() {
-    v8::Local<v8::Object> ret = Nan::New<v8::Object>();
+  Napi::Value getReturnValue() {
+    Napi::Object ret = Nan::New<v8::Object>();
     Nan::Set(ret, Nan::New("dABdA").ToLocalChecked(), Mat::Converter::wrap(dABdA));
     Nan::Set(ret, Nan::New("dABdB").ToLocalChecked(), Mat::Converter::wrap(dABdB));
     return ret;
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return (
         Mat::Converter::arg(0, &B, info));
   }
@@ -151,19 +151,19 @@ public:
     return "";
   }
 
-  v8::Local<v8::Value> getReturnValue() {
-    v8::Local<v8::Object> ret = Nan::New<v8::Object>();
+  Napi::Value getReturnValue() {
+    Napi::Object ret = Nan::New<v8::Object>();
     Nan::Set(ret, Nan::New("returnValue").ToLocalChecked(), FF::BoolConverter::wrap(returnValue));
     Nan::Set(ret, Nan::New("corners").ToLocalChecked(), Point2::ArrayConverter::wrap(corners));
     return ret;
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return (
         Size::Converter::arg(0, &patternSize, info));
   }
 
-  bool unwrapOptionalArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapOptionalArgs(const Napi::CallbackInfo& info) {
     return (
         FF::IntConverter::optArg(1, &flags, info));
   }
@@ -187,7 +187,7 @@ public:
     return "";
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return (
         Size::Converter::arg(0, &patternSize, info) || Point2::ArrayWithCastConverter<cv::Point2f>::arg(1, &corners, info) || FF::BoolConverter::arg(2, &patternWasFound, info));
   }
@@ -212,11 +212,11 @@ public:
     return "";
   }
 
-  v8::Local<v8::Value> getReturnValue() {
+  Napi::Value getReturnValue() {
     return FF::BoolConverter::wrap(returnValue);
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return (
         Point2::ArrayWithCastConverter<cv::Point2f>::arg(0, &corners, info) || Size::Converter::arg(1, &region_size, info));
   }
@@ -246,8 +246,8 @@ public:
     return "";
   }
 
-  v8::Local<v8::Value> getReturnValue() {
-    v8::Local<v8::Object> ret = Nan::New<v8::Object>();
+  Napi::Value getReturnValue() {
+    Napi::Object ret = Nan::New<v8::Object>();
     Nan::Set(ret, Nan::New("fovx").ToLocalChecked(), FF::DoubleConverter::wrap(fovx));
     Nan::Set(ret, Nan::New("fovy").ToLocalChecked(), FF::DoubleConverter::wrap(fovy));
     Nan::Set(ret, Nan::New("focalLength").ToLocalChecked(), FF::DoubleConverter::wrap(focalLength));
@@ -256,7 +256,7 @@ public:
     return ret;
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return (
         Size::Converter::arg(0, &imageSize, info) || FF::DoubleConverter::arg(1, &apertureWidth, info) || FF::DoubleConverter::arg(2, &apertureHeight, info));
   }
@@ -294,8 +294,8 @@ public:
     return "";
   }
 
-  v8::Local<v8::Value> getReturnValue() {
-    v8::Local<v8::Object> ret = Nan::New<v8::Object>();
+  Napi::Value getReturnValue() {
+    Napi::Object ret = Nan::New<v8::Object>();
     Nan::Set(ret, Nan::New("R1").ToLocalChecked(), Mat::Converter::wrap(R1));
     Nan::Set(ret, Nan::New("R2").ToLocalChecked(), Mat::Converter::wrap(R2));
     Nan::Set(ret, Nan::New("P1").ToLocalChecked(), Mat::Converter::wrap(P1));
@@ -306,22 +306,22 @@ public:
     return ret;
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return (
         FF::DoubleArrayConverter::arg(0, &distCoeffs1, info) || Mat::Converter::arg(1, &cameraMatrix2, info) || FF::DoubleArrayConverter::arg(2, &distCoeffs2, info) || Size::Converter::arg(3, &imageSize, info) || Mat::Converter::arg(4, &R, info) || Vec3::Converter::arg(5, &T, info));
   }
 
-  bool unwrapOptionalArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapOptionalArgs(const Napi::CallbackInfo& info) {
     return (
         FF::IntConverter::optArg(6, &flags, info) || FF::DoubleConverter::optArg(7, &alpha, info) || Size::Converter::optArg(8, &newImageSize, info));
   }
 
-  bool hasOptArgsObject(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool hasOptArgsObject(const Napi::CallbackInfo& info) {
     return FF::isArgObject(info, 6);
   }
 
-  bool unwrapOptionalArgsFromOpts(Nan::NAN_METHOD_ARGS_TYPE info) {
-    v8::Local<v8::Object> opts = info[6]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+  bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
+    Napi::Object opts = info[6]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
     return (
         FF::IntConverter::optProp(&flags, "flags", opts) || FF::DoubleConverter::optProp(&alpha, "alpha", opts) || Size::Converter::optProp(&newImageSize, "newImageSize", opts));
   }
@@ -368,8 +368,8 @@ public:
     return "";
   }
 
-  v8::Local<v8::Value> getReturnValue() {
-    v8::Local<v8::Object> ret = Nan::New<v8::Object>();
+  Napi::Value getReturnValue() {
+    Napi::Object ret = Nan::New<v8::Object>();
     Nan::Set(ret, Nan::New("returnValue").ToLocalChecked(), FF::FloatConverter::wrap(returnValue));
     Nan::Set(ret, Nan::New("R1").ToLocalChecked(), Mat::Converter::wrap(R1));
     Nan::Set(ret, Nan::New("R2").ToLocalChecked(), Mat::Converter::wrap(R2));
@@ -383,7 +383,7 @@ public:
     return ret;
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return (
         FF::DoubleArrayConverter::arg(0, &distCoeffs1, info) || Mat::Converter::arg(1, &cameraMatrix2, info) || FF::DoubleArrayConverter::arg(2, &distCoeffs2, info) || Mat::Converter::arg(3, &cameraMatrix3, info) || FF::DoubleArrayConverter::arg(4, &distCoeffs3, info) || Point2::ArrayWithCastConverter<cv::Point2f>::arg(5, &imgpt1, info) || Point2::ArrayWithCastConverter<cv::Point2f>::arg(6, &imgpt3, info) || Size::Converter::arg(7, &imageSize, info) || Mat::Converter::arg(8, &R12, info) || Vec3::Converter::arg(9, &T12, info) || Mat::Converter::arg(10, &R13, info) || Vec3::Converter::arg(11, &T13, info) || FF::DoubleConverter::arg(12, &alpha, info) || Size::Converter::arg(13, &newImgSize, info) || FF::IntConverter::arg(14, &flags, info));
   }
@@ -412,29 +412,29 @@ public:
     return "";
   }
 
-  v8::Local<v8::Value> getReturnValue() {
-    v8::Local<v8::Object> ret = Nan::New<v8::Object>();
+  Napi::Value getReturnValue() {
+    Napi::Object ret = Nan::New<v8::Object>();
     Nan::Set(ret, Nan::New("out").ToLocalChecked(), Mat::Converter::wrap(out));
     Nan::Set(ret, Nan::New("validPixROI").ToLocalChecked(), Rect::Converter::wrap(validPixROI));
     return ret;
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return (
         FF::DoubleArrayConverter::arg(0, &distCoeffs, info) || Size::Converter::arg(1, &imageSize, info) || FF::DoubleConverter::arg(2, &alpha, info));
   }
 
-  bool unwrapOptionalArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapOptionalArgs(const Napi::CallbackInfo& info) {
     return (
         Size::Converter::optArg(3, &newImgSize, info) || FF::BoolConverter::optArg(4, &centerPrincipalPoint, info));
   }
 
-  bool hasOptArgsObject(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool hasOptArgsObject(const Napi::CallbackInfo& info) {
     return FF::isArgObject(info, 3);
   }
 
-  bool unwrapOptionalArgsFromOpts(Nan::NAN_METHOD_ARGS_TYPE info) {
-    v8::Local<v8::Object> opts = info[3]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+  bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
+    Napi::Object opts = info[3]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
     return (
         Size::Converter::optProp(&newImgSize, "newImgSize", opts) || FF::BoolConverter::optProp(&centerPrincipalPoint, "centerPrincipalPoint", opts));
   }
@@ -459,8 +459,8 @@ public:
     return "";
   }
 
-  v8::Local<v8::Value> getReturnValue() {
-    v8::Local<v8::Object> ret = Nan::New<v8::Object>();
+  Napi::Value getReturnValue() {
+    Napi::Object ret = Nan::New<v8::Object>();
     Nan::Set(ret, Nan::New("R1").ToLocalChecked(), Mat::Converter::wrap(R1));
     Nan::Set(ret, Nan::New("R2").ToLocalChecked(), Mat::Converter::wrap(R2));
     Nan::Set(ret, Nan::New("T").ToLocalChecked(), Vec3::Converter::wrap(T));
@@ -488,11 +488,11 @@ public:
     return "";
   }
 
-  v8::Local<v8::Value> getReturnValue() {
+  Napi::Value getReturnValue() {
     return Mat::Converter::wrap(points4D);
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return (
         Mat::Converter::arg(0, &projMatr2, info) || Point2::ArrayConverter::arg(1, &projPoints1, info) || Point2::ArrayConverter::arg(2, &projPoints2, info));
   }
@@ -518,14 +518,14 @@ public:
     return "";
   }
 
-  v8::Local<v8::Value> getReturnValue() {
-    v8::Local<v8::Object> ret = Nan::New<v8::Object>();
+  Napi::Value getReturnValue() {
+    Napi::Object ret = Nan::New<v8::Object>();
     Nan::Set(ret, Nan::New("newPoints1").ToLocalChecked(), Point2::ArrayWithCastConverter<cv::Point2f>::wrap(newPoints1));
     Nan::Set(ret, Nan::New("newPoints2").ToLocalChecked(), Point2::ArrayWithCastConverter<cv::Point2f>::wrap(newPoints2));
     return ret;
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return (
         Point2::ArrayWithCastConverter<cv::Point2f>::arg(0, &points1, info) || Point2::ArrayWithCastConverter<cv::Point2f>::arg(1, &points2, info));
   }
@@ -549,12 +549,12 @@ public:
     return "";
   }
 
-  v8::Local<v8::Value> getReturnValue() {
-    v8::Local<v8::Object> ret = Nan::New<v8::Object>();
+  Napi::Value getReturnValue() {
+    Napi::Object ret = Nan::New<v8::Object>();
     return ret;
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return (
         FF::DoubleConverter::arg(0, &newVal, info) || FF::IntConverter::arg(1, &maxSpeckleSize, info) || FF::DoubleConverter::arg(2, &maxDiff, info));
   }
@@ -579,17 +579,17 @@ public:
     return "";
   }
 
-  v8::Local<v8::Value> getReturnValue() {
-    v8::Local<v8::Object> ret = Nan::New<v8::Object>();
+  Napi::Value getReturnValue() {
+    Napi::Object ret = Nan::New<v8::Object>();
     return ret;
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return (
         Mat::Converter::arg(0, &cost, info) || FF::IntConverter::arg(1, &minDisparity, info) || FF::IntConverter::arg(2, &numberOfDisparities, info));
   }
 
-  bool unwrapOptionalArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapOptionalArgs(const Napi::CallbackInfo& info) {
     return (
         FF::IntConverter::optArg(3, &disp12MaxDisp, info));
   }
@@ -615,26 +615,26 @@ public:
     return "";
   }
 
-  v8::Local<v8::Value> getReturnValue() {
+  Napi::Value getReturnValue() {
     return Mat::Converter::wrap(_3dImage);
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return (
         Mat::Converter::arg(0, &Q, info));
   }
 
-  bool unwrapOptionalArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapOptionalArgs(const Napi::CallbackInfo& info) {
     return (
         FF::BoolConverter::optArg(1, &handleMissingValues, info) || FF::IntConverter::optArg(2, &ddepth, info));
   }
 
-  bool hasOptArgsObject(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool hasOptArgsObject(const Napi::CallbackInfo& info) {
     return FF::isArgObject(info, 1);
   }
 
-  bool unwrapOptionalArgsFromOpts(Nan::NAN_METHOD_ARGS_TYPE info) {
-    v8::Local<v8::Object> opts = info[1]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+  bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
+    Napi::Object opts = info[1]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
     return (
         FF::BoolConverter::optProp(&handleMissingValues, "handleMissingValues", opts) || FF::IntConverter::optProp(&ddepth, "ddepth", opts));
   }
@@ -661,8 +661,8 @@ public:
     return "";
   }
 
-  v8::Local<v8::Value> getReturnValue() {
-    v8::Local<v8::Object> ret = Nan::New<v8::Object>();
+  Napi::Value getReturnValue() {
+    Napi::Object ret = Nan::New<v8::Object>();
     Nan::Set(ret, Nan::New("returnValue").ToLocalChecked(), FF::IntConverter::wrap(returnValue));
     Nan::Set(ret, Nan::New("rotations").ToLocalChecked(), Mat::ArrayConverter::wrap(rotations));
     Nan::Set(ret, Nan::New("translations").ToLocalChecked(), Mat::ArrayConverter::wrap(translations));
@@ -670,7 +670,7 @@ public:
     return ret;
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return (
         Mat::Converter::arg(0, &K, info));
   }
@@ -700,29 +700,29 @@ public:
     return "";
   }
 
-  v8::Local<v8::Value> getReturnValue() {
-    v8::Local<v8::Object> ret = Nan::New<v8::Object>();
+  Napi::Value getReturnValue() {
+    Napi::Object ret = Nan::New<v8::Object>();
     Nan::Set(ret, Nan::New("E").ToLocalChecked(), Mat::Converter::wrap(E));
     Nan::Set(ret, Nan::New("mask").ToLocalChecked(), Mat::Converter::wrap(mask));
     return ret;
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return (
         Point2::ArrayWithCastConverter<cv::Point2f>::arg(0, &points1, info) || Point2::ArrayWithCastConverter<cv::Point2f>::arg(1, &points2, info));
   }
 
-  bool unwrapOptionalArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapOptionalArgs(const Napi::CallbackInfo& info) {
     return (
         FF::IntConverter::optArg(2, &method, info) || FF::DoubleConverter::optArg(3, &prob, info) || FF::DoubleConverter::optArg(4, &threshold, info));
   }
 
-  bool hasOptArgsObject(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool hasOptArgsObject(const Napi::CallbackInfo& info) {
     return FF::isArgObject(info, 2);
   }
 
-  bool unwrapOptionalArgsFromOpts(Nan::NAN_METHOD_ARGS_TYPE info) {
-    v8::Local<v8::Object> opts = info[2]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+  bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
+    Napi::Object opts = info[2]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
     return (
         FF::IntConverter::optProp(&method, "method", opts) || FF::DoubleConverter::optProp(&prob, "prob", opts) || FF::DoubleConverter::optProp(&threshold, "threshold", opts));
   }
@@ -751,20 +751,20 @@ public:
     return "";
   }
 
-  v8::Local<v8::Value> getReturnValue() {
-    v8::Local<v8::Object> ret = Nan::New<v8::Object>();
+  Napi::Value getReturnValue() {
+    Napi::Object ret = Nan::New<v8::Object>();
     Nan::Set(ret, Nan::New("returnValue").ToLocalChecked(), FF::IntConverter::wrap(returnValue));
     Nan::Set(ret, Nan::New("R").ToLocalChecked(), Mat::Converter::wrap(R));
     Nan::Set(ret, Nan::New("T").ToLocalChecked(), Vec3::Converter::wrap(T));
     return ret;
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return (
         Mat::Converter::arg(0, &E, info) || Point2::ArrayWithCastConverter<cv::Point2f>::arg(1, &points1, info) || Point2::ArrayWithCastConverter<cv::Point2f>::arg(2, &points2, info));
   }
 
-  bool unwrapOptionalArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapOptionalArgs(const Napi::CallbackInfo& info) {
     return (
         Mat::Converter::optArg(3, &mask, info));
   }

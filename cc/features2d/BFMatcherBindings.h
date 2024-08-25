@@ -25,12 +25,12 @@ public:
     return "";
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return Mat::Converter::arg(0, &descFrom, info)
            || Mat::Converter::arg(1, &descTo, info);
   }
 
-  v8::Local<v8::Value> getReturnValue() {
+  Napi::Value getReturnValue() {
     return DescriptorMatch::ArrayConverter::wrap(dmatches);
   }
 };
@@ -55,13 +55,13 @@ public:
     return "";
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return Mat::Converter::arg(0, &descFrom, info)
            || Mat::Converter::arg(1, &descTo, info)
            || FF::IntConverter::arg(2, &k, info);
   }
 
-  v8::Local<v8::Value> getReturnValue() {
+  Napi::Value getReturnValue() {
     return DescriptorMatch::ArrayOfArraysConverter::wrap(dmatches);
   }
 };

@@ -47,22 +47,22 @@ public:
       return "";
     }
 
-    bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+    bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
       return (
           Mat::Converter::arg(0, &image, info));
     }
 
-    bool unwrapOptionalArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+    bool unwrapOptionalArgs(const Napi::CallbackInfo& info) {
       return (
           FF::IntConverter::optArg(1, &algorithm, info) || FF::IntConverter::optArg(2, &region_size, info) || FF::FloatConverter::optArg(3, &ruler, info));
     }
 
-    bool hasOptArgsObject(Nan::NAN_METHOD_ARGS_TYPE info) {
+    bool hasOptArgsObject(const Napi::CallbackInfo& info) {
       return FF::isArgObject(info, 1);
     }
 
-    bool unwrapOptionalArgsFromOpts(Nan::NAN_METHOD_ARGS_TYPE info) {
-      v8::Local<v8::Object> opts = info[1]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
+      Napi::Object opts = info[1]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
       return (
           FF::IntConverter::optProp(&algorithm, "algorithm", opts) || FF::IntConverter::optProp(&region_size, "region_size", opts) || FF::FloatConverter::optProp(&ruler, "ruler", opts));
     }

@@ -8,7 +8,7 @@
 Nan::Persistent<v8::FunctionTemplate> EigenFaceRecognizer::constructor;
 
 NAN_MODULE_INIT(EigenFaceRecognizer::Init) {
-  v8::Local<v8::FunctionTemplate> ctor = Nan::New<v8::FunctionTemplate>(EigenFaceRecognizer::New);
+  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(EigenFaceRecognizer::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
   FaceRecognizer::Init(ctor);

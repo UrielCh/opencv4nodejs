@@ -3,7 +3,7 @@
 Nan::Persistent<v8::FunctionTemplate> Size::constructor;
 
 NAN_MODULE_INIT(Size::Init) {
-  v8::Local<v8::FunctionTemplate> ctor = Nan::New<v8::FunctionTemplate>(Size::New);
+  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(Size::New);
   Size::constructor.Reset(ctor);
   ctor->InstanceTemplate()->SetInternalFieldCount(1);
   ctor->SetClassName(Nan::New("Size").ToLocalChecked());

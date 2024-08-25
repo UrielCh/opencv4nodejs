@@ -8,17 +8,17 @@
 Nan::Persistent<v8::FunctionTemplate> TrackerMIL::constructor;
 
 NAN_MODULE_INIT(TrackerMIL::Init) {
-  v8::Local<v8::FunctionTemplate> ctor = Nan::New<v8::FunctionTemplate>(TrackerMIL::New);
+  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(TrackerMIL::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
   Tracker::Init(ctor);
   TrackerMILParams::Init(target);
 
   constructor.Reset(ctor);
-  ctor->SetClassName(FF::newString("TrackerMIL"));
+  ctor->SetClassName(FF::newString(env, "TrackerMIL"));
   instanceTemplate->SetInternalFieldCount(1);
 
-  Nan::Set(target, FF::newString("TrackerMIL"), FF::getFunction(ctor));
+  Nan::Set(target, FF::newString(env, "TrackerMIL"), FF::getFunction(ctor));
 };
 
 NAN_METHOD(TrackerMIL::New) {

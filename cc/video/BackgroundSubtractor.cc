@@ -5,7 +5,7 @@
 #include "BackgroundSubtractor.h"
 #include "Mat.h"
 
-void BackgroundSubtractor::Init(v8::Local<v8::FunctionTemplate> ctor) {
+void BackgroundSubtractor::Init(Napi::FunctionReference ctor) {
   Nan::SetPrototypeMethod(ctor, "apply", BackgroundSubtractor::Apply);
 };
 

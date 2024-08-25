@@ -6,7 +6,7 @@
 
 class MatXimgproc {
 public:
-  static void Init(v8::Local<v8::FunctionTemplate> ctor);
+  static void Init(Napi::FunctionReference ctor);
 
   static NAN_METHOD(GuidedFilter);
   static NAN_METHOD(GuidedFilterAsync);

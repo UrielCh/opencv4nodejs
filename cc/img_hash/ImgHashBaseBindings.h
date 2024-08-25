@@ -21,12 +21,12 @@ public:
     return "";
   }
 
-  v8::Local<v8::Value> getReturnValue() {
-    v8::Local<v8::Value> ret = FF::DoubleConverter::wrap(returnValue);
+  Napi::Value getReturnValue() {
+    Napi::Value ret = FF::DoubleConverter::wrap(returnValue);
     return ret;
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return (FF::UcharArrayConverter::arg(0, &hashOne, info) || FF::UcharArrayConverter::arg(1, &hashTwo, info));
   }
 
@@ -49,16 +49,16 @@ public:
     return "";
   }
 
-  v8::Local<v8::Value> getReturnValue() {
-    v8::Local<v8::Value> ret = FF::UcharArrayConverter::wrap(outputArr);
+  Napi::Value getReturnValue() {
+    Napi::Value ret = FF::UcharArrayConverter::wrap(outputArr);
     return ret;
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return (Mat::Converter::arg(0, &inputArr, info));
   }
 
-  bool unwrapOptionalArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapOptionalArgs(const Napi::CallbackInfo& info) {
     return (FF::UcharArrayConverter::optArg(1, &outputArr, info));
   }
 

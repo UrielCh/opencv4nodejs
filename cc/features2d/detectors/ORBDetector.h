@@ -55,7 +55,7 @@ public:
 
   class NewBinding : public CvBinding {
   public:
-    void construct(Nan::NAN_METHOD_ARGS_TYPE info) {
+    void construct(const Napi::CallbackInfo& info) {
       FF::TryCatch tryCatch("ORBDetector::New");
       FF_ASSERT_CONSTRUCT_CALL();
 

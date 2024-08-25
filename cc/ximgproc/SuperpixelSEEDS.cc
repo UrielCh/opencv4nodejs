@@ -7,7 +7,7 @@
 Nan::Persistent<v8::FunctionTemplate> SuperpixelSEEDS::constructor;
 
 NAN_MODULE_INIT(SuperpixelSEEDS::Init) {
-  v8::Local<v8::FunctionTemplate> ctor = Nan::New<v8::FunctionTemplate>(SuperpixelSEEDS::New);
+  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(SuperpixelSEEDS::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
   constructor.Reset(ctor);
   instanceTemplate->SetInternalFieldCount(1);

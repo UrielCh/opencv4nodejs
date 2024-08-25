@@ -7,7 +7,7 @@
 #define FF_MAT_TYPE(CONST) \
   Nan::Set(module, Nan::New<v8::String>(#CONST).ToLocalChecked(), Nan::New<v8::Integer>(CONST));
 
-static void initMatTypes(v8::Local<v8::Object> module) {
+static void initMatTypes(Napi::Object module) {
   FF_MAT_TYPE(CV_8U);
   FF_MAT_TYPE(CV_8S);
   FF_MAT_TYPE(CV_16U);

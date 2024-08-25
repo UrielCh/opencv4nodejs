@@ -15,12 +15,12 @@ public:
     this->rect = rect;
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return (
         Rect::Converter::arg(0, &rect2, info));
   }
 
-  v8::Local<v8::Value> getReturnValue() {
+  Napi::Value getReturnValue() {
     return Rect::Converter::wrap(outRect);
   }
 };
@@ -72,7 +72,7 @@ public:
     return "";
   }
 
-  v8::Local<v8::Value> getReturnValue() {
+  Napi::Value getReturnValue() {
     return Rect::Converter::wrap(outRect);
   }
   virtual ~ToSquareWorker() {
@@ -99,7 +99,7 @@ public:
   /**
    * args[0] can be a cv::Size2d or a number
    */
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     bool isSizeArg = Size::hasInstance(info[0]);
     double f = 1;
     bool didThrow =
@@ -112,7 +112,7 @@ public:
     return didThrow;
   }
 
-  v8::Local<v8::Value> getReturnValue() {
+  Napi::Value getReturnValue() {
     return Rect::Converter::wrap(outRect);
   }
   virtual ~PadWorker() {
@@ -134,12 +134,12 @@ public:
     return "";
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return (
         FF::DoubleConverter::arg(0, &f, info));
   }
 
-  v8::Local<v8::Value> getReturnValue() {
+  Napi::Value getReturnValue() {
     return Rect::Converter::wrap(outRect);
   }
   virtual ~RescaleWorker() {

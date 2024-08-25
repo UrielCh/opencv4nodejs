@@ -55,7 +55,7 @@ NAN_METHOD(TrackerGOTURN::GetModel) {
 #endif
 
 NAN_MODULE_INIT(TrackerGOTURN::Init) {
-  v8::Local<v8::FunctionTemplate> ctor = Nan::New<v8::FunctionTemplate>(TrackerGOTURN::New);
+  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(TrackerGOTURN::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
 #if CV_VERSION_GREATER_EQUAL(4, 5, 2)
@@ -67,10 +67,10 @@ NAN_MODULE_INIT(TrackerGOTURN::Init) {
   Tracker::Init(ctor);
 #endif
   constructor.Reset(ctor);
-  ctor->SetClassName(FF::newString("TrackerGOTURN"));
+  ctor->SetClassName(FF::newString(env, "TrackerGOTURN"));
   instanceTemplate->SetInternalFieldCount(1);
 
-  Nan::Set(target, FF::newString("TrackerGOTURN"), FF::getFunction(ctor));
+  Nan::Set(target, FF::newString(env, "TrackerGOTURN"), FF::getFunction(ctor));
 };
 
 NAN_METHOD(TrackerGOTURN::New) {

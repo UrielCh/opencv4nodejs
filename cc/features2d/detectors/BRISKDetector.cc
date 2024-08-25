@@ -7,7 +7,7 @@
 Nan::Persistent<v8::FunctionTemplate> BRISKDetector::constructor;
 
 NAN_MODULE_INIT(BRISKDetector::Init) {
-  v8::Local<v8::FunctionTemplate> ctor = Nan::New<v8::FunctionTemplate>(BRISKDetector::New);
+  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(BRISKDetector::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
   FeatureDetector::Init(ctor);

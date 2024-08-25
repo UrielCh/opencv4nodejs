@@ -26,15 +26,15 @@ public:
     return "";
   }
 
-  v8::Local<v8::Value> getReturnValue() {
+  Napi::Value getReturnValue() {
     return Nan::New(ret);
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return TrainData::Converter::arg(0, &trainData, info);
   }
 
-  bool unwrapOptionalArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapOptionalArgs(const Napi::CallbackInfo& info) {
     return FF::UintConverter::optArg(1, &flags, info);
   }
 };
@@ -61,11 +61,11 @@ public:
     return "";
   }
 
-  v8::Local<v8::Value> getReturnValue() {
+  Napi::Value getReturnValue() {
     return Nan::New(ret);
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return (
         Mat::Converter::arg(0, &samples, info) || FF::UintConverter::arg(1, &layout, info) || Mat::Converter::arg(2, &responses, info));
   }
@@ -99,25 +99,25 @@ public:
     return "";
   }
 
-  v8::Local<v8::Value> getReturnValue() {
+  Napi::Value getReturnValue() {
     return Nan::New(ret);
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return TrainData::Converter::arg(0, &trainData, info);
   }
 
-  bool unwrapOptionalArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapOptionalArgs(const Napi::CallbackInfo& info) {
     return (
         FF::UintConverter::optArg(1, &kFold, info) || ParamGrid::Converter::optArg(2, &cGrid, info) || ParamGrid::Converter::optArg(3, &gammaGrid, info) || ParamGrid::Converter::optArg(4, &pGrid, info) || ParamGrid::Converter::optArg(5, &nuGrid, info) || ParamGrid::Converter::optArg(6, &coeffGrid, info) || ParamGrid::Converter::optArg(7, &degreeGrid, info) || FF::BoolConverter::optArg(8, &balanced, info));
   }
 
-  bool hasOptArgsObject(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool hasOptArgsObject(const Napi::CallbackInfo& info) {
     return FF::isArgObject(info, 1);
   }
 
-  bool unwrapOptionalArgsFromOpts(Nan::NAN_METHOD_ARGS_TYPE info) {
-    v8::Local<v8::Object> opts = info[1]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+  bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
+    Napi::Object opts = info[1]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
     return (
         FF::UintConverter::optProp(&kFold, "kFold", opts) || ParamGrid::Converter::optProp(&cGrid, "cGrid", opts) || ParamGrid::Converter::optProp(&gammaGrid, "gammaGrid", opts) || ParamGrid::Converter::optProp(&pGrid, "pGrid", opts) || ParamGrid::Converter::optProp(&nuGrid, "nuGrid", opts) || ParamGrid::Converter::optProp(&coeffGrid, "coeffGrid", opts) || ParamGrid::Converter::optProp(&degreeGrid, "degreeGrid", opts) || FF::BoolConverter::optProp(&balanced, "balanced", opts));
   }

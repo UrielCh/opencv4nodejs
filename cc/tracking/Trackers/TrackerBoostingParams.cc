@@ -7,20 +7,20 @@
 Nan::Persistent<v8::FunctionTemplate> TrackerBoostingParams::constructor;
 
 NAN_MODULE_INIT(TrackerBoostingParams::Init) {
-  v8::Local<v8::FunctionTemplate> ctor = Nan::New<v8::FunctionTemplate>(TrackerBoostingParams::New);
+  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(TrackerBoostingParams::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
   constructor.Reset(ctor);
-  ctor->SetClassName(FF::newString("TrackerBoostingParams"));
+  ctor->SetClassName(FF::newString(env, "TrackerBoostingParams"));
   instanceTemplate->SetInternalFieldCount(1);
 
-  Nan::SetAccessor(instanceTemplate, FF::newString("numClassifiers"), numClassifiers_getter, numClassifiers_setter);
-  Nan::SetAccessor(instanceTemplate, FF::newString("samplerOverlap"), samplerOverlap_getter, samplerOverlap_setter);
-  Nan::SetAccessor(instanceTemplate, FF::newString("samplerSearchFactor"), samplerSearchFactor_getter, samplerSearchFactor_setter);
-  Nan::SetAccessor(instanceTemplate, FF::newString("iterationInit"), iterationInit_getter, iterationInit_setter);
-  Nan::SetAccessor(instanceTemplate, FF::newString("featureSetNumFeatures"), featureSetNumFeatures_getter, featureSetNumFeatures_setter);
+  Nan::SetAccessor(instanceTemplate, FF::newString(env, "numClassifiers"), numClassifiers_getter, numClassifiers_setter);
+  Nan::SetAccessor(instanceTemplate, FF::newString(env, "samplerOverlap"), samplerOverlap_getter, samplerOverlap_setter);
+  Nan::SetAccessor(instanceTemplate, FF::newString(env, "samplerSearchFactor"), samplerSearchFactor_getter, samplerSearchFactor_setter);
+  Nan::SetAccessor(instanceTemplate, FF::newString(env, "iterationInit"), iterationInit_getter, iterationInit_setter);
+  Nan::SetAccessor(instanceTemplate, FF::newString(env, "featureSetNumFeatures"), featureSetNumFeatures_getter, featureSetNumFeatures_setter);
 
-  Nan::Set(target, FF::newString("TrackerBoostingParams"), FF::getFunction(ctor));
+  Nan::Set(target, FF::newString(env, "TrackerBoostingParams"), FF::getFunction(ctor));
 };
 
 NAN_METHOD(TrackerBoostingParams::New) {

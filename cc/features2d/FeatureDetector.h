@@ -13,7 +13,7 @@ class FeatureDetector : public FF::ObjectWrapBase<FeatureDetector>, public Nan::
 public:
   virtual cv::Ptr<cv::FeatureDetector> getDetector() = 0;
 
-  static void Init(v8::Local<v8::FunctionTemplate>);
+  static void Init(Napi::FunctionReference);
 
   static NAN_METHOD(Detect);
   static NAN_METHOD(DetectAsync);

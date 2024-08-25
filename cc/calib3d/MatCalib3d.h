@@ -6,7 +6,7 @@
 
 class MatCalib3d : public Nan::ObjectWrap {
 public:
-  static void Init(v8::Local<v8::FunctionTemplate> ctor);
+  static void Init(Napi::FunctionReference ctor);
 
   static NAN_METHOD(Rodrigues);
   static NAN_METHOD(RodriguesAsync);

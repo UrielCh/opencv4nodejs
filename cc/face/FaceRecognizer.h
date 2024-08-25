@@ -13,7 +13,7 @@ public:
   virtual void save(std::string) = 0;
   virtual void load(std::string) = 0;
 
-  static void Init(v8::Local<v8::FunctionTemplate>);
+  static void Init(Napi::FunctionReference);
 
   static NAN_METHOD(Save);
   static NAN_METHOD(Load);

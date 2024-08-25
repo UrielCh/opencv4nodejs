@@ -20,7 +20,7 @@ public:
     info.GetReturnValue().Set(info.Holder());
   }
 
-  static void Init(v8::Local<v8::FunctionTemplate> ctor) {
+  static void Init(Napi::FunctionReference ctor) {
     FF_PROTO_SET_MATRIX_OPERATIONS(ctor);
   }
 

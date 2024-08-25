@@ -35,17 +35,17 @@ public:
     bool harrisDetector = false;
     double k = 0.04;
 
-    bool unwrapOptionalArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+    bool unwrapOptionalArgs(const Napi::CallbackInfo& info) {
       return (
           FF::IntConverter::optArg(0, &maxFeatures, info) || FF::DoubleConverter::optArg(1, &qualityLevel, info) || FF::DoubleConverter::optArg(2, &minDistance, info) || FF::IntConverter::optArg(3, &blockSize, info) || FF::BoolConverter::optArg(4, &harrisDetector, info) || FF::DoubleConverter::optArg(5, &k, info));
     }
 
-    bool hasOptArgsObject(Nan::NAN_METHOD_ARGS_TYPE info) {
+    bool hasOptArgsObject(const Napi::CallbackInfo& info) {
       return FF::isArgObject(info, 0);
     }
 
-    bool unwrapOptionalArgsFromOpts(Nan::NAN_METHOD_ARGS_TYPE info) {
-      v8::Local<v8::Object> opts = info[0]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
+      Napi::Object opts = info[0]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
       return (
           FF::IntConverter::optProp(&maxFeatures, "maxFeatures", opts) || FF::DoubleConverter::optProp(&qualityLevel, "qualityLevel", opts) || FF::DoubleConverter::optProp(&minDistance, "minDistance", opts) || FF::IntConverter::optProp(&blockSize, "blockSize", opts) || FF::BoolConverter::optProp(&harrisDetector, "harrisDetector", opts) || FF::DoubleConverter::optProp(&k, "k", opts));
     }

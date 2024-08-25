@@ -7,7 +7,7 @@
 Nan::Persistent<v8::FunctionTemplate> HistAxes::constructor;
 
 NAN_MODULE_INIT(HistAxes::Init) {
-  v8::Local<v8::FunctionTemplate> ctor = Nan::New<v8::FunctionTemplate>(HistAxes::New);
+  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(HistAxes::New);
   HistAxes::constructor.Reset(ctor);
   ctor->InstanceTemplate()->SetInternalFieldCount(1);
   ctor->SetClassName(Nan::New("HistAxes").ToLocalChecked());
@@ -43,7 +43,7 @@ NAN_METHOD(HistAxes::New) {
     return tryCatch.throwError("expected object to have channel");
   }
 
-  v8::Local<v8::Value> jsRangesVal = Nan::Get(jsAxis, Nan::New("ranges").ToLocalChecked()).ToLocalChecked();
+  Napi::Value jsRangesVal = Nan::Get(jsAxis, Nan::New("ranges").ToLocalChecked()).ToLocalChecked();
   v8::Local<v8::Array> jsRanges = v8::Local<v8::Array>::Cast(jsRangesVal);
 
   if (

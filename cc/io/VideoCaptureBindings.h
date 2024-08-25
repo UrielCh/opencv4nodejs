@@ -16,7 +16,7 @@ public:
   int prop;
   double val;
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return (
         FF::IntConverter::arg(0, &prop, info));
   }
@@ -26,7 +26,7 @@ public:
     return "";
   }
 
-  v8::Local<v8::Value> getReturnValue() {
+  Napi::Value getReturnValue() {
     return FF::DoubleConverter::wrap(val);
   }
 };
@@ -46,7 +46,7 @@ public:
     return "";
   }
 
-  v8::Local<v8::Value> getReturnValue() {
+  Napi::Value getReturnValue() {
     return Mat::Converter::wrap(frame);
   }
 };
@@ -70,12 +70,12 @@ public:
     return "";
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return (
         FF::IntConverter::arg(0, &prop, info) || FF::DoubleConverter::arg(1, &value, info));
   }
 
-  v8::Local<v8::Value> getReturnValue() {
+  Napi::Value getReturnValue() {
     return Nan::New(ret);
   }
 };

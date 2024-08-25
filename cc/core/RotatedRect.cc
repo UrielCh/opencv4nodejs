@@ -3,13 +3,13 @@
 Nan::Persistent<v8::FunctionTemplate> RotatedRect::constructor;
 
 NAN_MODULE_INIT(RotatedRect::Init) {
-  v8::Local<v8::FunctionTemplate> ctor = Nan::New<v8::FunctionTemplate>(RotatedRect::New);
+  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(RotatedRect::New);
   RotatedRect::constructor.Reset(ctor);
   ctor->InstanceTemplate()->SetInternalFieldCount(1);
   ctor->SetClassName(Nan::New("RotatedRect").ToLocalChecked());
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString("angle"), RotatedRect::angle_getter);
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString("center"), RotatedRect::center_getter);
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString("size"), RotatedRect::size_getter);
+  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "angle"), RotatedRect::angle_getter);
+  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "center"), RotatedRect::center_getter);
+  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "size"), RotatedRect::size_getter);
 
   Nan::SetPrototypeMethod(ctor, "boundingRect", RotatedRect::BoundingRect);
 

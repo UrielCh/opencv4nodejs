@@ -28,14 +28,14 @@ public:
   static NAN_METHOD(MatchKnnBruteForceSL2Async);
 
 #if CV_VERSION_GREATER_EQUAL(4, 0, 0)
-  static void matchKnn(Nan::NAN_METHOD_ARGS_TYPE info, cv::DescriptorMatcher::MatcherType matcherType);
-  static void matchKnnAsync(Nan::NAN_METHOD_ARGS_TYPE info, cv::DescriptorMatcher::MatcherType matcherType);
+  static void matchKnn(const Napi::CallbackInfo& info, cv::DescriptorMatcher::MatcherType matcherType);
+  static void matchKnnAsync(const Napi::CallbackInfo& info, cv::DescriptorMatcher::MatcherType matcherType);
 #elif CV_VERSION_GREATER_EQUAL(3, 2, 0)
-  static void matchKnn(Nan::NAN_METHOD_ARGS_TYPE info, int matcherType);
-  static void matchKnnAsync(Nan::NAN_METHOD_ARGS_TYPE info, int matcherType);
+  static void matchKnn(const Napi::CallbackInfo& info, int matcherType);
+  static void matchKnnAsync(const Napi::CallbackInfo& info, int matcherType);
 #else
-  static void matchKnn(Nan::NAN_METHOD_ARGS_TYPE info, std::string matcherType);
-  static void matchKnnAsync(Nan::NAN_METHOD_ARGS_TYPE info, std::string matcherType);
+  static void matchKnn(const Napi::CallbackInfo& info, std::string matcherType);
+  static void matchKnnAsync(const Napi::CallbackInfo& info, std::string matcherType);
 #endif
 
   struct MatchKnnWorker;

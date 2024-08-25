@@ -14,7 +14,7 @@ public:
     return "Point3";
   }
 
-  static void Init(v8::Local<v8::FunctionTemplate> ctor) {
+  static void Init(Napi::FunctionReference ctor) {
     FF_PROTO_SET_ARITHMETIC_OPERATIONS(ctor);
   }
 

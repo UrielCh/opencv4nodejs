@@ -8,11 +8,11 @@
 Nan::Persistent<v8::FunctionTemplate> CascadeClassifier::constructor;
 
 NAN_MODULE_INIT(CascadeClassifier::Init) {
-  v8::Local<v8::FunctionTemplate> ctor = Nan::New<v8::FunctionTemplate>(CascadeClassifier::New);
+  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(CascadeClassifier::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
   constructor.Reset(ctor);
-  ctor->SetClassName(FF::newString("CascadeClassifier"));
+  ctor->SetClassName(FF::newString(env, "CascadeClassifier"));
   instanceTemplate->SetInternalFieldCount(1);
 
   Nan::SetPrototypeMethod(ctor, "detectMultiScale", DetectMultiScale);
@@ -22,7 +22,7 @@ NAN_MODULE_INIT(CascadeClassifier::Init) {
   Nan::SetPrototypeMethod(ctor, "detectMultiScaleWithRejectLevelsAsync", DetectMultiScaleWithRejectLevelsAsync);
   Nan::SetPrototypeMethod(ctor, "detectMultiScaleWithRejectLevelsGpu", DetectMultiScaleWithRejectLevelsGpu);
 
-  Nan::Set(target, FF::newString("CascadeClassifier"), FF::getFunction(ctor));
+  Nan::Set(target, FF::newString(env, "CascadeClassifier"), FF::getFunction(ctor));
 };
 
 NAN_METHOD(CascadeClassifier::New) {

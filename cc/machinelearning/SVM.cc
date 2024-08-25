@@ -8,21 +8,21 @@
 Nan::Persistent<v8::FunctionTemplate> SVM::constructor;
 
 NAN_MODULE_INIT(SVM::Init) {
-  v8::Local<v8::FunctionTemplate> ctor = Nan::New<v8::FunctionTemplate>(SVM::New);
+  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(SVM::New);
   constructor.Reset(ctor);
   ctor->InstanceTemplate()->SetInternalFieldCount(1);
   ctor->SetClassName(Nan::New("SVM").ToLocalChecked());
 
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString("c"), c_getter);
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString("coef0"), coef0_getter);
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString("degree"), degree_getter);
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString("gamma"), gamma_getter);
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString("nu"), nu_getter);
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString("p"), p_getter);
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString("kernelType"), kernelType_getter);
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString("classWeights"), classWeights_getter);
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString("varCount"), varCount_getter);
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString("isTrained"), isTrained_getter);
+  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "c"), c_getter);
+  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "coef0"), coef0_getter);
+  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "degree"), degree_getter);
+  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "gamma"), gamma_getter);
+  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "nu"), nu_getter);
+  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "p"), p_getter);
+  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "kernelType"), kernelType_getter);
+  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "classWeights"), classWeights_getter);
+  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "varCount"), varCount_getter);
+  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "isTrained"), isTrained_getter);
 
   Nan::SetPrototypeMethod(ctor, "setParams", SetParams);
   Nan::SetPrototypeMethod(ctor, "train", Train);
@@ -41,7 +41,7 @@ NAN_MODULE_INIT(SVM::Init) {
   Nan::Set(target, Nan::New("SVM").ToLocalChecked(), FF::getFunction(ctor));
 };
 
-void SVM::setParams(v8::Local<v8::Object> params) {
+void SVM::setParams(Napi::Object params) {
   FF::TryCatch tryCatch("SVM::setParams");
   double c = this->self->getC();
   double coef0 = this->self->getCoef0();
@@ -74,7 +74,7 @@ NAN_METHOD(SVM::New) {
     if (!info[0]->IsObject()) {
       return tryCatch.throwError("expected arg 0 to be an object");
     }
-    v8::Local<v8::Object> args = v8::Local<v8::Object>::Cast(info[0]);
+    Napi::Object args = Napi::Object::Cast(info[0]);
 
     self->setParams(args);
     if (tryCatch.HasCaught()) {
@@ -90,7 +90,7 @@ NAN_METHOD(SVM::SetParams) {
   if (!info[0]->IsObject()) {
     return tryCatch.throwError("SVM::SetParams - args object required");
   }
-  v8::Local<v8::Object> args = info[0]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+  Napi::Object args = info[0]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
 
   SVM::unwrapThis(info)->setParams(args);
   if (tryCatch.HasCaught()) {
@@ -125,7 +125,7 @@ NAN_METHOD(SVM::Predict) {
     SVM::unwrapSelf(info)->predict(samples, results, (int)flags);
   }
 
-  v8::Local<v8::Value> jsResult;
+  Napi::Value jsResult;
   if (results.cols == 1 && results.rows == 1) {
     jsResult = Nan::New((double)results.at<float>(0, 0));
   } else {
@@ -164,10 +164,10 @@ NAN_METHOD(SVM::GetDecisionFunction) {
   cv::Mat alpha, svidx;
   double rho = SVM::unwrapSelf(info)->getDecisionFunction(i, alpha, svidx);
 
-  v8::Local<v8::Object> ret = Nan::New<v8::Object>();
-  Nan::Set(ret, FF::newString("rho"), Nan::New((double)rho));
-  Nan::Set(ret, FF::newString("alpha"), Mat::Converter::wrap(alpha));
-  Nan::Set(ret, FF::newString("svidx"), Mat::Converter::wrap(svidx));
+  Napi::Object ret = Nan::New<v8::Object>();
+  Nan::Set(ret, FF::newString(env, "rho"), Nan::New((double)rho));
+  Nan::Set(ret, FF::newString(env, "alpha"), Mat::Converter::wrap(alpha));
+  Nan::Set(ret, FF::newString(env, "svidx"), Mat::Converter::wrap(svidx));
   info.GetReturnValue().Set(ret);
 }
 
@@ -180,12 +180,12 @@ NAN_METHOD(SVM::CalcError) {
     return tryCatch.reThrow();
   }
 
-  v8::Local<v8::Object> jsResponses = FF::newInstance(Nan::New(Mat::constructor));
+  Napi::Object jsResponses = FF::newInstance(Nan::New(Mat::constructor));
   float error = SVM::unwrapSelf(info)->calcError(trainData, test, Mat::Converter::unwrapUnchecked(jsResponses));
 
-  v8::Local<v8::Object> ret = Nan::New<v8::Object>();
-  Nan::Set(ret, FF::newString("error"), Nan::New((double)error));
-  Nan::Set(ret, FF::newString("responses"), jsResponses);
+  Napi::Object ret = Nan::New<v8::Object>();
+  Nan::Set(ret, FF::newString(env, "error"), Nan::New((double)error));
+  Nan::Set(ret, FF::newString(env, "responses"), jsResponses);
   info.GetReturnValue().Set(ret);
 }
 

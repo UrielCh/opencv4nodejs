@@ -25,14 +25,14 @@ public:
     return "";
   }
 
-  v8::Local<v8::Value> getReturnValue() {
-    v8::Local<v8::Object> ret = Nan::New<v8::Object>();
-    Nan::Set(ret, FF::newString("classes"), FF::IntArrayConverter::wrap(clazz));
-    Nan::Set(ret, FF::newString("confidences"), FF::DoubleArrayConverter::wrap(confidence));
+  Napi::Value getReturnValue() {
+    Napi::Object ret = Nan::New<v8::Object>();
+    Nan::Set(ret, FF::newString(env, "classes"), FF::IntArrayConverter::wrap(clazz));
+    Nan::Set(ret, FF::newString(env, "confidences"), FF::DoubleArrayConverter::wrap(confidence));
     return ret;
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return Mat::Converter::arg(0, &img, info);
   }
 };

@@ -6,7 +6,7 @@
 
 using namespace cv;
 
-void HighguiConstants::Init(v8::Local<v8::Object> target) {
+void HighguiConstants::Init(Napi::Object target) {
   //! Flags for cv::namedWindow
   // enum WindowFlags
   FF_SET_CV_CONSTANT(target, WINDOW_NORMAL);

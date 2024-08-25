@@ -1,45 +1,43 @@
 #include <IWorker.h>
 #include <memory>
-#include <nan.h>
+#include <napi.h>
 
 #ifndef __FF_ASYNC_WORKER_H__
 #define __FF_ASYNC_WORKER_H__
 
 namespace FF {
 
-class AsyncWorker : public Nan::AsyncWorker {
+class AsyncWorker : public Napi::AsyncWorker {
 public:
   std::shared_ptr<IAsyncWorker> worker;
 
   AsyncWorker(
-      Nan::Callback* callback,
+      Napi::Function& callback,
       std::shared_ptr<IAsyncWorker> worker)
-      : Nan::AsyncWorker(callback), worker(worker) {
+      : Napi::AsyncWorker(callback), worker(worker) {
   }
   ~AsyncWorker() {
   }
 
-  void Execute() {
+  void Execute() override {
     std::string err = worker->execute();
-    if (!std::string(err).empty()) {
-      this->SetErrorMessage(err.c_str());
+    if (!err.empty()) {
+      this->SetError(err);
     }
   }
-
   void HandleOKCallback() {
-    Nan::HandleScope scope;
-    v8::Local<v8::Value> argv[] = {Nan::Null(), worker->getReturnValue()};
-    Nan::AsyncResource resource("native-node-utils:AsyncWorker::HandleOKCallback");
-    resource.runInAsyncScope(Nan::GetCurrentContext()->Global(), **callback, 2, argv);
+    Napi::HandleScope scope(Env());
+    Napi::Env env = Env();
+    Napi::Value argv[] = {env.Null(), worker->getReturnValue()};
+    Callback().Call({argv[0], argv[1]});
   }
 
   void HandleErrorCallback() {
-    Nan::HandleScope scope;
-    v8::Local<v8::Value> argv[] = {Nan::New(this->ErrorMessage()).ToLocalChecked(), Nan::Null()};
-    Nan::AsyncResource resource("native-node-utils:AsyncWorker::HandleErrorCallback");
-    resource.runInAsyncScope(Nan::GetCurrentContext()->Global(), **callback, 2, argv);
-  }
-};
+      Napi::HandleScope scope(Env());
+      Napi::Env env = Env();
+      Napi::Value argv[] = { Napi::String::New(env, this->ErrorMessage()), env.Null() };
+      Callback().Call({ argv[0], argv[1] });
+  }};
 
 } // namespace FF
 

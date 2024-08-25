@@ -82,9 +82,9 @@ NAN_METHOD(Core::GetBuildInformation) {
 }
 
 template <class TClass, class TNativeObject>
-static std::function<bool(TNativeObject, TNativeObject)> predicateFactory(v8::Local<v8::Function> cb) {
+static std::function<bool(TNativeObject, TNativeObject)> predicateFactory(Napi::Function cb) {
   return [cb](TNativeObject pt1, TNativeObject pt2) {
-    v8::Local<v8::Value> cbArgs[2];
+    Napi::Value cbArgs[2];
     cbArgs[0] = TClass::Converter::wrap(pt1);
     cbArgs[1] = TClass::Converter::wrap(pt2);
     Nan::AsyncResource resource("opencv4nodejs:Predicate::Constructor");
@@ -105,8 +105,8 @@ NAN_METHOD(Core::Partition) {
     return tryCatch.throwError("expected data to contain atleast 2 elements");
   }
 
-  v8::Local<v8::Function> cb = v8::Local<v8::Function>::Cast(info[1]);
-  v8::Local<v8::Value> data0 = Nan::Get(jsData, 0).ToLocalChecked();
+  Napi::Function cb = Napi::Function::Cast(info[1]);
+  Napi::Value data0 = Nan::Get(jsData, 0).ToLocalChecked();
 
   int numLabels = 0;
   std::vector<int> labels;
@@ -156,9 +156,9 @@ NAN_METHOD(Core::Partition) {
     numLabels = cv::partition(mats, labels, predicateFactory<Mat, cv::Mat>(cb));
   }
 
-  v8::Local<v8::Object> ret = Nan::New<v8::Object>();
-  Nan::Set(ret, FF::newString("labels"), FF::IntArrayConverter::wrap(labels));
-  Nan::Set(ret, FF::newString("numLabels"), Nan::New(numLabels));
+  Napi::Object ret = Nan::New<v8::Object>();
+  Nan::Set(ret, FF::newString(env, "labels"), FF::IntArrayConverter::wrap(labels));
+  Nan::Set(ret, FF::newString(env, "numLabels"), Nan::New(numLabels));
   info.GetReturnValue().Set(ret);
 }
 
@@ -173,7 +173,7 @@ NAN_METHOD(Core::Kmeans) {
     return tryCatch.throwError("expected data to contain at least 1 element");
   }
 
-  v8::Local<v8::Value> data0 = Nan::Get(jsData, 0).ToLocalChecked();
+  Napi::Value data0 = Nan::Get(jsData, 0).ToLocalChecked();
   bool isPoint2 = Point2::hasInstance(data0);
 
   std::vector<cv::Point2f> pts2d;
@@ -196,21 +196,21 @@ NAN_METHOD(Core::Kmeans) {
     cv::kmeans(pts3d, k, labels, termCriteria, attempts, flags, centersMat);
   }
 
-  v8::Local<v8::Object> ret = Nan::New<v8::Object>();
-  Nan::Set(ret, FF::newString("labels"), FF::IntArrayConverter::wrap(labels));
+  Napi::Object ret = Nan::New<v8::Object>();
+  Nan::Set(ret, FF::newString(env, "labels"), FF::IntArrayConverter::wrap(labels));
 
   if (Point2::hasInstance(data0)) {
     std::vector<cv::Point2f> centers;
     for (int i = 0; i < centersMat.rows; i++) {
       centers.push_back(cv::Point2f(centersMat.at<float>(i, 0), centersMat.at<float>(i, 1)));
     }
-    Nan::Set(ret, FF::newString("centers"), Point2::ArrayWithCastConverter<cv::Point2f>::wrap(centers));
+    Nan::Set(ret, FF::newString(env, "centers"), Point2::ArrayWithCastConverter<cv::Point2f>::wrap(centers));
   } else if (Point3::hasInstance(data0)) {
     std::vector<cv::Point3f> centers;
     for (int i = 0; i < centersMat.rows; i++) {
       centers.push_back(cv::Point3f(centersMat.at<float>(i, 0), centersMat.at<float>(i, 1), centersMat.at<float>(i, 2)));
     }
-    Nan::Set(ret, FF::newString("centers"), Point3::ArrayWithCastConverter<cv::Point3f>::wrap(centers));
+    Nan::Set(ret, FF::newString(env, "centers"), Point3::ArrayWithCastConverter<cv::Point3f>::wrap(centers));
   }
 
   info.GetReturnValue().Set(ret);

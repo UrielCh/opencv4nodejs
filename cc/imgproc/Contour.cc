@@ -13,15 +13,15 @@
 Nan::Persistent<v8::FunctionTemplate> Contour::constructor;
 
 NAN_MODULE_INIT(Contour::Init) {
-  v8::Local<v8::FunctionTemplate> ctor = Nan::New<v8::FunctionTemplate>(Contour::New);
+  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(Contour::New);
   constructor.Reset(ctor);
   ctor->InstanceTemplate()->SetInternalFieldCount(1);
   ctor->SetClassName(Nan::New("Contour").ToLocalChecked());
 
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString("isConvex"), GetIsConvex);
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString("area"), GetArea);
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString("numPoints"), GetNumPoints);
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString("hierarchy"), GetHierarchy);
+  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "isConvex"), GetIsConvex);
+  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "area"), GetArea);
+  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "numPoints"), GetNumPoints);
+  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "hierarchy"), GetHierarchy);
 
   Nan::SetPrototypeMethod(ctor, "getPoints", GetPoints);
   Nan::SetPrototypeMethod(ctor, "approxPolyDP", ApproxPolyDP);
@@ -110,7 +110,7 @@ NAN_METHOD(Contour::ApproxPolyDPContour) {
   std::vector<cv::Point> curve;
   cv::approxPolyDP(Contour::unwrapSelf(info), curve, epsilon, closed);
 
-  v8::Local<v8::Object> jsApprox = FF::newInstance(Nan::New(Contour::constructor));
+  Napi::Object jsApprox = FF::newInstance(Nan::New(Contour::constructor));
   Contour* pContour = Contour::unwrapClassPtrUnchecked(jsApprox);
   pContour->setNativeObject(curve);
   pContour->hierarchy = cv::Vec4i(-1, -1, -1, -1);
@@ -145,7 +145,7 @@ NAN_METHOD(Contour::ConvexHull) {
       hullPoints,
       clockwise,
       true);
-  v8::Local<v8::Object> jsHull = FF::newInstance(Nan::New(Contour::constructor));
+  Napi::Object jsHull = FF::newInstance(Nan::New(Contour::constructor));
   Contour* pContour = Contour::unwrapClassPtrUnchecked(jsHull);
   pContour->setNativeObject(hullPoints);
   pContour->hierarchy = cv::Vec4i(-1, -1, -1, -1);
@@ -189,9 +189,9 @@ NAN_METHOD(Contour::MinEnclosingCircle) {
   float radius;
   cv::minEnclosingCircle(Contour::unwrapSelf(info), center, radius);
 
-  v8::Local<v8::Object> jsCircle = Nan::New<v8::Object>();
-  Nan::Set(jsCircle, FF::newString("center"), Point2::Converter::wrap(center));
-  Nan::Set(jsCircle, FF::newString("radius"), Nan::New((double)radius));
+  Napi::Object jsCircle = Nan::New<v8::Object>();
+  Nan::Set(jsCircle, FF::newString(env, "center"), Point2::Converter::wrap(center));
+  Nan::Set(jsCircle, FF::newString(env, "radius"), Nan::New((double)radius));
   info.GetReturnValue().Set(jsCircle);
 }
 

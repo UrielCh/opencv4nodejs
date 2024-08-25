@@ -10,11 +10,11 @@ public:
   cv::Ptr<cv::text::OCRHMMDecoder::ClassifierCallback> classifier;
   std::string file;
 
-  v8::Local<v8::Value> getReturnValue() {
+  Napi::Value getReturnValue() {
     return OCRHMMClassifier::Converter::wrap(classifier);
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return FF::StringConverter::arg(0, &file, info);
   }
 };
@@ -54,11 +54,11 @@ public:
     return "";
   }
 
-  v8::Local<v8::Value> getReturnValue() {
+  Napi::Value getReturnValue() {
     return Mat::Converter::wrap(transition_probabilities_table);
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return (
         FF::StringConverter::arg(0, &vocabulary, info) || FF::StringArrayConverter::arg(1, &lexicon, info));
   }

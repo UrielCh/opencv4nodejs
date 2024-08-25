@@ -7,7 +7,7 @@
 Nan::Persistent<v8::FunctionTemplate> GFTTDetector::constructor;
 
 NAN_MODULE_INIT(GFTTDetector::Init) {
-  v8::Local<v8::FunctionTemplate> ctor = Nan::New<v8::FunctionTemplate>(GFTTDetector::New);
+  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(GFTTDetector::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
   FeatureDetector::Init(ctor);

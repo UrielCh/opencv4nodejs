@@ -110,7 +110,7 @@ NAN_METHOD(Imgproc::Plot1DHist) {
   int thickness = 2;
   int shift = 0;
 
-  v8::Local<v8::Object> opts = FF::isArgObject(info, 3) ? info[3]->ToObject(Nan::GetCurrentContext()).ToLocalChecked() : Nan::New<v8::Object>();
+  Napi::Object opts = FF::isArgObject(info, 3) ? info[3]->ToObject(Nan::GetCurrentContext()).ToLocalChecked() : Nan::New<v8::Object>();
 
   if (Mat::Converter::arg(0, &hist, info) || Mat::Converter::arg(1, &plot, info) || Vec3::Converter::arg(2, &color, info) || ((FF::isArgObject(info, 3) && (FF::IntConverter::optProp(&lineType, "lineType", opts) || FF::IntConverter::optProp(&thickness, "thickness", opts) || FF::IntConverter::optProp(&shift, "shift", opts))) || (FF::IntConverter::optArg(3, &lineType, info) || FF::IntConverter::optArg(4, &thickness, info) || FF::IntConverter::optArg(5, &shift, info)))) {
     return tryCatch.reThrow();
@@ -157,7 +157,7 @@ NAN_METHOD(Imgproc::FitLine) {
   if (jsPoints->Length() < 2) {
     return tryCatch.throwError("expected arg0 to be an Array with atleast 2 Points");
   }
-  v8::Local<v8::Value> jsPt1 = Nan::Get(jsPoints, 0).ToLocalChecked();
+  Napi::Value jsPt1 = Nan::Get(jsPoints, 0).ToLocalChecked();
   bool isPoint2 = Point2::hasInstance(jsPt1);
   bool isPoint3 = Point3::hasInstance(jsPt1);
   if (!isPoint2 && !isPoint3) {

@@ -23,15 +23,15 @@ public:
     return "";
   }
 
-  v8::Local<v8::Value> getReturnValue() {
+  Napi::Value getReturnValue() {
     return Net::Converter::wrap(net);
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return (FF::StringConverter::arg(0, &cfgFile, info));
   }
 
-  bool unwrapOptionalArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapOptionalArgs(const Napi::CallbackInfo& info) {
     return (FF::StringConverter::optArg(1, &darknetModelFile, info));
   }
 };
@@ -58,24 +58,24 @@ public:
     return "";
   }
 
-  v8::Local<v8::Value> getReturnValue() {
+  Napi::Value getReturnValue() {
     return Net::Converter::wrap(net);
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return FF::StringConverter::arg(0, &model, info);
   }
 
-  bool unwrapOptionalArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapOptionalArgs(const Napi::CallbackInfo& info) {
     return (FF::StringConverter::optArg(1, &config, info) || FF::StringConverter::optArg(2, &framework, info));
   }
 
-  bool hasOptArgsObject(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool hasOptArgsObject(const Napi::CallbackInfo& info) {
     return FF::isArgObject(info, 1);
   }
 
-  bool unwrapOptionalArgsFromOpts(Nan::NAN_METHOD_ARGS_TYPE info) {
-    v8::Local<v8::Object> opts = info[1]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+  bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
+    Napi::Object opts = info[1]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
     return (
         FF::StringConverter::optProp(&config, "config", opts) || FF::StringConverter::optProp(&framework, "framework", opts));
   }
@@ -100,11 +100,11 @@ public:
     return "";
   }
 
-  v8::Local<v8::Value> getReturnValue() {
+  Napi::Value getReturnValue() {
     return Net::Converter::wrap(net);
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return FF::StringConverter::arg(0, &onnxFile, info);
   }
 };
@@ -132,15 +132,15 @@ public:
     return "";
   }
 
-  v8::Local<v8::Value> getReturnValue() {
+  Napi::Value getReturnValue() {
     return Net::Converter::wrap(net);
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return (FF::StringConverter::arg(0, &modelFile, info));
   }
 
-  bool unwrapOptionalArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapOptionalArgs(const Napi::CallbackInfo& info) {
     return (FF::StringConverter::optArg(1, &configFile, info));
   }
 };
@@ -163,16 +163,16 @@ public:
     return "";
   }
 
-  v8::Local<v8::Value> getReturnValue() {
+  Napi::Value getReturnValue() {
     return Net::Converter::wrap(net);
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return (
         FF::StringConverter::arg(0, &prototxt, info));
   }
 
-  bool unwrapOptionalArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapOptionalArgs(const Napi::CallbackInfo& info) {
     return (FF::StringConverter::optArg(1, &modelFile, info));
   }
 };
@@ -214,26 +214,26 @@ public:
     return "";
   }
 
-  v8::Local<v8::Value> getReturnValue() {
+  Napi::Value getReturnValue() {
     return Mat::Converter::wrap(returnValue);
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return (
         (isSingleImage && Mat::Converter::arg(0, &image, info)) || (!isSingleImage && Mat::ArrayConverter::arg(0, &images, info)));
   }
 
-  bool unwrapOptionalArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapOptionalArgs(const Napi::CallbackInfo& info) {
     return (
         FF::DoubleConverter::optArg(1, &scalefactor, info) || Size::Converter::optArg(2, &size, info) || Vec3::Converter::optArg(3, &mean, info) || FF::BoolConverter::optArg(4, &swapRB, info) || FF::BoolConverter::optArg(5, &crop, info) || FF::IntConverter::optArg(6, &ddepth, info));
   }
 
-  bool hasOptArgsObject(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool hasOptArgsObject(const Napi::CallbackInfo& info) {
     return FF::isArgObject(info, 1);
   }
 
-  bool unwrapOptionalArgsFromOpts(Nan::NAN_METHOD_ARGS_TYPE info) {
-    v8::Local<v8::Object> opts = info[1]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+  bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
+    Napi::Object opts = info[1]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
     return (
         FF::DoubleConverter::optProp(&scalefactor, "scalefactor", opts) || FF::BoolConverter::optProp(&swapRB, "swapRB", opts) || Size::Converter::optProp(&size, "size", opts) || Vec3::Converter::optProp(&mean, "mean", opts) || FF::BoolConverter::optProp(&crop, "crop", opts) || FF::IntConverter::optProp(&ddepth, "ddepth", opts));
   }
@@ -258,25 +258,25 @@ public:
     return "";
   }
 
-  v8::Local<v8::Value> getReturnValue() {
+  Napi::Value getReturnValue() {
     return FF::IntArrayConverter::wrap(indices);
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return (
         Rect::ArrayWithCastConverter<cv::Rect>::arg(0, &bboxes, info) || FF::FloatArrayConverter::arg(1, &scores, info) || FF::FloatConverter::arg(2, &score_threshold, info) || FF::FloatConverter::arg(3, &nms_threshold, info));
   }
 
-  bool unwrapOptionalArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapOptionalArgs(const Napi::CallbackInfo& info) {
     return FF::FloatConverter::optArg(4, &eta, info) || FF::IntConverter::optArg(5, &top_k, info);
   }
 
-  bool hasOptArgsObject(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool hasOptArgsObject(const Napi::CallbackInfo& info) {
     return FF::isArgObject(info, 4);
   }
 
-  bool unwrapOptionalArgsFromOpts(Nan::NAN_METHOD_ARGS_TYPE info) {
-    v8::Local<v8::Object> opts = info[4]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+  bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
+    Napi::Object opts = info[4]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
     return (
         FF::FloatConverter::optProp(&eta, "eta", opts) || FF::IntConverter::optProp(&top_k, "topK", opts));
   }

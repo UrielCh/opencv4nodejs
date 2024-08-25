@@ -7,22 +7,22 @@
 Nan::Persistent<v8::FunctionTemplate> TrackerMILParams::constructor;
 
 NAN_MODULE_INIT(TrackerMILParams::Init) {
-  v8::Local<v8::FunctionTemplate> ctor = Nan::New<v8::FunctionTemplate>(TrackerMILParams::New);
+  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(TrackerMILParams::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
   constructor.Reset(ctor);
-  ctor->SetClassName(FF::newString("TrackerMILParams"));
+  ctor->SetClassName(FF::newString(env, "TrackerMILParams"));
   instanceTemplate->SetInternalFieldCount(1);
 
-  Nan::SetAccessor(instanceTemplate, FF::newString("samplerInitInRadius"), samplerInitInRadius_getter, samplerInitInRadius_setter);
-  Nan::SetAccessor(instanceTemplate, FF::newString("samplerSearchWinSize"), samplerSearchWinSize_getter, samplerSearchWinSize_setter);
-  Nan::SetAccessor(instanceTemplate, FF::newString("samplerTrackInRadius"), samplerTrackInRadius_getter, samplerTrackInRadius_setter);
-  Nan::SetAccessor(instanceTemplate, FF::newString("samplerInitMaxNegNum"), samplerInitMaxNegNum_getter, samplerInitMaxNegNum_setter);
-  Nan::SetAccessor(instanceTemplate, FF::newString("samplerTrackMaxPosNum"), samplerTrackMaxPosNum_getter, samplerTrackMaxPosNum_setter);
-  Nan::SetAccessor(instanceTemplate, FF::newString("samplerTrackMaxNegNum"), samplerTrackMaxNegNum_getter, samplerTrackMaxNegNum_setter);
-  Nan::SetAccessor(instanceTemplate, FF::newString("featureSetNumFeatures"), featureSetNumFeatures_getter, featureSetNumFeatures_setter);
+  Nan::SetAccessor(instanceTemplate, FF::newString(env, "samplerInitInRadius"), samplerInitInRadius_getter, samplerInitInRadius_setter);
+  Nan::SetAccessor(instanceTemplate, FF::newString(env, "samplerSearchWinSize"), samplerSearchWinSize_getter, samplerSearchWinSize_setter);
+  Nan::SetAccessor(instanceTemplate, FF::newString(env, "samplerTrackInRadius"), samplerTrackInRadius_getter, samplerTrackInRadius_setter);
+  Nan::SetAccessor(instanceTemplate, FF::newString(env, "samplerInitMaxNegNum"), samplerInitMaxNegNum_getter, samplerInitMaxNegNum_setter);
+  Nan::SetAccessor(instanceTemplate, FF::newString(env, "samplerTrackMaxPosNum"), samplerTrackMaxPosNum_getter, samplerTrackMaxPosNum_setter);
+  Nan::SetAccessor(instanceTemplate, FF::newString(env, "samplerTrackMaxNegNum"), samplerTrackMaxNegNum_getter, samplerTrackMaxNegNum_setter);
+  Nan::SetAccessor(instanceTemplate, FF::newString(env, "featureSetNumFeatures"), featureSetNumFeatures_getter, featureSetNumFeatures_setter);
 
-  Nan::Set(target, FF::newString("TrackerMILParams"), FF::getFunction(ctor));
+  Nan::Set(target, FF::newString(env, "TrackerMILParams"), FF::getFunction(ctor));
 };
 
 NAN_METHOD(TrackerMILParams::New) {

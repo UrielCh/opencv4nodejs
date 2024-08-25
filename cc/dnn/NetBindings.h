@@ -22,12 +22,12 @@ public:
     return "";
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return (
         Mat::Converter::arg(0, &blob, info));
   }
 
-  bool unwrapOptionalArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapOptionalArgs(const Napi::CallbackInfo& info) {
     return (
         FF::StringConverter::optArg(1, &name, info));
   }
@@ -60,7 +60,7 @@ public:
     return "";
   }
 
-  v8::Local<v8::Value> getReturnValue() {
+  Napi::Value getReturnValue() {
     if (outBlobNames.size() > 0) {
       return Mat::ArrayConverter::wrap(outputBlobs);
     }
@@ -68,7 +68,7 @@ public:
     return Mat::Converter::wrap(returnValue);
   }
 
-  bool unwrapOptionalArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapOptionalArgs(const Napi::CallbackInfo& info) {
 #if CV_VERSION_GREATER_EQUAL(3, 3, 0)
     if (info[0]->IsArray()) {
       return FF::StringArrayConverter::optArg(0, &outBlobNames, info);
@@ -99,7 +99,7 @@ public:
     return "";
   }
 
-  v8::Local<v8::Value> getReturnValue() {
+  Napi::Value getReturnValue() {
     return FF::StringArrayConverter::wrap(returnValue);
   }
 };
@@ -120,7 +120,7 @@ public:
     return "";
   }
 
-  v8::Local<v8::Value> getReturnValue() {
+  Napi::Value getReturnValue() {
     return FF::IntArrayConverter::wrap(layerIndexes);
   }
 };

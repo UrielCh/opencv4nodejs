@@ -17,7 +17,7 @@ public:
   virtual cv::Ptr<cv::Tracker> getTracker() = 0;
 #endif
 
-  static void Init(v8::Local<v8::FunctionTemplate>);
+  static void Init(Napi::FunctionReference);
 
   static NAN_METHOD(Clear);
   static NAN_METHOD(Init);

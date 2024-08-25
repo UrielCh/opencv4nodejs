@@ -8,10 +8,10 @@
 Nan::Persistent<v8::FunctionTemplate> VideoWriter::constructor;
 
 NAN_MODULE_INIT(VideoWriter::Init) {
-  v8::Local<v8::FunctionTemplate> ctor = Nan::New<v8::FunctionTemplate>(VideoWriter::New);
+  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(VideoWriter::New);
   constructor.Reset(ctor);
   ctor->InstanceTemplate()->SetInternalFieldCount(1);
-  ctor->SetClassName(FF::newString("VideoWriter"));
+  ctor->SetClassName(FF::newString(env, "VideoWriter"));
   Nan::SetMethod(ctor, "fourcc", Fourcc);
   Nan::SetPrototypeMethod(ctor, "write", Write);
   Nan::SetPrototypeMethod(ctor, "writeAsync", WriteAsync);
@@ -20,7 +20,7 @@ NAN_MODULE_INIT(VideoWriter::Init) {
   Nan::SetPrototypeMethod(ctor, "set", Set);
   Nan::SetPrototypeMethod(ctor, "setAsync", SetAsync);
   Nan::SetPrototypeMethod(ctor, "release", Release);
-  Nan::Set(target, FF::newString("VideoWriter"), FF::getFunction(ctor));
+  Nan::Set(target, FF::newString(env, "VideoWriter"), FF::getFunction(ctor));
 };
 
 NAN_METHOD(VideoWriter::New) {

@@ -9,17 +9,17 @@
 Nan::Persistent<v8::FunctionTemplate> FacemarkAAMData::constructor;
 
 NAN_MODULE_INIT(FacemarkAAMData::Init) {
-  v8::Local<v8::FunctionTemplate> ctor =
+  Napi::FunctionReference ctor =
       Nan::New<v8::FunctionTemplate>(FacemarkAAMData::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
   constructor.Reset(ctor);
-  ctor->SetClassName(FF::newString("FacemarkAAMData"));
+  ctor->SetClassName(FF::newString(env, "FacemarkAAMData"));
   instanceTemplate->SetInternalFieldCount(1);
 
-  Nan::SetAccessor(instanceTemplate, FF::newString("s0"), s0_getter, s0_setter);
+  Nan::SetAccessor(instanceTemplate, FF::newString(env, "s0"), s0_getter, s0_setter);
 
-  Nan::Set(target, FF::newString("FacemarkAAMData"), FF::getFunction(ctor));
+  Nan::Set(target, FF::newString(env, "FacemarkAAMData"), FF::getFunction(ctor));
 };
 
 NAN_METHOD(FacemarkAAMData::New) {

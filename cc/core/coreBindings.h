@@ -171,7 +171,7 @@ public:
     };
   };
 
-  v8::Local<v8::Value> getReturnValue() {
+  Napi::Value getReturnValue() {
     switch (self->ref().channels()) {
     case 1:
       return FF::DoubleConverter::wrap(sum[0]);

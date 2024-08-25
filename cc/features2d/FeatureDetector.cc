@@ -5,7 +5,7 @@
 #include "FeatureDetector.h"
 #include "FeatureDetectorBindings.h"
 
-void FeatureDetector::Init(v8::Local<v8::FunctionTemplate> ctor) {
+void FeatureDetector::Init(Napi::FunctionReference ctor) {
   Nan::SetPrototypeMethod(ctor, "detect", FeatureDetector::Detect);
   Nan::SetPrototypeMethod(ctor, "compute", FeatureDetector::Compute);
   Nan::SetPrototypeMethod(ctor, "detectAsync", FeatureDetector::DetectAsync);

@@ -7,7 +7,7 @@
 Nan::Persistent<v8::FunctionTemplate> KeyPoint::constructor;
 
 NAN_MODULE_INIT(KeyPoint::Init) {
-  v8::Local<v8::FunctionTemplate> ctor = Nan::New<v8::FunctionTemplate>(KeyPoint::New);
+  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(KeyPoint::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
   constructor.Reset(ctor);

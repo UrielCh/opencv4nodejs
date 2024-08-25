@@ -10,7 +10,7 @@
 Nan::Persistent<v8::FunctionTemplate> FacemarkAAM::constructor;
 
 NAN_MODULE_INIT(FacemarkAAM::Init) {
-  v8::Local<v8::FunctionTemplate> ctor =
+  Napi::FunctionReference ctor =
       Nan::New<v8::FunctionTemplate>(FacemarkAAM::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 

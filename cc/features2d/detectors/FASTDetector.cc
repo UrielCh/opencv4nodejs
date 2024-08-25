@@ -7,7 +7,7 @@
 Nan::Persistent<v8::FunctionTemplate> FASTDetector::constructor;
 
 NAN_MODULE_INIT(FASTDetector::Init) {
-  v8::Local<v8::FunctionTemplate> ctor = Nan::New<v8::FunctionTemplate>(FASTDetector::New);
+  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(FASTDetector::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
   FeatureDetector::Init(ctor);

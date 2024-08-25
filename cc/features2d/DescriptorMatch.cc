@@ -7,7 +7,7 @@
 Nan::Persistent<v8::FunctionTemplate> DescriptorMatch::constructor;
 
 NAN_MODULE_INIT(DescriptorMatch::Init) {
-  v8::Local<v8::FunctionTemplate> ctor = Nan::New<v8::FunctionTemplate>(DescriptorMatch::New);
+  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(DescriptorMatch::New);
   constructor.Reset(ctor);
   ctor->InstanceTemplate()->SetInternalFieldCount(1);
   ctor->SetClassName(Nan::New("DescriptorMatch").ToLocalChecked());

@@ -15,15 +15,15 @@ public:
     }
   }
 
-  bool applyUnwrappers(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool applyUnwrappers(const Napi::CallbackInfo& info) {
     return FF::BindingBase::applyUnwrappers(info);
   }
 
-  v8::Local<v8::Value> getReturnValue() {
+  Napi::Value getReturnValue() {
     return FF::BindingBase::getReturnValue();
   }
 
-  v8::Local<v8::Value> getReturnValue(Nan::NAN_METHOD_ARGS_TYPE info) {
+  Napi::Value getReturnValue(const Napi::CallbackInfo& info) {
     return getReturnValue();
   }
 

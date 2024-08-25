@@ -8,25 +8,25 @@
 Nan::Persistent<v8::FunctionTemplate> HOGDescriptor::constructor;
 
 NAN_MODULE_INIT(HOGDescriptor::Init) {
-  v8::Local<v8::FunctionTemplate> ctor = Nan::New<v8::FunctionTemplate>(HOGDescriptor::New);
+  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(HOGDescriptor::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
   constructor.Reset(ctor);
-  ctor->SetClassName(FF::newString("HOGDescriptor"));
+  ctor->SetClassName(FF::newString(env, "HOGDescriptor"));
   instanceTemplate->SetInternalFieldCount(1);
 
-  Nan::SetAccessor(instanceTemplate, FF::newString("winSize"), winSize_getter, winSize_setter);
-  Nan::SetAccessor(instanceTemplate, FF::newString("blockSize"), blockSize_getter, blockSize_setter);
-  Nan::SetAccessor(instanceTemplate, FF::newString("blockStride"), blockStride_getter, blockStride_setter);
-  Nan::SetAccessor(instanceTemplate, FF::newString("cellSize"), cellSize_getter, cellSize_setter);
-  Nan::SetAccessor(instanceTemplate, FF::newString("nbins"), nbins_getter, nbins_setter);
-  Nan::SetAccessor(instanceTemplate, FF::newString("derivAperture"), derivAperture_getter, derivAperture_setter);
-  Nan::SetAccessor(instanceTemplate, FF::newString("histogramNormType"), histogramNormType_getter, histogramNormType_setter);
-  Nan::SetAccessor(instanceTemplate, FF::newString("nlevels"), nlevels_getter, nlevels_setter);
-  Nan::SetAccessor(instanceTemplate, FF::newString("winSigma"), winSigma_getter, winSigma_setter);
-  Nan::SetAccessor(instanceTemplate, FF::newString("L2HysThreshold"), L2HysThreshold_getter, L2HysThreshold_setter);
-  Nan::SetAccessor(instanceTemplate, FF::newString("gammaCorrection"), gammaCorrection_getter, gammaCorrection_setter);
-  Nan::SetAccessor(instanceTemplate, FF::newString("signedGradient"), signedGradient_getter, signedGradient_setter);
+  Nan::SetAccessor(instanceTemplate, FF::newString(env, "winSize"), winSize_getter, winSize_setter);
+  Nan::SetAccessor(instanceTemplate, FF::newString(env, "blockSize"), blockSize_getter, blockSize_setter);
+  Nan::SetAccessor(instanceTemplate, FF::newString(env, "blockStride"), blockStride_getter, blockStride_setter);
+  Nan::SetAccessor(instanceTemplate, FF::newString(env, "cellSize"), cellSize_getter, cellSize_setter);
+  Nan::SetAccessor(instanceTemplate, FF::newString(env, "nbins"), nbins_getter, nbins_setter);
+  Nan::SetAccessor(instanceTemplate, FF::newString(env, "derivAperture"), derivAperture_getter, derivAperture_setter);
+  Nan::SetAccessor(instanceTemplate, FF::newString(env, "histogramNormType"), histogramNormType_getter, histogramNormType_setter);
+  Nan::SetAccessor(instanceTemplate, FF::newString(env, "nlevels"), nlevels_getter, nlevels_setter);
+  Nan::SetAccessor(instanceTemplate, FF::newString(env, "winSigma"), winSigma_getter, winSigma_setter);
+  Nan::SetAccessor(instanceTemplate, FF::newString(env, "L2HysThreshold"), L2HysThreshold_getter, L2HysThreshold_setter);
+  Nan::SetAccessor(instanceTemplate, FF::newString(env, "gammaCorrection"), gammaCorrection_getter, gammaCorrection_setter);
+  Nan::SetAccessor(instanceTemplate, FF::newString(env, "signedGradient"), signedGradient_getter, signedGradient_setter);
 
   Nan::SetMethod(ctor, "getDaimlerPeopleDetector", GetDaimlerPeopleDetector);
   Nan::SetMethod(ctor, "getDefaultPeopleDetector", GetDefaultPeopleDetector);
@@ -50,7 +50,7 @@ NAN_MODULE_INIT(HOGDescriptor::Init) {
   Nan::SetPrototypeMethod(ctor, "save", Save);
   Nan::SetPrototypeMethod(ctor, "load", Load);
 
-  Nan::Set(target, FF::newString("HOGDescriptor"), FF::getFunction(ctor));
+  Nan::Set(target, FF::newString(env, "HOGDescriptor"), FF::getFunction(ctor));
 #if CV_VERSION_GREATER_EQUAL(4, 0, 0)
   HistogramNormType::init(target);
 #endif

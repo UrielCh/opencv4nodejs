@@ -5,7 +5,7 @@
 #include "ImgHashBase.h"
 #include "ImgHashBaseBindings.h"
 
-void ImgHashBase::Init(v8::Local<v8::FunctionTemplate> ctor) {
+void ImgHashBase::Init(Napi::FunctionReference ctor) {
   Nan::SetPrototypeMethod(ctor, "compare", Compare);
   Nan::SetPrototypeMethod(ctor, "compareAsync", CompareAsync);
   Nan::SetPrototypeMethod(ctor, "compute", Compute);

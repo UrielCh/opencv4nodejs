@@ -8,24 +8,24 @@ namespace FF {
 
 class SimpleWorkerBase : public ISyncWorker, public IAsyncWorker {
 public:
-  virtual bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) = 0;
-  virtual bool unwrapOptionalArgs(Nan::NAN_METHOD_ARGS_TYPE info) = 0;
-  virtual bool unwrapOptionalArgsFromOpts(Nan::NAN_METHOD_ARGS_TYPE info) = 0;
-  virtual bool hasOptArgsObject(Nan::NAN_METHOD_ARGS_TYPE info) = 0;
+  virtual bool unwrapRequiredArgs(const Napi::CallbackInfo& info) = 0;
+  virtual bool unwrapOptionalArgs(const Napi::CallbackInfo& info) = 0;
+  virtual bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) = 0;
+  virtual bool hasOptArgsObject(const Napi::CallbackInfo& info) = 0;
 
   std::string execute() {
     return "";
   }
 
-  v8::Local<v8::Value> getReturnValue() {
+  Napi::Value getReturnValue() {
     return Nan::Undefined();
   }
 
-  v8::Local<v8::Value> getReturnValue(Nan::NAN_METHOD_ARGS_TYPE info) {
+  Napi::Value getReturnValue(const Napi::CallbackInfo& info) {
     return getReturnValue();
   }
 
-  bool applyUnwrappers(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool applyUnwrappers(const Napi::CallbackInfo& info) {
     return unwrapRequiredArgs(info)
            || (!hasOptArgsObject(info) && unwrapOptionalArgs(info))
            || (hasOptArgsObject(info) && unwrapOptionalArgsFromOpts(info));
@@ -33,19 +33,19 @@ public:
 };
 
 class SimpleWorker : public SimpleWorkerBase {
-  bool unwrapOptionalArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapOptionalArgs(const Napi::CallbackInfo& info) {
     return false;
   }
 
-  bool hasOptArgsObject(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool hasOptArgsObject(const Napi::CallbackInfo& info) {
     return false;
   }
 
-  bool unwrapOptionalArgsFromOpts(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
     return false;
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return false;
   }
 };

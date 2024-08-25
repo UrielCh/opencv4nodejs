@@ -84,7 +84,7 @@ public:
   public:
     virtual ~Constructor() {
     }
-    Constructor(Nan::NAN_METHOD_ARGS_TYPE info) {
+    Constructor(const Napi::CallbackInfo& info) {
       auto winSize = opt<Size::Converter>("winSize", cv::Size2d(64, 128));
       auto blockSize = opt<Size::Converter>("blockSize", cv::Size2d(16, 16));
       auto blockStride = opt<Size::Converter>("blockStride", cv::Size2d(8, 8));

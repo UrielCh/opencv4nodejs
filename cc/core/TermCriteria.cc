@@ -3,15 +3,15 @@
 Nan::Persistent<v8::FunctionTemplate> TermCriteria::constructor;
 
 NAN_MODULE_INIT(TermCriteria::Init) {
-  v8::Local<v8::FunctionTemplate> ctor = Nan::New<v8::FunctionTemplate>(TermCriteria::New);
+  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(TermCriteria::New);
   TermCriteria::constructor.Reset(ctor);
   ctor->InstanceTemplate()->SetInternalFieldCount(1);
-  ctor->SetClassName(FF::newString("TermCriteria"));
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString("type"), type_getter, type_setter);
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString("maxCount"), maxCount_getter, maxCount_setter);
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString("epsilon"), epsilon_getter, epsilon_setter);
+  ctor->SetClassName(FF::newString(env, "TermCriteria"));
+  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "type"), type_getter, type_setter);
+  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "maxCount"), maxCount_getter, maxCount_setter);
+  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "epsilon"), epsilon_getter, epsilon_setter);
 
-  Nan::Set(target, FF::newString("TermCriteria"), FF::getFunction(ctor));
+  Nan::Set(target, FF::newString(env, "TermCriteria"), FF::getFunction(ctor));
 };
 
 NAN_METHOD(TermCriteria::New) {

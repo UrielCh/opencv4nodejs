@@ -7,16 +7,16 @@
 Nan::Persistent<v8::FunctionTemplate> TrackerTLD::constructor;
 
 NAN_MODULE_INIT(TrackerTLD::Init) {
-  v8::Local<v8::FunctionTemplate> ctor = Nan::New<v8::FunctionTemplate>(TrackerTLD::New);
+  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(TrackerTLD::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
   Tracker::Init(ctor);
 
   constructor.Reset(ctor);
-  ctor->SetClassName(FF::newString("TrackerTLD"));
+  ctor->SetClassName(FF::newString(env, "TrackerTLD"));
   instanceTemplate->SetInternalFieldCount(1);
 
-  Nan::Set(target, FF::newString("TrackerTLD"), FF::getFunction(ctor));
+  Nan::Set(target, FF::newString(env, "TrackerTLD"), FF::getFunction(ctor));
 };
 
 NAN_METHOD(TrackerTLD::New) {

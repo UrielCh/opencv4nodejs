@@ -13,11 +13,11 @@ namespace FF {
 template <class TClass>
 class ObjectWrapBase {
 public:
-  static TClass* unwrapClassPtrUnchecked(v8::Local<v8::Value> jsVal) {
+  static TClass* unwrapClassPtrUnchecked(Napi::Value jsVal) {
     return unwrapNanObjectWrap<TClass>(jsVal);
   }
 
-  static TClass* unwrapThis(Nan::NAN_METHOD_ARGS_TYPE info) {
+  static TClass* unwrapThis(const Napi::CallbackInfo& info) {
     return unwrapClassPtrUnchecked(info.This());
   }
 
@@ -57,7 +57,7 @@ public:
   typedef ArrayOfArraysWithCastConverter<T> ArrayOfArraysConverter;
 
   template <class WorkerImpl>
-  static void syncBinding(std::string name, Nan::NAN_METHOD_ARGS_TYPE info) {
+  static void syncBinding(std::string name, const Napi::CallbackInfo& info) {
     auto worker = std::make_shared<WorkerImpl>();
     worker->setup(unwrapSelf(info));
     FF::executeSyncBinding(
@@ -67,7 +67,7 @@ public:
   }
 
   template <class WorkerImpl>
-  static void asyncBinding(std::string name, Nan::NAN_METHOD_ARGS_TYPE info) {
+  static void asyncBinding(std::string name, const Napi::CallbackInfo& info) {
     auto worker = std::make_shared<WorkerImpl>();
     worker->setup(unwrapSelf(info));
     FF::executeAsyncBinding(
@@ -76,11 +76,11 @@ public:
         info);
   }
 
-  static bool hasInstance(v8::Local<v8::Value> jsVal) {
+  static bool hasInstance(Napi::Value jsVal) {
     return TClass::ConverterImpl::assertType(jsVal);
   }
 
-  static T unwrapSelf(Nan::NAN_METHOD_ARGS_TYPE info) {
+  static T unwrapSelf(const Napi::CallbackInfo& info) {
     return unwrapSelf(info.This());
   }
 
@@ -99,7 +99,7 @@ protected:
   static void setter(
       const char* setterName,
       Nan::NAN_SETTER_ARGS_TYPE info,
-      v8::Local<v8::Value> value,
+      Napi::Value value,
       void (*setProperty)(TClass*, typename TPropertyConverter::Type)) {
     FF::TryCatch tryCatch(setterName);
     typename TPropertyConverter::Type val;
@@ -117,7 +117,7 @@ protected:
   }
 
   template <class ConstructorImpl>
-  static void constructorBinding(Nan::NAN_METHOD_ARGS_TYPE info) {
+  static void constructorBinding(const Napi::CallbackInfo& info) {
     FF::executeSyncBinding(
         std::make_shared<ConstructorImpl>(info),
         std::string(TClass::getClassName()) + "::Constructor",
@@ -126,7 +126,7 @@ protected:
 
   class ConstructorBase : public BindingBase, public ISyncWorker {
   public:
-    bool applyUnwrappers(Nan::NAN_METHOD_ARGS_TYPE info) {
+    bool applyUnwrappers(const Napi::CallbackInfo& info) {
       if (!info.IsConstructCall()) {
         Nan::ThrowError("constructor has to be called with \"new\" keyword");
         return true;
@@ -134,7 +134,7 @@ protected:
       return BindingBase::applyUnwrappers(info);
     }
 
-    v8::Local<v8::Value> getReturnValue(Nan::NAN_METHOD_ARGS_TYPE info) {
+    Napi::Value getReturnValue(const Napi::CallbackInfo& info) {
       TClass* self = new TClass();
       self->Wrap(info.Holder());
       self->setNativeObject(nativeObject);
@@ -158,7 +158,7 @@ protected:
   };
 
 private:
-  static T unwrapSelf(v8::Local<v8::Object> thisObj) {
+  static T unwrapSelf(Napi::Object thisObj) {
     return super::unwrapClassPtrUnchecked(thisObj)->self;
   }
 };
@@ -166,7 +166,7 @@ private:
 template <class TClass, class T>
 class ObjectWrap : public ObjectWrapTemplate<TClass, T>, public Nan::ObjectWrap {
 public:
-  void Wrap(v8::Local<v8::Object> object) {
+  void Wrap(Napi::Object object) {
     Nan::ObjectWrap::Wrap(object);
   }
 };

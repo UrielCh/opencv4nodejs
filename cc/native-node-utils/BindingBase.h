@@ -7,18 +7,18 @@ namespace FF {
 class INamedValue {
 public:
   virtual std::string getName() = 0;
-  virtual v8::Local<v8::Value> wrap() = 0;
+  virtual Napi::Value wrap() = 0;
 };
 
 class IArg {
 public:
-  virtual bool unwrapArg(int argN, Nan::NAN_METHOD_ARGS_TYPE info) = 0;
+  virtual bool unwrapArg(int argN, const Napi::CallbackInfo& info) = 0;
 };
 
 class IOptArg : public IArg {
 public:
-  virtual bool unwrapProp(v8::Local<v8::Object> opts) = 0;
-  virtual bool assertType(v8::Local<v8::Value> jsVal) = 0;
+  virtual bool unwrapProp(Napi::Object opts) = 0;
+  virtual bool assertType(Napi::Value jsVal) = 0;
 };
 
 template <class T>
@@ -52,7 +52,7 @@ public:
   NamedValue(std::string name, typename Converter::Type defaultValue)
       : super(defaultValue), name(name) {};
 
-  v8::Local<v8::Value> wrap() {
+  Napi::Value wrap() {
     return Converter::wrap(super::ref());
   }
 
@@ -75,7 +75,7 @@ public:
   Arg()
       : super("") {};
 
-  bool unwrapArg(int argN, Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapArg(int argN, const Napi::CallbackInfo& info) {
     return Converter::arg(argN, super::super::ptr(), info);
   }
 
@@ -92,15 +92,15 @@ public:
   OptArg(std::string name, typename Converter::Type defaultValue)
       : super(name, defaultValue) {};
 
-  bool unwrapArg(int argN, Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapArg(int argN, const Napi::CallbackInfo& info) {
     return Converter::optArg(argN, super::super::ptr(), info);
   }
 
-  bool unwrapProp(v8::Local<v8::Object> opts) {
+  bool unwrapProp(Napi::Object opts) {
     return Converter::optProp(super::super::ptr(), super::getName().c_str(), opts);
   }
 
-  bool assertType(v8::Local<v8::Value> jsVal) {
+  bool assertType(Napi::Value jsVal) {
     return Converter::assertType(jsVal);
   }
 
@@ -167,7 +167,7 @@ public:
     return val;
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     for (uint idx = 0; idx < requiredArgs.size(); idx++) {
       if (requiredArgs[idx]->unwrapArg(idx, info)) {
         return true;
@@ -176,7 +176,7 @@ public:
     return false;
   }
 
-  bool unwrapOptionalArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapOptionalArgs(const Napi::CallbackInfo& info) {
     uint optArgsIdx = requiredArgs.size();
     for (uint idx = 0; idx < optionalArgs.size(); idx++) {
       if (optionalArgs[idx]->unwrapArg(optArgsIdx + idx, info)) {
@@ -186,7 +186,7 @@ public:
     return false;
   }
 
-  bool hasOptArgsObject(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool hasOptArgsObject(const Napi::CallbackInfo& info) {
     if (optionalArgs.size() < 1) {
       return false;
     }
@@ -194,9 +194,9 @@ public:
     return FF::isArgObject(info, optArgsIdx) && !optionalArgs[0]->assertType(info[optArgsIdx]);
   }
 
-  bool unwrapOptionalArgsFromOpts(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
     int optArgsIdx = requiredArgs.size();
-    v8::Local<v8::Object> opts = info[optArgsIdx]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    Napi::Object opts = info[optArgsIdx]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
     for (uint idx = 0; idx < optionalArgs.size(); idx++) {
       if (optionalArgs[idx]->unwrapProp(opts)) {
         return true;
@@ -205,21 +205,21 @@ public:
     return false;
   }
 
-  v8::Local<v8::Value> getReturnValue() {
+  Napi::Value getReturnValue() {
     if (returnValues.size() == 0) {
       return Nan::Undefined();
     }
     if (returnValues.size() == 1) {
       return returnValues[0]->wrap();
     }
-    v8::Local<v8::Object> ret = Nan::New<v8::Object>();
+    Napi::Object ret = Nan::New<v8::Object>();
     for (std::shared_ptr<INamedValue> val : returnValues) {
       Nan::Set(ret, Nan::New(val->getName()).ToLocalChecked(), val->wrap());
     }
     return ret;
   }
 
-  bool applyUnwrappers(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool applyUnwrappers(const Napi::CallbackInfo& info) {
     return unwrapRequiredArgs(info)
            || (!hasOptArgsObject(info) && unwrapOptionalArgs(info))
            || (hasOptArgsObject(info) && unwrapOptionalArgsFromOpts(info));

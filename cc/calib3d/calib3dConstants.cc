@@ -6,7 +6,7 @@
 
 using namespace cv;
 
-void Calib3dConstants::Init(v8::Local<v8::Object> target) {
+void Calib3dConstants::Init(Napi::Object target) {
   FF_SET_JS_PROP(target, REGULAR, Nan::New<v8::Integer>(0));
   FF_SET_CV_CONSTANT(target, LMEDS);
   FF_SET_CV_CONSTANT(target, RANSAC);

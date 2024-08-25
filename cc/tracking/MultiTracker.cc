@@ -9,11 +9,11 @@
 Nan::Persistent<v8::FunctionTemplate> MultiTracker::constructor;
 
 NAN_MODULE_INIT(MultiTracker::Init) {
-  v8::Local<v8::FunctionTemplate> ctor = Nan::New<v8::FunctionTemplate>(MultiTracker::New);
+  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(MultiTracker::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
   constructor.Reset(ctor);
-  ctor->SetClassName(FF::newString("MultiTracker"));
+  ctor->SetClassName(FF::newString(env, "MultiTracker"));
   instanceTemplate->SetInternalFieldCount(1);
 
   Nan::SetPrototypeMethod(ctor, "addMIL", MultiTracker::AddMIL);
@@ -29,7 +29,7 @@ NAN_MODULE_INIT(MultiTracker::Init) {
 #endif
   Nan::SetPrototypeMethod(ctor, "update", MultiTracker::Update);
 
-  Nan::Set(target, FF::newString("MultiTracker"), FF::getFunction(ctor));
+  Nan::Set(target, FF::newString(env, "MultiTracker"), FF::getFunction(ctor));
 };
 
 NAN_METHOD(MultiTracker::New) {

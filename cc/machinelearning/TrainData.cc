@@ -8,19 +8,19 @@
 Nan::Persistent<v8::FunctionTemplate> TrainData::constructor;
 
 NAN_MODULE_INIT(TrainData::Init) {
-  v8::Local<v8::FunctionTemplate> ctor = Nan::New<v8::FunctionTemplate>(TrainData::New);
+  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(TrainData::New);
   constructor.Reset(ctor);
   ctor->InstanceTemplate()->SetInternalFieldCount(1);
-  ctor->SetClassName(FF::newString("TrainData"));
+  ctor->SetClassName(FF::newString(env, "TrainData"));
 
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString("layout"), layout_getter);
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString("samples"), samples_getter);
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString("responses"), responses_getter);
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString("varIdx"), varIdx_getter);
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString("sampleWeights"), sampleWeights_getter);
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString("varType"), varType_getter);
+  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "layout"), layout_getter);
+  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "samples"), samples_getter);
+  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "responses"), responses_getter);
+  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "varIdx"), varIdx_getter);
+  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "sampleWeights"), sampleWeights_getter);
+  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "varType"), varType_getter);
 
-  Nan::Set(target, FF::newString("TrainData"), FF::getFunction(ctor));
+  Nan::Set(target, FF::newString(env, "TrainData"), FF::getFunction(ctor));
 };
 
 NAN_METHOD(TrainData::New) {

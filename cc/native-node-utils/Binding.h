@@ -6,7 +6,7 @@
 #define __FF_BINDING_H__
 
 namespace FF {
-static inline void executeSyncBinding(std::shared_ptr<ISyncWorker> worker, std::string methodName, Nan::NAN_METHOD_ARGS_TYPE info) {
+static inline void executeSyncBinding(std::shared_ptr<ISyncWorker> worker, std::string methodName, const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch(methodName);
   if (worker->applyUnwrappers(info)) {
     return tryCatch.reThrow();
@@ -21,7 +21,7 @@ static inline void executeSyncBinding(std::shared_ptr<ISyncWorker> worker, std::
   info.GetReturnValue().Set(worker->getReturnValue(info));
 }
 
-static inline void executeAsyncBinding(std::shared_ptr<IAsyncWorker> worker, std::string methodName, Nan::NAN_METHOD_ARGS_TYPE info) {
+static inline void executeAsyncBinding(std::shared_ptr<IAsyncWorker> worker, std::string methodName, const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch(methodName);
   if (!hasArg(info, info.Length() - 1) || !info[info.Length() - 1]->IsFunction()) {
     tryCatch.throwError("callback function required");
@@ -29,7 +29,7 @@ static inline void executeAsyncBinding(std::shared_ptr<IAsyncWorker> worker, std
   }
   Nan::Callback* callback = new Nan::Callback(info[info.Length() - 1].As<v8::Function>());
   if (worker->applyUnwrappers(info)) {
-    v8::Local<v8::Value> argv[] = {
+    Napi::Value argv[] = {
         Nan::Error(tryCatch.extendWithPrefix(tryCatch.getCaughtErrorMessageUnchecked()).c_str()),
         Nan::Null()};
     tryCatch.Reset();
@@ -41,7 +41,7 @@ static inline void executeAsyncBinding(std::shared_ptr<IAsyncWorker> worker, std
 }
 
 template <class WorkerImpl>
-static void syncBinding(std::string methodNamespace, std::string methodName, Nan::NAN_METHOD_ARGS_TYPE info) {
+static void syncBinding(std::string methodNamespace, std::string methodName, const Napi::CallbackInfo& info) {
   auto worker = std::make_shared<WorkerImpl>();
   worker->setup();
   executeSyncBinding(
@@ -51,7 +51,7 @@ static void syncBinding(std::string methodNamespace, std::string methodName, Nan
 }
 
 template <class WorkerImpl>
-static void asyncBinding(std::string methodNamespace, std::string methodName, Nan::NAN_METHOD_ARGS_TYPE info) {
+static void asyncBinding(std::string methodNamespace, std::string methodName, const Napi::CallbackInfo& info) {
   auto worker = std::make_shared<WorkerImpl>();
   worker->setup();
   executeAsyncBinding(

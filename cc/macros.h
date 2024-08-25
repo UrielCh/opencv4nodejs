@@ -69,11 +69,11 @@ public:
     return typeName;
   }
 
-  static bool assertType(v8::Local<v8::Value> jsVal) {
+  static bool assertType(Napi::Value jsVal) {
     return getMappingIndex(jsVal) != -1;
   }
 
-  static Type unwrapUnchecked(v8::Local<v8::Value> jsVal) {
+  static Type unwrapUnchecked(Napi::Value jsVal) {
     int idx = getMappingIndex(jsVal);
     if (idx == -1) {
       idx = 0;
@@ -81,13 +81,13 @@ public:
     return TEnum::getEnumValues()[idx];
   }
 
-  static v8::Local<v8::Value> wrap(Type val) {
+  static Napi::Value wrap(Type val) {
     std::vector<const char*> mappings = TEnum::getEnumMappings();
     return StringConverter::wrap(mappings[getValueIndex(val)]);
   }
 
 private:
-  static int getMappingIndex(v8::Local<v8::Value> jsVal) {
+  static int getMappingIndex(Napi::Value jsVal) {
     std::string val;
     std::vector<const char*> mappings = TEnum::getEnumMappings();
     if (!StringConverter::unwrapTo(&val, jsVal)) {
@@ -117,7 +117,7 @@ public:
   typedef AbstractConverter<EnumConverterImpl<TEnum>> Converter;
 
   static void init(Nan::ADDON_REGISTER_FUNCTION_ARGS_TYPE target) {
-    v8::Local<v8::Object> scoreTypes = Nan::New<v8::Object>();
+    Napi::Object scoreTypes = Nan::New<v8::Object>();
     for (const char* e : TEnum::getEnumMappings()) {
       Nan::Set(scoreTypes, newString(e), newString(e));
     }

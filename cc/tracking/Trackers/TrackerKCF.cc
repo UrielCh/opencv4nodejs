@@ -10,17 +10,17 @@
 Nan::Persistent<v8::FunctionTemplate> TrackerKCF::constructor;
 
 NAN_MODULE_INIT(TrackerKCF::Init) {
-  v8::Local<v8::FunctionTemplate> ctor = Nan::New<v8::FunctionTemplate>(TrackerKCF::New);
+  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(TrackerKCF::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
   Tracker::Init(ctor);
   TrackerKCFParams::Init(target);
 
   constructor.Reset(ctor);
-  ctor->SetClassName(FF::newString("TrackerKCF"));
+  ctor->SetClassName(FF::newString(env, "TrackerKCF"));
   instanceTemplate->SetInternalFieldCount(1);
 
-  Nan::Set(target, FF::newString("TrackerKCF"), FF::getFunction(ctor));
+  Nan::Set(target, FF::newString(env, "TrackerKCF"), FF::getFunction(ctor));
 };
 
 NAN_METHOD(TrackerKCF::New) {

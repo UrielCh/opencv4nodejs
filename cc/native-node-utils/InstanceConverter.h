@@ -16,16 +16,16 @@ public:
     return TClass::getClassName();
   }
 
-  static bool assertType(v8::Local<v8::Value> jsVal) {
+  static bool assertType(Napi::Value jsVal) {
     return !jsVal->IsNull() && !jsVal->IsUndefined() && Nan::New(TClass::constructor)->HasInstance(jsVal);
   }
 
-  static T unwrapUnchecked(v8::Local<v8::Value> jsVal) {
+  static T unwrapUnchecked(Napi::Value jsVal) {
     return unwrapNanObjectWrap<TClass>(jsVal)->self;
   }
 
-  static v8::Local<v8::Value> wrap(T val) {
-    v8::Local<v8::Object> jsObj = FF::newInstance(Nan::New(TClass::constructor));
+  static Napi::Value wrap(T val) {
+    Napi::Object jsObj = FF::newInstance(Nan::New(TClass::constructor));
     unwrapNanObjectWrap<TClass>(jsObj)->setNativeObject(val);
     return jsObj;
   }

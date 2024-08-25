@@ -18,7 +18,7 @@ public:
     return self;
   }
 
-  void Wrap(v8::Local<v8::Object> object) {
+  void Wrap(Napi::Object object) {
     FeatureDetector::Wrap(object);
   }
 
@@ -33,7 +33,7 @@ public:
 
   class Constructor : public ConstructorBase {
   public:
-    Constructor(Nan::NAN_METHOD_ARGS_TYPE info) {
+    Constructor(const Napi::CallbackInfo& info) {
       auto hessianThreshold = opt<FF::DoubleConverter>("hessianThreshold", 100);
       auto nOctaves = opt<FF::IntConverter>("nOctaves", 4);
       auto nOctaveLayers = opt<FF::DoubleConverter>("nOctaveLayers", 3);

@@ -13,12 +13,12 @@ public:
   cv::Size2d frameSize;
   bool isColor = true;
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return (
         FF::StringConverter::arg(0, &fileName, info) || FF::IntConverter::arg(1, &fourccCode, info) || FF::DoubleConverter::arg(2, &fps, info) || Size::Converter::arg(3, &frameSize, info));
   }
 
-  bool unwrapOptionalArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapOptionalArgs(const Napi::CallbackInfo& info) {
     return FF::BoolConverter::optArg(4, &isColor, info);
   }
 
@@ -38,7 +38,7 @@ public:
   int prop;
   double val;
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return (
         FF::IntConverter::arg(0, &prop, info));
   }
@@ -48,7 +48,7 @@ public:
     return "";
   }
 
-  v8::Local<v8::Value> getReturnValue() {
+  Napi::Value getReturnValue() {
     return FF::DoubleConverter::wrap(val);
   }
 };
@@ -72,12 +72,12 @@ public:
     return "";
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return (
         FF::IntConverter::arg(0, &prop, info) || FF::DoubleConverter::arg(1, &value, info));
   }
 
-  v8::Local<v8::Value> getReturnValue() {
+  Napi::Value getReturnValue() {
     return Nan::New(ret);
   }
 };
@@ -96,11 +96,11 @@ public:
     return "";
   }
 
-  v8::Local<v8::Value> getReturnValue() {
+  Napi::Value getReturnValue() {
     return FF::IntConverter::wrap(code);
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return FF::StringConverter::arg(0, &fourcc, info);
   }
 };
@@ -121,11 +121,11 @@ public:
     return "";
   }
 
-  v8::Local<v8::Value> getReturnValue() {
+  Napi::Value getReturnValue() {
     return FF::BoolConverter::wrap(true);
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return Mat::Converter::arg(0, &frame, info);
   }
 };

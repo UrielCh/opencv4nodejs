@@ -4,7 +4,7 @@
 Nan::Persistent<v8::FunctionTemplate> Rect::constructor;
 
 NAN_MODULE_INIT(Rect::Init) {
-  v8::Local<v8::FunctionTemplate> ctor = Nan::New<v8::FunctionTemplate>(Rect::New);
+  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(Rect::New);
   Rect::constructor.Reset(ctor);
   ctor->InstanceTemplate()->SetInternalFieldCount(1);
   ctor->SetClassName(Nan::New("Rect").ToLocalChecked());

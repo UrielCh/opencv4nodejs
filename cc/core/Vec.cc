@@ -6,7 +6,7 @@ Nan::Persistent<v8::FunctionTemplate> Vec4::constructor;
 Nan::Persistent<v8::FunctionTemplate> Vec6::constructor;
 
 NAN_MODULE_INIT(Vec::Init) {
-  v8::Local<v8::FunctionTemplate> vec2Ctor = Nan::New<v8::FunctionTemplate>(Vec2::New);
+  Napi::FunctionReference vec2Ctor = Nan::New<v8::FunctionTemplate>(Vec2::New);
   Vec2::constructor.Reset(vec2Ctor);
   vec2Ctor->InstanceTemplate()->SetInternalFieldCount(1);
   vec2Ctor->SetClassName(Nan::New("Vec2").ToLocalChecked());
@@ -16,7 +16,7 @@ NAN_MODULE_INIT(Vec::Init) {
   Nan::SetPrototypeMethod(vec2Ctor, "norm", Vec2::Norm);
   Vec2::Init(vec2Ctor);
 
-  v8::Local<v8::FunctionTemplate> vec3Ctor = Nan::New<v8::FunctionTemplate>(Vec3::New);
+  Napi::FunctionReference vec3Ctor = Nan::New<v8::FunctionTemplate>(Vec3::New);
   Vec3::constructor.Reset(vec3Ctor);
   vec3Ctor->InstanceTemplate()->SetInternalFieldCount(1);
   vec3Ctor->SetClassName(Nan::New("Vec3").ToLocalChecked());
@@ -28,7 +28,7 @@ NAN_MODULE_INIT(Vec::Init) {
   Nan::SetPrototypeMethod(vec3Ctor, "norm", Vec3::Norm);
   Vec3::Init(vec3Ctor);
 
-  v8::Local<v8::FunctionTemplate> vec4Ctor = Nan::New<v8::FunctionTemplate>(Vec4::New);
+  Napi::FunctionReference vec4Ctor = Nan::New<v8::FunctionTemplate>(Vec4::New);
   Vec4::constructor.Reset(vec4Ctor);
   vec4Ctor->InstanceTemplate()->SetInternalFieldCount(1);
   vec4Ctor->SetClassName(Nan::New("Vec4").ToLocalChecked());
@@ -40,7 +40,7 @@ NAN_MODULE_INIT(Vec::Init) {
   Nan::SetPrototypeMethod(vec4Ctor, "norm", Vec4::Norm);
   Vec4::Init(vec4Ctor);
 
-  v8::Local<v8::FunctionTemplate> vec6Ctor = Nan::New<v8::FunctionTemplate>(Vec6::New);
+  Napi::FunctionReference vec6Ctor = Nan::New<v8::FunctionTemplate>(Vec6::New);
   Vec6::constructor.Reset(vec6Ctor);
   vec6Ctor->InstanceTemplate()->SetInternalFieldCount(1);
   vec6Ctor->SetClassName(Nan::New("Vec6").ToLocalChecked());
@@ -54,7 +54,7 @@ NAN_MODULE_INIT(Vec::Init) {
   Nan::SetPrototypeMethod(vec6Ctor, "norm", Vec6::Norm);
   Vec6::Init(vec6Ctor);
 
-  v8::Local<v8::FunctionTemplate> ctor = Nan::New<v8::FunctionTemplate>(Vec::New);
+  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(Vec::New);
   ctor->InstanceTemplate()->SetInternalFieldCount(1);
   ctor->SetClassName(Nan::New("Vec").ToLocalChecked());
   Nan::Set(target, Nan::New("Vec").ToLocalChecked(), FF::getFunction(ctor));
@@ -70,7 +70,7 @@ NAN_METHOD(Vec::New) {
   if (info.Length() < 2 || info.Length() > 6 || info.Length() == 5) {
     return tryCatch.throwError("Vec::New - expected arguments (u, v), (w), x, y, (z)");
   }
-  v8::Local<v8::Object> jsVec;
+  Napi::Object jsVec;
 
   switch (info.Length()) {
   case 2:

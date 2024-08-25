@@ -39,11 +39,11 @@ NAN_METHOD(ExternalMemTracking::GetMemMetrics) {
   }
 #endif
 
-  v8::Local<v8::Object> result = Nan::New<v8::Object>();
-  Nan::Set(result, FF::newString("TotalAlloc"), Nan::New((double)TotalAlloc));
-  Nan::Set(result, FF::newString("TotalKnownByJS"), Nan::New((double)TotalKnownByJS));
-  Nan::Set(result, FF::newString("NumAllocations"), Nan::New((double)NumAllocations));
-  Nan::Set(result, FF::newString("NumDeAllocations"), Nan::New((double)NumDeAllocations));
+  Napi::Object result = Nan::New<v8::Object>();
+  Nan::Set(result, FF::newString(env, "TotalAlloc"), Nan::New((double)TotalAlloc));
+  Nan::Set(result, FF::newString(env, "TotalKnownByJS"), Nan::New((double)TotalKnownByJS));
+  Nan::Set(result, FF::newString(env, "NumAllocations"), Nan::New((double)NumAllocations));
+  Nan::Set(result, FF::newString(env, "NumDeAllocations"), Nan::New((double)NumDeAllocations));
 
   info.GetReturnValue().Set(result);
   return;

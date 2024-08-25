@@ -9,16 +9,16 @@
 Nan::Persistent<v8::FunctionTemplate> TrackerMOSSE::constructor;
 
 NAN_MODULE_INIT(TrackerMOSSE::Init) {
-  v8::Local<v8::FunctionTemplate> ctor = Nan::New<v8::FunctionTemplate>(TrackerMOSSE::New);
+  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(TrackerMOSSE::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
   Tracker::Init(ctor);
 
   constructor.Reset(ctor);
-  ctor->SetClassName(FF::newString("TrackerMOSSE"));
+  ctor->SetClassName(FF::newString(env, "TrackerMOSSE"));
   instanceTemplate->SetInternalFieldCount(1);
 
-  Nan::Set(target, FF::newString("TrackerMOSSE"), FF::getFunction(ctor));
+  Nan::Set(target, FF::newString(env, "TrackerMOSSE"), FF::getFunction(ctor));
 };
 
 NAN_METHOD(TrackerMOSSE::New) {

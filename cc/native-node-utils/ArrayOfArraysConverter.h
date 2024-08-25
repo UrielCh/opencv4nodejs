@@ -15,27 +15,36 @@ public:
     return std::string("array of arrays of ") + ElementConverterImpl::getTypeName();
   }
 
-  static bool assertType(v8::Local<v8::Value> jsVal) {
-    return jsVal->IsArray();
+  static bool assertType(Napi::Value& jsVal) {
+    return jsVal.IsArray();
   }
 
-  static Type unwrapUnchecked(v8::Local<v8::Value> jsVal) {
+  static Type unwrapUnchecked(Napi::Value& jsVal) {
     Type vecOfVecs;
     unwrap(&vecOfVecs, jsVal);
     return vecOfVecs;
   }
 
-  static bool unwrap(Type* vecOfVecs, v8::Local<v8::Value> jsVal) {
-    if (!jsVal->IsArray()) {
+  static bool unwrap(Type* vecOfVecs, Napi::Value& jsVal) {
+    if (!jsVal.IsArray()) {
       return true;
     }
 
-    v8::Local<v8::Array> jsArr = v8::Local<v8::Array>::Cast(jsVal);
-    for (uint i = 0; i < jsArr->Length(); i++) {
+    Napi::Array jsArr = jsVal.As<Napi::Array>();
+    Napi::Env env = jsVal.Env();
+    for (uint32_t i = 0; i < jsArr.Length(); i++) {
       std::vector<ElementCastType> vec;
-      Nan::TryCatch tryCatch;
-      if (super::unwrap(&vec, Nan::Get(jsArr, i).ToLocalChecked())) {
-        tryCatch.ReThrow();
+      Napi::HandleScope scope(env);
+      // Napi::Value element = jsArr.Get(i);
+      Napi::MaybeOrValue<Napi::Value> maybeElement = jsArr.Get(i);
+      if (maybeElement.IsEmpty()) {
+        // Handle the error case
+        Napi::Error::New(env, "Element is empty").ThrowAsJavaScriptException();
+        return env.Null();
+      }
+      Napi::Value element = maybeElement.Unwrap();
+      if (super::unwrap(&vec, element)) {
+        Napi::Error::New(env, "Error unwrapping element").ThrowAsJavaScriptException();
         return true;
       }
       vecOfVecs->push_back(vec);
@@ -43,10 +52,11 @@ public:
     return false;
   }
 
-  static v8::Local<v8::Value> wrap(Type vec) {
-    v8::Local<v8::Array> jsArr = Nan::New<v8::Array>(vec.size());
-    for (uint i = 0; i < jsArr->Length(); i++) {
-      Nan::Set(jsArr, i, super::wrap(vec.at(i)));
+  static Napi::Value wrap(Type vec) {
+    Napi::Env env = Napi::Env::GetCurrent();
+    Napi::Array jsArr = Napi::Array::New(env, vec.size());
+    for (uint i = 0; i < jsArr.Length(); i++) {
+      jsArr.Set(i, super::wrap(vec.at(i)));
     }
     return jsArr;
   }

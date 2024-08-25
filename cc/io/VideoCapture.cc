@@ -8,10 +8,10 @@
 Nan::Persistent<v8::FunctionTemplate> VideoCapture::constructor;
 
 NAN_MODULE_INIT(VideoCapture::Init) {
-  v8::Local<v8::FunctionTemplate> ctor = Nan::New<v8::FunctionTemplate>(VideoCapture::New);
+  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(VideoCapture::New);
   constructor.Reset(ctor);
   ctor->InstanceTemplate()->SetInternalFieldCount(1);
-  ctor->SetClassName(FF::newString("VideoCapture"));
+  ctor->SetClassName(FF::newString(env, "VideoCapture"));
   Nan::SetPrototypeMethod(ctor, "read", Read);
   Nan::SetPrototypeMethod(ctor, "reset", Reset);
   Nan::SetPrototypeMethod(ctor, "readAsync", ReadAsync);
@@ -20,7 +20,7 @@ NAN_MODULE_INIT(VideoCapture::Init) {
   Nan::SetPrototypeMethod(ctor, "set", Set);
   Nan::SetPrototypeMethod(ctor, "setAsync", SetAsync);
   Nan::SetPrototypeMethod(ctor, "release", Release);
-  Nan::Set(target, FF::newString("VideoCapture"), FF::getFunction(ctor));
+  Nan::Set(target, FF::newString(env, "VideoCapture"), FF::getFunction(ctor));
 };
 
 NAN_METHOD(VideoCapture::New) {

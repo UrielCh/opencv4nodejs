@@ -9,7 +9,7 @@
 Nan::Persistent<v8::FunctionTemplate> SuperpixelLSC::constructor;
 
 NAN_MODULE_INIT(SuperpixelLSC::Init) {
-  v8::Local<v8::FunctionTemplate> ctor = Nan::New<v8::FunctionTemplate>(SuperpixelLSC::New);
+  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(SuperpixelLSC::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
   constructor.Reset(ctor);
   instanceTemplate->SetInternalFieldCount(1);

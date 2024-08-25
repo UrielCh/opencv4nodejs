@@ -22,11 +22,11 @@ public:
     return "";
   }
 
-  v8::Local<v8::Value> getReturnValue() {
+  Napi::Value getReturnValue() {
     return Point2::ArrayWithCastConverter<cv::Point2i>::wrap(curve);
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return (
         FF::DoubleConverter::arg(0, &epsilon, info) || FF::BoolConverter::arg(1, &closed, info));
   }

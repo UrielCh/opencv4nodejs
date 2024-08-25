@@ -9,7 +9,7 @@ struct NewWorker : CatchCvExceptionWorker {
 public:
   std::string xmlFilePath;
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return FF::StringConverter::arg(0, &xmlFilePath, info);
   }
 
@@ -50,32 +50,32 @@ public:
     return "";
   }
 
-  v8::Local<v8::Value> getReturnValue() {
+  Napi::Value getReturnValue() {
     if (isGpu) {
       return Rect::ArrayWithCastConverter<cv::Rect>::wrap(objectRects);
     } else {
-      v8::Local<v8::Object> ret = Nan::New<v8::Object>();
-      Nan::Set(ret, FF::newString("objects"), Rect::ArrayWithCastConverter<cv::Rect>::wrap(objectRects));
-      Nan::Set(ret, FF::newString("numDetections"), FF::IntArrayConverter::wrap(numDetections));
+      Napi::Object ret = Nan::New<v8::Object>();
+      Nan::Set(ret, FF::newString(env, "objects"), Rect::ArrayWithCastConverter<cv::Rect>::wrap(objectRects));
+      Nan::Set(ret, FF::newString(env, "numDetections"), FF::IntArrayConverter::wrap(numDetections));
       return ret;
     }
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return Mat::Converter::arg(0, &img, info);
   }
 
-  bool unwrapOptionalArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapOptionalArgs(const Napi::CallbackInfo& info) {
     return (
         FF::DoubleConverter::optArg(1, &scaleFactor, info) || FF::UintConverter::optArg(2, &minNeighbors, info) || FF::UintConverter::optArg(3, &flags, info) || Size::Converter::optArg(4, &minSize, info) || Size::Converter::optArg(5, &maxSize, info));
   }
 
-  bool hasOptArgsObject(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool hasOptArgsObject(const Napi::CallbackInfo& info) {
     return FF::isArgObject(info, 1);
   }
 
-  bool unwrapOptionalArgsFromOpts(Nan::NAN_METHOD_ARGS_TYPE info) {
-    v8::Local<v8::Object> opts = info[1]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+  bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
+    Napi::Object opts = info[1]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
     return (
         FF::DoubleConverter::optProp(&scaleFactor, "scaleFactor", opts) || FF::UintConverter::optProp(&minNeighbors, "minNeighbors", opts) || FF::UintConverter::optProp(&flags, "flags", opts) || Size::Converter::optProp(&minSize, "minSize", opts) || Size::Converter::optProp(&maxSize, "maxSize", opts));
   }
@@ -100,11 +100,11 @@ public:
     return "";
   }
 
-  v8::Local<v8::Value> getReturnValue() {
-    v8::Local<v8::Object> ret = Nan::New<v8::Object>();
-    Nan::Set(ret, FF::newString("objects"), Rect::ArrayWithCastConverter<cv::Rect>::wrap(objectRects));
-    Nan::Set(ret, FF::newString("rejectLevels"), FF::IntArrayConverter::wrap(rejectLevels));
-    Nan::Set(ret, FF::newString("levelWeights"), FF::DoubleArrayConverter::wrap(levelWeights));
+  Napi::Value getReturnValue() {
+    Napi::Object ret = Nan::New<v8::Object>();
+    Nan::Set(ret, FF::newString(env, "objects"), Rect::ArrayWithCastConverter<cv::Rect>::wrap(objectRects));
+    Nan::Set(ret, FF::newString(env, "rejectLevels"), FF::IntArrayConverter::wrap(rejectLevels));
+    Nan::Set(ret, FF::newString(env, "levelWeights"), FF::DoubleArrayConverter::wrap(levelWeights));
     return ret;
   }
 };

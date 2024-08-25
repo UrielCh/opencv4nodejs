@@ -22,14 +22,14 @@ public:
     return "";
   }
 
-  v8::Local<v8::Value> getReturnValue() {
-    v8::Local<v8::Object> ret = Nan::New<v8::Object>();
+  Napi::Value getReturnValue() {
+    Napi::Object ret = Nan::New<v8::Object>();
     Nan::Set(ret, Nan::New("size").ToLocalChecked(), Size::Converter::wrap(returnValue));
     Nan::Set(ret, Nan::New("baseLine").ToLocalChecked(), FF::IntConverter::wrap(baseLine));
     return ret;
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return (
         FF::StringConverter::arg(0, &text, info) || FF::IntConverter::arg(1, &fontFace, info) || FF::DoubleConverter::arg(2, &fontScale, info) || FF::IntConverter::arg(3, &thickness, info));
   }
@@ -53,16 +53,16 @@ public:
     return "";
   }
 
-  v8::Local<v8::Value> getReturnValue() {
+  Napi::Value getReturnValue() {
     return Mat::Converter::wrap(returnValue);
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return (
         Mat::Converter::arg(0, &dx, info) || Mat::Converter::arg(1, &dy, info) || FF::DoubleConverter::arg(2, &threshold1, info) || FF::DoubleConverter::arg(3, &threshold2, info));
   }
 
-  bool unwrapOptionalArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapOptionalArgs(const Napi::CallbackInfo& info) {
     return (
         FF::BoolConverter::optArg(4, &L2gradient, info));
   }
@@ -82,7 +82,7 @@ public:
   virtual ~ApplyColorMapWorker() {
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
 #if CV_VERSION_GREATER_EQUAL(3, 3, 0)
     if (info[1]->IsNumber()) {
       return (Mat::Converter::arg(0, &src, info) || FF::IntConverter::optArg(1, &colormap, info));
@@ -109,7 +109,7 @@ public:
     return "";
   }
 
-  v8::Local<v8::Value> getReturnValue() {
+  Napi::Value getReturnValue() {
     return Mat::Converter::wrap(dst);
   }
 };
@@ -174,7 +174,7 @@ public:
     };
   };
 
-  bool hasOptArgsObject(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool hasOptArgsObject(const Napi::CallbackInfo& info) {
     return FF::isArgObject(info, 1) && !Point2::hasInstance(info[1]);
   }
 };

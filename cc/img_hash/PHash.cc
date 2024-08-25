@@ -7,15 +7,15 @@
 Nan::Persistent<v8::FunctionTemplate> PHash::constructor;
 
 NAN_MODULE_INIT(PHash::Init) {
-  v8::Local<v8::FunctionTemplate> ctor = Nan::New<v8::FunctionTemplate>(PHash::New);
+  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(PHash::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
   ImgHashBase::Init(ctor);
   constructor.Reset(ctor);
-  ctor->SetClassName(FF::newString("PHash"));
+  ctor->SetClassName(FF::newString(env, "PHash"));
   instanceTemplate->SetInternalFieldCount(1);
 
-  Nan::Set(target, FF::newString("PHash"), FF::getFunction(ctor));
+  Nan::Set(target, FF::newString(env, "PHash"), FF::getFunction(ctor));
 };
 
 NAN_METHOD(PHash::New) {

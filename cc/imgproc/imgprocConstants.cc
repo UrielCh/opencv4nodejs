@@ -6,7 +6,7 @@
 
 using namespace cv;
 
-void ImgprocConstants::Init(v8::Local<v8::Object> target) {
+void ImgprocConstants::Init(Napi::Object target) {
   FF_SET_CV_CONSTANT(target, MORPH_RECT);
   FF_SET_CV_CONSTANT(target, MORPH_CROSS);
   FF_SET_CV_CONSTANT(target, MORPH_ELLIPSE);

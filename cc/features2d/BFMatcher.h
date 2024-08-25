@@ -35,17 +35,17 @@ public:
     int normType = cv::NORM_L2;
     bool crossCheck = false;
 
-    bool unwrapOptionalArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+    bool unwrapOptionalArgs(const Napi::CallbackInfo& info) {
       return (
           FF::IntConverter::optArg(0, &normType, info) || FF::BoolConverter::optArg(1, &crossCheck, info));
     }
 
-    bool hasOptArgsObject(Nan::NAN_METHOD_ARGS_TYPE info) {
+    bool hasOptArgsObject(const Napi::CallbackInfo& info) {
       return FF::isArgObject(info, 0);
     }
 
-    bool unwrapOptionalArgsFromOpts(Nan::NAN_METHOD_ARGS_TYPE info) {
-      v8::Local<v8::Object> opts = info[0]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
+      Napi::Object opts = info[0]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
       return (
           FF::IntConverter::optProp(&normType, "history", opts) || FF::BoolConverter::optProp(&crossCheck, "crossCheck", opts));
     }

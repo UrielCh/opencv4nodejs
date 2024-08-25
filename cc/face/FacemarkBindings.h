@@ -25,7 +25,7 @@ public:
     return "";
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return (FF::StringConverter::arg(0, &model, info));
   }
 };
@@ -48,12 +48,12 @@ public:
     return "";
   }
 
-  v8::Local<v8::Value> getReturnValue() {
-    v8::Local<v8::Value> ret = Point2::ArrayOfArraysWithCastConverter<cv::Point2f>::wrap(landmarks);
+  Napi::Value getReturnValue() {
+    Napi::Value ret = Point2::ArrayOfArraysWithCastConverter<cv::Point2f>::wrap(landmarks);
     return ret;
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return (Mat::Converter::arg(0, &image, info) || Rect::ArrayWithCastConverter<cv::Rect>::arg(1, &faces, info));
   }
 };
@@ -75,12 +75,12 @@ public:
     return "";
   }
 
-  v8::Local<v8::Value> getReturnValue() {
-    v8::Local<v8::Value> ret = Nan::New<v8::Boolean>(results);
+  Napi::Value getReturnValue() {
+    Napi::Value ret = Nan::New<v8::Boolean>(results);
     return ret;
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return (Mat::Converter::arg(0, &image, info) || Point2::ArrayWithCastConverter<cv::Point2f>::arg(1, &landmarks, info));
   }
 };
@@ -99,8 +99,8 @@ public:
     return "";
   }
 
-  v8::Local<v8::Value> getReturnValue() {
-    v8::Local<v8::Value> ret = InstanceConverter<FacemarkAAMData, cv::face::FacemarkAAM::Data>::wrap(data);
+  Napi::Value getReturnValue() {
+    Napi::Value ret = InstanceConverter<FacemarkAAMData, cv::face::FacemarkAAM::Data>::wrap(data);
     return ret;
   }
 };
@@ -120,13 +120,13 @@ public:
     return "";
   }
 
-  v8::Local<v8::Value> getReturnValue() {
-    v8::Local<v8::Value> ret =
+  Napi::Value getReturnValue() {
+    Napi::Value ret =
         Rect::ArrayConverter::wrap(faces);
     return ret;
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return (Mat::Converter::arg(0, &image, info));
   }
 };

@@ -22,15 +22,15 @@ public:
     return "";
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return FF::StringConverter::arg(0, &path, info);
   }
 
-  bool unwrapOptionalArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapOptionalArgs(const Napi::CallbackInfo& info) {
     return FF::IntConverter::optArg(1, &flags, info);
   }
 
-  v8::Local<v8::Value> getReturnValue() {
+  Napi::Value getReturnValue() {
     return Mat::Converter::wrap(img);
   }
 };
@@ -48,12 +48,12 @@ public:
     return "";
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return FF::StringConverter::arg(0, &path, info)
            || Mat::Converter::arg(1, &img, info);
   }
 
-  bool unwrapOptionalArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapOptionalArgs(const Napi::CallbackInfo& info) {
     return FF::IntArrayConverter::optArg(2, &flags, info);
   }
 };
@@ -78,17 +78,17 @@ public:
     return "";
   }
 
-  bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return FF::StringConverter::arg(0, &ext, info)
            || Mat::Converter::arg(1, &img, info);
   }
 
-  bool unwrapOptionalArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+  bool unwrapOptionalArgs(const Napi::CallbackInfo& info) {
     return FF::IntArrayConverter::optArg(2, &flags, info);
   }
 
-  v8::Local<v8::Value> getReturnValue() {
-    v8::Local<v8::Value> dataCopy = Nan::CopyBuffer(data, dataSize).ToLocalChecked();
+  Napi::Value getReturnValue() {
+    Napi::Value dataCopy = Nan::CopyBuffer(data, dataSize).ToLocalChecked();
     free(data);
     return dataCopy;
   }
@@ -111,7 +111,7 @@ public:
     return "";
   }
 
-  v8::Local<v8::Value> getReturnValue() {
+  Napi::Value getReturnValue() {
     return Mat::Converter::wrap(img);
   }
 };

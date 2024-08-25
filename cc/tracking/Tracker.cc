@@ -4,7 +4,7 @@
 
 #include "Tracker.h"
 
-void Tracker::Init(v8::Local<v8::FunctionTemplate> ctor) {
+void Tracker::Init(Napi::FunctionReference ctor) {
   Nan::SetPrototypeMethod(ctor, "clear", Tracker::Clear);
   Nan::SetPrototypeMethod(ctor, "init", Tracker::Init);
   Nan::SetPrototypeMethod(ctor, "update", Tracker::Update);

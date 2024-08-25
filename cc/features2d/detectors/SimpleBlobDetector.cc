@@ -8,7 +8,7 @@
 Nan::Persistent<v8::FunctionTemplate> SimpleBlobDetector::constructor;
 
 NAN_MODULE_INIT(SimpleBlobDetector::Init) {
-  v8::Local<v8::FunctionTemplate> ctor = Nan::New<v8::FunctionTemplate>(SimpleBlobDetector::New);
+  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(SimpleBlobDetector::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
   SimpleBlobDetectorParams::Init(target);

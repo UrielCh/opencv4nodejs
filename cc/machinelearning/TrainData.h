@@ -38,22 +38,22 @@ public:
       return "";
     }
 
-    bool unwrapRequiredArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+    bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
       return (
           Mat::Converter::arg(0, &samples, info) || FF::IntConverter::arg(1, &layout, info) || Mat::Converter::arg(2, &responses, info));
     }
 
-    bool unwrapOptionalArgs(Nan::NAN_METHOD_ARGS_TYPE info) {
+    bool unwrapOptionalArgs(const Napi::CallbackInfo& info) {
       return (
           FF::IntArrayConverter::optArg(3, &varIdx, info) || FF::IntArrayConverter::optArg(4, &sampleIdx, info) || FF::FloatArrayConverter::optArg(5, &sampleWeights, info) || FF::UintArrayConverter::optArg(6, &varType, info));
     }
 
-    bool hasOptArgsObject(Nan::NAN_METHOD_ARGS_TYPE info) {
+    bool hasOptArgsObject(const Napi::CallbackInfo& info) {
       return FF::isArgObject(info, 3);
     }
 
-    bool unwrapOptionalArgsFromOpts(Nan::NAN_METHOD_ARGS_TYPE info) {
-      v8::Local<v8::Object> opts = info[3]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
+      Napi::Object opts = info[3]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
       return (
           FF::IntArrayConverter::optProp(&varIdx, "varIdx", opts) || FF::IntArrayConverter::optProp(&sampleIdx, "sampleIdx", opts) || FF::FloatArrayConverter::optProp(&sampleWeights, "sampleWeights", opts) || FF::UintArrayConverter::optProp(&varType, "varType", opts));
     }

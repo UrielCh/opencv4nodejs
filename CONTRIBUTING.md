@@ -164,7 +164,7 @@ And then expose the bindings in MatImgproc.cc:
 ``` c++
 // in the init hook, we are telling the package to expose those bindings on the
 // Mat prototype so that we can actually call it from JavaScript
-void MatImgproc::Init(v8::Local<v8::FunctionTemplate> ctor) {
+void MatImgproc::Init(Napi::FunctionReference ctor) {
 
   ...
 

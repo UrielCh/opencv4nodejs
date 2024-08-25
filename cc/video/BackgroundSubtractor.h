@@ -10,7 +10,7 @@ public:
   virtual cv::Ptr<cv::BackgroundSubtractor> getSubtractor() = 0;
   cv::Mat fgMask;
 
-  static void Init(v8::Local<v8::FunctionTemplate>);
+  static void Init(Napi::FunctionReference);
   static NAN_METHOD(SetBackgroundImage);
   static NAN_METHOD(Apply);
 };

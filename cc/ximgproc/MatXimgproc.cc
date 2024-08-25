@@ -5,7 +5,7 @@
 #include "MatXimgproc.h"
 #include "MatXimgprocBindings.h"
 
-void MatXimgproc::Init(v8::Local<v8::FunctionTemplate> ctor) {
+void MatXimgproc::Init(Napi::FunctionReference ctor) {
   Nan::SetPrototypeMethod(ctor, "guidedFilter", GuidedFilter);
   Nan::SetPrototypeMethod(ctor, "guidedFilterAsync", GuidedFilterAsync);
 };

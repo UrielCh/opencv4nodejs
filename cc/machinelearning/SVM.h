@@ -17,7 +17,7 @@ public:
     return "SVM";
   }
 
-  void setParams(v8::Local<v8::Object> params);
+  void setParams(Napi::Object params);
 
   static NAN_MODULE_INIT(Init);
 

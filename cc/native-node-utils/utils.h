@@ -1,6 +1,6 @@
 #include <iostream>
 #include <memory>
-#include <nan.h>
+#include <napi.h>
 
 #ifndef __FF_UTILS_H__
 #define __FF_UTILS_H__
@@ -11,38 +11,50 @@ typedef unsigned long ulong;
 
 namespace FF {
 
-static inline v8::Local<v8::Function> getFunction(v8::Local<v8::FunctionTemplate> fnTempl) {
-  return Nan::GetFunction(fnTempl).ToLocalChecked();
+static inline Napi::Function getFunction(Napi::FunctionReference fnTempl) {
+  return fnTempl.Value();
 }
 
-static inline v8::Local<v8::Object> newInstance(v8::Local<v8::FunctionTemplate> ctor) {
-  return Nan::NewInstance(FF::getFunction(ctor)).ToLocalChecked();
+static inline Napi::Object newInstance(Napi::FunctionReference ctor) {
+  Napi::Maybe<Napi::Object> maybeObj = ctor.New({});
+  if (maybeObj.IsNothing()) {
+    // Handle the error appropriately, e.g., throw an exception or return a default object
+    Napi::Error::New(ctor.Env(), "Failed to create new instance").ThrowAsJavaScriptException();
+    return Napi::Object::New(ctor.Env());
+  }
+  return maybeObj.Unwrap();
 }
 
-static inline bool hasArg(Nan::NAN_METHOD_ARGS_TYPE info, int argN) {
-  return argN < info.Length();
+static inline bool hasArg(const Napi::CallbackInfo& info, int argN) {
+  return static_cast<size_t>(argN) < info.Length();
 }
 
-static inline bool isArgObject(Nan::NAN_METHOD_ARGS_TYPE info, int argN) {
-  return FF::hasArg(info, argN) && info[argN]->IsObject() && !info[argN]->IsArray() && !info[argN]->IsFunction();
+static inline bool isArgObject(const Napi::CallbackInfo& info, int argN) {
+  return FF::hasArg(info, argN) && info[argN].IsObject() && !info[argN].IsArray() && !info[argN].IsFunction();
 }
 
-static inline v8::Local<v8::String> newString(std::string str) {
-  return Nan::New(str).ToLocalChecked();
+static inline Napi::String newString(Napi::Env env, std::string str) {
+  return Napi::String::New(env, str);
 }
 
-static inline bool hasOwnProperty(v8::Local<v8::Object> obj, const char* prop) {
-  return Nan::HasOwnProperty(obj, FF::newString(prop)).FromJust();
+static inline bool hasOwnProperty(Napi::Object obj, const char* prop) {
+  Napi::Maybe<bool> maybeHasProp = obj.HasOwnProperty(prop);
+  if (maybeHasProp.IsNothing()) {
+    // Handle the error appropriately, e.g., throw an exception or return a default value
+    Napi::Error::New(obj.Env(), "Failed to check property").ThrowAsJavaScriptException();
+    return false;
+  }
+  return maybeHasProp.Unwrap();
 }
 
 template <class TClass>
-static inline TClass* unwrapNanObjectWrap(v8::Local<v8::Object> jsObj) {
-  return Nan::ObjectWrap::Unwrap<TClass>(jsObj);
+static inline TClass* unwrapNanObjectWrap(Napi::Object jsObj) {
+  return Napi::ObjectWrap<TClass>::Unwrap(jsObj);
 }
 
 template <class TClass>
-static inline TClass* unwrapNanObjectWrap(v8::Local<v8::Value> jsVal) {
-  return unwrapNanObjectWrap<TClass>(jsVal->ToObject(Nan::GetCurrentContext()).ToLocalChecked());
+static inline TClass* unwrapNanObjectWrap(Napi::Value jsVal) {
+  return unwrapNanObjectWrap<TClass>(jsVal.As<Napi::Object>());
 }
 
 } // namespace FF

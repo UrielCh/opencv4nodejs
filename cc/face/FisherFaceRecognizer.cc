@@ -8,7 +8,7 @@
 Nan::Persistent<v8::FunctionTemplate> FisherFaceRecognizer::constructor;
 
 NAN_MODULE_INIT(FisherFaceRecognizer::Init) {
-  v8::Local<v8::FunctionTemplate> ctor = Nan::New<v8::FunctionTemplate>(FisherFaceRecognizer::New);
+  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(FisherFaceRecognizer::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
   FaceRecognizer::Init(ctor);

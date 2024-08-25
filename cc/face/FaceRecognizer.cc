@@ -5,7 +5,7 @@
 #include "FaceRecognizer.h"
 #include "FaceRecognizerBindings.h"
 
-void FaceRecognizer::Init(v8::Local<v8::FunctionTemplate> ctor) {
+void FaceRecognizer::Init(Napi::FunctionReference ctor) {
   Nan::SetPrototypeMethod(ctor, "train", Train);
   Nan::SetPrototypeMethod(ctor, "trainAsync", TrainAsync);
   Nan::SetPrototypeMethod(ctor, "predict", Predict);
