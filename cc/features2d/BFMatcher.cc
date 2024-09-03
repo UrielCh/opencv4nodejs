@@ -13,18 +13,17 @@ Napi::Object BFMatcher(Napi::Env env, Napi::Object exports) {
 
   constructor.Reset(ctor);
 
-
   ctor->SetClassName(Napi::String::New(env, "BFMatcher"));
 
   Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "normType"), normType_getter);
   Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "crossCheck"), crossCheck_getter);
 
   InstanceMethod("match", &match),
-  InstanceMethod("matchAsync", &matchAsync),
-  InstanceMethod("knnMatch", &knnMatch),
-  InstanceMethod("knnMatchAsync", &knnMatchAsync),
+      InstanceMethod("matchAsync", &matchAsync),
+      InstanceMethod("knnMatch", &knnMatch),
+      InstanceMethod("knnMatchAsync", &knnMatchAsync),
 
-  target.Set("BFMatcher", FF::getFunction(ctor));
+      target.Set("BFMatcher", FF::getFunction(ctor));
 };
 
 void BFMatcher::New(const Napi::CallbackInfo& info) {

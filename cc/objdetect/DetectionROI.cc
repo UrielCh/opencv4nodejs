@@ -13,7 +13,6 @@ Napi::Object DetectionROI(Napi::Env env, Napi::Object exports) {
   constructor.Reset(ctor);
   ctor->SetClassName(FF::newString(env, "DetectionROI"));
 
-
   Napi::SetAccessor(instanceTemplate, FF::newString(env, "scale"), scale_getter, scale_setter);
   Napi::SetAccessor(instanceTemplate, FF::newString(env, "locations"), locations_getter, locations_setter);
   Napi::SetAccessor(instanceTemplate, FF::newString(env, "confidences"), confidences_getter, confidences_setter);

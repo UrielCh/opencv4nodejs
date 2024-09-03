@@ -24,23 +24,23 @@ Napi::Object Contour(Napi::Env env, Napi::Object exports) {
   Napi::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "hierarchy"), GetHierarchy);
 
   InstanceMethod("getPoints", &GetPoints),
-  InstanceMethod("approxPolyDP", &ApproxPolyDP),
-  InstanceMethod("approxPolyDPAsync", &ApproxPolyDPAsync),
-  InstanceMethod("approxPolyDPContour", &ApproxPolyDPContour),
-  InstanceMethod("arcLength", &ArcLength),
-  InstanceMethod("boundingRect", &BoundingRect),
-  InstanceMethod("convexHull", &ConvexHull),
-  InstanceMethod("convexHullIndices", &ConvexHullIndices),
-  InstanceMethod("convexityDefects", &ConvexityDefects),
-  InstanceMethod("minAreaRect", &MinAreaRect),
-  InstanceMethod("minEnclosingCircle", &MinEnclosingCircle),
-  InstanceMethod("minEnclosingTriangle", &MinEnclosingTriangle),
-  InstanceMethod("pointPolygonTest", &PointPolygonTest),
-  InstanceMethod("matchShapes", &MatchShapes),
-  InstanceMethod("fitEllipse", &FitEllipse),
-  InstanceMethod("moments", &_Moments),
+      InstanceMethod("approxPolyDP", &ApproxPolyDP),
+      InstanceMethod("approxPolyDPAsync", &ApproxPolyDPAsync),
+      InstanceMethod("approxPolyDPContour", &ApproxPolyDPContour),
+      InstanceMethod("arcLength", &ArcLength),
+      InstanceMethod("boundingRect", &BoundingRect),
+      InstanceMethod("convexHull", &ConvexHull),
+      InstanceMethod("convexHullIndices", &ConvexHullIndices),
+      InstanceMethod("convexityDefects", &ConvexityDefects),
+      InstanceMethod("minAreaRect", &MinAreaRect),
+      InstanceMethod("minEnclosingCircle", &MinEnclosingCircle),
+      InstanceMethod("minEnclosingTriangle", &MinEnclosingTriangle),
+      InstanceMethod("pointPolygonTest", &PointPolygonTest),
+      InstanceMethod("matchShapes", &MatchShapes),
+      InstanceMethod("fitEllipse", &FitEllipse),
+      InstanceMethod("moments", &_Moments),
 
-  target.Set("Contour", FF::getFunction(ctor));
+      target.Set("Contour", FF::getFunction(ctor));
 };
 
 void Contour::New(const Napi::CallbackInfo& info) {

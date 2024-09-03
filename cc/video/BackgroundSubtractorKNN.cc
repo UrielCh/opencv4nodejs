@@ -14,7 +14,6 @@ Napi::Object BackgroundSubtractorKNN(Napi::Env env, Napi::Object exports) {
   constructor.Reset(ctor);
   ctor->SetClassName(FF::newString(env, "BackgroundSubtractorKNN"));
 
-
   Napi::SetAccessor(instanceTemplate, FF::newString(env, "history"), history_getter);
   Napi::SetAccessor(instanceTemplate, FF::newString(env, "dist2Threshold"), dist2Threshold_getter);
   Napi::SetAccessor(instanceTemplate, FF::newString(env, "detectShadows"), detectShadows_getter);

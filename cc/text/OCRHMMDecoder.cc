@@ -14,13 +14,12 @@ Napi::Object OCRHMMDecoder(Napi::Env env, Napi::Object exports) {
   constructor.Reset(ctor);
   ctor->SetClassName(FF::newString(env, "OCRHMMDecoder"));
 
-
   InstanceMethod("run", &Run),
-  InstanceMethod("runAsync", &RunAsync),
-  InstanceMethod("runWithInfo", &RunWithInfo),
-  InstanceMethod("runWithInfoAsync", &RunWithInfoAsync),
+      InstanceMethod("runAsync", &RunAsync),
+      InstanceMethod("runWithInfo", &RunWithInfo),
+      InstanceMethod("runWithInfoAsync", &RunWithInfoAsync),
 
-  (target).Set("OCRHMMDecoder", FF::getFunction(ctor));
+      (target).Set("OCRHMMDecoder", FF::getFunction(ctor));
 };
 
 void OCRHMMDecoder::New(const Napi::CallbackInfo& info) {

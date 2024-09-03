@@ -16,7 +16,6 @@ Napi::Object FacemarkAAMParams(Napi::Env env, Napi::Object exports) {
   constructor.Reset(ctor);
   ctor->SetClassName(FF::newString(env, "FacemarkAAMParams"));
 
-
   Napi::SetAccessor(instanceTemplate, FF::newString(env, "m"), m_getter, m_setter);
   Napi::SetAccessor(instanceTemplate, FF::newString(env, "max_m"), max_m_getter, max_m_setter);
   Napi::SetAccessor(instanceTemplate, FF::newString(env, "max_n"), max_n_getter, max_n_setter);

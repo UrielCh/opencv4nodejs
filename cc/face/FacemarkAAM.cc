@@ -18,7 +18,6 @@ Napi::Object FacemarkAAM(Napi::Env env, Napi::Object exports) {
   constructor.Reset(ctor);
   ctor->SetClassName(Napi::String::New(env, "FacemarkAAM"));
 
-
   target.Set("FacemarkAAM", FF::getFunction(ctor));
 };
 

@@ -19,26 +19,26 @@ Napi::Object Net(Napi::Env env, Napi::Object exports) {
   // setInput(blob: Mat, name?: string, scalefactor?: number, mean?: number): void;
   // setInput(blob: Mat, inputName?: string): void;
   InstanceMethod("setInput", &SetInput),
-  InstanceMethod("setInputAsync", &SetInputAsync),
-  // forward(inputName?: string): Mat;
-  InstanceMethod("forward", &Forward),
-  InstanceMethod("forwardAsync", &ForwardAsync),
-  // getLayerNames(): string[];
-  InstanceMethod("getLayerNames", &GetLayerNames),
-  InstanceMethod("getLayerNamesAsync", &GetLayerNamesAsync),
-  // getUnconnectedOutLayers(): number[];
-  InstanceMethod("getUnconnectedOutLayers", &GetUnconnectedOutLayers),
-  InstanceMethod("getUnconnectedOutLayersAsync", &GetUnconnectedOutLayersAsync),
-  // dump(): string;
-  InstanceMethod("dump", &Dump),
-  // setPreferableBackend(backendId: number): void;
-  InstanceMethod("setPreferableBackend", &SetPreferableBackend),
-  // setPreferableTarget(targetId: number): void;
-  InstanceMethod("setPreferableTarget", &SetPreferableTarget),
-  // getPerfProfile(): {	retval: number, timings: number[] };
-  InstanceMethod("getPerfProfile", &GetPerfProfile),
+      InstanceMethod("setInputAsync", &SetInputAsync),
+      // forward(inputName?: string): Mat;
+      InstanceMethod("forward", &Forward),
+      InstanceMethod("forwardAsync", &ForwardAsync),
+      // getLayerNames(): string[];
+      InstanceMethod("getLayerNames", &GetLayerNames),
+      InstanceMethod("getLayerNamesAsync", &GetLayerNamesAsync),
+      // getUnconnectedOutLayers(): number[];
+      InstanceMethod("getUnconnectedOutLayers", &GetUnconnectedOutLayers),
+      InstanceMethod("getUnconnectedOutLayersAsync", &GetUnconnectedOutLayersAsync),
+      // dump(): string;
+      InstanceMethod("dump", &Dump),
+      // setPreferableBackend(backendId: number): void;
+      InstanceMethod("setPreferableBackend", &SetPreferableBackend),
+      // setPreferableTarget(targetId: number): void;
+      InstanceMethod("setPreferableTarget", &SetPreferableTarget),
+      // getPerfProfile(): {	retval: number, timings: number[] };
+      InstanceMethod("getPerfProfile", &GetPerfProfile),
 
-  target.Set("Net", FF::getFunction(ctor));
+      target.Set("Net", FF::getFunction(ctor));
 };
 
 void Net::New(const Napi::CallbackInfo& info) {

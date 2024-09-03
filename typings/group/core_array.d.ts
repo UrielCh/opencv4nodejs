@@ -299,11 +299,6 @@ export function mulSpectrumsAsync(src1: Mat, src2: Mat, dftRows?: boolean, conjB
 //  
 // double 	cv::norm (const SparseMat &src, int normType)
 //  
-// void 	cv::normalize (InputArray src, InputOutputArray dst, double alpha=1, double beta=0, int norm_type=NORM_L2, int dtype=-1, InputArray mask=noArray())
-//  	Normalizes the norm or value range of an array. More...
-//  
-// void 	cv::normalize (const SparseMat &src, SparseMat &dst, double alpha, int normType)
-//  
 // void 	cv::patchNaNs (InputOutputArray a, double val=0)
 //  	converts NaNs to the given number More...
 //  

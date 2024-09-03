@@ -13,29 +13,29 @@ static inline Napi::Value executeSyncBinding(std::shared_ptr<ISyncWorker> worker
   try {
     if (worker->applyUnwrappers(info)) {
       Napi::Error::New(env, "Error in applyUnwrappers").ThrowAsJavaScriptException();
-      return env.Null();
+      return env.Undefined();
     }
 
     std::string err = worker->execute();
     if (!err.empty()) {
       Napi::Error::New(env, err).ThrowAsJavaScriptException();
-      return env.Null();
+      return env.Undefined();
     }
 
     return worker->getReturnValue(info);
   } catch (const std::exception& e) {
     Napi::Error::New(env, e.what()).ThrowAsJavaScriptException();
-    return env.Null();
+    return env.Undefined();
   }
 }
 
-static inline void executeAsyncBinding(std::shared_ptr<IAsyncWorker> worker, std::string methodName, const Napi::CallbackInfo& info) {
+static inline Napi::Value executeAsyncBinding(std::shared_ptr<IAsyncWorker> worker, std::string methodName, const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
   Napi::HandleScope scope(env);
 
   if (!info[info.Length() - 1].IsFunction()) {
     Napi::TypeError::New(env, "callback function required").ThrowAsJavaScriptException();
-    return;
+    return env.Undefined();
   }
 
   Napi::Function callback = info[info.Length() - 1].As<Napi::Function>();
@@ -44,7 +44,7 @@ static inline void executeAsyncBinding(std::shared_ptr<IAsyncWorker> worker, std
     Napi::Error error = Napi::Error::New(env, "Error in applyUnwrappers");
     Napi::Value argv[] = {error.Value(), env.Null()};
     callback.Call(env.Global(), {argv[0], argv[1]});
-    return;
+    return env.Undefined();
   }
 
   class AsyncWorker : public Napi::AsyncWorker {
@@ -80,20 +80,20 @@ static inline void executeAsyncBinding(std::shared_ptr<IAsyncWorker> worker, std
 }
 
 template <class WorkerImpl>
-static void syncBinding(std::string methodNamespace, std::string methodName, const Napi::CallbackInfo& info) {
+static Napi::Value syncBinding(std::string methodNamespace, std::string methodName, const Napi::CallbackInfo& info) {
   auto worker = std::make_shared<WorkerImpl>();
   worker->setup();
-  executeSyncBinding(
+  return executeSyncBinding(
       worker,
       methodNamespace + "::" + methodName,
       info);
 }
 
 template <class WorkerImpl>
-static void asyncBinding(std::string methodNamespace, std::string methodName, const Napi::CallbackInfo& info) {
+static Napi::Value asyncBinding(std::string methodNamespace, std::string methodName, const Napi::CallbackInfo& info) {
   auto worker = std::make_shared<WorkerImpl>();
   worker->setup();
-  executeAsyncBinding(
+  return executeAsyncBinding(
       worker,
       methodNamespace + "::" + methodName + "Async",
       info);

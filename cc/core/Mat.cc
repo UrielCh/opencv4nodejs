@@ -123,93 +123,93 @@ Napi::Object Mat(Napi::Env env, Napi::Object exports) {
   Napi::SetMethod(ctor, "zeros", Zeros);
   InstanceMethod("flattenFloat", &FlattenFloat),
 
-  InstanceMethod("at", &At),
-  InstanceMethod("atRaw", &AtRaw),
-  InstanceMethod("set", &Set),
-  InstanceMethod("setTo", &SetTo),
-  InstanceMethod("setToAsync", &SetToAsync),
-  InstanceMethod("push_back", &PushBack),
-  InstanceMethod("push_backAsync", &PushBackAsync),
-  InstanceMethod("pushBack", &PushBack),
-  InstanceMethod("pushBackAsync", &PushBackAsync),
-  InstanceMethod("pop_back", &PopBack),
-  InstanceMethod("pop_backAsync", &PopBackAsync),
-  InstanceMethod("popBack", &PopBack),
-  InstanceMethod("popBackAsync", &PopBackAsync),
-  InstanceMethod("getData", &GetData),
-  InstanceMethod("getDataAsync", &GetDataAsync),
-  InstanceMethod("getDataAsArray", &GetDataAsArray),
-  InstanceMethod("setData", &SetData),
-  InstanceMethod("getRegion", &GetRegion),
-  InstanceMethod("row", &Row),
-  InstanceMethod("rowRange", &RowRange),
-  InstanceMethod("col", &Col),
-  InstanceMethod("colRange", &ColRange),
-  InstanceMethod("copy", &Copy),
-  InstanceMethod("copyAsync", &CopyAsync),
-  InstanceMethod("copyTo", &CopyTo),
-  InstanceMethod("copyToAsync", &CopyToAsync),
-  InstanceMethod("convertTo", &ConvertTo),
-  InstanceMethod("convertToAsync", &ConvertToAsync),
-  InstanceMethod("norm", &Norm),
-  InstanceMethod("padToSquare", &PadToSquare),
-  InstanceMethod("padToSquareAsync", &PadToSquareAsync),
-  InstanceMethod("dct", &Dct),
-  InstanceMethod("dctAsync", &DctAsync),
-  InstanceMethod("idct", &Idct),
-  InstanceMethod("idctAsync", &IdctAsync),
-  InstanceMethod("dft", &Dft),
-  InstanceMethod("dftAsync", &DftAsync),
-  InstanceMethod("idft", &Idft),
-  InstanceMethod("idftAsync", &IdftAsync),
-  InstanceMethod("normalize", &Normalize),
-  InstanceMethod("normalizeAsync", &NormalizeAsync),
-  InstanceMethod("flip", &Flip),
-  InstanceMethod("flipAsync", &FlipAsync),
-  InstanceMethod("copyMakeBorder", &CopyMakeBorder),
-  InstanceMethod("copyMakeBorderAsync", &CopyMakeBorderAsync),
-  InstanceMethod("splitChannels", &Split),
-  InstanceMethod("splitChannelsAsync", &SplitAsync),
+      InstanceMethod("at", &At),
+      InstanceMethod("atRaw", &AtRaw),
+      InstanceMethod("set", &Set),
+      InstanceMethod("setTo", &SetTo),
+      InstanceMethod("setToAsync", &SetToAsync),
+      InstanceMethod("push_back", &PushBack),
+      InstanceMethod("push_backAsync", &PushBackAsync),
+      InstanceMethod("pushBack", &PushBack),
+      InstanceMethod("pushBackAsync", &PushBackAsync),
+      InstanceMethod("pop_back", &PopBack),
+      InstanceMethod("pop_backAsync", &PopBackAsync),
+      InstanceMethod("popBack", &PopBack),
+      InstanceMethod("popBackAsync", &PopBackAsync),
+      InstanceMethod("getData", &GetData),
+      InstanceMethod("getDataAsync", &GetDataAsync),
+      InstanceMethod("getDataAsArray", &GetDataAsArray),
+      InstanceMethod("setData", &SetData),
+      InstanceMethod("getRegion", &GetRegion),
+      InstanceMethod("row", &Row),
+      InstanceMethod("rowRange", &RowRange),
+      InstanceMethod("col", &Col),
+      InstanceMethod("colRange", &ColRange),
+      InstanceMethod("copy", &Copy),
+      InstanceMethod("copyAsync", &CopyAsync),
+      InstanceMethod("copyTo", &CopyTo),
+      InstanceMethod("copyToAsync", &CopyToAsync),
+      InstanceMethod("convertTo", &ConvertTo),
+      InstanceMethod("convertToAsync", &ConvertToAsync),
+      InstanceMethod("norm", &Norm),
+      InstanceMethod("padToSquare", &PadToSquare),
+      InstanceMethod("padToSquareAsync", &PadToSquareAsync),
+      InstanceMethod("dct", &Dct),
+      InstanceMethod("dctAsync", &DctAsync),
+      InstanceMethod("idct", &Idct),
+      InstanceMethod("idctAsync", &IdctAsync),
+      InstanceMethod("dft", &Dft),
+      InstanceMethod("dftAsync", &DftAsync),
+      InstanceMethod("idft", &Idft),
+      InstanceMethod("idftAsync", &IdftAsync),
+      InstanceMethod("normalize", &Normalize),
+      InstanceMethod("normalizeAsync", &NormalizeAsync),
+      InstanceMethod("flip", &Flip),
+      InstanceMethod("flipAsync", &FlipAsync),
+      InstanceMethod("copyMakeBorder", &CopyMakeBorder),
+      InstanceMethod("copyMakeBorderAsync", &CopyMakeBorderAsync),
+      InstanceMethod("splitChannels", &Split),
+      InstanceMethod("splitChannelsAsync", &SplitAsync),
 
 #if CV_VERSION_GREATER_EQUAL(3, 2, 0)
-  InstanceMethod("rotate", &Rotate),
-  InstanceMethod("rotateAsync", &RotateAsync),
+      InstanceMethod("rotate", &Rotate),
+      InstanceMethod("rotateAsync", &RotateAsync),
 #endif
 
-  InstanceMethod("release", &Release),
+      InstanceMethod("release", &Release),
 
-  InstanceMethod("addWeighted", &AddWeighted),
-  InstanceMethod("addWeightedAsync", &AddWeightedAsync),
-  InstanceMethod("minMaxLoc", &MinMaxLoc),
-  InstanceMethod("minMaxLocAsync", &MinMaxLocAsync),
-  InstanceMethod("findNonZero", &FindNonZero),
-  InstanceMethod("findNonZeroAsync", &FindNonZeroAsync),
-  InstanceMethod("countNonZero", &CountNonZero),
-  InstanceMethod("countNonZeroAsync", &CountNonZeroAsync),
-  InstanceMethod("split", &Split),
-  InstanceMethod("splitAsync", &SplitAsync),
-  InstanceMethod("mulSpectrums", &MulSpectrums),
-  InstanceMethod("mulSpectrumsAsync", &MulSpectrumsAsync),
-  InstanceMethod("transform", &Transform),
-  InstanceMethod("transformAsync", &TransformAsync),
-  InstanceMethod("perspectiveTransform", &PerspectiveTransform),
-  InstanceMethod("perspectiveTransformAsync", &PerspectiveTransformAsync),
-  InstanceMethod("convertScaleAbs", &ConvertScaleAbs),
-  InstanceMethod("convertScaleAbsAsync", &ConvertScaleAbsAsync),
-  InstanceMethod("sum", &Sum),
-  InstanceMethod("sumAsync", &SumAsync),
-  InstanceMethod("mean", &Mean),
-  InstanceMethod("meanAsync", &MeanAsync),
-  InstanceMethod("meanStdDev", &MeanStdDev),
-  InstanceMethod("meanStdDevAsync", &MeanStdDevAsync),
-  InstanceMethod("reduce", &Reduce),
-  InstanceMethod("reduceAsync", &ReduceAsync),
-  InstanceMethod("eigen", &Eigen),
-  InstanceMethod("eigenAsync", &EigenAsync),
-  InstanceMethod("solve", &Solve),
-  InstanceMethod("solveAsync", &SolveAsync),
+      InstanceMethod("addWeighted", &AddWeighted),
+      InstanceMethod("addWeightedAsync", &AddWeightedAsync),
+      InstanceMethod("minMaxLoc", &MinMaxLoc),
+      InstanceMethod("minMaxLocAsync", &MinMaxLocAsync),
+      InstanceMethod("findNonZero", &FindNonZero),
+      InstanceMethod("findNonZeroAsync", &FindNonZeroAsync),
+      InstanceMethod("countNonZero", &CountNonZero),
+      InstanceMethod("countNonZeroAsync", &CountNonZeroAsync),
+      InstanceMethod("split", &Split),
+      InstanceMethod("splitAsync", &SplitAsync),
+      InstanceMethod("mulSpectrums", &MulSpectrums),
+      InstanceMethod("mulSpectrumsAsync", &MulSpectrumsAsync),
+      InstanceMethod("transform", &Transform),
+      InstanceMethod("transformAsync", &TransformAsync),
+      InstanceMethod("perspectiveTransform", &PerspectiveTransform),
+      InstanceMethod("perspectiveTransformAsync", &PerspectiveTransformAsync),
+      InstanceMethod("convertScaleAbs", &ConvertScaleAbs),
+      InstanceMethod("convertScaleAbsAsync", &ConvertScaleAbsAsync),
+      InstanceMethod("sum", &Sum),
+      InstanceMethod("sumAsync", &SumAsync),
+      InstanceMethod("mean", &Mean),
+      InstanceMethod("meanAsync", &MeanAsync),
+      InstanceMethod("meanStdDev", &MeanStdDev),
+      InstanceMethod("meanStdDevAsync", &MeanStdDevAsync),
+      InstanceMethod("reduce", &Reduce),
+      InstanceMethod("reduceAsync", &ReduceAsync),
+      InstanceMethod("eigen", &Eigen),
+      InstanceMethod("eigenAsync", &EigenAsync),
+      InstanceMethod("solve", &Solve),
+      InstanceMethod("solveAsync", &SolveAsync),
 
-  FF_PROTO_SET_MAT_OPERATIONS(ctor);
+      FF_PROTO_SET_MAT_OPERATIONS(ctor);
 
 #ifdef HAVE_OPENCV_CALIB3D
   MatCalib3d::Init(ctor);
@@ -228,10 +228,10 @@ Napi::Object Mat(Napi::Env env, Napi::Object exports) {
 };
 
 // only used in Mat::At and Mat::AtRaw
-#define FF_MAT_AT(mat, val, get)                                                                                                                                                                                                      \
-  if (mat.dims > 2)                                                                                                                                                                                                                   \
+#define FF_MAT_AT(mat, val, get)                                                                                                                                                   \
+  if (mat.dims > 2)                                                                                                                                                                \
     val = get(mat, info[0].ToInt32(Napi::GetCurrentContext())->Value(), info[1].ToInt32(Napi::GetCurrentContext())->Value(), info[2].ToInt32(Napi::GetCurrentContext())->Value()); \
-  else                                                                                                                                                                                                                                \
+  else                                                                                                                                                                             \
     val = get(mat, info[0].ToInt32(Napi::GetCurrentContext())->Value(), info[1].ToInt32(Napi::GetCurrentContext())->Value());
 
 // only used in Mat::At
@@ -246,10 +246,10 @@ Napi::Object Mat(Napi::Env env, Napi::Object exports) {
   }
 
 // only used in Mat::Set
-#define FF_MAT_SET(mat, val, put)                                                                                                                                                                                                    \
-  if (mat.dims > 2)                                                                                                                                                                                                                  \
+#define FF_MAT_SET(mat, val, put)                                                                                                                                                 \
+  if (mat.dims > 2)                                                                                                                                                               \
     put(mat, val, info[0].ToInt32(Napi::GetCurrentContext())->Value(), info[1].ToInt32(Napi::GetCurrentContext())->Value(), info[2].ToInt32(Napi::GetCurrentContext())->Value()); \
-  else                                                                                                                                                                                                                               \
+  else                                                                                                                                                                            \
     put(mat, val, info[0].ToInt32(Napi::GetCurrentContext())->Value(), info[1].ToInt32(Napi::GetCurrentContext())->Value());
 
 // only used in Mat::New
@@ -361,27 +361,27 @@ Napi::Object Mat(Napi::Env env, Napi::Object exports) {
   }
 
 // only used in Mat::New
-#define FF_MAT_FROM_JS_ARRAY_2D(mat, rowArray, put)                                                     \
-  for (int r = 0; r < mat.rows; r++) {                                                                  \
+#define FF_MAT_FROM_JS_ARRAY_2D(mat, rowArray, put)             \
+  for (int r = 0; r < mat.rows; r++) {                          \
     Napi::Array colArray = (rowArray).Get(r.As<Napi::Array>()); \
-    for (int c = 0; c < mat.cols; c++) {                                                                \
-      put(mat, (colArray).Get(c), r, c);                                           \
-    }                                                                                                   \
+    for (int c = 0; c < mat.cols; c++) {                        \
+      put(mat, (colArray).Get(c), r, c);                        \
+    }                                                           \
   }
 
-#define FF_MAT_FROM_JS_ARRAY_3D(mat, rowArray, put)                                                                \
-  {                                                                                                                \
-    cv::MatSize sizes = mat.size;                                                                                  \
-    cv::Vec3i cur = cv::Vec3b(0, 0, 0);                                                                            \
-    for (cur[0] = 0; cur[0] < sizes[0]; cur[0]++) {                                                                \
+#define FF_MAT_FROM_JS_ARRAY_3D(mat, rowArray, put)                        \
+  {                                                                        \
+    cv::MatSize sizes = mat.size;                                          \
+    cv::Vec3i cur = cv::Vec3b(0, 0, 0);                                    \
+    for (cur[0] = 0; cur[0] < sizes[0]; cur[0]++) {                        \
       Napi::Array colArray1 = (rowArray).Get(cur[0].As<Napi::Array>());    \
-      for (cur[1] = 0; cur[1] < sizes[1]; cur[1]++) {                                                              \
+      for (cur[1] = 0; cur[1] < sizes[1]; cur[1]++) {                      \
         Napi::Array colArray2 = (colArray1).Get(cur[1].As<Napi::Array>()); \
-        for (cur[2] = 0; cur[2] < sizes[2]; cur[2]++) {                                                            \
-          put(mat, (colArray2).Get(cur[2]), cur);                                             \
-        }                                                                                                          \
-      }                                                                                                            \
-    }                                                                                                              \
+        for (cur[2] = 0; cur[2] < sizes[2]; cur[2]++) {                    \
+          put(mat, (colArray2).Get(cur[2]), cur);                          \
+        }                                                                  \
+      }                                                                    \
+    }                                                                      \
   }
 
 // std::cout << "loop line " << cur[0] << "/" << sizes[1] << std::endl;
@@ -389,43 +389,43 @@ Napi::Object Mat(Napi::Env env, Napi::Object exports) {
 // std::cout << "loop cell " << cur[0] << "/" << sizes[0] << ", " << cur[1] << "/" << sizes[1] << ", " << cur[2] << "/" << sizes[2]<< std::endl;
 // std::cout << "loop pos " << cur[0] << ", " << cur[1] << ", " << cur[2] << ", " << cur[3] << std::endl;
 
-#define FF_MAT_FROM_JS_ARRAY_4D(mat, rowArray, put)                                                                  \
-  {                                                                                                                  \
-    cv::MatSize sizes = mat.size;                                                                                    \
-    cv::Vec4i cur = cv::Vec4i(0, 0, 0, 0);                                                                           \
-    for (cur[0] = 0; cur[0] < sizes[0]; cur[0]++) {                                                                  \
+#define FF_MAT_FROM_JS_ARRAY_4D(mat, rowArray, put)                          \
+  {                                                                          \
+    cv::MatSize sizes = mat.size;                                            \
+    cv::Vec4i cur = cv::Vec4i(0, 0, 0, 0);                                   \
+    for (cur[0] = 0; cur[0] < sizes[0]; cur[0]++) {                          \
       Napi::Array colArray1 = (rowArray).Get(cur[0].As<Napi::Array>());      \
-      for (cur[1] = 0; cur[1] < sizes[1]; cur[1]++) {                                                                \
+      for (cur[1] = 0; cur[1] < sizes[1]; cur[1]++) {                        \
         Napi::Array colArray2 = (colArray1).Get(cur[1].As<Napi::Array>());   \
-        for (cur[2] = 0; cur[2] < sizes[2]; cur[2]++) {                                                              \
+        for (cur[2] = 0; cur[2] < sizes[2]; cur[2]++) {                      \
           Napi::Array colArray3 = (colArray2).Get(cur[2].As<Napi::Array>()); \
-          for (cur[3] = 0; cur[3] < sizes[3]; cur[3]++) {                                                            \
-            put(mat, (colArray3).Get(cur[3]), cur);                                             \
-          }                                                                                                          \
-        }                                                                                                            \
-      }                                                                                                              \
-    }                                                                                                                \
+          for (cur[3] = 0; cur[3] < sizes[3]; cur[3]++) {                    \
+            put(mat, (colArray3).Get(cur[3]), cur);                          \
+          }                                                                  \
+        }                                                                    \
+      }                                                                      \
+    }                                                                        \
   }
 
-#define FF_MAT_FROM_JS_ARRAY_5D(mat, rowArray, put)                                                                    \
-  {                                                                                                                    \
-    cv::MatSize sizes = mat.size;                                                                                      \
-    cv::Vec4i cur = cv::Vec5b(0, 0, 0, 0, 0);                                                                          \
-    for (cur[0] = 0; cur[0] < sizes[0]; cur[0]++) {                                                                    \
+#define FF_MAT_FROM_JS_ARRAY_5D(mat, rowArray, put)                            \
+  {                                                                            \
+    cv::MatSize sizes = mat.size;                                              \
+    cv::Vec4i cur = cv::Vec5b(0, 0, 0, 0, 0);                                  \
+    for (cur[0] = 0; cur[0] < sizes[0]; cur[0]++) {                            \
       Napi::Array colArray1 = (rowArray).Get(cur[0].As<Napi::Array>());        \
-      for (cur[1] = 0; cur[1] < sizes[1]; cur[1]++) {                                                                  \
+      for (cur[1] = 0; cur[1] < sizes[1]; cur[1]++) {                          \
         Napi::Array colArray2 = (colArray1).Get(cur[1].As<Napi::Array>());     \
-        for (cur[2] = 0; cur[2] < sizes[2]; cur[2]++) {                                                                \
+        for (cur[2] = 0; cur[2] < sizes[2]; cur[2]++) {                        \
           Napi::Array colArray3 = (colArray2).Get(cur[2].As<Napi::Array>());   \
-          for (cur[3] = 0; cur[3] < sizes[3]; cur[3]++) {                                                              \
+          for (cur[3] = 0; cur[3] < sizes[3]; cur[3]++) {                      \
             Napi::Array colArray4 = (colArray3).Get(cur[3].As<Napi::Array>()); \
-            for (cur[4] = 0; cur[4] < sizes[4]; cur[4]++) {                                                            \
-              put(mat, (colArray4).Get(cur[4]), cur);                                             \
-            }                                                                                                          \
-          }                                                                                                            \
-        }                                                                                                              \
-      }                                                                                                                \
-    }                                                                                                                  \
+            for (cur[4] = 0; cur[4] < sizes[4]; cur[4]++) {                    \
+              put(mat, (colArray4).Get(cur[4]), cur);                          \
+            }                                                                  \
+          }                                                                    \
+        }                                                                      \
+      }                                                                        \
+    }                                                                          \
   }
 
 void Mat::New(const Napi::CallbackInfo& info) {
@@ -476,7 +476,7 @@ void Mat::New(const Napi::CallbackInfo& info) {
     int dim = 1;
     while ((rowArray0).Get(0)->IsArray()) {
       dim = dim + 1;
-      rowArray0 = (rowArray0).Get(0.As<Napi::Array>());
+      rowArray0 = (rowArray0).Get(0.As < Napi::Array > ());
     }
     // if multishanel drop one dimmention
     if (channel > 1)
@@ -807,72 +807,72 @@ void Mat::SetToAsync(const Napi::CallbackInfo& info) {
       info);
 }
 
-#define FF_JS_ARRAY_FROM_MAT_2D(mat, rowArray, get)                \
-  for (int r = 0; r < mat.rows; r++) {                             \
+#define FF_JS_ARRAY_FROM_MAT_2D(mat, rowArray, get)         \
+  for (int r = 0; r < mat.rows; r++) {                      \
     Napi::Array colArray = Napi::Array::New(env, mat.cols); \
-    for (int c = 0; c < mat.cols; c++) {                           \
-      (colArray).Set(c, get(mat, r, c));                       \
-    }                                                              \
-    (rowArray).Set(r, colArray);                               \
+    for (int c = 0; c < mat.cols; c++) {                    \
+      (colArray).Set(c, get(mat, r, c));                    \
+    }                                                       \
+    (rowArray).Set(r, colArray);                            \
   }
 
-#define FF_JS_ARRAY_FROM_MAT_3D(mat, rowArray, get)                       \
-  for (int r = 0; r < mat.size[0]; r++) {                                 \
+#define FF_JS_ARRAY_FROM_MAT_3D(mat, rowArray, get)                \
+  for (int r = 0; r < mat.size[0]; r++) {                          \
     Napi::Array colArray = Napi::Array::New(env, mat.size[1]);     \
-    for (int c = 0; c < mat.size[1]; c++) {                               \
+    for (int c = 0; c < mat.size[1]; c++) {                        \
       Napi::Array depthArray = Napi::Array::New(env, mat.size[2]); \
-      for (int z = 0; z < mat.size[2]; z++) {                             \
-        (depthArray).Set(z, get(mat, r, c, z));                       \
-      }                                                                   \
-      (colArray).Set(c, depthArray);                                  \
-    }                                                                     \
-    (rowArray).Set(r, colArray);                                      \
+      for (int z = 0; z < mat.size[2]; z++) {                      \
+        (depthArray).Set(z, get(mat, r, c, z));                    \
+      }                                                            \
+      (colArray).Set(c, depthArray);                               \
+    }                                                              \
+    (rowArray).Set(r, colArray);                                   \
   }
 
-#define FF_JS_ARRAY_FROM_MAT_4D(mat, rowArray, get)                    \
-  {                                                                    \
-    cv::MatSize sizes = mat.size;                                      \
-    cv::Vec4i cur = cv::Vec4i(0, 0, 0, 0);                             \
-    for (cur[0] = 0; cur[0] < sizes[0]; cur[0]++) {                    \
+#define FF_JS_ARRAY_FROM_MAT_4D(mat, rowArray, get)             \
+  {                                                             \
+    cv::MatSize sizes = mat.size;                               \
+    cv::Vec4i cur = cv::Vec4i(0, 0, 0, 0);                      \
+    for (cur[0] = 0; cur[0] < sizes[0]; cur[0]++) {             \
       Napi::Array array1 = Napi::Array::New(env, sizes[1]);     \
-      for (cur[1] = 0; cur[1] < sizes[1]; cur[1]++) {                  \
+      for (cur[1] = 0; cur[1] < sizes[1]; cur[1]++) {           \
         Napi::Array array2 = Napi::Array::New(env, sizes[2]);   \
-        for (cur[2] = 0; cur[2] < sizes[2]; cur[2]++) {                \
+        for (cur[2] = 0; cur[2] < sizes[2]; cur[2]++) {         \
           Napi::Array array3 = Napi::Array::New(env, sizes[3]); \
-          for (cur[3] = 0; cur[3] < sizes[3]; cur[3]++) {              \
-            (array3).Set(cur[3], get(mat, cur));                   \
-          }                                                            \
-          (array2).Set(cur[2], array3);                            \
-        }                                                              \
-        (array1).Set(cur[1], array2);                              \
-      }                                                                \
-      (rowArray).Set(cur[0], array1);                              \
-    }                                                                  \
+          for (cur[3] = 0; cur[3] < sizes[3]; cur[3]++) {       \
+            (array3).Set(cur[3], get(mat, cur));                \
+          }                                                     \
+          (array2).Set(cur[2], array3);                         \
+        }                                                       \
+        (array1).Set(cur[1], array2);                           \
+      }                                                         \
+      (rowArray).Set(cur[0], array1);                           \
+    }                                                           \
   }
 
-#define FF_JS_ARRAY_FROM_MAT_5D(mat, rowArray, get)                      \
-  {                                                                      \
-    cv::MatSize sizes = mat.size;                                        \
-    cv::Vec4i cur = cv::Vec5i(0, 0, 0, 0, 0);                            \
-    for (cur[0] = 0; cur[0] < sizes[0]; cur[0]++) {                      \
+#define FF_JS_ARRAY_FROM_MAT_5D(mat, rowArray, get)               \
+  {                                                               \
+    cv::MatSize sizes = mat.size;                                 \
+    cv::Vec4i cur = cv::Vec5i(0, 0, 0, 0, 0);                     \
+    for (cur[0] = 0; cur[0] < sizes[0]; cur[0]++) {               \
       Napi::Array array1 = Napi::Array::New(env, sizes[1]);       \
-      for (cur[1] = 0; cur[1] < sizes[1]; cur[1]++) {                    \
+      for (cur[1] = 0; cur[1] < sizes[1]; cur[1]++) {             \
         Napi::Array array2 = Napi::Array::New(env, sizes[2]);     \
-        for (cur[2] = 0; cur[2] < sizes[2]; cur[2]++) {                  \
+        for (cur[2] = 0; cur[2] < sizes[2]; cur[2]++) {           \
           Napi::Array array3 = Napi::Array::New(env, sizes[3]);   \
-          for (cur[3] = 0; cur[3] < sizes[3]; cur[3]++) {                \
+          for (cur[3] = 0; cur[3] < sizes[3]; cur[3]++) {         \
             Napi::Array array4 = Napi::Array::New(env, sizes[4]); \
-            for (cur[4] = 0; cur[4] < sizes[4]; cur[4]++) {              \
-              (array4).Set(cur[4], get(mat, cur));                   \
-            }                                                            \
-            (array3).Set(cur[3], array3);                            \
-          }                                                              \
-          (array2).Set(cur[2], array3);                              \
-        }                                                                \
-        (array1).Set(cur[1], array2);                                \
-      }                                                                  \
-      (rowArray).Set(cur[0], array1);                                \
-    }                                                                    \
+            for (cur[4] = 0; cur[4] < sizes[4]; cur[4]++) {       \
+              (array4).Set(cur[4], get(mat, cur));                \
+            }                                                     \
+            (array3).Set(cur[3], array3);                         \
+          }                                                       \
+          (array2).Set(cur[2], array3);                           \
+        }                                                         \
+        (array1).Set(cur[1], array2);                             \
+      }                                                           \
+      (rowArray).Set(cur[0], array1);                             \
+    }                                                             \
   }
 
 void Mat::GetDataAsArray(const Napi::CallbackInfo& info) {

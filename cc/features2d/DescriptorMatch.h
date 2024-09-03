@@ -16,7 +16,6 @@ public:
   static Napi::Object Init(Napi::Env env, Napi::Object exports);
   static void New(const Napi::CallbackInfo& info);
 
-
   // static FF::IntConverter::Type getProperty_queryIdx(ClassType* self) { return self->self.queryIdx; }
   // static Napi::Value queryIdx_getter(const Napi::CallbackInfo& info) { return getter<FF::IntConverter>(info, getProperty_queryIdx); };
   // static void setProperty_queryIdx(ClassType* self, FF::IntConverter::Type val) { self->self.queryIdx = val; }

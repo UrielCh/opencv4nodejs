@@ -84,11 +84,11 @@ public:
     return unwrapSelf(info.This());
   }
 
-  static T unwrapSelf(const Napi::CallbackInfo& info) {
+  static T unwrapSelf(const Napi::GetterCallback& info) {
     return unwrapSelf(info.This().As<Napi::Object>());
   }
 
-  static T unwrapSelf(const Napi::CallbackInfo& info) {
+  static T unwrapSelf(const Napi::SetterCallback& info) {
     return unwrapSelf(info.This().As<Napi::Object>());
   }
 

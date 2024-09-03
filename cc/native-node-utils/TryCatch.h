@@ -33,7 +33,7 @@ public:
     Napi::Maybe<Napi::String> maybeString = message.ToString();
     if (maybeString.IsNothing()) {
       Napi::Error::New(env, "Failed to convert message to string").ThrowAsJavaScriptException();
-      return env.Null();
+      return env.Undefined();
     }
     std::string errorMessage = maybeString.Unwrap().Utf8Value();
     Napi::Error::New(env, errorMessage).ThrowAsJavaScriptException();

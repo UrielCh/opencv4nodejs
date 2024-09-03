@@ -15,7 +15,6 @@ Napi::Object FisherFaceRecognizer(Napi::Env env, Napi::Object exports) {
   constructor.Reset(ctor);
   ctor->SetClassName(Napi::String::New(env, "FisherFaceRecognizer"));
 
-
   target.Set("FisherFaceRecognizer", FF::getFunction(ctor));
 };
 

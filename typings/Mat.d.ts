@@ -568,7 +568,10 @@ export class Mat {
   norm(normType?: number, mask?: Mat): number;
 
   /**
-   *
+   * void 	cv::normalize (InputArray src, InputOutputArray dst, double alpha=1, double beta=0, int norm_type=NORM_L2, int dtype=-1, InputArray mask=noArray())
+   *  	Normalizes the norm or value range of an array. More...
+   *  
+   * void 	cv::normalize (const SparseMat &src, SparseMat &dst, double alpha, int normType)
    */
   normalize(this: Mat, alpha?: number, beta?: number, normType?: number, dtype?: number, mask?: Mat): Mat;
   normalize(this: Mat, opt: { alpha?: number, beta?: number, normType?: number, dtype?: number, mask?: Mat }): Mat;

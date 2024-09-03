@@ -16,7 +16,6 @@ Napi::Object FacemarkLBFParams(Napi::Env env, Napi::Object exports) {
   constructor.Reset(ctor);
   ctor->SetClassName(FF::newString(env, "FacemarkLBFParams"));
 
-
   Napi::SetAccessor(instanceTemplate, FF::newString(env, "bagging_overlap"), bagging_overlap_getter, bagging_overlap_setter);
   Napi::SetAccessor(instanceTemplate, FF::newString(env, "cascade_face"), cascade_face_getter, cascade_face_setter);
   Napi::SetAccessor(instanceTemplate, FF::newString(env, "detectROI"), detectROI_getter, detectROI_setter);

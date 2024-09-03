@@ -16,7 +16,6 @@ Napi::Object FacemarkAAMData(Napi::Env env, Napi::Object exports) {
   constructor.Reset(ctor);
   ctor->SetClassName(FF::newString(env, "FacemarkAAMData"));
 
-
   Napi::SetAccessor(instanceTemplate, FF::newString(env, "s0"), s0_getter, s0_setter);
 
   (target).Set("FacemarkAAMData", FF::getFunction(ctor));

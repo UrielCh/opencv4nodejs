@@ -15,7 +15,6 @@ Napi::Object EigenFaceRecognizer(Napi::Env env, Napi::Object exports) {
   constructor.Reset(ctor);
   ctor->SetClassName(Napi::String::New(env, "EigenFaceRecognizer"));
 
-
   target.Set("EigenFaceRecognizer", FF::getFunction(ctor));
 };
 

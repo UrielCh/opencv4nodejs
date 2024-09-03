@@ -8,21 +8,17 @@
 Napi::FunctionReference HistAxes::constructor;
 
 Napi::Object HistAxes(Napi::Env env, Napi::Object exports) {
-//   Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, HistAxes::New));
-// 
-//   HistAxes::constructor.Reset(ctor);
-// 
-//   ctor->SetClassName(Napi::String::New(env, "HistAxes"));
-// 
-//   Napi::SetAccessor(ctor->InstanceTemplate(), Napi::String::New(env, "bins"), HistAxes::bins_getter);
-//   Napi::SetAccessor(ctor->InstanceTemplate(), Napi::String::New(env, "channel"), HistAxes::channel_getter);
-//   Napi::SetAccessor(ctor->InstanceTemplate(), Napi::String::New(env, "ranges"), HistAxes::ranges_getter);
+  //   Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, HistAxes::New));
+  //
+  //   HistAxes::constructor.Reset(ctor);
+  //
+  //   ctor->SetClassName(Napi::String::New(env, "HistAxes"));
+  //
+  //   Napi::SetAccessor(ctor->InstanceTemplate(), Napi::String::New(env, "bins"), HistAxes::bins_getter);
+  //   Napi::SetAccessor(ctor->InstanceTemplate(), Napi::String::New(env, "channel"), HistAxes::channel_getter);
+  //   Napi::SetAccessor(ctor->InstanceTemplate(), Napi::String::New(env, "ranges"), HistAxes::ranges_getter);
 
-  Napi::Function ctor = DefineClass(env, "HistAxes", {
-    InstanceAccessor<&HistAxes::bins_getter>("bins"),
-    InstanceAccessor<&HistAxes::channel_getter>("channel"),
-    InstanceAccessor<&HistAxes::ranges_getter>("ranges")
-  });
+  Napi::Function ctor = DefineClass(env, "HistAxes", {InstanceAccessor<&HistAxes::bins_getter>("bins"), InstanceAccessor<&HistAxes::channel_getter>("channel"), InstanceAccessor<&HistAxes::ranges_getter>("ranges")});
 
   HistAxes::constructor = Napi::Persistent(ctor);
   HistAxes::constructor.SuppressDestruct();

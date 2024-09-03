@@ -14,7 +14,6 @@ Napi::Object HOGDescriptor(Napi::Env env, Napi::Object exports) {
   constructor.Reset(ctor);
   ctor->SetClassName(FF::newString(env, "HOGDescriptor"));
 
-
   Napi::SetAccessor(instanceTemplate, FF::newString(env, "winSize"), winSize_getter, winSize_setter);
   Napi::SetAccessor(instanceTemplate, FF::newString(env, "blockSize"), blockSize_getter, blockSize_setter);
   Napi::SetAccessor(instanceTemplate, FF::newString(env, "blockStride"), blockStride_getter, blockStride_setter);
@@ -32,25 +31,25 @@ Napi::Object HOGDescriptor(Napi::Env env, Napi::Object exports) {
   Napi::SetMethod(ctor, "getDefaultPeopleDetector", GetDefaultPeopleDetector);
 
   InstanceMethod("compute", &Compute),
-  InstanceMethod("computeAsync", &ComputeAsync),
-  InstanceMethod("computeGradient", &ComputeGradient),
-  InstanceMethod("computeGradientAsync", &ComputeGradientAsync),
-  InstanceMethod("detect", &Detect),
-  InstanceMethod("detectAsync", &DetectAsync),
-  InstanceMethod("detectROI", &DetectROI),
-  InstanceMethod("detectROIAsync", &DetectROIAsync),
-  InstanceMethod("detectMultiScale", &DetectMultiScale),
-  InstanceMethod("detectMultiScaleAsync", &DetectMultiScaleAsync),
-  InstanceMethod("detectMultiScaleROI", &DetectMultiScaleROI),
-  InstanceMethod("detectMultiScaleROIAsync", &DetectMultiScaleROIAsync),
-  InstanceMethod("groupRectangles", &GroupRectangles),
-  InstanceMethod("groupRectanglesAsync", &GroupRectanglesAsync),
-  InstanceMethod("checkDetectorSize", &CheckDetectorSize),
-  InstanceMethod("setSVMDetector", &SetSVMDetector),
-  InstanceMethod("save", &Save),
-  InstanceMethod("load", &Load),
+      InstanceMethod("computeAsync", &ComputeAsync),
+      InstanceMethod("computeGradient", &ComputeGradient),
+      InstanceMethod("computeGradientAsync", &ComputeGradientAsync),
+      InstanceMethod("detect", &Detect),
+      InstanceMethod("detectAsync", &DetectAsync),
+      InstanceMethod("detectROI", &DetectROI),
+      InstanceMethod("detectROIAsync", &DetectROIAsync),
+      InstanceMethod("detectMultiScale", &DetectMultiScale),
+      InstanceMethod("detectMultiScaleAsync", &DetectMultiScaleAsync),
+      InstanceMethod("detectMultiScaleROI", &DetectMultiScaleROI),
+      InstanceMethod("detectMultiScaleROIAsync", &DetectMultiScaleROIAsync),
+      InstanceMethod("groupRectangles", &GroupRectangles),
+      InstanceMethod("groupRectanglesAsync", &GroupRectanglesAsync),
+      InstanceMethod("checkDetectorSize", &CheckDetectorSize),
+      InstanceMethod("setSVMDetector", &SetSVMDetector),
+      InstanceMethod("save", &Save),
+      InstanceMethod("load", &Load),
 
-  (target).Set("HOGDescriptor", FF::getFunction(ctor));
+      (target).Set("HOGDescriptor", FF::getFunction(ctor));
 #if CV_VERSION_GREATER_EQUAL(4, 0, 0)
   HistogramNormType::Init(env, exports);
 #endif

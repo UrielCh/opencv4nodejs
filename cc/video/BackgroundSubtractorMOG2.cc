@@ -14,7 +14,6 @@ Napi::Object BackgroundSubtractorMOG2(Napi::Env env, Napi::Object exports) {
   constructor.Reset(ctor);
   ctor->SetClassName(FF::newString(env, "BackgroundSubtractorMOG2"));
 
-
   Napi::SetAccessor(instanceTemplate, FF::newString(env, "history"), history_getter);
   Napi::SetAccessor(instanceTemplate, FF::newString(env, "varThreshold"), varThreshold_getter);
   Napi::SetAccessor(instanceTemplate, FF::newString(env, "detectShadows"), detectShadows_getter);

@@ -14,15 +14,15 @@ Napi::Object Rect(Napi::Env env, Napi::Object exports) {
   Napi::SetAccessor(ctor->InstanceTemplate(), Napi::String::New(env, "height"), Rect::height_getter);
 
   InstanceMethod("and", &And),
-  InstanceMethod("or", &Or),
-  InstanceMethod("toSquare", &ToSquare),
-  InstanceMethod("toSquareAsync", &ToSquareAsync),
-  InstanceMethod("pad", &Pad),
-  InstanceMethod("padAsync", &PadAsync),
-  InstanceMethod("rescale", &Rescale),
-  InstanceMethod("rescaleAsync", &RescaleAsync),
+      InstanceMethod("or", &Or),
+      InstanceMethod("toSquare", &ToSquare),
+      InstanceMethod("toSquareAsync", &ToSquareAsync),
+      InstanceMethod("pad", &Pad),
+      InstanceMethod("padAsync", &PadAsync),
+      InstanceMethod("rescale", &Rescale),
+      InstanceMethod("rescaleAsync", &RescaleAsync),
 
-  target.Set("Rect", FF::getFunction(ctor));
+      target.Set("Rect", FF::getFunction(ctor));
 };
 
 void Rect::New(const Napi::CallbackInfo& info) {

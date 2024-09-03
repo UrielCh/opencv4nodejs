@@ -18,7 +18,6 @@ Napi::Object FacemarkLBF(Napi::Env env, Napi::Object exports) {
   constructor.Reset(ctor);
   ctor->SetClassName(Napi::String::New(env, "FacemarkLBF"));
 
-
   target.Set("FacemarkLBF", FF::getFunction(ctor));
 };
 

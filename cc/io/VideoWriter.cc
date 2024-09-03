@@ -14,13 +14,13 @@ Napi::Object VideoWriter(Napi::Env env, Napi::Object exports) {
   ctor->SetClassName(FF::newString(env, "VideoWriter"));
   Napi::SetMethod(ctor, "fourcc", Fourcc);
   InstanceMethod("write", &Write),
-  InstanceMethod("writeAsync", &WriteAsync),
-  InstanceMethod("get", &Get),
-  InstanceMethod("getAsync", &GetAsync),
-  InstanceMethod("set", &Set),
-  InstanceMethod("setAsync", &SetAsync),
-  InstanceMethod("release", &Release),
-  (target).Set("VideoWriter", FF::getFunction(ctor));
+      InstanceMethod("writeAsync", &WriteAsync),
+      InstanceMethod("get", &Get),
+      InstanceMethod("getAsync", &GetAsync),
+      InstanceMethod("set", &Set),
+      InstanceMethod("setAsync", &SetAsync),
+      InstanceMethod("release", &Release),
+      (target).Set("VideoWriter", FF::getFunction(ctor));
 };
 
 void VideoWriter::New(const Napi::CallbackInfo& info) {

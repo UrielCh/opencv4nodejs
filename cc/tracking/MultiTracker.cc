@@ -15,7 +15,6 @@ Napi::Object MultiTracker(Napi::Env env, Napi::Object exports) {
   constructor.Reset(ctor);
   ctor->SetClassName(FF::newString(env, "MultiTracker"));
 
-
   Napi::SetPrototypeMethod(ctor, "addMIL", MultiTracker::AddMIL);
   Napi::SetPrototypeMethod(ctor, "addBOOSTING", MultiTracker::AddBOOSTING);
   Napi::SetPrototypeMethod(ctor, "addMEDIANFLOW", MultiTracker::AddMEDIANFLOW);

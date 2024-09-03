@@ -25,20 +25,20 @@ Napi::Object SVM(Napi::Env env, Napi::Object exports) {
   Napi::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "isTrained"), isTrained_getter);
 
   InstanceMethod("setParams", &SetParams),
-  InstanceMethod("train", &Train),
-  InstanceMethod("trainAuto", &TrainAuto),
-  InstanceMethod("predict", &Predict),
-  InstanceMethod("getSupportVectors", &GetSupportVectors),
-  InstanceMethod("getUncompressedSupportVectors", &GetUncompressedSupportVectors),
-  InstanceMethod("getDecisionFunction", &GetDecisionFunction),
-  InstanceMethod("calcError", &CalcError),
-  InstanceMethod("save", &Save),
-  InstanceMethod("load", &Load),
+      InstanceMethod("train", &Train),
+      InstanceMethod("trainAuto", &TrainAuto),
+      InstanceMethod("predict", &Predict),
+      InstanceMethod("getSupportVectors", &GetSupportVectors),
+      InstanceMethod("getUncompressedSupportVectors", &GetUncompressedSupportVectors),
+      InstanceMethod("getDecisionFunction", &GetDecisionFunction),
+      InstanceMethod("calcError", &CalcError),
+      InstanceMethod("save", &Save),
+      InstanceMethod("load", &Load),
 
-  InstanceMethod("trainAsync", &TrainAsync),
-  InstanceMethod("trainAutoAsync", &TrainAutoAsync),
+      InstanceMethod("trainAsync", &TrainAsync),
+      InstanceMethod("trainAutoAsync", &TrainAutoAsync),
 
-  target.Set("SVM", FF::getFunction(ctor));
+      target.Set("SVM", FF::getFunction(ctor));
 };
 
 void SVM::setParams(Napi::Object params) {

@@ -13,14 +13,14 @@ Napi::Object VideoCapture(Napi::Env env, Napi::Object exports) {
 
   ctor->SetClassName(FF::newString(env, "VideoCapture"));
   InstanceMethod("read", &Read),
-  InstanceMethod("reset", &Reset),
-  InstanceMethod("readAsync", &ReadAsync),
-  InstanceMethod("get", &Get),
-  InstanceMethod("getAsync", &GetAsync),
-  InstanceMethod("set", &Set),
-  InstanceMethod("setAsync", &SetAsync),
-  InstanceMethod("release", &Release),
-  (target).Set("VideoCapture", FF::getFunction(ctor));
+      InstanceMethod("reset", &Reset),
+      InstanceMethod("readAsync", &ReadAsync),
+      InstanceMethod("get", &Get),
+      InstanceMethod("getAsync", &GetAsync),
+      InstanceMethod("set", &Set),
+      InstanceMethod("setAsync", &SetAsync),
+      InstanceMethod("release", &Release),
+      (target).Set("VideoCapture", FF::getFunction(ctor));
 };
 
 void VideoCapture::New(const Napi::CallbackInfo& info) {

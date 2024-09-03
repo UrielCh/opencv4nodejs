@@ -14,7 +14,6 @@ Napi::Object PHash(Napi::Env env, Napi::Object exports) {
   constructor.Reset(ctor);
   ctor->SetClassName(FF::newString(env, "PHash"));
 
-
   (target).Set("PHash", FF::getFunction(ctor));
 };
 

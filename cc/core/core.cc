@@ -114,7 +114,17 @@ Napi::Value Core::Partition(const Napi::CallbackInfo& info) {
   }
 
   Napi::Function cb = info[1].As<Napi::Function>();
+
+#ifdef NODE_ADDON_API_ENABLE_MAYBE
+  Napi::Maybe<Napi::Value> mayBeData0 = jsData.Get(uint32_t(0));
+  if (mayBeData0.IsNothing()) {
+    // duplicated protection ?
+    return tryCatch.throwError("expected data to contain at least 1 element");
+  }
+  Napi::Value data0 = mayBeData0.Unwrap();
+#else
   Napi::Value data0 = jsData.Get(uint32_t(0));
+#endif
 
   int numLabels = 0;
   std::vector<int> labels;
@@ -181,11 +191,20 @@ Napi::Value Core::Kmeans(const Napi::CallbackInfo& info) {
   }
   Napi::Array jsData = info[0].As<Napi::Array>();
 
-  if (jsData->Length() < 1) {
+  if (jsData.Length() < 1) {
     return tryCatch.throwError("expected data to contain at least 1 element");
   }
+#ifdef NODE_ADDON_API_ENABLE_MAYBE
+  Napi::Maybe<Napi::Value> mayBeData0 = jsData.Get(uint32_t(0));
+  if (mayBeData0.IsNothing()) {
+    // duplicated protection ?
+    return tryCatch.throwError("expected data to contain at least 1 element");
+  }
+  Napi::Value data0 = mayBeData0.Unwrap();
+#else
+  Napi::Value data0 = jsData.Get(uint32_t(0));
+#endif
 
-  Napi::Value data0 = (jsData).Get(0);
   bool isPoint2 = Point2::hasInstance(data0);
 
   std::vector<cv::Point2f> pts2d;
@@ -227,20 +246,20 @@ Napi::Value Core::Kmeans(const Napi::CallbackInfo& info) {
   return ret;
 }
 
-void Core::CartToPolar(const Napi::CallbackInfo& info) {
-  FF::syncBinding<CoreBindings::CartToPolar>("Core", "CartToPolar", info);
+Napi::Value Core::CartToPolar(const Napi::CallbackInfo& info) {
+  return FF::syncBinding<CoreBindings::CartToPolar>("Core", "CartToPolar", info);
 }
 
-void Core::CartToPolarAsync(const Napi::CallbackInfo& info) {
-  FF::asyncBinding<CoreBindings::CartToPolar>("Core", "CartToPolar", info);
+Napi::Value Core::CartToPolarAsync(const Napi::CallbackInfo& info) {
+  return FF::asyncBinding<CoreBindings::CartToPolar>("Core", "CartToPolar", info);
 }
 
-void Core::PolarToCart(const Napi::CallbackInfo& info) {
-  FF::syncBinding<CoreBindings::PolarToCart>("Core", "PolarToCart", info);
+Napi::Value Core::PolarToCart(const Napi::CallbackInfo& info) {
+  return FF::syncBinding<CoreBindings::PolarToCart>("Core", "PolarToCart", info);
 }
 
-void Core::PolarToCartAsync(const Napi::CallbackInfo& info) {
-  FF::asyncBinding<CoreBindings::PolarToCart>("Core", "PolarToCart", info);
+Napi::Value Core::PolarToCartAsync(const Napi::CallbackInfo& info) {
+  return FF::asyncBinding<CoreBindings::PolarToCart>("Core", "PolarToCart", info);
 }
 
 Napi::Value Core::GetNumThreads(const Napi::CallbackInfo& info) {
@@ -252,7 +271,8 @@ void Core::SetNumThreads(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch(env, "Core::SetNumThreads");
   int num;
   if (FF::IntConverter::arg(0, &num, info)) {
-    return tryCatch.reThrow();
+    tryCatch.reThrow();
+    return;
   }
   cv::setNumThreads(num);
 }
@@ -261,176 +281,176 @@ Napi::Value Core::GetThreadNum(const Napi::CallbackInfo& info) {
   return FF::IntConverter::wrap(cv::getThreadNum());
 }
 
-void Core::AddWeighted(const Napi::CallbackInfo& info) {
-  FF::syncBinding<CoreBindings::AddWeighted>("Core", "AddWeighted", info);
+Napi::Value Core::AddWeighted(const Napi::CallbackInfo& info) {
+  return FF::syncBinding<CoreBindings::AddWeighted>("Core", "AddWeighted", info);
 }
 
-void Core::AddWeightedAsync(const Napi::CallbackInfo& info) {
-  FF::asyncBinding<CoreBindings::AddWeighted>("Core", "AddWeighted", info);
+Napi::Value Core::AddWeightedAsync(const Napi::CallbackInfo& info) {
+  return FF::asyncBinding<CoreBindings::AddWeighted>("Core", "AddWeighted", info);
 }
 
-void Core::MinMaxLoc(const Napi::CallbackInfo& info) {
-  FF::syncBinding<CoreBindings::MinMaxLoc>("Core", "MinMaxLoc", info);
+Napi::Value Core::MinMaxLoc(const Napi::CallbackInfo& info) {
+  return FF::syncBinding<CoreBindings::MinMaxLoc>("Core", "MinMaxLoc", info);
 }
 
-void Core::MinMaxLocAsync(const Napi::CallbackInfo& info) {
-  FF::asyncBinding<CoreBindings::MinMaxLoc>("Core", "MinMaxLoc", info);
+Napi::Value Core::MinMaxLocAsync(const Napi::CallbackInfo& info) {
+  return FF::asyncBinding<CoreBindings::MinMaxLoc>("Core", "MinMaxLoc", info);
 }
 
-void Core::FindNonZero(const Napi::CallbackInfo& info) {
-  FF::syncBinding<CoreBindings::FindNonZero>("Core", "FindNonZero", info);
+Napi::Value Core::FindNonZero(const Napi::CallbackInfo& info) {
+  return FF::syncBinding<CoreBindings::FindNonZero>("Core", "FindNonZero", info);
 }
 
-void Core::FindNonZeroAsync(const Napi::CallbackInfo& info) {
-  FF::asyncBinding<CoreBindings::FindNonZero>("Core", "FindNonZero", info);
+Napi::Value Core::FindNonZeroAsync(const Napi::CallbackInfo& info) {
+  return FF::asyncBinding<CoreBindings::FindNonZero>("Core", "FindNonZero", info);
 }
 
-void Core::CountNonZero(const Napi::CallbackInfo& info) {
-  FF::syncBinding<CoreBindings::CountNonZero>("Core", "CountNonZero", info);
+Napi::Value Core::CountNonZero(const Napi::CallbackInfo& info) {
+  return FF::syncBinding<CoreBindings::CountNonZero>("Core", "CountNonZero", info);
 }
 
-void Core::CountNonZeroAsync(const Napi::CallbackInfo& info) {
-  FF::asyncBinding<CoreBindings::CountNonZero>("Core", "CountNonZero", info);
+Napi::Value Core::CountNonZeroAsync(const Napi::CallbackInfo& info) {
+  return FF::asyncBinding<CoreBindings::CountNonZero>("Core", "CountNonZero", info);
 }
 
-void Core::Normalize(const Napi::CallbackInfo& info) {
-  FF::syncBinding<CoreBindings::Normalize>("Core", "Normalize", info);
+Napi::Value Core::Normalize(const Napi::CallbackInfo& info) {
+  return FF::syncBinding<CoreBindings::Normalize>("Core", "Normalize", info);
 }
 
-void Core::NormalizeAsync(const Napi::CallbackInfo& info) {
-  FF::asyncBinding<CoreBindings::Normalize>("Core", "Normalize", info);
+Napi::Value Core::NormalizeAsync(const Napi::CallbackInfo& info) {
+  return FF::asyncBinding<CoreBindings::Normalize>("Core", "Normalize", info);
 }
 
-void Core::Split(const Napi::CallbackInfo& info) {
-  FF::syncBinding<CoreBindings::Split>("Core", "Split", info);
+Napi::Value Core::Split(const Napi::CallbackInfo& info) {
+  return FF::syncBinding<CoreBindings::Split>("Core", "Split", info);
 }
 
-void Core::SplitAsync(const Napi::CallbackInfo& info) {
-  FF::asyncBinding<CoreBindings::Split>("Core", "Split", info);
+Napi::Value Core::SplitAsync(const Napi::CallbackInfo& info) {
+  return FF::asyncBinding<CoreBindings::Split>("Core", "Split", info);
 }
 
-void Core::MulSpectrums(const Napi::CallbackInfo& info) {
-  FF::syncBinding<CoreBindings::MulSpectrums>("Core", "MulSpectrums", info);
+Napi::Value Core::MulSpectrums(const Napi::CallbackInfo& info) {
+  return FF::syncBinding<CoreBindings::MulSpectrums>("Core", "MulSpectrums", info);
 }
 
-void Core::MulSpectrumsAsync(const Napi::CallbackInfo& info) {
-  FF::asyncBinding<CoreBindings::MulSpectrums>("Core", "MulSpectrums", info);
+Napi::Value Core::MulSpectrumsAsync(const Napi::CallbackInfo& info) {
+  return FF::asyncBinding<CoreBindings::MulSpectrums>("Core", "MulSpectrums", info);
 }
 
-void Core::Transform(const Napi::CallbackInfo& info) {
-  FF::syncBinding<CoreBindings::Transform>("Core", "Transform", info);
+Napi::Value Core::Transform(const Napi::CallbackInfo& info) {
+  return FF::syncBinding<CoreBindings::Transform>("Core", "Transform", info);
 }
 
-void Core::TransformAsync(const Napi::CallbackInfo& info) {
-  FF::asyncBinding<CoreBindings::Transform>("Core", "Transform", info);
+Napi::Value Core::TransformAsync(const Napi::CallbackInfo& info) {
+  return FF::asyncBinding<CoreBindings::Transform>("Core", "Transform", info);
 }
 
-void Core::PerspectiveTransform(const Napi::CallbackInfo& info) {
-  FF::syncBinding<CoreBindings::PerspectiveTransform>("Core", "PerspectiveTransform", info);
+Napi::Value Core::PerspectiveTransform(const Napi::CallbackInfo& info) {
+  return FF::syncBinding<CoreBindings::PerspectiveTransform>("Core", "PerspectiveTransform", info);
 }
 
-void Core::PerspectiveTransformAsync(const Napi::CallbackInfo& info) {
-  FF::asyncBinding<CoreBindings::PerspectiveTransform>("Core", "PerspectiveTransform", info);
+Napi::Value Core::PerspectiveTransformAsync(const Napi::CallbackInfo& info) {
+  return FF::asyncBinding<CoreBindings::PerspectiveTransform>("Core", "PerspectiveTransform", info);
 }
 
-void Core::Sum(const Napi::CallbackInfo& info) {
-  FF::syncBinding<CoreBindings::Sum>("Core", "Sum", info);
+Napi::Value Core::Sum(const Napi::CallbackInfo& info) {
+  return FF::syncBinding<CoreBindings::Sum>("Core", "Sum", info);
 }
 
-void Core::SumAsync(const Napi::CallbackInfo& info) {
-  FF::asyncBinding<CoreBindings::Sum>("Core", "Sum", info);
+Napi::Value Core::SumAsync(const Napi::CallbackInfo& info) {
+  return FF::asyncBinding<CoreBindings::Sum>("Core", "Sum", info);
 }
 
-void Core::ConvertScaleAbs(const Napi::CallbackInfo& info) {
-  FF::syncBinding<CoreBindings::ConvertScaleAbs>("Core", "ConvertScaleAbs", info);
+Napi::Value Core::ConvertScaleAbs(const Napi::CallbackInfo& info) {
+  return FF::syncBinding<CoreBindings::ConvertScaleAbs>("Core", "ConvertScaleAbs", info);
 }
 
-void Core::ConvertScaleAbsAsync(const Napi::CallbackInfo& info) {
-  FF::asyncBinding<CoreBindings::ConvertScaleAbs>("Core", "ConvertScaleAbs", info);
+Napi::Value Core::ConvertScaleAbsAsync(const Napi::CallbackInfo& info) {
+  return FF::asyncBinding<CoreBindings::ConvertScaleAbs>("Core", "ConvertScaleAbs", info);
 }
 
-void Core::Mean(const Napi::CallbackInfo& info) {
-  FF::syncBinding<CoreBindings::Mean>("Core", "Mean", info);
+Napi::Value Core::Mean(const Napi::CallbackInfo& info) {
+  return FF::syncBinding<CoreBindings::Mean>("Core", "Mean", info);
 }
 
-void Core::MeanAsync(const Napi::CallbackInfo& info) {
-  FF::asyncBinding<CoreBindings::Mean>("Core", "Mean", info);
+Napi::Value Core::MeanAsync(const Napi::CallbackInfo& info) {
+  return FF::asyncBinding<CoreBindings::Mean>("Core", "Mean", info);
 }
 
-void Core::MeanStdDev(const Napi::CallbackInfo& info) {
-  FF::syncBinding<CoreBindings::MeanStdDev>("Core", "MeanStdDev", info);
+Napi::Value Core::MeanStdDev(const Napi::CallbackInfo& info) {
+  return FF::syncBinding<CoreBindings::MeanStdDev>("Core", "MeanStdDev", info);
 }
 
-void Core::MeanStdDevAsync(const Napi::CallbackInfo& info) {
-  FF::asyncBinding<CoreBindings::MeanStdDev>("Core", "MeanStdDev", info);
+Napi::Value Core::MeanStdDevAsync(const Napi::CallbackInfo& info) {
+  return FF::asyncBinding<CoreBindings::MeanStdDev>("Core", "MeanStdDev", info);
 }
 
-void Core::Reduce(const Napi::CallbackInfo& info) {
-  FF::syncBinding<CoreBindings::Reduce>("Core", "Reduce", info);
+Napi::Value Core::Reduce(const Napi::CallbackInfo& info) {
+  return FF::syncBinding<CoreBindings::Reduce>("Core", "Reduce", info);
 }
 
-void Core::ReduceAsync(const Napi::CallbackInfo& info) {
-  FF::asyncBinding<CoreBindings::Reduce>("Core", "Reduce", info);
+Napi::Value Core::ReduceAsync(const Napi::CallbackInfo& info) {
+  return FF::asyncBinding<CoreBindings::Reduce>("Core", "Reduce", info);
 }
 
-void Core::Eigen(const Napi::CallbackInfo& info) {
-  FF::syncBinding<CoreBindings::Eigen>("Core", "Eigen", info);
+Napi::Value Core::Eigen(const Napi::CallbackInfo& info) {
+  return FF::syncBinding<CoreBindings::Eigen>("Core", "Eigen", info);
 }
 
-void Core::EigenAsync(const Napi::CallbackInfo& info) {
-  FF::asyncBinding<CoreBindings::Eigen>("Core", "Eigen", info);
+Napi::Value Core::EigenAsync(const Napi::CallbackInfo& info) {
+  return FF::asyncBinding<CoreBindings::Eigen>("Core", "Eigen", info);
 }
 
-void Core::Min(const Napi::CallbackInfo& info) {
-  FF::syncBinding<CoreBindings::Min>("Core", "Min", info);
+Napi::Value Core::Min(const Napi::CallbackInfo& info) {
+  return FF::syncBinding<CoreBindings::Min>("Core", "Min", info);
 }
 
-void Core::MinAsync(const Napi::CallbackInfo& info) {
-  FF::asyncBinding<CoreBindings::Min>("Core", "Min", info);
+Napi::Value Core::MinAsync(const Napi::CallbackInfo& info) {
+  return FF::asyncBinding<CoreBindings::Min>("Core", "Min", info);
 }
 
-void Core::Max(const Napi::CallbackInfo& info) {
-  FF::syncBinding<CoreBindings::Max>("Core", "Max", info);
+Napi::Value Core::Max(const Napi::CallbackInfo& info) {
+  return FF::syncBinding<CoreBindings::Max>("Core", "Max", info);
 }
 
-void Core::MaxAsync(const Napi::CallbackInfo& info) {
-  FF::asyncBinding<CoreBindings::Max>("Core", "Max", info);
+Napi::Value Core::MaxAsync(const Napi::CallbackInfo& info) {
+  return FF::asyncBinding<CoreBindings::Max>("Core", "Max", info);
 }
 
-void Core::Solve(const Napi::CallbackInfo& info) {
-  FF::syncBinding<CoreBindings::Solve>("Core", "Solve", info);
+Napi::Value Core::Solve(const Napi::CallbackInfo& info) {
+  return FF::syncBinding<CoreBindings::Solve>("Core", "Solve", info);
 }
 
-void Core::SolveAsync(const Napi::CallbackInfo& info) {
-  FF::asyncBinding<CoreBindings::Solve>("Core", "Solve", info);
+Napi::Value Core::SolveAsync(const Napi::CallbackInfo& info) {
+  return FF::asyncBinding<CoreBindings::Solve>("Core", "Solve", info);
 }
 
-void Core::Magnitude(const Napi::CallbackInfo& info) {
-  FF::syncBinding<CoreBindings::Magnitude>("Core", "Magnitude", info);
+Napi::Value Core::Magnitude(const Napi::CallbackInfo& info) {
+  return FF::syncBinding<CoreBindings::Magnitude>("Core", "Magnitude", info);
 }
 
-void Core::MagnitudeAsync(const Napi::CallbackInfo& info) {
-  FF::asyncBinding<CoreBindings::Magnitude>("Core", "Magnitude", info);
+Napi::Value Core::MagnitudeAsync(const Napi::CallbackInfo& info) {
+  return FF::asyncBinding<CoreBindings::Magnitude>("Core", "Magnitude", info);
 }
 
-void Core::GetTickFrequency(const Napi::CallbackInfo& info) {
+Napi::Value Core::GetTickFrequency(const Napi::CallbackInfo& info) {
   return FF::IntConverter::wrap(cv::getTickFrequency());
 }
 
-void Core::GetTickCount(const Napi::CallbackInfo& info) {
+Napi::Value Core::GetTickCount(const Napi::CallbackInfo& info) {
   return FF::IntConverter::wrap(cv::getTickCount());
 }
 
 #if CV_VERSION_GREATER_EQUAL(3, 4, 2)
-void Core::GetVersionMajor(const Napi::CallbackInfo& info) {
+Napi::Value Core::GetVersionMajor(const Napi::CallbackInfo& info) {
   return FF::IntConverter::wrap(cv::getVersionMajor());
 }
 
-void Core::GetVersionMinor(const Napi::CallbackInfo& info) {
+Napi::Value Core::GetVersionMinor(const Napi::CallbackInfo& info) {
   return FF::IntConverter::wrap(cv::getVersionMinor());
 }
 
-void Core::GetVersionRevision(const Napi::CallbackInfo& info) {
+Napi::Value Core::GetVersionRevision(const Napi::CallbackInfo& info) {
   return FF::IntConverter::wrap(cv::getVersionRevision());
 }
 #endif

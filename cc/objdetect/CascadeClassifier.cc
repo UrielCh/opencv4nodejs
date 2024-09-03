@@ -14,15 +14,14 @@ Napi::Object CascadeClassifier(Napi::Env env, Napi::Object exports) {
   constructor.Reset(ctor);
   ctor->SetClassName(FF::newString(env, "CascadeClassifier"));
 
-
   InstanceMethod("detectMultiScale", &DetectMultiScale),
-  InstanceMethod("detectMultiScaleAsync", &DetectMultiScaleAsync),
-  InstanceMethod("detectMultiScaleGpu", &DetectMultiScaleGpu),
-  InstanceMethod("detectMultiScaleWithRejectLevels", &DetectMultiScaleWithRejectLevels),
-  InstanceMethod("detectMultiScaleWithRejectLevelsAsync", &DetectMultiScaleWithRejectLevelsAsync),
-  InstanceMethod("detectMultiScaleWithRejectLevelsGpu", &DetectMultiScaleWithRejectLevelsGpu),
+      InstanceMethod("detectMultiScaleAsync", &DetectMultiScaleAsync),
+      InstanceMethod("detectMultiScaleGpu", &DetectMultiScaleGpu),
+      InstanceMethod("detectMultiScaleWithRejectLevels", &DetectMultiScaleWithRejectLevels),
+      InstanceMethod("detectMultiScaleWithRejectLevelsAsync", &DetectMultiScaleWithRejectLevelsAsync),
+      InstanceMethod("detectMultiScaleWithRejectLevelsGpu", &DetectMultiScaleWithRejectLevelsGpu),
 
-  (target).Set("CascadeClassifier", FF::getFunction(ctor));
+      (target).Set("CascadeClassifier", FF::getFunction(ctor));
 };
 
 void CascadeClassifier::New(const Napi::CallbackInfo& info) {
