@@ -18,8 +18,8 @@
   static ff_property_converter::Type getProperty_##ff_property_name(ClassType* self) {     \
     return self->ff_access_property_expr;                                                  \
   }                                                                                        \
-  static NAN_GETTER(ff_property_name##_getter) {                                           \
-    getter<ff_property_converter>(info, getProperty_##ff_property_name);                   \
+  static Napi::Value ff_property_name##_getter(const Napi::CallbackInfo& info) {           \
+    return getter<ff_property_converter>(info, getProperty_##ff_property_name);            \
   }
 
 /* define accessors, custom expression for accessing properties of "self" */
@@ -28,7 +28,7 @@
   static void setProperty_##ff_property_name(ClassType* self, ff_property_converter::Type val) {   \
     self->ff_access_property_expr = val;                                                           \
   }                                                                                                \
-  static NAN_SETTER(ff_property_name##_setter) {                                                   \
+  static void ff_property_name##_setter(const Napi::CallbackInfo& info, const Napi::Value& value) {\
     setter<ff_property_converter>(#ff_property_name, info, value, setProperty_##ff_property_name); \
   }
 
