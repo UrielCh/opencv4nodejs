@@ -22,7 +22,7 @@ Napi::Object Rect(Napi::Env env, Napi::Object exports) {
   Nan::SetPrototypeMethod(ctor, "rescale", Rescale);
   Nan::SetPrototypeMethod(ctor, "rescaleAsync", RescaleAsync);
 
-  Nan::Set(target, Nan::New("Rect").ToLocalChecked(), FF::getFunction(ctor));
+  target.Set("Rect", FF::getFunction(ctor));
 };
 
 void Rect::New(const Napi::CallbackInfo& info) {

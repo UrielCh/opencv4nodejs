@@ -57,11 +57,11 @@ Napi::Object Vec(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(Vec::New);
   ctor->InstanceTemplate()->SetInternalFieldCount(1);
   ctor->SetClassName(Nan::New("Vec").ToLocalChecked());
-  Nan::Set(target, Nan::New("Vec").ToLocalChecked(), FF::getFunction(ctor));
-  Nan::Set(target, Nan::New("Vec2").ToLocalChecked(), FF::getFunction(ctor));
-  Nan::Set(target, Nan::New("Vec3").ToLocalChecked(), FF::getFunction(ctor));
-  Nan::Set(target, Nan::New("Vec4").ToLocalChecked(), FF::getFunction(ctor));
-  Nan::Set(target, Nan::New("Vec6").ToLocalChecked(), FF::getFunction(ctor));
+  target.Set("Vec", FF::getFunction(ctor));
+  target.Set("Vec2", FF::getFunction(ctor));
+  target.Set("Vec3", FF::getFunction(ctor));
+  target.Set("Vec4", FF::getFunction(ctor));
+  target.Set("Vec6", FF::getFunction(ctor));
 };
 
 void Vec::New(const Napi::CallbackInfo& info) {

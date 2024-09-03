@@ -24,7 +24,7 @@ Napi::Object SuperpixelLSC(Napi::Env env, Napi::Object exports) {
 
   Nan::SetPrototypeMethod(ctor, "iterate", SuperpixelLSC::Iterate);
 
-  Nan::Set(target, Nan::New("SuperpixelLSC").ToLocalChecked(), FF::getFunction(ctor));
+  target.Set("SuperpixelLSC", FF::getFunction(ctor));
 };
 
 void SuperpixelLSC::New(const Napi::CallbackInfo& info) {

@@ -16,7 +16,7 @@ Napi::Object DescriptorMatch(Napi::Env env, Napi::Object exports) {
   Nan::SetAccessor(ctor->InstanceTemplate(), Nan::New("trainIdx").ToLocalChecked(), trainIdx_getter, trainIdx_setter);
   Nan::SetAccessor(ctor->InstanceTemplate(), Nan::New("distance").ToLocalChecked(), distance_getter, distance_setter);
 
-  Nan::Set(target, Nan::New("DescriptorMatch").ToLocalChecked(), FF::getFunction(ctor));
+  target.Set("DescriptorMatch", FF::getFunction(ctor));
 };
 
 void DescriptorMatch::New(const Napi::CallbackInfo& info) {

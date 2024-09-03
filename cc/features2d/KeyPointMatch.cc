@@ -16,7 +16,7 @@ Napi::Object KeyPointMatch(Napi::Env env, Napi::Object exports) {
   Nan::SetAccessor(ctor->InstanceTemplate(), Nan::New("kpTo").ToLocalChecked(), GetKpTo);
   Nan::SetAccessor(ctor->InstanceTemplate(), Nan::New("distance").ToLocalChecked(), GetDistance);
 
-  Nan::Set(target, Nan::New("KeyPointMatch").ToLocalChecked(), FF::getFunction(ctor));
+  target.Set("KeyPointMatch", FF::getFunction(ctor));
 };
 
 void KeyPointMatch::New(const Napi::CallbackInfo& info) {

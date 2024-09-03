@@ -25,7 +25,7 @@ Napi::Object SuperpixelSLIC(Napi::Env env, Napi::Object exports) {
 
   Nan::SetPrototypeMethod(ctor, "iterate", SuperpixelSLIC::Iterate);
 
-  Nan::Set(target, Nan::New("SuperpixelSLIC").ToLocalChecked(), FF::getFunction(ctor));
+  target.Set("SuperpixelSLIC", FF::getFunction(ctor));
 };
 
 void SuperpixelSLIC::New(const Napi::CallbackInfo& info) {

@@ -19,7 +19,7 @@ Napi::Object BRISKDetector(Napi::Env env, Napi::Object exports) {
   Nan::SetAccessor(instanceTemplate, Nan::New("octaves").ToLocalChecked(), octaves_getter);
   Nan::SetAccessor(instanceTemplate, Nan::New("patternScale").ToLocalChecked(), patternScale_getter);
 
-  Nan::Set(target, Nan::New("BRISKDetector").ToLocalChecked(), FF::getFunction(ctor));
+  target.Set("BRISKDetector", FF::getFunction(ctor));
 };
 
 void BRISKDetector::New(const Napi::CallbackInfo& info) {

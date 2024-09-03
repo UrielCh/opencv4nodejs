@@ -28,9 +28,9 @@ Napi::Object Point(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(Point::New);
   ctor->InstanceTemplate()->SetInternalFieldCount(1);
   ctor->SetClassName(Nan::New("Point").ToLocalChecked());
-  Nan::Set(target, Nan::New("Point").ToLocalChecked(), FF::getFunction(ctor));
-  Nan::Set(target, Nan::New("Point2").ToLocalChecked(), FF::getFunction(ctor));
-  Nan::Set(target, Nan::New("Point3").ToLocalChecked(), FF::getFunction(ctor));
+  target.Set("Point", FF::getFunction(ctor));
+  target.Set("Point2", FF::getFunction(ctor));
+  target.Set("Point3", FF::getFunction(ctor));
 };
 
 void Point::New(const Napi::CallbackInfo& info) {

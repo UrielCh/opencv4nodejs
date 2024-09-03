@@ -16,7 +16,7 @@ Napi::Object LBPHFaceRecognizer(Napi::Env env, Napi::Object exports) {
   ctor->SetClassName(Nan::New("LBPHFaceRecognizer").ToLocalChecked());
   instanceTemplate->SetInternalFieldCount(1);
 
-  Nan::Set(target, Nan::New("LBPHFaceRecognizer").ToLocalChecked(), FF::getFunction(ctor));
+  target.Set("LBPHFaceRecognizer", FF::getFunction(ctor));
 };
 
 struct LBPHFaceRecognizer::NewWorker : public FF::SimpleWorker {

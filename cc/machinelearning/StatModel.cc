@@ -13,7 +13,7 @@ Napi::Object StatModel(Napi::Env env, Napi::Object exports) {
   ctor->InstanceTemplate()->SetInternalFieldCount(1);
   ctor->SetClassName(Nan::New("StatModel").ToLocalChecked());
 
-  Nan::Set(target, Nan::New("StatModel").ToLocalChecked(), FF::getFunction(ctor));
+  target.Set("StatModel", FF::getFunction(ctor));
 };
 
 void StatModel::New(const Napi::CallbackInfo& info) {

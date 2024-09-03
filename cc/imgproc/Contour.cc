@@ -40,7 +40,7 @@ Napi::Object Contour(Napi::Env env, Napi::Object exports) {
   Nan::SetPrototypeMethod(ctor, "fitEllipse", FitEllipse);
   Nan::SetPrototypeMethod(ctor, "moments", _Moments);
 
-  Nan::Set(target, Nan::New("Contour").ToLocalChecked(), FF::getFunction(ctor));
+  target.Set("Contour", FF::getFunction(ctor));
 };
 
 void Contour::New(const Napi::CallbackInfo& info) {

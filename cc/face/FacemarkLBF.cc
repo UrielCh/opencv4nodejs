@@ -19,7 +19,7 @@ Napi::Object FacemarkLBF(Napi::Env env, Napi::Object exports) {
   ctor->SetClassName(Nan::New("FacemarkLBF").ToLocalChecked());
   instanceTemplate->SetInternalFieldCount(1);
 
-  Nan::Set(target, Nan::New("FacemarkLBF").ToLocalChecked(), FF::getFunction(ctor));
+  target.Set("FacemarkLBF", FF::getFunction(ctor));
 };
 
 void FacemarkLBF::New(const Napi::CallbackInfo& info) {

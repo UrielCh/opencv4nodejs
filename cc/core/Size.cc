@@ -10,7 +10,7 @@ Napi::Object Size(Napi::Env env, Napi::Object exports) {
   Nan::SetAccessor(ctor->InstanceTemplate(), Nan::New("width").ToLocalChecked(), Size::width_getter);
   Nan::SetAccessor(ctor->InstanceTemplate(), Nan::New("height").ToLocalChecked(), Size::height_getter);
 
-  Nan::Set(target, Nan::New("Size").ToLocalChecked(), FF::getFunction(ctor));
+  target.Set("Size", FF::getFunction(ctor));
 };
 
 void Size::New(const Napi::CallbackInfo& info) {

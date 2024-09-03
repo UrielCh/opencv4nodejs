@@ -19,7 +19,7 @@ Napi::Object FacemarkAAM(Napi::Env env, Napi::Object exports) {
   ctor->SetClassName(Nan::New("FacemarkAAM").ToLocalChecked());
   instanceTemplate->SetInternalFieldCount(1);
 
-  Nan::Set(target, Nan::New("FacemarkAAM").ToLocalChecked(), FF::getFunction(ctor));
+  target.Set("FacemarkAAM", FF::getFunction(ctor));
 };
 
 void FacemarkAAM::New(const Napi::CallbackInfo& info) {

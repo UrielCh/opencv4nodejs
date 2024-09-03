@@ -224,7 +224,7 @@ Napi::Object Mat(Napi::Env env, Napi::Object exports) {
   MatXimgproc::Init(ctor);
 #endif
 
-  Nan::Set(target, Nan::New("Mat").ToLocalChecked(), FF::getFunction(ctor));
+  target.Set("Mat", FF::getFunction(ctor));
 };
 
 // only used in Mat::At and Mat::AtRaw

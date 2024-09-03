@@ -508,8 +508,8 @@ struct DistanceTransformWithLabelsWorker : public DistanceTransformWorker {
 
   Napi::Value getReturnValue(const Napi::Env& env) {
     Napi::Object ret = Napi::Object::New(env);
-    Nan::Set(ret, Nan::New("dst").ToLocalChecked(), Mat::Converter::wrap(dst));
-    Nan::Set(ret, Nan::New("labels").ToLocalChecked(), Mat::Converter::wrap(labels));
+    ret.Set("dst", Mat::Converter::wrap(dst));
+    ret.Set("labels", Mat::Converter::wrap(labels));
     return ret;
   }
 
@@ -575,9 +575,9 @@ struct ConnectedComponentsWithStatsWorker : public ConnectedComponentsWorker {
 
   Napi::Value getReturnValue(const Napi::Env& env) {
     Napi::Object ret = Napi::Object::New(env);
-    Nan::Set(ret, Nan::New("labels").ToLocalChecked(), Mat::Converter::wrap(labels));
-    Nan::Set(ret, Nan::New("stats").ToLocalChecked(), Mat::Converter::wrap(stats));
-    Nan::Set(ret, Nan::New("centroids").ToLocalChecked(), Mat::Converter::wrap(centroids));
+    ret.Set("labels", Mat::Converter::wrap(labels));
+    ret.Set("stats", Mat::Converter::wrap(stats));
+    ret.Set("centroids", Mat::Converter::wrap(centroids));
     return ret;
   }
 
@@ -1595,8 +1595,8 @@ public:
 
   Napi::Value getReturnValue(const Napi::Env& env) {
     Napi::Object ret = Napi::Object::New(env);
-    Nan::Set(ret, Nan::New("returnValue").ToLocalChecked(), FF::IntConverter::wrap(returnValue));
-    Nan::Set(ret, Nan::New("rect").ToLocalChecked(), Rect::Converter::wrap(rect));
+    ret.Set("returnValue", FF::IntConverter::wrap(returnValue));
+    ret.Set("rect", Rect::Converter::wrap(rect));
     return ret;
   }
 
@@ -1989,9 +1989,9 @@ public:
 
   Napi::Value getReturnValue(const Napi::Env& env) {
     Napi::Object ret = Napi::Object::New(env);
-    Nan::Set(ret, Nan::New("sum").ToLocalChecked(), Mat::Converter::wrap(sum));
-    Nan::Set(ret, Nan::New("sqsum").ToLocalChecked(), Mat::Converter::wrap(sqsum));
-    Nan::Set(ret, Nan::New("tilted").ToLocalChecked(), Mat::Converter::wrap(tilted));
+    ret.Set("sum", Mat::Converter::wrap(sum));
+    ret.Set("sqsum", Mat::Converter::wrap(sqsum));
+    ret.Set("tilted", Mat::Converter::wrap(tilted));
     return ret;
   }
 

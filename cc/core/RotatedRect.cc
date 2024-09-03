@@ -13,7 +13,7 @@ Napi::Object RotatedRect(Napi::Env env, Napi::Object exports) {
 
   Nan::SetPrototypeMethod(ctor, "boundingRect", RotatedRect::BoundingRect);
 
-  Nan::Set(target, Nan::New("RotatedRect").ToLocalChecked(), FF::getFunction(ctor));
+  target.Set("RotatedRect", FF::getFunction(ctor));
 };
 
 void RotatedRect::New(const Napi::CallbackInfo& info) {

@@ -22,7 +22,7 @@ Napi::Object GFTTDetector(Napi::Env env, Napi::Object exports) {
   Nan::SetAccessor(instanceTemplate, Nan::New("harrisDetector").ToLocalChecked(), harrisDetector_getter);
   Nan::SetAccessor(instanceTemplate, Nan::New("k").ToLocalChecked(), k_getter);
 
-  Nan::Set(target, Nan::New("GFTTDetector").ToLocalChecked(), FF::getFunction(ctor));
+  target.Set("GFTTDetector", FF::getFunction(ctor));
 };
 
 void GFTTDetector::New(const Napi::CallbackInfo& info) {

@@ -25,7 +25,7 @@ Napi::Object ORBDetector(Napi::Env env, Napi::Object exports) {
   Nan::SetAccessor(instanceTemplate, Nan::New("patchSize").ToLocalChecked(), patchSize_getter);
   Nan::SetAccessor(instanceTemplate, Nan::New("fastThreshold").ToLocalChecked(), fastThreshold_getter);
 
-  Nan::Set(target, Nan::New("ORBDetector").ToLocalChecked(), FF::getFunction(ctor));
+  target.Set("ORBDetector", FF::getFunction(ctor));
 #if CV_VERSION_GREATER_EQUAL(4, 0, 0)
   ScoreType::Init(env, exports);
 #endif

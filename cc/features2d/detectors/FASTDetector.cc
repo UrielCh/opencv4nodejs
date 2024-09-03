@@ -19,7 +19,7 @@ Napi::Object FASTDetector(Napi::Env env, Napi::Object exports) {
   Nan::SetAccessor(instanceTemplate, Nan::New("nonmaxSuppression").ToLocalChecked(), nonmaxSuppression_getter);
   Nan::SetAccessor(instanceTemplate, Nan::New("type").ToLocalChecked(), type_getter);
 
-  Nan::Set(target, Nan::New("FASTDetector").ToLocalChecked(), FF::getFunction(ctor));
+  target.Set("FASTDetector", FF::getFunction(ctor));
 #if CV_VERSION_GREATER_EQUAL(4, 0, 0)
   DetectorType::Init(env, exports);
 #endif

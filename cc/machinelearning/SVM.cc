@@ -38,7 +38,7 @@ Napi::Object SVM(Napi::Env env, Napi::Object exports) {
   Nan::SetPrototypeMethod(ctor, "trainAsync", TrainAsync);
   Nan::SetPrototypeMethod(ctor, "trainAutoAsync", TrainAutoAsync);
 
-  Nan::Set(target, Nan::New("SVM").ToLocalChecked(), FF::getFunction(ctor));
+  target.Set("SVM", FF::getFunction(ctor));
 };
 
 void SVM::setParams(Napi::Object params) {

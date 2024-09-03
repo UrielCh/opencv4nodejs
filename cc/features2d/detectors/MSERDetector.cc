@@ -30,7 +30,7 @@ Napi::Object MSERDetector(Napi::Env env, Napi::Object exports) {
   Nan::SetAccessor(instanceTemplate, Nan::New("minMargin").ToLocalChecked(), minMargin_getter);
   Nan::SetAccessor(instanceTemplate, Nan::New("edgeBlurSize").ToLocalChecked(), edgeBlurSize_getter);
 
-  Nan::Set(target, Nan::New("MSERDetector").ToLocalChecked(), FF::getFunction(ctor));
+  target.Set("MSERDetector", FF::getFunction(ctor));
 };
 
 void MSERDetector::New(const Napi::CallbackInfo& info) {

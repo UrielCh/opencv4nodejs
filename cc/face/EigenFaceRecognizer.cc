@@ -16,7 +16,7 @@ Napi::Object EigenFaceRecognizer(Napi::Env env, Napi::Object exports) {
   ctor->SetClassName(Nan::New("EigenFaceRecognizer").ToLocalChecked());
   instanceTemplate->SetInternalFieldCount(1);
 
-  Nan::Set(target, Nan::New("EigenFaceRecognizer").ToLocalChecked(), FF::getFunction(ctor));
+  target.Set("EigenFaceRecognizer", FF::getFunction(ctor));
 };
 
 void EigenFaceRecognizer::New(const Napi::CallbackInfo& info) {

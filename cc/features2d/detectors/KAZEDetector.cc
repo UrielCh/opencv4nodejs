@@ -22,7 +22,7 @@ Napi::Object KAZEDetector(Napi::Env env, Napi::Object exports) {
   Nan::SetAccessor(instanceTemplate, Nan::New("nOctaveLayers").ToLocalChecked(), nOctaveLayers_getter);
   Nan::SetAccessor(instanceTemplate, Nan::New("diffusivity").ToLocalChecked(), diffusivity_getter);
 
-  Nan::Set(target, Nan::New("KAZEDetector").ToLocalChecked(), FF::getFunction(ctor));
+  target.Set("KAZEDetector", FF::getFunction(ctor));
 #if CV_VERSION_GREATER_EQUAL(4, 0, 0)
   DiffusivityType::Init(env, exports);
 #endif

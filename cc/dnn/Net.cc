@@ -38,7 +38,7 @@ Napi::Object Net(Napi::Env env, Napi::Object exports) {
   // getPerfProfile(): {	retval: number, timings: number[] };
   Nan::SetPrototypeMethod(ctor, "getPerfProfile", GetPerfProfile);
 
-  Nan::Set(target, Nan::New("Net").ToLocalChecked(), FF::getFunction(ctor));
+  target.Set("Net", FF::getFunction(ctor));
 };
 
 void Net::New(const Napi::CallbackInfo& info) {
@@ -143,8 +143,8 @@ void Net::GetPerfProfile(const Napi::CallbackInfo& info) {
 
   Napi::Object obj = Napi::Object::New(env);
 
-  Nan::Set(obj, Nan::New("retval").ToLocalChecked(), FF::DoubleConverter::wrap(time));
-  Nan::Set(obj, Nan::New("timings").ToLocalChecked(), FF::DoubleArrayConverter::wrap(layersTimes));
+  obj.Set("retval", FF::DoubleConverter::wrap(time));
+  obj.Set("timings", FF::DoubleArrayConverter::wrap(layersTimes));
 
   info.GetReturnValue().Set(obj);
 }

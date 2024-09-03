@@ -16,7 +16,7 @@ Napi::Object HistAxes(Napi::Env env, Napi::Object exports) {
   Nan::SetAccessor(ctor->InstanceTemplate(), Nan::New("channel").ToLocalChecked(), HistAxes::channel_getter);
   Nan::SetAccessor(ctor->InstanceTemplate(), Nan::New("ranges").ToLocalChecked(), HistAxes::ranges_getter);
 
-  Nan::Set(target, Nan::New("HistAxes").ToLocalChecked(), FF::getFunction(ctor));
+  target.Set("HistAxes", FF::getFunction(ctor));
 }
 
 void HistAxes::New(const Napi::CallbackInfo& info) {

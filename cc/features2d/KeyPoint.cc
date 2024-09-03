@@ -22,7 +22,7 @@ Napi::Object KeyPoint(Napi::Env env, Napi::Object exports) {
   Nan::SetAccessor(instanceTemplate, Nan::New("size").ToLocalChecked(), size_getter, size_setter);
   Nan::SetAccessor(instanceTemplate, Nan::New("octave").ToLocalChecked(), octave_getter, octave_setter);
 
-  Nan::Set(target, Nan::New("KeyPoint").ToLocalChecked(), FF::getFunction(ctor));
+  target.Set("KeyPoint", FF::getFunction(ctor));
 };
 
 void KeyPoint::New(const Napi::CallbackInfo& info) {

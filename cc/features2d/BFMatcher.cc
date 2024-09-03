@@ -24,7 +24,7 @@ Napi::Object BFMatcher(Napi::Env env, Napi::Object exports) {
   Nan::SetPrototypeMethod(ctor, "knnMatch", knnMatch);
   Nan::SetPrototypeMethod(ctor, "knnMatchAsync", knnMatchAsync);
 
-  Nan::Set(target, Nan::New("BFMatcher").ToLocalChecked(), FF::getFunction(ctor));
+  target.Set("BFMatcher", FF::getFunction(ctor));
 };
 
 void BFMatcher::New(const Napi::CallbackInfo& info) {

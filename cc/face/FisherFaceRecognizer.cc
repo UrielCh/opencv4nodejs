@@ -16,7 +16,7 @@ Napi::Object FisherFaceRecognizer(Napi::Env env, Napi::Object exports) {
   ctor->SetClassName(Nan::New("FisherFaceRecognizer").ToLocalChecked());
   instanceTemplate->SetInternalFieldCount(1);
 
-  Nan::Set(target, Nan::New("FisherFaceRecognizer").ToLocalChecked(), FF::getFunction(ctor));
+  target.Set("FisherFaceRecognizer", FF::getFunction(ctor));
 };
 
 void FisherFaceRecognizer::New(const Napi::CallbackInfo& info) {

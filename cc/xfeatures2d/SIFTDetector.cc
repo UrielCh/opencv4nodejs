@@ -21,7 +21,7 @@ Napi::Object SIFTDetector(Napi::Env env, Napi::Object exports) {
   Nan::SetAccessor(instanceTemplate, Nan::New("edgeThreshold").ToLocalChecked(), edgeThreshold_getter);
   Nan::SetAccessor(instanceTemplate, Nan::New("sigma").ToLocalChecked(), sigma_getter);
 
-  Nan::Set(target, Nan::New("SIFTDetector").ToLocalChecked(), FF::getFunction(ctor));
+  target.Set("SIFTDetector", FF::getFunction(ctor));
 };
 
 void SIFTDetector::New(const Napi::CallbackInfo& info) {

@@ -25,7 +25,7 @@ Napi::Object SuperpixelSEEDS(Napi::Env env, Napi::Object exports) {
 
   Nan::SetPrototypeMethod(ctor, "iterate", SuperpixelSEEDS::Iterate);
 
-  Nan::Set(target, Nan::New("SuperpixelSEEDS").ToLocalChecked(), FF::getFunction(ctor));
+  target.Set("SuperpixelSEEDS", FF::getFunction(ctor));
 };
 
 void SuperpixelSEEDS::New(const Napi::CallbackInfo& info) {

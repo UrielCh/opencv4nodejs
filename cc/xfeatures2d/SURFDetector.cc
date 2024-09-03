@@ -21,7 +21,7 @@ Napi::Object SURFDetector(Napi::Env env, Napi::Object exports) {
   Nan::SetAccessor(instanceTemplate, Nan::New("extended").ToLocalChecked(), extended_getter);
   Nan::SetAccessor(instanceTemplate, Nan::New("upright").ToLocalChecked(), upright_getter);
 
-  Nan::Set(target, Nan::New("SURFDetector").ToLocalChecked(), FF::getFunction(ctor));
+  target.Set("SURFDetector", FF::getFunction(ctor));
 };
 
 void SURFDetector::New(const Napi::CallbackInfo& info) {

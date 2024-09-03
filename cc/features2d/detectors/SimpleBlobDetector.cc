@@ -17,7 +17,7 @@ Napi::Object SimpleBlobDetector(Napi::Env env, Napi::Object exports) {
   ctor->SetClassName(Nan::New("SimpleBlobDetector").ToLocalChecked());
   instanceTemplate->SetInternalFieldCount(1);
 
-  Nan::Set(target, Nan::New("SimpleBlobDetector").ToLocalChecked(), FF::getFunction(ctor));
+  target.Set("SimpleBlobDetector", FF::getFunction(ctor));
 };
 
 void SimpleBlobDetector::New(const Napi::CallbackInfo& info) {

@@ -39,7 +39,7 @@ Napi::Object Moments(Napi::Env env, Napi::Object exports) {
 
   Nan::SetPrototypeMethod(ctor, "huMoments", HuMoments);
 
-  Nan::Set(target, Nan::New("Moments").ToLocalChecked(), FF::getFunction(ctor));
+  target.Set("Moments", FF::getFunction(ctor));
 };
 
 void Moments::New(const Napi::CallbackInfo& info) {
