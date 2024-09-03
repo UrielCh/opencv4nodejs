@@ -43,7 +43,7 @@ static inline void executeAsyncBinding(std::shared_ptr<IAsyncWorker> worker, std
   if (worker->applyUnwrappers(info)) {
     Napi::Error error = Napi::Error::New(env, "Error in applyUnwrappers");
     Napi::Value argv[] = {error.Value(), env.Null()};
-    callback.Call(env.Global(), argv);
+    callback.Call(env.Global(), {argv[0], argv[1]});
     return;
   }
 
@@ -62,7 +62,7 @@ static inline void executeAsyncBinding(std::shared_ptr<IAsyncWorker> worker, std
 
     void OnOK() override {
       Napi::HandleScope scope(Env());
-      Callback().Call({Env().Null(), worker->getReturnValue(Env())});
+      Callback().Call({Env().Null(), worker->getReturnValue()});
     }
 
     void OnError(const Napi::Error& e) override {
@@ -74,7 +74,8 @@ static inline void executeAsyncBinding(std::shared_ptr<IAsyncWorker> worker, std
     std::shared_ptr<IAsyncWorker> worker;
   };
 
-  auto asyncWorker = new AsyncWorker(callback, worker);
+  // Create and queue the worker
+  AsyncWorker* asyncWorker = new AsyncWorker(callback, worker);
   asyncWorker->Queue();
 }
 

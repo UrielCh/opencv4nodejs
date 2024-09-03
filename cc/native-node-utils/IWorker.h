@@ -6,6 +6,9 @@
 
 namespace FF {
 
+/**
+ * Base class for all workers Sync and Async
+ */
 class IWorker {
 public:
   virtual std::string execute() = 0;

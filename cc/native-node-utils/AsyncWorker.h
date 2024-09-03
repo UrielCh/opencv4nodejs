@@ -27,17 +27,17 @@ public:
     }
   }
 
-  void HandleOKCallback() {
-    Napi::HandleScope scope(Env());
-    Napi::Env env = Env();
+  void OnOK() override {
+    Napi::Env env = Env(); // get env from AsyncWorker::Env()
+    Napi::HandleScope scope(env);
     Napi::Value argv[] = {env.Null(), worker->getReturnValue()};
     Callback().Call({argv[0], argv[1]});
   }
 
-  void HandleErrorCallback() {
-    Napi::HandleScope scope(Env());
-    Napi::Env env = Env();
-    Napi::Value argv[] = {Napi::String::New(env, this->ErrorMessage()), env.Null()};
+  void OnError(const Napi::Error& e) override {
+    Napi::Env env = Env(); // get env from AsyncWorker::Env()
+    Napi::HandleScope scope(env);
+    Napi::Value argv[] = {e.Value(), env.Null()};
     Callback().Call({argv[0], argv[1]});
   }
 };

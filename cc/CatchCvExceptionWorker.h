@@ -1,4 +1,5 @@
 #include "NativeNodeUtils.h"
+#include <napi.h>
 
 #ifndef __FF_CATCHCVEXCEPTIONWORKER_H__
 #define __FF_CATCHCVEXCEPTIONWORKER_H__
@@ -17,12 +18,12 @@ public:
     return "";
   }
 
-  Napi::Value getReturnValue() {
-    return Nan::Undefined();
+  Napi::Value getReturnValue(const Napi::Env& env) {
+    return env.Undefined();
   }
 
   Napi::Value getReturnValue(const Napi::CallbackInfo& info) {
-    return getReturnValue();
+    return getReturnValue(info.Env());
   }
 
   bool applyUnwrappers(const Napi::CallbackInfo& info) {
