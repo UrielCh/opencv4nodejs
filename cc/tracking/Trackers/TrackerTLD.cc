@@ -4,7 +4,7 @@
 
 #include "TrackerTLD.h"
 
-Nan::Persistent<v8::FunctionTemplate> TrackerTLD::constructor;
+Napi::FunctionReference TrackerTLD::constructor;
 
 Napi::Object TrackerTLD(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(TrackerTLD::New);
@@ -20,7 +20,8 @@ Napi::Object TrackerTLD(Napi::Env env, Napi::Object exports) {
 };
 
 void TrackerTLD::New(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("TrackerTLD::New");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "TrackerTLD::New");
   FF_ASSERT_CONSTRUCT_CALL();
 
   TrackerTLD* self = new TrackerTLD();

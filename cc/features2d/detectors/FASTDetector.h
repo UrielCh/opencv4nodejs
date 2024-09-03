@@ -7,7 +7,7 @@
 
 class FASTDetector : public FeatureDetector, public FF::ObjectWrapTemplate<FASTDetector, cv::Ptr<cv::FastFeatureDetector>> {
 public:
-  static Nan::Persistent<v8::FunctionTemplate> constructor;
+  static Napi::FunctionReference constructor;;
 
   static const char* getClassName() {
     return "FASTDetector";
@@ -50,7 +50,8 @@ static Napi::Object Init(Napi::Env env, Napi::Object exports);
   class NewBinding : public CvBinding {
   public:
     void construct(const Napi::CallbackInfo& info) {
-      FF::TryCatch tryCatch("FASTDetector::New");
+      Napi::Env env = info.Env();  
+      FF::TryCatch tryCatch(env, "FASTDetector::New");
       FF_ASSERT_CONSTRUCT_CALL();
 
       auto threshold = opt<FF::IntConverter>("threshold", 10);

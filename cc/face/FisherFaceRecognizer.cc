@@ -5,7 +5,7 @@
 #include "FaceRecognizerBindings.h"
 #include "FisherFaceRecognizer.h"
 
-Nan::Persistent<v8::FunctionTemplate> FisherFaceRecognizer::constructor;
+Napi::FunctionReference FisherFaceRecognizer::constructor;
 
 Napi::Object FisherFaceRecognizer(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(FisherFaceRecognizer::New);
@@ -20,7 +20,8 @@ Napi::Object FisherFaceRecognizer(Napi::Env env, Napi::Object exports) {
 };
 
 void FisherFaceRecognizer::New(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("FisherFaceRecognizer::New");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "FisherFaceRecognizer::New");
   FF_ASSERT_CONSTRUCT_CALL();
   FaceRecognizerBindings::NewWorker worker;
 

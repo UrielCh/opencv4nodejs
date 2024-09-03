@@ -23,7 +23,8 @@ Napi::Object BackgroundSubtractorMOG2(Napi::Env env, Napi::Object exports) {
 };
 
 void BackgroundSubtractorMOG2::New(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("BackgroundSubtractor::New");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "BackgroundSubtractor::New");
   FF_ASSERT_CONSTRUCT_CALL();
   BackgroundSubtractorMOG2::NewWorker worker;
 

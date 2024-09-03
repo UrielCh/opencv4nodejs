@@ -7,7 +7,7 @@
 
 class Moments : public FF::ObjectWrap<Moments, cv::Moments> {
 public:
-  static Nan::Persistent<v8::FunctionTemplate> constructor;
+  static Napi::FunctionReference constructor;;
 
   static const char* getClassName() {
     return "Moments";

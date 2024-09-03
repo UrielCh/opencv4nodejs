@@ -202,7 +202,7 @@ export const HOGHistogramNormType: { L2Hys: string};
 // TODO Fill this types
 export class KeyPointMatch {
   distance: number;
-  kpTo?: Object;
-  kpFrom?: Object;
+  kpTo?: object;
+  kpFrom?: object;
 }
 export class StatModel {}

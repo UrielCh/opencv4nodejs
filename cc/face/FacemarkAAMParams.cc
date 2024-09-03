@@ -6,7 +6,7 @@
 
 #if CV_VERSION_GREATER_EQUAL(3, 4, 0)
 
-Nan::Persistent<v8::FunctionTemplate> FacemarkAAMParams::constructor;
+Napi::FunctionReference FacemarkAAMParams::constructor;
 
 Napi::Object FacemarkAAMParams(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor =
@@ -32,7 +32,8 @@ Napi::Object FacemarkAAMParams(Napi::Env env, Napi::Object exports) {
 };
 
 void FacemarkAAMParams::New(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("FacemarkAAMParams::New");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "FacemarkAAMParams::New");
   FF_ASSERT_CONSTRUCT_CALL();
   FacemarkAAMParams* self = new FacemarkAAMParams();
   self->self = cv::face::FacemarkAAM::Params();

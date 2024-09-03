@@ -8,7 +8,7 @@
 
 class Vec4 : public FF::ObjectWrap<Vec4, cv::Vec4d> {
 public:
-  static Nan::Persistent<v8::FunctionTemplate> constructor;
+  static Napi::FunctionReference constructor;;
 
   static const char* getClassName() {
     return "Vec4";
@@ -40,7 +40,8 @@ public:
   }
 
   static NAN_METHOD(At) {
-    FF::TryCatch tryCatch("Vec4::At");
+    Napi::Env env = info.Env();
+    FF::TryCatch tryCatch(env, "Vec4::At");
     FF_ASSERT_INDEX_RANGE(info[0]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value(), 3, "Vec4");
     cv::Vec4d vecSelf = Vec4::unwrapSelf(info);
     info.GetReturnValue().Set(vecSelf[info[0]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value()]);

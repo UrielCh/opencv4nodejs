@@ -4,7 +4,7 @@
 
 #include "SIFTDetector.h"
 
-Nan::Persistent<v8::FunctionTemplate> SIFTDetector::constructor;
+Napi::FunctionReference SIFTDetector::constructor;
 
 Napi::Object SIFTDetector(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(SIFTDetector::New);

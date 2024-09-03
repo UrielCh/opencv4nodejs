@@ -6,7 +6,7 @@
 
 #if CV_VERSION_GREATER_EQUAL(3, 1, 0)
 
-Nan::Persistent<v8::FunctionTemplate> SuperpixelLSC::constructor;
+Napi::FunctionReference SuperpixelLSC::constructor;
 
 Napi::Object SuperpixelLSC(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(SuperpixelLSC::New);
@@ -28,7 +28,8 @@ Napi::Object SuperpixelLSC(Napi::Env env, Napi::Object exports) {
 };
 
 void SuperpixelLSC::New(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("SuperpixelLSC::New");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "SuperpixelLSC::New");
   FF_ASSERT_CONSTRUCT_CALL();
   SuperpixelLSC::NewWorker worker;
 
@@ -49,7 +50,8 @@ void SuperpixelLSC::New(const Napi::CallbackInfo& info) {
 }
 
 void SuperpixelLSC::Iterate(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("SuperpixelLSC::Iterate");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "SuperpixelLSC::Iterate");
 
   uint iterations = 10;
   if (FF::UintConverter::optArg(0, &iterations, info)) {

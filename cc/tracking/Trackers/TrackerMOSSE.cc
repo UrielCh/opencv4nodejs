@@ -6,7 +6,7 @@
 
 #if CV_VERSION_GREATER_EQUAL(3, 4, 0)
 
-Nan::Persistent<v8::FunctionTemplate> TrackerMOSSE::constructor;
+Napi::FunctionReference TrackerMOSSE::constructor;
 
 Napi::Object TrackerMOSSE(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(TrackerMOSSE::New);
@@ -22,7 +22,8 @@ Napi::Object TrackerMOSSE(Napi::Env env, Napi::Object exports) {
 };
 
 void TrackerMOSSE::New(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("TrackerMOSSE::New");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "TrackerMOSSE::New");
   FF_ASSERT_CONSTRUCT_CALL();
 
   TrackerMOSSE* self = new TrackerMOSSE();

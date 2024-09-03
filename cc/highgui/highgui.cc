@@ -21,16 +21,16 @@ Napi::Object Highgui(Napi::Env env, Napi::Object exports) {
 };
 
 void Highgui::setWindowProperty(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Highgui::setWindowProperty");
+  FF::TryCatch tryCatch(env, "Highgui::setWindowProperty");
   int prop_id;
   double prop_value;
-  if (!info[0]->IsString()) {
+  if (!info[0].IsString()) {
     return tryCatch.throwError("expected arg0 to be the window name");
   }
-  if (!info[1]->IsNumber()) {
+  if (!info[1].IsNumber()) {
     return tryCatch.throwError("expected arg1 (prop_id) to be a number");
   }
-  if (!info[2]->IsNumber()) {
+  if (!info[2].IsNumber()) {
     return tryCatch.throwError("expected arg2 (prop_value) to be a number");
   }
   if (FF::IntConverter::arg(1, &prop_id, info) || FF::DoubleConverter::arg(2, &prop_value, info)) {
@@ -40,7 +40,7 @@ void Highgui::setWindowProperty(const Napi::CallbackInfo& info) {
 }
 
 // void Io::MoveWindow(const Napi::CallbackInfo& info) {
-// 	FF::TryCatch tryCatch("Io::MoveWindow");
+// 	FF::TryCatch tryCatch(env, "Io::MoveWindow");
 // 	std::string winName;
 // 	int x, y;
 // 	if (FF::StringConverter::arg(0, &winName, info) || FF::IntConverter::arg(1, &x, info) || FF::IntConverter::arg(2, &y, info)) {
@@ -50,17 +50,17 @@ void Highgui::setWindowProperty(const Napi::CallbackInfo& info) {
 // }
 
 void Highgui::moveWindow(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Highgui::moveWindow");
+  FF::TryCatch tryCatch(env, "Highgui::moveWindow");
   std::string winName;
   int x;
   int y;
-  if (!info[0]->IsString()) {
+  if (!info[0].IsString()) {
     return tryCatch.throwError("expected arg0 (winName) to be the window name");
   }
-  if (!info[1]->IsNumber()) {
+  if (!info[1].IsNumber()) {
     return tryCatch.throwError("expected arg1 (x) to be a number");
   }
-  if (!info[2]->IsNumber()) {
+  if (!info[2].IsNumber()) {
     return tryCatch.throwError("expected arg2 (y) to be a number");
   }
   FF::StringConverter::arg(0, &winName, info);
@@ -70,25 +70,27 @@ void Highgui::moveWindow(const Napi::CallbackInfo& info) {
 }
 
 void Highgui::setWindowTitle(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Highgui::setWindowTitle");
-  if (!info[0]->IsString()) {
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "Highgui::setWindowTitle");
+  if (!info[0].IsString()) {
     return tryCatch.throwError("expected arg0 to be the window name");
   }
 
-  if (!info[1]->IsString()) {
+  if (!info[1].IsString()) {
     return tryCatch.throwError("expected arg1 to be the new window title");
   }
   cv::setWindowTitle(FF::StringConverter::unwrapUnchecked(info[0]), FF::StringConverter::unwrapUnchecked(info[1]));
 }
 
 void Highgui::getWindowProperty(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Highgui::getWindowProperty");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "Highgui::getWindowProperty");
   int prop_id;
 
-  if (!info[0]->IsString()) {
+  if (!info[0].IsString()) {
     return tryCatch.throwError("expected arg0 to be the window name");
   }
-  if (!info[1]->IsNumber()) {
+  if (!info[1].IsNumber()) {
     return tryCatch.throwError("expected arg1 (prop_id) to be a number");
   }
   FF::IntConverter::arg(1, &prop_id, info);
@@ -96,12 +98,13 @@ void Highgui::getWindowProperty(const Napi::CallbackInfo& info) {
 }
 
 void Highgui::namedWindow(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Highgui::namedWindow");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "Highgui::namedWindow");
 
   std::string winName;
   int flags = cv::WINDOW_AUTOSIZE;
 
-  if (!info[0]->IsString()) {
+  if (!info[0].IsString()) {
     return tryCatch.throwError("expected arg0 (winName) to be the window name");
   }
   FF::IntConverter::optArg(1, &flags, info);
@@ -110,19 +113,20 @@ void Highgui::namedWindow(const Napi::CallbackInfo& info) {
 }
 
 void Highgui::resizeWindow(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Highgui::resizeWindow");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "Highgui::resizeWindow");
   int width;
   int height;
 
-  if (!info[0]->IsString()) {
+  if (!info[0].IsString()) {
     return tryCatch.throwError("expected arg0 to be the window name");
   }
 
-  if (!info[1]->IsNumber()) {
+  if (!info[1].IsNumber()) {
     return tryCatch.throwError("expected arg1 (width) to be a number");
   }
 
-  if (!info[2]->IsNumber()) {
+  if (!info[2].IsNumber()) {
     return tryCatch.throwError("expected arg2 (height) to be a number");
   }
 
@@ -132,7 +136,8 @@ void Highgui::resizeWindow(const Napi::CallbackInfo& info) {
 }
 
 void Highgui::startWindowThread(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Highgui::startWindowThread");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "Highgui::startWindowThread");
   int retval = cv::startWindowThread();
   info.GetReturnValue().Set(Nan::New(retval));
 }

@@ -5,7 +5,7 @@
 #include "OCRHMMClassifier.h"
 #include "OCRHMMClassifierBindings.h"
 
-Nan::Persistent<v8::FunctionTemplate> OCRHMMClassifier::constructor;
+Napi::FunctionReference OCRHMMClassifier::constructor;
 
 Napi::Object OCRHMMClassifier(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(OCRHMMClassifier::New);

@@ -4,7 +4,7 @@
 
 #include "TrackerMedianFlow.h"
 
-Nan::Persistent<v8::FunctionTemplate> TrackerMedianFlow::constructor;
+Napi::FunctionReference TrackerMedianFlow::constructor;
 
 Napi::Object TrackerMedianFlow(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(TrackerMedianFlow::New);
@@ -20,7 +20,8 @@ Napi::Object TrackerMedianFlow(Napi::Env env, Napi::Object exports) {
 };
 
 void TrackerMedianFlow::New(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("TrackerMedianFlow::New");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "TrackerMedianFlow::New");
   FF_ASSERT_CONSTRUCT_CALL();
 
   TrackerMedianFlow* self = new TrackerMedianFlow();

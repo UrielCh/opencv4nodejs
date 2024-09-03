@@ -6,7 +6,7 @@
 
 class BRISKDetector : public FeatureDetector, public FF::ObjectWrapTemplate<BRISKDetector, cv::Ptr<cv::BRISK>> {
 public:
-  static Nan::Persistent<v8::FunctionTemplate> constructor;
+  static Napi::FunctionReference constructor;;
 
   static const char* getClassName() {
     return "BRISKDetector";

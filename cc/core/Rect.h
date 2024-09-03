@@ -9,7 +9,7 @@
 
 class Rect : public FF::ObjectWrap<Rect, cv::Rect2d> {
 public:
-  static Nan::Persistent<v8::FunctionTemplate> constructor;
+  static Napi::FunctionReference constructor;;
 
   static const char* getClassName() {
     return "Rect";

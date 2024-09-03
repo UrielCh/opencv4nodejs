@@ -4,7 +4,7 @@
 
 #include "KAZEDetector.h"
 
-Nan::Persistent<v8::FunctionTemplate> KAZEDetector::constructor;
+Napi::FunctionReference KAZEDetector::constructor;
 
 Napi::Object KAZEDetector(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(KAZEDetector::New);

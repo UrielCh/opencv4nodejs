@@ -22,7 +22,7 @@
 
 #define FF_SCALAR_OPERATOR(func, applyFunc, clazz, methodName)               \
   FF::TryCatch tryCatch(methodName);                                         \
-  if (!info[0]->IsNumber()) {                                                \
+  if (!info[0].IsNumber()) {                                                \
     return tryCatch.throwError("expected arg to be a Scalar");               \
   }                                                                          \
   Napi::Object jsObj = FF::newInstance(Nan::New(constructor));               \

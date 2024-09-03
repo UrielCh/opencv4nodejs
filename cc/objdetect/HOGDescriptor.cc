@@ -5,7 +5,7 @@
 #include "HOGDescriptor.h"
 #include "HOGDescriptorBindings.h"
 
-Nan::Persistent<v8::FunctionTemplate> HOGDescriptor::constructor;
+Napi::FunctionReference HOGDescriptor::constructor;
 
 Napi::Object HOGDescriptor(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(HOGDescriptor::New);
@@ -75,7 +75,8 @@ void HOGDescriptor::CheckDetectorSize(const Napi::CallbackInfo& info) {
 }
 
 void HOGDescriptor::SetSVMDetector(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("HOGDescriptor::SetSVMDetector");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "HOGDescriptor::SetSVMDetector");
   std::vector<float> detector;
   if (!FF::hasArg(info, 0) || FF::FloatArrayConverter::unwrapTo(&detector, info[0])) {
     return tryCatch.throwError("expected detector to be an Array of type Number");
@@ -84,7 +85,8 @@ void HOGDescriptor::SetSVMDetector(const Napi::CallbackInfo& info) {
 }
 
 void HOGDescriptor::Save(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("HOGDescriptor::Save");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "HOGDescriptor::Save");
 
   std::string path;
   if (FF::StringConverter::arg(0, &path, info)) {
@@ -94,7 +96,8 @@ void HOGDescriptor::Save(const Napi::CallbackInfo& info) {
 }
 
 void HOGDescriptor::Load(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("HOGDescriptor::Load");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "HOGDescriptor::Load");
 
   std::string path;
   if (FF::StringConverter::arg(0, &path, info)) {

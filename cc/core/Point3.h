@@ -8,7 +8,7 @@
 
 class Point3 : public FF::ObjectWrap<Point3, cv::Point3d> {
 public:
-  static Nan::Persistent<v8::FunctionTemplate> constructor;
+  static Napi::FunctionReference constructor;;
 
   static const char* getClassName() {
     return "Point3";
@@ -35,7 +35,8 @@ public:
   }
 
   static NAN_METHOD(At) {
-    FF::TryCatch tryCatch("Point3::At");
+    Napi::Env env = info.Env();  
+    FF::TryCatch tryCatch(env, "Point3::At");
     FF_ASSERT_INDEX_RANGE(info[0]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value(), 2, "Point3");
     cv::Point3d ptSelf = Point3::unwrapSelf(info);
     const double coords[] = {ptSelf.x, ptSelf.y, ptSelf.z};

@@ -27,23 +27,23 @@ public:
     return errorMessage;
   }
 
-  void throwError(Napi::Value message) {
+  Napi::Value throwError(Napi::Value message) {
     // Napi::Error::New(env, message.ToString()).ThrowAsJavaScriptException();
     Napi::Maybe<Napi::String> maybeString = message.ToString();
     if (maybeString.IsNothing()) {
       Napi::Error::New(env, "Failed to convert message to string").ThrowAsJavaScriptException();
-      return;
+      return env.Null();
     }
     std::string errorMessage = maybeString.Unwrap().Utf8Value();
     Napi::Error::New(env, errorMessage).ThrowAsJavaScriptException();
   }
 
-  void throwError(std::string errorMessage) {
-    throwError(Napi::String::New(env, extendWithPrefix(errorMessage)));
+  Napi::Value throwError(std::string errorMessage) {
+    return throwError(Napi::String::New(env, extendWithPrefix(errorMessage)));
   }
 
-  void reThrow() {
-    throwError(Napi::String::New(env, extendWithPrefix(getCaughtErrorMessageUnchecked())));
+  Napi::Value reThrow() {
+    return throwError(Napi::String::New(env, extendWithPrefix(getCaughtErrorMessageUnchecked())));
   }
 
 private:

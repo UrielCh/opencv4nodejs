@@ -8,7 +8,7 @@
 #include "Net.h"
 #include "NetBindings.h"
 
-Nan::Persistent<v8::FunctionTemplate> Net::constructor;
+Napi::FunctionReference Net::constructor;
 
 Napi::Object Net(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(Net::New);
@@ -42,7 +42,8 @@ Napi::Object Net(Napi::Env env, Napi::Object exports) {
 };
 
 void Net::New(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Net::New");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "Net::New");
   FF_ASSERT_CONSTRUCT_CALL();
   Net* self = new Net();
   self->Wrap(info.Holder());
@@ -106,13 +107,15 @@ void Net::GetUnconnectedOutLayersAsync(const Napi::CallbackInfo& info) {
 }
 
 void Net::Dump(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Core::Dump");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "Core::Dump");
   cv::dnn::Net self = Net::unwrapSelf(info);
   info.GetReturnValue().Set(FF::newString(self.dump()));
 }
 
 void Net::SetPreferableBackend(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Core::SetPreferableBackend");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "Core::SetPreferableBackend");
   cv::dnn::Net self = Net::unwrapSelf(info);
   int backendId;
   if (FF::IntConverter::arg(0, &backendId, info)) {
@@ -122,7 +125,8 @@ void Net::SetPreferableBackend(const Napi::CallbackInfo& info) {
 }
 
 void Net::SetPreferableTarget(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Core::SetPreferableTarget");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "Core::SetPreferableTarget");
   cv::dnn::Net self = Net::unwrapSelf(info);
   int targetId;
   if (FF::IntConverter::arg(0, &targetId, info)) {
@@ -134,7 +138,8 @@ void Net::SetPreferableTarget(const Napi::CallbackInfo& info) {
 // ret {	retval: number, timings: number[] }
 
 void Net::GetPerfProfile(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Core::GetPerfProfile");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "Core::GetPerfProfile");
   cv::dnn::Net self = Net::unwrapSelf(info);
 
   // int64 cv::dnn::Net::getPerfProfile	(	std::vector< double > & 	timings	)

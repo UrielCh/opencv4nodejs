@@ -96,22 +96,25 @@ static std::function<bool(TNativeObject, TNativeObject)> predicateFactory(Napi::
   };
 }
 
-void Core::Partition(const Napi::CallbackInfo& info) {
+/**
+ * export function partition<T extends Point2|Point3|Vec2|Vec3|Vec4|Vec6|Mat>(data: Array<T>, predicate: (pt1: T, pt2: T) => boolean): { labels: number[], numLabels: number };
+ */
+Napi::Value Core::Partition(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
-  FF::TryCatch tryCatch("Core::Partition");
-  if (!info[0]->IsArray()) {
+  FF::TryCatch tryCatch(env, "Core::Partition");
+  if (!info[0].IsArray()) {
     return tryCatch.throwError("expected arg 0 to be an array");
   }
-  v8::Local<v8::Array> jsData = v8::Local<v8::Array>::Cast(info[0]);
-  if (!info[1]->IsFunction()) {
+  Napi::Array jsData = info[0].As<Napi::Array>();
+  if (!info[1].IsFunction()) {
     return tryCatch.throwError("expected arg 1 to be a function");
   }
-  if (jsData->Length() < 2) {
+  if (jsData.Length() < 2) {
     return tryCatch.throwError("expected data to contain atleast 2 elements");
   }
 
   Napi::Function cb = Napi::Function::Cast(info[1]);
-  Napi::Value data0 = Nan::Get(jsData, 0).ToLocalChecked();
+  Napi::Value data0 = jsData.Get(uint32_t(0));
 
   int numLabels = 0;
   std::vector<int> labels;
@@ -164,12 +167,16 @@ void Core::Partition(const Napi::CallbackInfo& info) {
   Napi::Object ret = Napi::Object::New(env);
   ret.Set("labels", FF::IntArrayConverter::wrap(labels));
   ret.Set("numLabels", Nan::New(numLabels));
-  info.GetReturnValue().Set(ret);
+  return ret;
 }
 
-void Core::Kmeans(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Core::Kmeans");
-  if (!info[0]->IsArray()) {
+/**
+ * export function kmeans<T extends Point2|Point3>(data: T[], k: number, termCriteria: TermCriteria, attempts: number, flags: number): { labels: number[], centers: T[] };
+ */
+Napi::Value Core::Kmeans(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+  FF::TryCatch tryCatch(env, "Core::Kmeans");
+  if (!info[0].IsArray()) {
     return tryCatch.throwError("expected arg 0 to be an array");
   }
   v8::Local<v8::Array> jsData = v8::Local<v8::Array>::Cast(info[0]);
@@ -217,8 +224,7 @@ void Core::Kmeans(const Napi::CallbackInfo& info) {
     }
     Nan::Set(ret, FF::newString(env, "centers"), Point3::ArrayWithCastConverter<cv::Point3f>::wrap(centers));
   }
-
-  info.GetReturnValue().Set(ret);
+  return ret;
 }
 
 void Core::CartToPolar(const Napi::CallbackInfo& info) {
@@ -242,7 +248,8 @@ Napi::Value Core::GetNumThreads(const Napi::CallbackInfo& info) {
 }
 
 void Core::SetNumThreads(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Core::SetNumThreads");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "Core::SetNumThreads");
   int num;
   if (FF::IntConverter::arg(0, &num, info)) {
     return tryCatch.reThrow();

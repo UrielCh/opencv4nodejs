@@ -4,7 +4,7 @@
 
 #include "DetectionROI.h"
 
-Nan::Persistent<v8::FunctionTemplate> DetectionROI::constructor;
+Napi::FunctionReference DetectionROI::constructor;
 
 Napi::Object DetectionROI(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(DetectionROI::New);
@@ -22,7 +22,8 @@ Napi::Object DetectionROI(Napi::Env env, Napi::Object exports) {
 };
 
 void DetectionROI::New(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("DetectionROI::New");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "DetectionROI::New");
   FF_ASSERT_CONSTRUCT_CALL();
   DetectionROI* self = new DetectionROI();
   self->Wrap(info.Holder());

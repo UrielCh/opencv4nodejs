@@ -8,7 +8,7 @@
 
 class TrainData : public FF::ObjectWrap<TrainData, cv::Ptr<cv::ml::TrainData>> {
 public:
-  static Nan::Persistent<v8::FunctionTemplate> constructor;
+  static Napi::FunctionReference constructor;;
 
   static const char* getClassName() {
     return "TrainData";

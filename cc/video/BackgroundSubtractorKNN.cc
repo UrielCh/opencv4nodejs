@@ -4,7 +4,7 @@
 
 #include "BackgroundSubtractorKNN.h"
 
-Nan::Persistent<v8::FunctionTemplate> BackgroundSubtractorKNN::constructor;
+Napi::FunctionReference BackgroundSubtractorKNN::constructor;
 
 Napi::Object BackgroundSubtractorKNN(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(BackgroundSubtractorKNN::New);
@@ -23,7 +23,8 @@ Napi::Object BackgroundSubtractorKNN(Napi::Env env, Napi::Object exports) {
 };
 
 void BackgroundSubtractorKNN::New(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("BackgroundSubtractor::New");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "BackgroundSubtractor::New");
   FF_ASSERT_CONSTRUCT_CALL();
   BackgroundSubtractorKNN::NewWorker worker;
 

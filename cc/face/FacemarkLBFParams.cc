@@ -6,7 +6,7 @@
 
 #if CV_VERSION_GREATER_EQUAL(3, 4, 0)
 
-Nan::Persistent<v8::FunctionTemplate> FacemarkLBFParams::constructor;
+Napi::FunctionReference FacemarkLBFParams::constructor;
 
 Napi::Object FacemarkLBFParams(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor =
@@ -38,7 +38,8 @@ Napi::Object FacemarkLBFParams(Napi::Env env, Napi::Object exports) {
 };
 
 void FacemarkLBFParams::New(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("FacemarkLBFParams::New");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "FacemarkLBFParams::New");
   FF_ASSERT_CONSTRUCT_CALL();
   FacemarkLBFParams* self = new FacemarkLBFParams();
   self->self = cv::face::FacemarkLBF::Params();

@@ -4,7 +4,7 @@
 
 #include "ORBDetector.h"
 
-Nan::Persistent<v8::FunctionTemplate> ORBDetector::constructor;
+Napi::FunctionReference ORBDetector::constructor;
 
 Napi::Object ORBDetector(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(ORBDetector::New);

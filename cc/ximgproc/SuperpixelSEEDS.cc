@@ -4,7 +4,7 @@
 
 #include "SuperpixelSEEDS.h"
 
-Nan::Persistent<v8::FunctionTemplate> SuperpixelSEEDS::constructor;
+Napi::FunctionReference SuperpixelSEEDS::constructor;
 
 Napi::Object SuperpixelSEEDS(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(SuperpixelSEEDS::New);
@@ -29,7 +29,8 @@ Napi::Object SuperpixelSEEDS(Napi::Env env, Napi::Object exports) {
 };
 
 void SuperpixelSEEDS::New(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("SuperpixelSEEDS::New");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "SuperpixelSEEDS::New");
   FF_ASSERT_CONSTRUCT_CALL();
   SuperpixelSEEDS::NewWorker worker;
 
@@ -59,7 +60,8 @@ void SuperpixelSEEDS::New(const Napi::CallbackInfo& info) {
 }
 
 void SuperpixelSEEDS::Iterate(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("SuperpixelSEEDS::Iterate");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "SuperpixelSEEDS::Iterate");
 
   uint iterations = 4;
   if (FF::UintConverter::optArg(0, &iterations, info)) {

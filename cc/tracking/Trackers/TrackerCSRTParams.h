@@ -8,7 +8,7 @@
 
 class TrackerCSRTParams : public FF::ObjectWrap<TrackerCSRTParams, cv::TrackerCSRT::Params> {
 public:
-  static Nan::Persistent<v8::FunctionTemplate> constructor;
+  static Napi::FunctionReference constructor;;
 
   static const char* getClassName() {
     return "TrackerBoostingParams";

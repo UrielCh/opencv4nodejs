@@ -7,7 +7,7 @@
 
 class AGASTDetector : public FeatureDetector, public FF::ObjectWrapTemplate<AGASTDetector, cv::Ptr<cv::AgastFeatureDetector>> {
 public:
-  static Nan::Persistent<v8::FunctionTemplate> constructor;
+  static Napi::FunctionReference constructor;;
 
   static const char* getClassName() {
     return "AGASTDetector";
@@ -50,7 +50,8 @@ static Napi::Object Init(Napi::Env env, Napi::Object exports);
   class NewBinding : public CvBinding {
   public:
     void construct(const Napi::CallbackInfo& info) {
-      FF::TryCatch tryCatch("AGASTDetector::New");
+      Napi::Env env = info.Env();  
+      FF::TryCatch tryCatch(env, "AGASTDetector::New");
       FF_ASSERT_CONSTRUCT_CALL();
 
       auto threshold = opt<FF::IntConverter>("threshold", 10);

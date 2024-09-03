@@ -78,7 +78,8 @@ Napi::Object Features2d(Napi::Env env, Napi::Object exports) {
 };
 
 void Features2d::DrawKeyPoints(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Features2d::DrawKeyPoints");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "Features2d::DrawKeyPoints");
 
   cv::Mat img;
   std::vector<cv::KeyPoint> kps;
@@ -93,7 +94,8 @@ void Features2d::DrawKeyPoints(const Napi::CallbackInfo& info) {
 }
 
 void Features2d::DrawMatches(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Features2d::DrawMatches");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "Features2d::DrawMatches");
 
   cv::Mat img1, img2;
   std::vector<cv::KeyPoint> kps1, kps2;

@@ -8,7 +8,7 @@
 
 class TrackerKCFParams : public FF::ObjectWrap<TrackerKCFParams, cv::TrackerKCF::Params> {
 public:
-  static Nan::Persistent<v8::FunctionTemplate> constructor;
+  static Napi::FunctionReference constructor;;
 
   static const char* getClassName() {
     return "TrackerKCFParams";

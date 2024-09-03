@@ -65,7 +65,8 @@ Napi::Object Vec(Napi::Env env, Napi::Object exports) {
 };
 
 void Vec::New(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Vec::New");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "Vec::New");
   FF_ASSERT_CONSTRUCT_CALL();
   if (info.Length() < 2 || info.Length() > 6 || info.Length() == 5) {
     return tryCatch.throwError("Vec::New - expected arguments (u, v), (w), x, y, (z)");

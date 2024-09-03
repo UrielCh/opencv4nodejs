@@ -7,7 +7,7 @@
 
 #if CV_VERSION_GREATER_EQUAL(3, 4, 0)
 
-Nan::Persistent<v8::FunctionTemplate> FacemarkLBF::constructor;
+Napi::FunctionReference FacemarkLBF::constructor;
 
 Napi::Object FacemarkLBF(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor =
@@ -23,7 +23,8 @@ Napi::Object FacemarkLBF(Napi::Env env, Napi::Object exports) {
 };
 
 void FacemarkLBF::New(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("FacemarkLBF::New");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "FacemarkLBF::New");
   FF_ASSERT_CONSTRUCT_CALL();
 
   cv::face::FacemarkLBF::Params params;

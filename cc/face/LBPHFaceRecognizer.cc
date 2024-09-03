@@ -5,7 +5,7 @@
 #include "FaceRecognizerBindings.h"
 #include "LBPHFaceRecognizer.h"
 
-Nan::Persistent<v8::FunctionTemplate> LBPHFaceRecognizer::constructor;
+Napi::FunctionReference LBPHFaceRecognizer::constructor;
 
 Napi::Object LBPHFaceRecognizer(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(LBPHFaceRecognizer::New);
@@ -44,7 +44,8 @@ public:
 };
 
 void LBPHFaceRecognizer::New(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("LBPHFaceRecognizer::New");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "LBPHFaceRecognizer::New");
   FF_ASSERT_CONSTRUCT_CALL();
   LBPHFaceRecognizer::NewWorker worker;
 

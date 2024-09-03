@@ -16,20 +16,33 @@ class Core : public Napi::ObjectWrap<Core> {
 public:
   static Napi::Object Init(Napi::Env env, Napi::Object exports);
 
+  // export function getBuildInformation(): string;
   static Napi::Value GetBuildInformation(const Napi::CallbackInfo& info);
-  static void Partition(const Napi::CallbackInfo& info);
-  static void Kmeans(const Napi::CallbackInfo& info);
-  static void CartToPolar(const Napi::CallbackInfo& info);
-  static void CartToPolarAsync(const Napi::CallbackInfo& info);
-  static void PolarToCart(const Napi::CallbackInfo& info);
-  static void PolarToCartAsync(const Napi::CallbackInfo& info);
+  // export function partition<T extends Point2|Point3|Vec2|Vec3|Vec4|Vec6|Mat>(data: Array<T>, predicate: (pt1: T, pt2: T) => boolean): { labels: number[], numLabels: number };
+  static Napi::Value Partition(const Napi::CallbackInfo& info);
+  // export function kmeans<T extends Point2|Point3>(data: T[], k: number, termCriteria: TermCriteria, attempts: number, flags: number): { labels: number[], centers: T[] };
+  static Napi::Value Kmeans(const Napi::CallbackInfo& info);
+  // export function cartToPolar(x: Mat, y: Mat, magnitude: Mat, angle: Mat, angleInDegrees?: boolean): { magnitude: Mat, angle: Mat };
+  static Napi::Value CartToPolar(const Napi::CallbackInfo& info);
+  // export function cartToPolarAsync(x: Mat, y: Mat, magnitude: Mat, angle: Mat, angleInDegrees?: boolean): Promise<{ magnitude: Mat, angle: Mat }>;
+  static Napi::Value CartToPolarAsync(const Napi::CallbackInfo& info);
+  // export function polarToCart(magnitude: Mat, angle: Mat, angleInDegrees?: boolean): { x: Mat, y: Mat };
+  static Napi::Value PolarToCart(const Napi::CallbackInfo& info);
+  // export function polarToCartAsync(magnitude: Mat, angle: Mat, angleInDegrees?: boolean): Promise<{ x: Mat, y: Mat }>;
+  static Napi::Value PolarToCartAsync(const Napi::CallbackInfo& info);
+  // export function getNumThreads(): number;
   static Napi::Value GetNumThreads(const Napi::CallbackInfo& info);
+  // export function setNumThreads(nthreads: number): void;
   static void SetNumThreads(const Napi::CallbackInfo& info);
+  // export function getThreadNum(): number;
   static Napi::Value GetThreadNum(const Napi::CallbackInfo& info);
-
+  // Mat.addWeighted(alpha: number, mat2: Mat, beta: number, gamma: number, dtype?: number): Mat;
   static void AddWeighted(const Napi::CallbackInfo& info);
+  // Mat.addWeightedAsync(alpha: number, mat2: Mat, beta: number, gamma: number, dtype?: number): Promise<Mat>;
   static void AddWeightedAsync(const Napi::CallbackInfo& info);
+  // minMaxLoc(mask?: Mat): { minVal: number, maxVal: number, minLoc: Point2, maxLoc: Point2 };
   static void MinMaxLoc(const Napi::CallbackInfo& info);
+  // minMaxLocAsync(mask?: Mat): Promise<{ minVal: number, maxVal: number, minLoc: Point2, maxLoc: Point2 }>;
   static void MinMaxLocAsync(const Napi::CallbackInfo& info);
   static void FindNonZero(const Napi::CallbackInfo& info);
   static void FindNonZeroAsync(const Napi::CallbackInfo& info);

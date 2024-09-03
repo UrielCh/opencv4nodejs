@@ -9,7 +9,7 @@
 
 class FacemarkAAMParams : public FF::ObjectWrap<FacemarkAAMParams, cv::face::FacemarkAAM::Params> {
 public:
-  static Nan::Persistent<v8::FunctionTemplate> constructor;
+  static Napi::FunctionReference constructor;;
 
   static const char* getClassName() {
     return "FacemarkAAMParams";

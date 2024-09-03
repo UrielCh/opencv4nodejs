@@ -1,7 +1,7 @@
 #include "Rect.h"
 #include "RectBindings.h"
 
-Nan::Persistent<v8::FunctionTemplate> Rect::constructor;
+Napi::FunctionReference Rect::constructor;
 
 Napi::Object Rect(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(Rect::New);
@@ -26,7 +26,8 @@ Napi::Object Rect(Napi::Env env, Napi::Object exports) {
 };
 
 void Rect::New(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Rect::New");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "Rect::New");
   FF_ASSERT_CONSTRUCT_CALL();
   Rect* self = new Rect();
   if (info.Length() == 0) {

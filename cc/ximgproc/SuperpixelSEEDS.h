@@ -7,7 +7,7 @@
 
 class SuperpixelSEEDS : public FF::ObjectWrap<SuperpixelSEEDS, cv::Ptr<cv::ximgproc::SuperpixelSEEDS>> {
 public:
-  static Nan::Persistent<v8::FunctionTemplate> constructor;
+  static Napi::FunctionReference constructor;;
 
   static const char* getClassName() {
     return "SuperpixelSEEDS";

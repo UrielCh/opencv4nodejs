@@ -6,7 +6,7 @@
 
 #if CV_VERSION_GREATER_EQUAL(3, 4, 1)
 
-Nan::Persistent<v8::FunctionTemplate> TrackerCSRTParams::constructor;
+Napi::FunctionReference TrackerCSRTParams::constructor;
 
 Napi::Object TrackerCSRTParams(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(TrackerCSRTParams::New);
@@ -50,7 +50,8 @@ Napi::Object TrackerCSRTParams(Napi::Env env, Napi::Object exports) {
 };
 
 void TrackerCSRTParams::New(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("TrackerCSRTParams::New");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "TrackerCSRTParams::New");
   FF_ASSERT_CONSTRUCT_CALL();
   TrackerCSRTParams* self = new TrackerCSRTParams();
   self->self = cv::TrackerCSRT::Params();

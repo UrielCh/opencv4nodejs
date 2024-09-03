@@ -4,7 +4,7 @@
 
 #include "SURFDetector.h"
 
-Nan::Persistent<v8::FunctionTemplate> SURFDetector::constructor;
+Napi::FunctionReference SURFDetector::constructor;
 
 Napi::Object SURFDetector(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(SURFDetector::New);

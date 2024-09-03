@@ -17,7 +17,7 @@
 #include "../ximgproc/MatXimgproc.h"
 #endif
 
-Nan::Persistent<v8::FunctionTemplate> Mat::constructor;
+Napi::FunctionReference Mat::constructor;
 
 namespace FF {
 /**
@@ -429,7 +429,8 @@ Napi::Object Mat(Napi::Env env, Napi::Object exports) {
   }
 
 void Mat::New(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Mat::New");
+  Napi::Env env = info.Env();
+  FF::TryCatch tryCatch(env, "Mat::New");
   FF_ASSERT_CONSTRUCT_CALL();
   Mat* self = new Mat();
   /* from channels
@@ -437,7 +438,7 @@ void Mat::New(const Napi::CallbackInfo& info) {
    */
   // prepare debug for next big release
   //  std::cout << "New Mat: args: " << info.Length() << std::endl;
-  if (info.Length() == 1 && info[0]->IsArray()) {
+  if (info.Length() == 1 && info[0].IsArray()) {
     v8::Local<v8::Array> jsChannelMats = v8::Local<v8::Array>::Cast(info[0]);
     std::vector<cv::Mat> channels;
     for (uint i = 0; i < jsChannelMats->Length(); i++) {
@@ -464,7 +465,7 @@ void Mat::New(const Napi::CallbackInfo& info) {
    * constructor(dataArray: number[][], type: number);
    * constructor(dataArray: number[][][], type: number);
    */
-  else if (info.Length() == 2 && info[0]->IsArray() && info[1]->IsInt32()) {
+  else if (info.Length() == 2 && info[0].IsArray() && info[1].IsInt32()) {
     // get Type
     int type = info[1]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value();
     // get channel count
@@ -578,15 +579,15 @@ void Mat::New(const Napi::CallbackInfo& info) {
    * constructor(rows: number, cols: number, type: number, fillValue?: number | number[]);
    * constructor(rows: number, cols: number, type: number, data: Buffer, step?: number);
    */
-  else if (info[0]->IsNumber() && info[1]->IsNumber() && info[2]->IsInt32()) {
+  else if (info[0].IsNumber() && info[1].IsNumber() && info[2].IsInt32()) {
     int type = info[2]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value();
-    if (info.Length() == 3 || info[3]->IsArray() || info[3]->IsNumber()) {
+    if (info.Length() == 3 || info[3].IsArray() || info[3].IsNumber()) {
 
       cv::Mat mat(info[0]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value(), info[1]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value(), type);
 
       /* fill vector */
       // TODO by Vec
-      if (info[3]->IsArray()) {
+      if (info[3].IsArray()) {
         v8::Local<v8::Array> vec = v8::Local<v8::Array>::Cast(info[3]);
         if (mat.channels() != (long)vec->Length()) {
           return tryCatch.throwError(
@@ -595,13 +596,13 @@ void Mat::New(const Napi::CallbackInfo& info) {
         }
         FF_MAT_APPLY_TYPED_OPERATOR(mat, vec, type, FF_MAT_FILL, FF::matPut);
       }
-      if (info[3]->IsNumber()) {
+      if (info[3].IsNumber()) {
         FF_MAT_APPLY_TYPED_OPERATOR(mat, info[3], type, FF_MAT_FILL, FF::matPut);
       }
       self->setNativeObject(mat);
-    } else if (info[3]->IsObject()) {
+    } else if (info[3].IsObject()) {
       char* data = static_cast<char*>(node::Buffer::Data(info[3]->ToObject(Nan::GetCurrentContext()).ToLocalChecked()));
-      if (info[4]->IsNumber()) {
+      if (info[4].IsNumber()) {
         int step = info[4]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value();
         cv::Mat mat(
             info[0]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value(),
@@ -623,7 +624,7 @@ void Mat::New(const Napi::CallbackInfo& info) {
   /* raw data, row, col, type
    * constructor(data: Buffer, rows: number, cols: number, type?: number);
    */
-  else if (info.Length() == 4 && info[1]->IsNumber() && info[2]->IsNumber() && info[3]->IsInt32()) {
+  else if (info.Length() == 4 && info[1].IsNumber() && info[2].IsNumber() && info[3].IsInt32()) {
     int type = info[3]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value();
     char* data = static_cast<char*>(node::Buffer::Data(info[0]->ToObject(Nan::GetCurrentContext()).ToLocalChecked()));
     cv::Mat mat(info[1]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value(), info[2]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value(), type);
@@ -642,7 +643,8 @@ void Mat::New(const Napi::CallbackInfo& info) {
 }
 
 void Mat::Eye(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Mat::Eye");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "Mat::Eye");
   int rows, cols, type;
   if (
       FF::IntConverter::arg(0, &rows, info) || FF::IntConverter::arg(1, &cols, info) || FF::IntConverter::arg(2, &type, info)) {
@@ -652,7 +654,8 @@ void Mat::Eye(const Napi::CallbackInfo& info) {
 }
 
 void Mat::Ones(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Mat::Ones");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "Mat::Ones");
   int rows, cols, type;
   if (
       FF::IntConverter::arg(0, &rows, info) || FF::IntConverter::arg(1, &cols, info) || FF::IntConverter::arg(2, &type, info)) {
@@ -662,7 +665,8 @@ void Mat::Ones(const Napi::CallbackInfo& info) {
 }
 
 void Mat::Zeros(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Mat::Zero");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "Mat::Zero");
   int rows, cols, type;
   if (
       FF::IntConverter::arg(0, &rows, info) || FF::IntConverter::arg(1, &cols, info) || FF::IntConverter::arg(2, &type, info)) {
@@ -672,7 +676,8 @@ void Mat::Zeros(const Napi::CallbackInfo& info) {
 }
 
 void Mat::FlattenFloat(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Mat::FlattenFloat");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "Mat::FlattenFloat");
   int rows, cols;
   if (
       FF::IntConverter::arg(0, &rows, info) || FF::IntConverter::arg(1, &cols, info)) {
@@ -685,12 +690,13 @@ void Mat::FlattenFloat(const Napi::CallbackInfo& info) {
 }
 
 void Mat::At(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Mat::At");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "Mat::At");
 
   cv::Mat matSelf = Mat::unwrapSelf(info);
   Napi::Value val;
   Napi::Value jsVal;
-  if (info[0]->IsArray()) {
+  if (info[0].IsArray()) {
     if ((long)v8::Local<v8::Array>::Cast(info[0])->Length() != matSelf.dims) {
       tryCatch.throwError("expected array length to be equal to the dims, get " + std::to_string((long)v8::Local<v8::Array>::Cast(info[0])->Length()) + " expecting " + std::to_string(matSelf.dims));
     }
@@ -749,7 +755,8 @@ void Mat::At(const Napi::CallbackInfo& info) {
 }
 
 void Mat::AtRaw(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Mat::AtRaw");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "Mat::AtRaw");
   cv::Mat matSelf = Mat::unwrapSelf(info);
   FF_ASSERT_INDEX_RANGE(info[0]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value(), matSelf.size[0] - 1, "Mat::At row");
   FF_ASSERT_INDEX_RANGE(info[1]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value(), matSelf.size[1] - 1, "Mat::At col");
@@ -759,13 +766,14 @@ void Mat::AtRaw(const Napi::CallbackInfo& info) {
 }
 
 void Mat::Set(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Mat::Set");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "Mat::Set");
   cv::Mat matSelf = Mat::unwrapSelf(info);
   FF_ASSERT_INDEX_RANGE(info[0]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value(), matSelf.size[0] - 1, "Mat::At row");
   FF_ASSERT_INDEX_RANGE(info[1]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value(), matSelf.size[1] - 1, "Mat::At col");
 
   int cn = matSelf.channels();
-  if (info[2]->IsArray()) {
+  if (info[2].IsArray()) {
     v8::Local<v8::Array> vec = v8::Local<v8::Array>::Cast(info[2]);
     FF_ASSERT_CHANNELS(cn, (long)vec->Length(), "Mat::Set");
     FF_MAT_APPLY_TYPED_OPERATOR(matSelf, vec, matSelf.type(), FF_MAT_SET, FF::matPut);
@@ -778,7 +786,7 @@ void Mat::Set(const Napi::CallbackInfo& info) {
   } else if (Vec4::hasInstance(info[2])) {
     FF_ASSERT_CHANNELS(cn, 4, "Mat::Set");
     FF_MAT_APPLY_TYPED_OPERATOR(matSelf, FF::vecToJsArr<4>(Vec4::Converter::unwrapUnchecked(info[2])), matSelf.type(), FF_MAT_SET, FF::matPut);
-  } else if (info[2]->IsNumber()) {
+  } else if (info[2].IsNumber()) {
     FF_MAT_APPLY_TYPED_OPERATOR(matSelf, info[2], matSelf.type(), FF_MAT_SET, FF::matPut);
   } else {
     return tryCatch.throwError("unexpected argument 2");
@@ -868,7 +876,8 @@ void Mat::SetToAsync(const Napi::CallbackInfo& info) {
   }
 
 void Mat::GetDataAsArray(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Mat::GetDataAsArray");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "Mat::GetDataAsArray");
   cv::Mat mat = Mat::unwrapSelf(info);
   v8::Local<v8::Array> rowArray = Nan::New<v8::Array>(mat.size[0]);
 
@@ -890,7 +899,8 @@ void Mat::GetDataAsArray(const Napi::CallbackInfo& info) {
 }
 
 void Mat::SetData(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Mat::SetData");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "Mat::SetData");
   cv::Mat mat = Mat::unwrapSelf(info);
   char* data = static_cast<char*>(node::Buffer::Data(info[0]->ToObject(Nan::GetCurrentContext()).ToLocalChecked()));
   size_t size = mat.rows * mat.cols * mat.elemSize();
@@ -899,7 +909,8 @@ void Mat::SetData(const Napi::CallbackInfo& info) {
 }
 
 void Mat::GetRegion(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Mat::GetRegion");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "Mat::GetRegion");
   cv::Rect2d rect;
   if (Rect::Converter::arg(0, &rect, info)) {
     return tryCatch.reThrow();
@@ -913,7 +924,8 @@ void Mat::GetRegion(const Napi::CallbackInfo& info) {
 }
 
 void Mat::Norm(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Mat::Norm");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "Mat::Norm");
   bool withSrc2 = FF::hasArg(info, 0) && Mat::hasInstance(info[0]);
   uint i = withSrc2 ? 1 : 0;
   double norm;
@@ -946,7 +958,8 @@ void Mat::Norm(const Napi::CallbackInfo& info) {
 // operation, regardless of the matrix size. The underlying data of the new matrix is shared with the
 // original matrix.
 void Mat::Row(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Mat::Row");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "Mat::Row");
   int row;
   if (FF::IntConverter::arg(0, &row, info)) {
     return tryCatch.reThrow();
@@ -958,7 +971,8 @@ void Mat::Row(const Napi::CallbackInfo& info) {
 // operation, regardless of the matrix size. The underlying data of the new matrix is shared with the
 // original matrix. See also the Mat::row description.
 void Mat::Col(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Mat::Col");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "Mat::Col");
   int col;
   if (FF::IntConverter::arg(0, &col, info)) {
     return tryCatch.reThrow();
@@ -969,7 +983,8 @@ void Mat::Col(const Napi::CallbackInfo& info) {
 // The method makes a new header for the specified row span of the matrix. Similarly to Mat::row and
 // Mat::col , this is an O(1) operation.
 void Mat::RowRange(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Mat::RowRange");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "Mat::RowRange");
   int start, end;
   if (FF::IntConverter::arg(0, &start, info) || FF::IntConverter::arg(1, &end, info)) {
     return tryCatch.reThrow();
@@ -980,7 +995,8 @@ void Mat::RowRange(const Napi::CallbackInfo& info) {
 // The method makes a new header for the specified column span of the matrix. Similarly to Mat::row and
 // Mat::col , this is an O(1) operation.
 void Mat::ColRange(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Mat::ColRange");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "Mat::ColRange");
   int start, end;
   if (FF::IntConverter::arg(0, &start, info) || FF::IntConverter::arg(1, &end, info)) {
     return tryCatch.reThrow();

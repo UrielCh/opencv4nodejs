@@ -4,7 +4,7 @@
 
 #include "BRISKDetector.h"
 
-Nan::Persistent<v8::FunctionTemplate> BRISKDetector::constructor;
+Napi::FunctionReference BRISKDetector::constructor;
 
 Napi::Object BRISKDetector(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(BRISKDetector::New);
@@ -23,7 +23,8 @@ Napi::Object BRISKDetector(Napi::Env env, Napi::Object exports) {
 };
 
 void BRISKDetector::New(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("BRISKDetector::New");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "BRISKDetector::New");
   FF_ASSERT_CONSTRUCT_CALL();
   BRISKDetector::NewWorker worker;
 

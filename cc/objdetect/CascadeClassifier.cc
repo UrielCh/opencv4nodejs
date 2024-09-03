@@ -5,7 +5,7 @@
 #include "CascadeClassifier.h"
 #include "CascadeClassifierBindings.h"
 
-Nan::Persistent<v8::FunctionTemplate> CascadeClassifier::constructor;
+Napi::FunctionReference CascadeClassifier::constructor;
 
 Napi::Object CascadeClassifier(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(CascadeClassifier::New);
@@ -26,7 +26,8 @@ Napi::Object CascadeClassifier(Napi::Env env, Napi::Object exports) {
 };
 
 void CascadeClassifier::New(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("CascadeClassifier::New");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "CascadeClassifier::New");
   FF_ASSERT_CONSTRUCT_CALL();
   CascadeClassifierBindings::NewWorker worker;
 

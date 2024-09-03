@@ -10,7 +10,7 @@
 #include "Rect.h"
 #include "RotatedRect.h"
 
-Nan::Persistent<v8::FunctionTemplate> Contour::constructor;
+Napi::FunctionReference Contour::constructor;
 
 Napi::Object Contour(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(Contour::New);
@@ -44,12 +44,13 @@ Napi::Object Contour(Napi::Env env, Napi::Object exports) {
 };
 
 void Contour::New(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Contour::New");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "Contour::New");
   FF_ASSERT_CONSTRUCT_CALL();
   if (info.Length() > 1) {
     return tryCatch.throwError("expected one or zero argument");
   }
-  if (info.Length() == 1 && !info[0]->IsArray()) {
+  if (info.Length() == 1 && !info[0].IsArray()) {
     return tryCatch.throwError("expected arg0 to be an array");
   }
 
@@ -99,7 +100,8 @@ void Contour::ApproxPolyDPAsync(const Napi::CallbackInfo& info) {
 }
 
 void Contour::ApproxPolyDPContour(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Contour::ApproxPolyDPContour");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "Contour::ApproxPolyDPContour");
   double epsilon;
   bool closed;
   if (
@@ -118,7 +120,8 @@ void Contour::ApproxPolyDPContour(const Napi::CallbackInfo& info) {
 }
 
 void Contour::ArcLength(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Contour::ArcLength");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "Contour::ArcLength");
   bool closed = false;
   if (FF::BoolConverter::optArg(0, &closed, info)) {
     return tryCatch.reThrow();
@@ -133,7 +136,8 @@ void Contour::BoundingRect(const Napi::CallbackInfo& info) {
 }
 
 void Contour::ConvexHull(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Contour::ConvexHull");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "Contour::ConvexHull");
   bool clockwise = false;
   if (FF::BoolConverter::optArg(0, &clockwise, info)) {
     return tryCatch.reThrow();
@@ -153,7 +157,8 @@ void Contour::ConvexHull(const Napi::CallbackInfo& info) {
 }
 
 void Contour::ConvexHullIndices(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Contour::ConvexHullIndices");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "Contour::ConvexHullIndices");
   bool clockwise = false;
   if (FF::BoolConverter::optArg(0, &clockwise, info)) {
     return tryCatch.reThrow();
@@ -169,7 +174,8 @@ void Contour::ConvexHullIndices(const Napi::CallbackInfo& info) {
 }
 
 void Contour::ConvexityDefects(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Contour::ConvexityDefects");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "Contour::ConvexityDefects");
   std::vector<int> hull;
   if (FF::IntArrayConverter::arg(0, &hull, info)) {
     return tryCatch.reThrow();
@@ -204,7 +210,8 @@ void Contour::MinEnclosingTriangle(const Napi::CallbackInfo& info) {
 }
 
 void Contour::PointPolygonTest(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Contour::PointPolygonTest");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "Contour::PointPolygonTest");
   cv::Point2d point;
   if (Point2::Converter::arg(0, &point, info)) {
     return tryCatch.reThrow();
@@ -218,7 +225,8 @@ void Contour::PointPolygonTest(const Napi::CallbackInfo& info) {
 }
 
 void Contour::MatchShapes(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Contour::MatchShapes");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "Contour::MatchShapes");
   std::vector<cv::Point> contour2;
   uint method;
   if (

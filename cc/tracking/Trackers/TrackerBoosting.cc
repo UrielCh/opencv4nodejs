@@ -5,7 +5,7 @@
 #include "TrackerBoosting.h"
 #include "TrackerBoostingParams.h"
 
-Nan::Persistent<v8::FunctionTemplate> TrackerBoosting::constructor;
+Napi::FunctionReference TrackerBoosting::constructor;
 
 Napi::Object TrackerBoosting(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(TrackerBoosting::New);
@@ -22,7 +22,8 @@ Napi::Object TrackerBoosting(Napi::Env env, Napi::Object exports) {
 };
 
 void TrackerBoosting::New(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("TrackerBoosting::New");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "TrackerBoosting::New");
   FF_ASSERT_CONSTRUCT_CALL();
 
 #if CV_VERSION_GREATER_EQUAL(4, 5, 2)

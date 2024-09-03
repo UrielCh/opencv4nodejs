@@ -21,7 +21,7 @@ static Napi::Object Init(Napi::Env env, Napi::Object exports);
   static void Update(const Napi::CallbackInfo& info);
   static void GetModel(const Napi::CallbackInfo& info);
 #endif
-  static Nan::Persistent<v8::FunctionTemplate> constructor;
+  static Napi::FunctionReference constructor;;
 
   cv::Ptr<cv::Tracker> getTracker() {
     return tracker;

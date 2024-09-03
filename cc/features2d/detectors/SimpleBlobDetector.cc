@@ -5,7 +5,7 @@
 #include "SimpleBlobDetector.h"
 #include "SimpleBlobDetectorParams.h"
 
-Nan::Persistent<v8::FunctionTemplate> SimpleBlobDetector::constructor;
+Napi::FunctionReference SimpleBlobDetector::constructor;
 
 Napi::Object SimpleBlobDetector(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(SimpleBlobDetector::New);
@@ -21,7 +21,8 @@ Napi::Object SimpleBlobDetector(Napi::Env env, Napi::Object exports) {
 };
 
 void SimpleBlobDetector::New(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("SimpleBlobDetector::New");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "SimpleBlobDetector::New");
   FF_ASSERT_CONSTRUCT_CALL();
 
   cv::SimpleBlobDetector::Params params;

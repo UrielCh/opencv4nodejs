@@ -1,6 +1,6 @@
 #include "TermCriteria.h"
 
-Nan::Persistent<v8::FunctionTemplate> TermCriteria::constructor;
+Napi::FunctionReference TermCriteria::constructor;
 
 Napi::Object TermCriteria(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(TermCriteria::New);
@@ -15,7 +15,8 @@ Napi::Object TermCriteria(Napi::Env env, Napi::Object exports) {
 };
 
 void TermCriteria::New(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("TermCriteria::New");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "TermCriteria::New");
   FF_ASSERT_CONSTRUCT_CALL();
   TermCriteria* self = new TermCriteria();
 

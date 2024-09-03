@@ -10,7 +10,8 @@ void BackgroundSubtractor::Init(Napi::FunctionReference ctor) {
 };
 
 void BackgroundSubtractor::Apply(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("BackgroundSubtractor::Apply");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "BackgroundSubtractor::Apply");
   cv::Mat frame;
   double learningRate = -1;
   if (

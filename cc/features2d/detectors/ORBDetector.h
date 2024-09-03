@@ -7,7 +7,7 @@
 
 class ORBDetector : public FeatureDetector, public FF::ObjectWrapTemplate<ORBDetector, cv::Ptr<cv::ORB>> {
 public:
-  static Nan::Persistent<v8::FunctionTemplate> constructor;
+  static Napi::FunctionReference constructor;;
 
   static const char* getClassName() {
     return "ORBDetector";
@@ -56,7 +56,8 @@ static Napi::Object Init(Napi::Env env, Napi::Object exports);
   class NewBinding : public CvBinding {
   public:
     void construct(const Napi::CallbackInfo& info) {
-      FF::TryCatch tryCatch("ORBDetector::New");
+      Napi::Env env = info.Env();  
+      FF::TryCatch tryCatch(env, "ORBDetector::New");
       FF_ASSERT_CONSTRUCT_CALL();
 
       auto maxFeatures = opt<FF::IntConverter>("maxFeatures", 500);

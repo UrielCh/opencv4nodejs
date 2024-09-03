@@ -12,7 +12,7 @@ public:
 static Napi::Object Init(Napi::Env env, Napi::Object exports);
   static void New(const Napi::CallbackInfo& info);
 
-  static Nan::Persistent<v8::FunctionTemplate> constructor;
+  static Napi::FunctionReference constructor;;
 
   cv::Ptr<cv::FeatureDetector> getDetector() {
     return detector;

@@ -4,7 +4,7 @@
 
 #include "GFTTDetector.h"
 
-Nan::Persistent<v8::FunctionTemplate> GFTTDetector::constructor;
+Napi::FunctionReference GFTTDetector::constructor;
 
 Napi::Object GFTTDetector(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(GFTTDetector::New);
@@ -26,7 +26,8 @@ Napi::Object GFTTDetector(Napi::Env env, Napi::Object exports) {
 };
 
 void GFTTDetector::New(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("GFTTDetector::New");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "GFTTDetector::New");
   FF_ASSERT_CONSTRUCT_CALL();
   GFTTDetector::NewWorker worker;
 

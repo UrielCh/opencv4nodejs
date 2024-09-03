@@ -5,7 +5,7 @@
 #include "VideoCapture.h"
 #include "VideoCaptureBindings.h"
 
-Nan::Persistent<v8::FunctionTemplate> VideoCapture::constructor;
+Napi::FunctionReference VideoCapture::constructor;
 
 Napi::Object VideoCapture(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(VideoCapture::New);
@@ -24,13 +24,14 @@ Napi::Object VideoCapture(Napi::Env env, Napi::Object exports) {
 };
 
 void VideoCapture::New(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("VideoCapture::New");
+  Napi::Env env = info.Env();
+  FF::TryCatch tryCatch(env, "VideoCapture::New");
   FF_ASSERT_CONSTRUCT_CALL();
   VideoCapture* self = new VideoCapture();
-  if (info[0]->IsString()) {
+  if (info[0].IsString()) {
     self->path = FF::StringConverter::unwrapUnchecked(info[0]);
     self->self.open(self->path);
-  } else if (info[0]->IsUint32()) {
+  } else if (info[0].IsUint32()) {
     self->self.open(info[0]->ToUint32(Nan::GetCurrentContext()).ToLocalChecked()->Value());
   } else {
     return tryCatch.throwError("expected arg 0 to be path or device port");
@@ -44,7 +45,8 @@ void VideoCapture::New(const Napi::CallbackInfo& info) {
 }
 
 void VideoCapture::Reset(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("VideoCapture::Reset");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "VideoCapture::Reset");
   VideoCapture* self = Nan::ObjectWrap::Unwrap<VideoCapture>(info.This());
   self->self.release();
   self->self.open(self->path);

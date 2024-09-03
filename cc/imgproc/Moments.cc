@@ -5,7 +5,7 @@
 #include "Moments.h"
 #include <opencv2/imgproc.hpp>
 
-Nan::Persistent<v8::FunctionTemplate> Moments::constructor;
+Napi::FunctionReference Moments::constructor;
 
 Napi::Object Moments(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(Moments::New);
@@ -43,7 +43,8 @@ Napi::Object Moments(Napi::Env env, Napi::Object exports) {
 };
 
 void Moments::New(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Moments::New");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "Moments::New");
   FF_ASSERT_CONSTRUCT_CALL();
   Moments* self = new Moments();
   self->Wrap(info.Holder());

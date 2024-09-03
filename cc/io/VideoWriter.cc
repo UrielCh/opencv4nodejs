@@ -5,7 +5,7 @@
 #include "VideoWriter.h"
 #include "VideoWriterBindings.h"
 
-Nan::Persistent<v8::FunctionTemplate> VideoWriter::constructor;
+Napi::FunctionReference VideoWriter::constructor;
 
 Napi::Object VideoWriter(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(VideoWriter::New);
@@ -24,7 +24,8 @@ Napi::Object VideoWriter(Napi::Env env, Napi::Object exports) {
 };
 
 void VideoWriter::New(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("VideoWriter::New");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "VideoWriter::New");
   FF_ASSERT_CONSTRUCT_CALL();
   VideoWriterBindings::NewWorker worker;
 

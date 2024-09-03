@@ -34,7 +34,8 @@ Napi::Object Point(Napi::Env env, Napi::Object exports) {
 };
 
 void Point::New(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Point::New");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "Point::New");
   FF_ASSERT_CONSTRUCT_CALL();
   if (info.Length() < 2) {
     return tryCatch.throwError("expected arguments x, y, (z)");

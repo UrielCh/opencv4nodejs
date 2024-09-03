@@ -4,7 +4,7 @@
 
 #include "HistAxes.h"
 
-Nan::Persistent<v8::FunctionTemplate> HistAxes::constructor;
+Napi::FunctionReference HistAxes::constructor;
 
 Napi::Object HistAxes(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(HistAxes::New);
@@ -20,12 +20,13 @@ Napi::Object HistAxes(Napi::Env env, Napi::Object exports) {
 }
 
 void HistAxes::New(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("HistAxes::New");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "HistAxes::New");
   FF_ASSERT_CONSTRUCT_CALL();
   if (info.Length() != 1) {
     return tryCatch.throwError("expected one argument");
   }
-  if (!info[0]->IsObject()) {
+  if (!info[0].IsObject()) {
     return tryCatch.throwError("expected arg0 to be an object");
   }
 

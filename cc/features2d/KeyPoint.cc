@@ -4,7 +4,7 @@
 
 #include "KeyPoint.h"
 
-Nan::Persistent<v8::FunctionTemplate> KeyPoint::constructor;
+Napi::FunctionReference KeyPoint::constructor;
 
 Napi::Object KeyPoint(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(KeyPoint::New);
@@ -26,7 +26,8 @@ Napi::Object KeyPoint(Napi::Env env, Napi::Object exports) {
 };
 
 void KeyPoint::New(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("KeyPoint::New");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "KeyPoint::New");
   FF_ASSERT_CONSTRUCT_CALL();
   KeyPoint* self = new KeyPoint();
 

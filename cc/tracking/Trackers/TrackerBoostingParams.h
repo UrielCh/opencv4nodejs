@@ -13,7 +13,7 @@ class TrackerBoostingParams : public FF::ObjectWrap<TrackerBoostingParams, cv::l
 class TrackerBoostingParams : public FF::ObjectWrap<TrackerBoostingParams, cv::TrackerBoosting::Params> {
 #endif
 public:
-  static Nan::Persistent<v8::FunctionTemplate> constructor;
+  static Napi::FunctionReference constructor;
 
   static const char* getClassName() {
     return "TrackerBoostingParams";

@@ -4,7 +4,7 @@
 
 #include "KeyPointMatch.h"
 
-Nan::Persistent<v8::FunctionTemplate> KeyPointMatch::constructor;
+Napi::FunctionReference KeyPointMatch::constructor;
 
 Napi::Object KeyPointMatch(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(KeyPointMatch::New);
@@ -20,7 +20,8 @@ Napi::Object KeyPointMatch(Napi::Env env, Napi::Object exports) {
 };
 
 void KeyPointMatch::New(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("KeyPointMatch::New");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "KeyPointMatch::New");
   FF_ASSERT_CONSTRUCT_CALL();
   if (info.Length() > 0) {
     // TODO check args

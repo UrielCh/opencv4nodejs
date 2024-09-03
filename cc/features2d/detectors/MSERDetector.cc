@@ -6,7 +6,7 @@
 #include "Point.h"
 #include "Rect.h"
 
-Nan::Persistent<v8::FunctionTemplate> MSERDetector::constructor;
+Napi::FunctionReference MSERDetector::constructor;
 
 Napi::Object MSERDetector(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(MSERDetector::New);
@@ -34,7 +34,8 @@ Napi::Object MSERDetector(Napi::Env env, Napi::Object exports) {
 };
 
 void MSERDetector::New(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("MSERDetector::New");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "MSERDetector::New");
   FF_ASSERT_CONSTRUCT_CALL();
   MSERDetector::NewWorker worker;
 

@@ -8,7 +8,7 @@
 
 class AKAZEDetector : public FeatureDetector, public FF::ObjectWrapTemplate<AKAZEDetector, cv::Ptr<cv::AKAZE>> {
 public:
-  static Nan::Persistent<v8::FunctionTemplate> constructor;
+  static Napi::FunctionReference constructor;;
 
   static const char* getClassName() {
     return "AKAZEDetector";
@@ -59,7 +59,8 @@ static Napi::Object Init(Napi::Env env, Napi::Object exports);
   class NewBinding : public CvBinding {
   public:
     void construct(const Napi::CallbackInfo& info) {
-      FF::TryCatch tryCatch("AKAZEDetector::New");
+      Napi::Env env = info.Env();  
+      FF::TryCatch tryCatch(env, "AKAZEDetector::New");
       FF_ASSERT_CONSTRUCT_CALL();
 
 #if CV_VERSION_GREATER_EQUAL(4, 0, 0)

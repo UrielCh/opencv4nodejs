@@ -4,7 +4,7 @@
 
 #include "TrackerMILParams.h"
 
-Nan::Persistent<v8::FunctionTemplate> TrackerMILParams::constructor;
+Napi::FunctionReference TrackerMILParams::constructor;
 
 Napi::Object TrackerMILParams(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(TrackerMILParams::New);
@@ -26,7 +26,8 @@ Napi::Object TrackerMILParams(Napi::Env env, Napi::Object exports) {
 };
 
 void TrackerMILParams::New(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("TrackerMILParams::New");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "TrackerMILParams::New");
   FF_ASSERT_CONSTRUCT_CALL();
   TrackerMILParams* self = new TrackerMILParams();
   self->self = cv::TrackerMIL::Params();

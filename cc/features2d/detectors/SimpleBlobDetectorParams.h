@@ -7,7 +7,7 @@
 
 class SimpleBlobDetectorParams : public FF::ObjectWrap<SimpleBlobDetectorParams, cv::SimpleBlobDetector::Params> {
 public:
-  static Nan::Persistent<v8::FunctionTemplate> constructor;
+  static Napi::FunctionReference constructor;;
 
   static const char* getClassName() {
     return "SimpleBlobDetector";

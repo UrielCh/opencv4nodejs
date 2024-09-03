@@ -5,7 +5,7 @@
 #include "EigenFaceRecognizer.h"
 #include "FaceRecognizerBindings.h"
 
-Nan::Persistent<v8::FunctionTemplate> EigenFaceRecognizer::constructor;
+Napi::FunctionReference EigenFaceRecognizer::constructor;
 
 Napi::Object EigenFaceRecognizer(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(EigenFaceRecognizer::New);
@@ -20,7 +20,8 @@ Napi::Object EigenFaceRecognizer(Napi::Env env, Napi::Object exports) {
 };
 
 void EigenFaceRecognizer::New(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("EigenFaceRecognizer::New");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "EigenFaceRecognizer::New");
   FF_ASSERT_CONSTRUCT_CALL();
   FaceRecognizerBindings::NewWorker worker;
 

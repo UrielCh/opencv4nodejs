@@ -7,7 +7,7 @@
 
 #if CV_VERSION_GREATER_EQUAL(3, 1, 0)
 
-Nan::Persistent<v8::FunctionTemplate> TrackerKCF::constructor;
+Napi::FunctionReference TrackerKCF::constructor;
 
 Napi::Object TrackerKCF(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(TrackerKCF::New);
@@ -24,7 +24,8 @@ Napi::Object TrackerKCF(Napi::Env env, Napi::Object exports) {
 };
 
 void TrackerKCF::New(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("TrackerKCF::New");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "TrackerKCF::New");
   FF_ASSERT_CONSTRUCT_CALL();
 
 #if CV_VERSION_GREATER_EQUAL(4, 5, 2)

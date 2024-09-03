@@ -4,7 +4,7 @@
 
 #include "AGASTDetector.h"
 
-Nan::Persistent<v8::FunctionTemplate> AGASTDetector::constructor;
+Napi::FunctionReference AGASTDetector::constructor;
 
 Napi::Object AGASTDetector(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(AGASTDetector::New);

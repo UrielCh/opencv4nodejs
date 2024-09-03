@@ -6,7 +6,7 @@
 
 #if CV_VERSION_GREATER_EQUAL(3, 1, 0)
 
-Nan::Persistent<v8::FunctionTemplate> SuperpixelSLIC::constructor;
+Napi::FunctionReference SuperpixelSLIC::constructor;
 
 Napi::Object SuperpixelSLIC(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(SuperpixelSLIC::New);
@@ -29,7 +29,8 @@ Napi::Object SuperpixelSLIC(Napi::Env env, Napi::Object exports) {
 };
 
 void SuperpixelSLIC::New(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("SuperpixelSLIC::New");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "SuperpixelSLIC::New");
   FF_ASSERT_CONSTRUCT_CALL();
   SuperpixelSLIC::NewWorker worker;
 
@@ -52,7 +53,8 @@ void SuperpixelSLIC::New(const Napi::CallbackInfo& info) {
 }
 
 void SuperpixelSLIC::Iterate(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("SuperpixelSLIC::Iterate");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "SuperpixelSLIC::Iterate");
 
   uint iterations = 10;
   if (FF::UintConverter::optArg(0, &iterations, info)) {

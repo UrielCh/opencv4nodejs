@@ -4,7 +4,7 @@
 
 #include "DescriptorMatch.h"
 
-Nan::Persistent<v8::FunctionTemplate> DescriptorMatch::constructor;
+Napi::FunctionReference DescriptorMatch::constructor;
 
 Napi::Object DescriptorMatch(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(DescriptorMatch::New);
@@ -20,7 +20,8 @@ Napi::Object DescriptorMatch(Napi::Env env, Napi::Object exports) {
 };
 
 void DescriptorMatch::New(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("DescriptorMatch::New");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "DescriptorMatch::New");
   FF_ASSERT_CONSTRUCT_CALL();
   DescriptorMatch* self = new DescriptorMatch();
   if (info.Length() > 0) {

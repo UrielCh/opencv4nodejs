@@ -1,6 +1,6 @@
 #include "Size.h"
 
-Nan::Persistent<v8::FunctionTemplate> Size::constructor;
+Napi::FunctionReference Size::constructor;
 
 Napi::Object Size(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(Size::New);
@@ -14,7 +14,8 @@ Napi::Object Size(Napi::Env env, Napi::Object exports) {
 };
 
 void Size::New(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Size::New");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "Size::New");
   FF_ASSERT_CONSTRUCT_CALL();
   Size* self = new Size();
   if (info.Length() > 0) {

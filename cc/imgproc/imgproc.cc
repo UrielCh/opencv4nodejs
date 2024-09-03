@@ -50,7 +50,8 @@ Napi::Object Imgproc(Napi::Env env, Napi::Object exports) {
 };
 
 void Imgproc::GetStructuringElement(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Imgproc::GetStructuringElement");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "Imgproc::GetStructuringElement");
 
   uint shape;
   cv::Size2d size;
@@ -65,7 +66,8 @@ void Imgproc::GetStructuringElement(const Napi::CallbackInfo& info) {
 }
 
 void Imgproc::GetRotationMatrix2D(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Imgproc::GetRotationMatrix2D");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "Imgproc::GetRotationMatrix2D");
 
   cv::Point2d center;
   double angle, scale = 1.0;
@@ -78,7 +80,8 @@ void Imgproc::GetRotationMatrix2D(const Napi::CallbackInfo& info) {
 }
 
 void Imgproc::GetAffineTransform(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Imgproc::GetAffineTransform");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "Imgproc::GetAffineTransform");
 
   std::vector<cv::Point2f> srcPoints, dstPoints;
   if (
@@ -90,7 +93,8 @@ void Imgproc::GetAffineTransform(const Napi::CallbackInfo& info) {
 }
 
 void Imgproc::GetPerspectiveTransform(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Imgproc::GetPerspectiveTransform");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "Imgproc::GetPerspectiveTransform");
 
   std::vector<cv::Point2f> srcPoints, dstPoints;
   if (Point2::ArrayWithCastConverter<cv::Point2f>::arg(0, &srcPoints, info)
@@ -102,7 +106,8 @@ void Imgproc::GetPerspectiveTransform(const Napi::CallbackInfo& info) {
 }
 
 void Imgproc::Plot1DHist(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Imgproc::Plot1DHist");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "Imgproc::Plot1DHist");
 
   cv::Mat hist, plot;
   cv::Vec3d color;
@@ -147,9 +152,10 @@ void Imgproc::Plot1DHist(const Napi::CallbackInfo& info) {
 }
 
 void Imgproc::FitLine(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Imgproc::FitLine");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "Imgproc::FitLine");
 
-  if (!info[0]->IsArray()) {
+  if (!info[0].IsArray()) {
     return tryCatch.throwError("expected arg 0 to be an array");
   }
   v8::Local<v8::Array> jsPoints = v8::Local<v8::Array>::Cast(info[0]);

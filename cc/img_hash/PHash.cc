@@ -4,7 +4,7 @@
 
 #include "PHash.h"
 
-Nan::Persistent<v8::FunctionTemplate> PHash::constructor;
+Napi::FunctionReference PHash::constructor;
 
 Napi::Object PHash(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(PHash::New);
@@ -19,7 +19,8 @@ Napi::Object PHash(Napi::Env env, Napi::Object exports) {
 };
 
 void PHash::New(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("PHash::New");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "PHash::New");
   FF_ASSERT_CONSTRUCT_CALL();
 
   PHash* self = new PHash();

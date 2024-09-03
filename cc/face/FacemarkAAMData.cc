@@ -6,7 +6,7 @@
 
 #if CV_VERSION_GREATER_EQUAL(3, 4, 0)
 
-Nan::Persistent<v8::FunctionTemplate> FacemarkAAMData::constructor;
+Napi::FunctionReference FacemarkAAMData::constructor;
 
 Napi::Object FacemarkAAMData(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor =
@@ -23,7 +23,8 @@ Napi::Object FacemarkAAMData(Napi::Env env, Napi::Object exports) {
 };
 
 void FacemarkAAMData::New(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("FacemarkAAMData::New");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "FacemarkAAMData::New");
   FF_ASSERT_CONSTRUCT_CALL();
   FacemarkAAMData* self = new FacemarkAAMData();
   self->self = cv::face::FacemarkAAM::Data();

@@ -5,7 +5,7 @@
 #include "SVM.h"
 #include "SVMBindings.h"
 
-Nan::Persistent<v8::FunctionTemplate> SVM::constructor;
+Napi::FunctionReference SVM::constructor;
 
 Napi::Object SVM(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(SVM::New);
@@ -42,7 +42,8 @@ Napi::Object SVM(Napi::Env env, Napi::Object exports) {
 };
 
 void SVM::setParams(Napi::Object params) {
-  FF::TryCatch tryCatch("SVM::setParams");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "SVM::setParams");
   double c = this->self->getC();
   double coef0 = this->self->getCoef0();
   double degree = this->self->getDegree();
@@ -66,12 +67,13 @@ void SVM::setParams(Napi::Object params) {
 }
 
 void SVM::New(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("SVM::New");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "SVM::New");
   FF_ASSERT_CONSTRUCT_CALL();
   SVM* self = new SVM();
   self->setNativeObject(cv::ml::SVM::create());
   if (info.Length() > 0) {
-    if (!info[0]->IsObject()) {
+    if (!info[0].IsObject()) {
       return tryCatch.throwError("expected arg 0 to be an object");
     }
     Napi::Object args = Napi::Object::Cast(info[0]);
@@ -86,8 +88,8 @@ void SVM::New(const Napi::CallbackInfo& info) {
 };
 
 void SVM::SetParams(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("SVM::SetParams");
-  if (!info[0]->IsObject()) {
+  FF::TryCatch tryCatch(env, "SVM::SetParams");
+  if (!info[0].IsObject()) {
     return tryCatch.throwError("SVM::SetParams - args object required");
   }
   Napi::Object args = info[0].As<Napi::Object>();
@@ -100,14 +102,15 @@ void SVM::SetParams(const Napi::CallbackInfo& info) {
 };
 
 void SVM::Predict(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("SVM::Predict");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "SVM::Predict");
 
-  if (!info[0]->IsArray() && !Mat::hasInstance(info[0])) {
+  if (!info[0].IsArray() && !Mat::hasInstance(info[0])) {
     return tryCatch.throwError("expected arg 0 to be an ARRAY or an instance of Mat");
   }
 
   cv::Mat results;
-  if (info[0]->IsArray()) {
+  if (info[0].IsArray()) {
     std::vector<float> samples;
     unsigned int flags = 0;
     if (
@@ -141,7 +144,7 @@ void SVM::GetSupportVectors(const Napi::CallbackInfo& info) {
 }
 
 void SVM::GetUncompressedSupportVectors(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("SVM::GetUncompressedSupportVectors");
+  FF::TryCatch tryCatch(env, "SVM::GetUncompressedSupportVectors");
 #if CV_VERSION_GREATER_EQUAL(3, 2, 0)
   info.GetReturnValue().Set(Mat::Converter::wrap(SVM::unwrapSelf(info)->getUncompressedSupportVectors()));
 #else
@@ -150,9 +153,10 @@ void SVM::GetUncompressedSupportVectors(const Napi::CallbackInfo& info) {
 }
 
 void SVM::GetDecisionFunction(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("SVM::GetDecisionFunction");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "SVM::GetDecisionFunction");
 
-  if (!info[0]->IsNumber()) {
+  if (!info[0].IsNumber()) {
     return tryCatch.throwError("expected arg 0 to be a Int");
   }
 
@@ -172,7 +176,8 @@ void SVM::GetDecisionFunction(const Napi::CallbackInfo& info) {
 }
 
 void SVM::CalcError(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("SVM::CalcError");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "SVM::CalcError");
   cv::Ptr<cv::ml::TrainData> trainData;
   bool test;
   if (
@@ -190,7 +195,8 @@ void SVM::CalcError(const Napi::CallbackInfo& info) {
 }
 
 void SVM::Save(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("SVM::Save");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "SVM::Save");
 
   std::string path;
   if (FF::StringConverter::arg(0, &path, info)) {
@@ -200,7 +206,8 @@ void SVM::Save(const Napi::CallbackInfo& info) {
 }
 
 void SVM::Load(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("SVM::Load");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "SVM::Load");
 
   std::string path;
   if (FF::StringConverter::arg(0, &path, info)) {

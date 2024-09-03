@@ -9,7 +9,7 @@
 
 class OCRHMMClassifier : public FF::ObjectWrap<OCRHMMClassifier, cv::Ptr<cv::text::OCRHMMDecoder::ClassifierCallback>> {
 public:
-  static Nan::Persistent<v8::FunctionTemplate> constructor;
+  static Napi::FunctionReference constructor;;
 
   static const char* getClassName() {
     return "OCRHMMClassifier";

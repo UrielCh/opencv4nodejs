@@ -9,7 +9,7 @@
 
 class VideoCapture : public FF::ObjectWrap<VideoCapture, cv::VideoCapture> {
 public:
-  static Nan::Persistent<v8::FunctionTemplate> constructor;
+  static Napi::FunctionReference constructor;;
 
   static const char* getClassName() {
     return "VideoCapture";

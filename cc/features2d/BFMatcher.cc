@@ -5,7 +5,7 @@
 #include "BFMatcher.h"
 #include "BFMatcherBindings.h"
 
-Nan::Persistent<v8::FunctionTemplate> BFMatcher::constructor;
+Napi::FunctionReference BFMatcher::constructor;
 
 Napi::Object BFMatcher(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(BFMatcher::New);
@@ -28,7 +28,8 @@ Napi::Object BFMatcher(Napi::Env env, Napi::Object exports) {
 };
 
 void BFMatcher::New(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("BFMatcher::New");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "BFMatcher::New");
   FF_ASSERT_CONSTRUCT_CALL();
   BFMatcher::NewWorker worker;
 

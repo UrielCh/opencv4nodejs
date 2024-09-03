@@ -75,8 +75,9 @@ Napi::Object Io(Napi::Env env, Napi::Object exports) {
 };
 
 void Io::Imshow(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Io::Imshow");
-  if (!info[0]->IsString()) {
+   Napi::Env env = info.Env();  
+ FF::TryCatch tryCatch(env, "Io::Imshow");
+  if (!info[0].IsString()) {
     return tryCatch.throwError("expected arg0 to be the window name");
   }
   if (!Mat::hasInstance(info[1])) {
@@ -86,8 +87,9 @@ void Io::Imshow(const Napi::CallbackInfo& info) {
 }
 
 void Io::ImshowWait(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Io::ImshowWait");
-  if (!info[0]->IsString()) {
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "Io::ImshowWait");
+  if (!info[0].IsString()) {
     return tryCatch.throwError("expected arg0 to be the window name");
   }
   if (!Mat::hasInstance(info[1])) {
@@ -99,7 +101,7 @@ void Io::ImshowWait(const Napi::CallbackInfo& info) {
 
 void Io::WaitKey(const Napi::CallbackInfo& info) {
   int key;
-  if (info[0]->IsNumber()) {
+  if (info[0].IsNumber()) {
     key = cv::waitKey(info[0]->ToNumber(Nan::GetCurrentContext()).ToLocalChecked()->Value());
   } else {
     key = cv::waitKey();
@@ -110,7 +112,7 @@ void Io::WaitKey(const Napi::CallbackInfo& info) {
 #if CV_VERSION_GREATER_EQUAL(3, 2, 0)
 void Io::WaitKeyEx(const Napi::CallbackInfo& info) {
   int key;
-  if (info[0]->IsNumber()) {
+  if (info[0].IsNumber()) {
     key = cv::waitKeyEx(info[0]->ToNumber(Nan::GetCurrentContext()).ToLocalChecked()->Value());
   } else {
     key = cv::waitKeyEx();
@@ -120,7 +122,8 @@ void Io::WaitKeyEx(const Napi::CallbackInfo& info) {
 #endif
 
 void Io::DestroyWindow(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Io::DestroyWindow");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "Io::DestroyWindow");
   std::string winName;
   if (FF::StringConverter::arg(0, &winName, info)) {
     return tryCatch.reThrow();
@@ -133,9 +136,10 @@ void Io::DestroyAllWindows(const Napi::CallbackInfo& info) {
 }
 
 void Io::Imdecode(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Io::Imdecode");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "Io::Imdecode");
 
-  if (!info[0]->IsUint8Array()) {
+  if (!info[0].IsUint8Array()) {
     return tryCatch.throwError("expected arg 0 to be a Buffer of Uint8 Values");
   }
 
@@ -153,9 +157,10 @@ void Io::Imdecode(const Napi::CallbackInfo& info) {
 }
 
 void Io::ImdecodeAsync(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("Io::ImdecodeAsync");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "Io::ImdecodeAsync");
 
-  if (!info[0]->IsUint8Array()) {
+  if (!info[0].IsUint8Array()) {
     return tryCatch.throwError("expected arg 0 to be a Buffer of Uint8 Values");
   }
 
@@ -164,12 +169,12 @@ void Io::ImdecodeAsync(const Napi::CallbackInfo& info) {
   Napi::Function cbFunc;
   if (FF::hasArg(info, 1) && FF::IntConverterImpl::assertType(info[1])) {
     worker->flags = info[1]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value();
-    if (!info[2]->IsFunction()) {
+    if (!info[2].IsFunction()) {
       return tryCatch.throwError("expected argument 2 to be of type Function");
     }
     cbFunc = Napi::Function::Cast(info[2]);
   } else {
-    if (!info[1]->IsFunction()) {
+    if (!info[1].IsFunction()) {
       return tryCatch.throwError("expected argument 1 to be of type Function");
     }
     cbFunc = Napi::Function::Cast(info[1]);

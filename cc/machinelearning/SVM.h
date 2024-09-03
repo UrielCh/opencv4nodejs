@@ -11,7 +11,7 @@
 
 class SVM : public FF::ObjectWrap<SVM, cv::Ptr<cv::ml::SVM>> {
 public:
-  static Nan::Persistent<v8::FunctionTemplate> constructor;
+  static Napi::FunctionReference constructor;;
 
   static const char* getClassName() {
     return "SVM";

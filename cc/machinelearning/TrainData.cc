@@ -5,7 +5,7 @@
 #include "Mat.h"
 #include "TrainData.h"
 
-Nan::Persistent<v8::FunctionTemplate> TrainData::constructor;
+Napi::FunctionReference TrainData::constructor;
 
 Napi::Object TrainData(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(TrainData::New);
@@ -24,7 +24,8 @@ Napi::Object TrainData(Napi::Env env, Napi::Object exports) {
 };
 
 void TrainData::New(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("TrainData::New");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "TrainData::New");
   FF_ASSERT_CONSTRUCT_CALL();
   TrainData::NewWorker worker;
 

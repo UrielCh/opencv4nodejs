@@ -7,7 +7,7 @@
 
 class KAZEDetector : public FeatureDetector, public FF::ObjectWrapTemplate<KAZEDetector, cv::Ptr<cv::KAZE>> {
 public:
-  static Nan::Persistent<v8::FunctionTemplate> constructor;
+  static Napi::FunctionReference constructor;;
 
   static const char* getClassName() {
     return "KAZEDetector";
@@ -53,7 +53,8 @@ static Napi::Object Init(Napi::Env env, Napi::Object exports);
   class NewBinding : public CvBinding {
   public:
     void construct(const Napi::CallbackInfo& info) {
-      FF::TryCatch tryCatch("KAZEDetector::New");
+      Napi::Env env = info.Env();  
+      FF::TryCatch tryCatch(env, "KAZEDetector::New");
       FF_ASSERT_CONSTRUCT_CALL();
       auto extended = opt<FF::BoolConverter>("extended", false);
       auto upright = opt<FF::BoolConverter>("upright", false);

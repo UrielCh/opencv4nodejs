@@ -17,7 +17,7 @@ public:
 
 class HistAxes : public FF::ObjectWrap<HistAxes, internal::HistAxes> {
 public:
-  static Nan::Persistent<v8::FunctionTemplate> constructor;
+  static Napi::FunctionReference constructor;;
 
   static const char* getClassName() {
     return "HistAxes";

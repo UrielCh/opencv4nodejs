@@ -5,7 +5,7 @@
 #include "OCRHMMDecoder.h"
 #include "OCRHMMDecoderBindings.h"
 
-Nan::Persistent<v8::FunctionTemplate> OCRHMMDecoder::constructor;
+Napi::FunctionReference OCRHMMDecoder::constructor;
 
 Napi::Object OCRHMMDecoder(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(OCRHMMDecoder::New);
@@ -24,7 +24,8 @@ Napi::Object OCRHMMDecoder(Napi::Env env, Napi::Object exports) {
 };
 
 void OCRHMMDecoder::New(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("OCRHMMDecoder::New");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "OCRHMMDecoder::New");
   FF_ASSERT_CONSTRUCT_CALL();
   OCRHMMDecoderBindings::NewWorker worker;
 

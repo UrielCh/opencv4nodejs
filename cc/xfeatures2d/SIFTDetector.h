@@ -12,7 +12,7 @@ class SIFTDetector : public FeatureDetector, public FF::ObjectWrapTemplate<SIFTD
 class SIFTDetector : public FeatureDetector, public FF::ObjectWrapTemplate<SIFTDetector, cv::Ptr<cv::xfeatures2d::SIFT>> {
 #endif
 public:
-  static Nan::Persistent<v8::FunctionTemplate> constructor;
+  static Napi::FunctionReference constructor;;
 
   static const char* getClassName() {
     return "SIFTDetector";

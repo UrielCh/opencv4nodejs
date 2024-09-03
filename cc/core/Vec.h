@@ -17,7 +17,7 @@ public:
   static void NewVec4(const Napi::CallbackInfo& info);
   static void NewVec6(const Napi::CallbackInfo& info);
 
-  static Nan::Persistent<v8::FunctionTemplate> constructor;
+  static Napi::FunctionReference constructor;;
 };
 
 #endif

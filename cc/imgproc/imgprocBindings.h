@@ -86,7 +86,7 @@ public:
 
   bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
 #if CV_VERSION_GREATER_EQUAL(3, 3, 0)
-    if (info[1]->IsNumber()) {
+    if (info[1].IsNumber()) {
       return (Mat::Converter::arg(0, &src, info) || FF::IntConverter::optArg(1, &colormap, info));
     }
 

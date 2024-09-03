@@ -4,7 +4,7 @@
 
 #include "AKAZEDetector.h"
 
-Nan::Persistent<v8::FunctionTemplate> AKAZEDetector::constructor;
+Napi::FunctionReference AKAZEDetector::constructor;
 
 Napi::Object AKAZEDetector(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(AKAZEDetector::New);

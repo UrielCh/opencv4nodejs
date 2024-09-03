@@ -74,7 +74,7 @@ public:
 
   bool unwrapOptionalArgs(const Napi::CallbackInfo& info) {
 #if CV_VERSION_GREATER_EQUAL(3, 3, 0)
-    if (info[0]->IsArray()) {
+    if (info[0].IsArray()) {
       return FF::StringArrayConverter::optArg(0, &outBlobNames, info);
     }
 #endif

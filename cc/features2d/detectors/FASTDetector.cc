@@ -4,7 +4,7 @@
 
 #include "FASTDetector.h"
 
-Nan::Persistent<v8::FunctionTemplate> FASTDetector::constructor;
+Napi::FunctionReference FASTDetector::constructor;
 
 Napi::Object FASTDetector(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(FASTDetector::New);

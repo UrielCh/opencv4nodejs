@@ -6,7 +6,7 @@
 
 #if CV_VERSION_GREATER_EQUAL(3, 2, 0)
 
-Nan::Persistent<v8::FunctionTemplate> TrackerGOTURN::constructor;
+Napi::FunctionReference TrackerGOTURN::constructor;
 
 #if CV_VERSION_GREATER_EQUAL(4, 5, 2)
 
@@ -14,7 +14,8 @@ void TrackerGOTURN::Clear(const Napi::CallbackInfo& info) {
 }
 
 void TrackerGOTURN::Init(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("TrackerGOTURN::Init");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "TrackerGOTURN::Init");
   cv::Mat image;
   cv::Rect2d boundingBox;
   if (
@@ -26,7 +27,8 @@ void TrackerGOTURN::Init(const Napi::CallbackInfo& info) {
 }
 
 void TrackerGOTURN::Update(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("TrackerGOTURN::Update");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "TrackerGOTURN::Update");
   cv::Mat image;
   if (Mat::Converter::arg(0, &image, info)) {
     return tryCatch.reThrow();
@@ -74,7 +76,8 @@ Napi::Object TrackerGOTURN(Napi::Env env, Napi::Object exports) {
 };
 
 void TrackerGOTURN::New(const Napi::CallbackInfo& info) {
-  FF::TryCatch tryCatch("TrackerGOTURN::New");
+  Napi::Env env = info.Env();  
+  FF::TryCatch tryCatch(env, "TrackerGOTURN::New");
   FF_ASSERT_CONSTRUCT_CALL();
 
   TrackerGOTURN* self = new TrackerGOTURN();
