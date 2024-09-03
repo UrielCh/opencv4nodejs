@@ -6,7 +6,7 @@
 
 class MachineLearningConstants {
 public:
-  static void Init(Napi::Object module);
+  static Napi::Object Init(Napi::Env env, Napi::Object exports);
 };
 
 #endif

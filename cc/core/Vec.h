@@ -8,7 +8,7 @@
 #ifndef __FF_VEC_H__
 #define __FF_VEC_H__
 
-class Vec : public Nan::ObjectWrap {
+class Vec : public Napi::ObjectWrap<Vec> {
 public:
   static NAN_MODULE_INIT(Init);
   static NAN_METHOD(New);

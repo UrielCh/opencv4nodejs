@@ -28,6 +28,7 @@ public:
   }
 
   void throwError(Napi::Value message) {
+    // Napi::Error::New(env, message.ToString()).ThrowAsJavaScriptException();
     Napi::Maybe<Napi::String> maybeString = message.ToString();
     if (maybeString.IsNothing()) {
       Napi::Error::New(env, "Failed to convert message to string").ThrowAsJavaScriptException();

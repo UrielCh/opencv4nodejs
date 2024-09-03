@@ -4,7 +4,7 @@
 #ifndef __FF_MATCALIB3D_H__
 #define __FF_MATCALIB3D_H__
 
-class MatCalib3d : public Nan::ObjectWrap {
+class MatCalib3d : public Napi::ObjectWrap<MatCalib3d> {
 public:
   static void Init(Napi::FunctionReference ctor);
 

@@ -6,7 +6,7 @@
 #ifndef __FF_POINT_H__
 #define __FF_POINT_H__
 
-class Point : public Nan::ObjectWrap {
+class Point : public Napi::ObjectWrap<Point> {
 public:
   static NAN_MODULE_INIT(Init);
   static NAN_METHOD(New);

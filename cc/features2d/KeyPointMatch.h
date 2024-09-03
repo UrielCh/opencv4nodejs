@@ -5,7 +5,7 @@
 #ifndef FF_KEYPOINTMATCH_H_
 #define FF_KEYPOINTMATCH_H_
 
-class KeyPointMatch : public Nan::ObjectWrap {
+class KeyPointMatch : public Napi::ObjectWrap<KeyPointMatch> {
 public:
   Nan::Persistent<v8::Object> kpFrom;
   Nan::Persistent<v8::Object> kpTo;

@@ -9,7 +9,7 @@
 #ifndef __FF_DESCRIPTORMATCHING_H__
 #define __FF_DESCRIPTORMATCHING_H__
 
-class DescriptorMatching : public Nan::ObjectWrap {
+class DescriptorMatching : public Napi::ObjectWrap<DescriptorMatching>  {
 public:
   static NAN_MODULE_INIT(Init);
 

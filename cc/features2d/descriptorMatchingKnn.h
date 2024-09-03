@@ -10,7 +10,7 @@
 #ifndef __FF_DESCRIPTORMATCHINGKNN_H__
 #define __FF_DESCRIPTORMATCHINGKNN_H__
 
-class DescriptorMatchingKnn : public Nan::ObjectWrap {
+class DescriptorMatchingKnn : public Napi::ObjectWrap<DescriptorMatchingKnn> {
 public:
   static NAN_MODULE_INIT(Init);
 

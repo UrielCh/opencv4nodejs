@@ -12,7 +12,7 @@
 #ifndef __FF_CORE_H__
 #define __FF_CORE_H__
 
-class Core : public Nan::ObjectWrap {
+class Core : public Napi::ObjectWrap<Core> {
 public:
   static NAN_MODULE_INIT(Init);
 
