@@ -8,7 +8,7 @@
 Napi::FunctionReference TrackerBoosting::constructor;
 
 Napi::Object TrackerBoosting(Napi::Env env, Napi::Object exports) {
-  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(TrackerBoosting::New);
+  Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, TrackerBoosting::New));
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
   Tracker::Init(ctor);

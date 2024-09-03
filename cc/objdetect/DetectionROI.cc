@@ -7,7 +7,7 @@
 Napi::FunctionReference DetectionROI::constructor;
 
 Napi::Object DetectionROI(Napi::Env env, Napi::Object exports) {
-  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(DetectionROI::New);
+  Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, DetectionROI::New));
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
   constructor.Reset(ctor);

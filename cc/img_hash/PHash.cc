@@ -7,7 +7,7 @@
 Napi::FunctionReference PHash::constructor;
 
 Napi::Object PHash(Napi::Env env, Napi::Object exports) {
-  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(PHash::New);
+  Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, PHash::New));
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
   ImgHashBase::Init(ctor);

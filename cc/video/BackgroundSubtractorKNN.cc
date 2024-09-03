@@ -7,7 +7,7 @@
 Napi::FunctionReference BackgroundSubtractorKNN::constructor;
 
 Napi::Object BackgroundSubtractorKNN(Napi::Env env, Napi::Object exports) {
-  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(BackgroundSubtractorKNN::New);
+  Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, BackgroundSubtractorKNN::New));
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
   BackgroundSubtractor::Init(ctor);

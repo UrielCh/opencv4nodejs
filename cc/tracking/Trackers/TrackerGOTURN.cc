@@ -57,7 +57,7 @@ void TrackerGOTURN::GetModel(const Napi::CallbackInfo& info) {
 #endif
 
 Napi::Object TrackerGOTURN(Napi::Env env, Napi::Object exports) {
-  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(TrackerGOTURN::New);
+  Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, TrackerGOTURN::New));
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
 #if CV_VERSION_GREATER_EQUAL(4, 5, 2)

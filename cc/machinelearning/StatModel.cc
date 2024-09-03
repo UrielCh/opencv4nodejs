@@ -8,7 +8,7 @@
 Napi::FunctionReference StatModel::constructor;
 
 Napi::Object StatModel(Napi::Env env, Napi::Object exports) {
-  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(StatModel::New);
+  Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, StatModel::New));
   constructor.Reset(ctor);
   ctor->InstanceTemplate()->SetInternalFieldCount(1);
   ctor->SetClassName(Nan::New("StatModel").ToLocalChecked());

@@ -8,7 +8,7 @@
 Napi::FunctionReference Moments::constructor;
 
 Napi::Object Moments(Napi::Env env, Napi::Object exports) {
-  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(Moments::New);
+  Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, Moments::New));
   Moments::constructor.Reset(ctor);
   ctor->InstanceTemplate()->SetInternalFieldCount(1);
   ctor->SetClassName(Nan::New("Moments").ToLocalChecked());

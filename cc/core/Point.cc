@@ -25,7 +25,7 @@ Napi::Object Point(Napi::Env env, Napi::Object exports) {
   Nan::SetPrototypeMethod(pt3Ctor, "at", Point3::At);
   Point3::Init(pt3Ctor);
 
-  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(Point::New);
+  Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, Point::New));
   ctor->InstanceTemplate()->SetInternalFieldCount(1);
   ctor->SetClassName(Nan::New("Point").ToLocalChecked());
   target.Set("Point", FF::getFunction(ctor));

@@ -7,7 +7,7 @@
 Napi::FunctionReference FASTDetector::constructor;
 
 Napi::Object FASTDetector(Napi::Env env, Napi::Object exports) {
-  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(FASTDetector::New);
+  Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, FASTDetector::New));
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
   FeatureDetector::Init(ctor);

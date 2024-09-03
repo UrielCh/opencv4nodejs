@@ -9,7 +9,7 @@
 Napi::FunctionReference MultiTracker::constructor;
 
 Napi::Object MultiTracker(Napi::Env env, Napi::Object exports) {
-  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(MultiTracker::New);
+  Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, MultiTracker::New));
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
   constructor.Reset(ctor);

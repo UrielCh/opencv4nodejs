@@ -7,7 +7,7 @@
 Napi::FunctionReference DescriptorMatch::constructor;
 
 Napi::Object DescriptorMatch(Napi::Env env, Napi::Object exports) {
-  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(DescriptorMatch::New);
+  Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, DescriptorMatch::New));
   constructor.Reset(ctor);
   ctor->InstanceTemplate()->SetInternalFieldCount(1);
   ctor->SetClassName(Nan::New("DescriptorMatch").ToLocalChecked());

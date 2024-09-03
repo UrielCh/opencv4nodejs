@@ -8,7 +8,7 @@
 Napi::FunctionReference SVM::constructor;
 
 Napi::Object SVM(Napi::Env env, Napi::Object exports) {
-  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(SVM::New);
+  Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, SVM::New));
   constructor.Reset(ctor);
   ctor->InstanceTemplate()->SetInternalFieldCount(1);
   ctor->SetClassName(Nan::New("SVM").ToLocalChecked());

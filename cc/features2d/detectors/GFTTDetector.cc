@@ -7,7 +7,7 @@
 Napi::FunctionReference GFTTDetector::constructor;
 
 Napi::Object GFTTDetector(Napi::Env env, Napi::Object exports) {
-  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(GFTTDetector::New);
+  Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, GFTTDetector::New));
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
   FeatureDetector::Init(ctor);

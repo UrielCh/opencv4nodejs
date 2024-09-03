@@ -8,7 +8,7 @@
 Napi::FunctionReference TrainData::constructor;
 
 Napi::Object TrainData(Napi::Env env, Napi::Object exports) {
-  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(TrainData::New);
+  Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, TrainData::New));
   constructor.Reset(ctor);
   ctor->InstanceTemplate()->SetInternalFieldCount(1);
   ctor->SetClassName(FF::newString(env, "TrainData"));

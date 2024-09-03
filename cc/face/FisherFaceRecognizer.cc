@@ -8,7 +8,7 @@
 Napi::FunctionReference FisherFaceRecognizer::constructor;
 
 Napi::Object FisherFaceRecognizer(Napi::Env env, Napi::Object exports) {
-  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(FisherFaceRecognizer::New);
+  Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, FisherFaceRecognizer::New));
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
   FaceRecognizer::Init(ctor);

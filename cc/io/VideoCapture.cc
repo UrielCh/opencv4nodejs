@@ -8,7 +8,7 @@
 Napi::FunctionReference VideoCapture::constructor;
 
 Napi::Object VideoCapture(Napi::Env env, Napi::Object exports) {
-  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(VideoCapture::New);
+  Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, VideoCapture::New));
   constructor.Reset(ctor);
   ctor->InstanceTemplate()->SetInternalFieldCount(1);
   ctor->SetClassName(FF::newString(env, "VideoCapture"));

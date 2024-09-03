@@ -8,7 +8,7 @@
 Napi::FunctionReference VideoWriter::constructor;
 
 Napi::Object VideoWriter(Napi::Env env, Napi::Object exports) {
-  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(VideoWriter::New);
+  Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, VideoWriter::New));
   constructor.Reset(ctor);
   ctor->InstanceTemplate()->SetInternalFieldCount(1);
   ctor->SetClassName(FF::newString(env, "VideoWriter"));

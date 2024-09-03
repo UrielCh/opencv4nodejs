@@ -8,7 +8,7 @@
 Napi::FunctionReference SimpleBlobDetector::constructor;
 
 Napi::Object SimpleBlobDetector(Napi::Env env, Napi::Object exports) {
-  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(SimpleBlobDetector::New);
+  Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, SimpleBlobDetector::New));
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
   SimpleBlobDetectorParams::Init(env, exports);

@@ -7,7 +7,7 @@
 Napi::FunctionReference SuperpixelSEEDS::constructor;
 
 Napi::Object SuperpixelSEEDS(Napi::Env env, Napi::Object exports) {
-  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(SuperpixelSEEDS::New);
+  Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, SuperpixelSEEDS::New));
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
   constructor.Reset(ctor);
   instanceTemplate->SetInternalFieldCount(1);

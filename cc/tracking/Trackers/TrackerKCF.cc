@@ -10,7 +10,7 @@
 Napi::FunctionReference TrackerKCF::constructor;
 
 Napi::Object TrackerKCF(Napi::Env env, Napi::Object exports) {
-  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(TrackerKCF::New);
+  Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, TrackerKCF::New));
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
   Tracker::Init(ctor);

@@ -7,7 +7,7 @@
 Napi::FunctionReference KeyPointMatch::constructor;
 
 Napi::Object KeyPointMatch(Napi::Env env, Napi::Object exports) {
-  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(KeyPointMatch::New);
+  Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, KeyPointMatch::New));
   constructor.Reset(ctor);
   ctor->InstanceTemplate()->SetInternalFieldCount(1);
   ctor->SetClassName(Nan::New("KeyPointMatch").ToLocalChecked());

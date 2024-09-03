@@ -7,7 +7,7 @@
 Napi::FunctionReference TrackerMILParams::constructor;
 
 Napi::Object TrackerMILParams(Napi::Env env, Napi::Object exports) {
-  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(TrackerMILParams::New);
+  Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, TrackerMILParams::New));
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
   constructor.Reset(ctor);

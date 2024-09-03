@@ -7,7 +7,7 @@
 Nan::Persistent<v8::FunctionTemplate> BackgroundSubtractorMOG2::constructor;
 
 Napi::Object BackgroundSubtractorMOG2(Napi::Env env, Napi::Object exports) {
-  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(BackgroundSubtractorMOG2::New);
+  Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, BackgroundSubtractorMOG2::New));
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
   BackgroundSubtractor::Init(ctor);

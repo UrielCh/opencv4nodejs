@@ -8,7 +8,7 @@
 Napi::FunctionReference HOGDescriptor::constructor;
 
 Napi::Object HOGDescriptor(Napi::Env env, Napi::Object exports) {
-  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(HOGDescriptor::New);
+  Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, HOGDescriptor::New));
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
   constructor.Reset(ctor);

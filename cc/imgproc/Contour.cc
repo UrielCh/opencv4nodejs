@@ -13,7 +13,7 @@
 Napi::FunctionReference Contour::constructor;
 
 Napi::Object Contour(Napi::Env env, Napi::Object exports) {
-  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(Contour::New);
+  Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, Contour::New));
   constructor.Reset(ctor);
   ctor->InstanceTemplate()->SetInternalFieldCount(1);
   ctor->SetClassName(Nan::New("Contour").ToLocalChecked());

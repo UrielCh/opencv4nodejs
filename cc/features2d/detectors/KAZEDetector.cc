@@ -7,7 +7,7 @@
 Napi::FunctionReference KAZEDetector::constructor;
 
 Napi::Object KAZEDetector(Napi::Env env, Napi::Object exports) {
-  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(KAZEDetector::New);
+  Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, KAZEDetector::New));
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
   FeatureDetector::Init(ctor);

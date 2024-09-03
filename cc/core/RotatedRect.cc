@@ -3,7 +3,7 @@
 Napi::FunctionReference RotatedRect::constructor;
 
 Napi::Object RotatedRect(Napi::Env env, Napi::Object exports) {
-  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(RotatedRect::New);
+  Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, RotatedRect::New));
   RotatedRect::constructor.Reset(ctor);
   ctor->InstanceTemplate()->SetInternalFieldCount(1);
   ctor->SetClassName(Nan::New("RotatedRect").ToLocalChecked());

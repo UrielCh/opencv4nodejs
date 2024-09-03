@@ -3,7 +3,7 @@
 Napi::FunctionReference TermCriteria::constructor;
 
 Napi::Object TermCriteria(Napi::Env env, Napi::Object exports) {
-  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(TermCriteria::New);
+  Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, TermCriteria::New));
   TermCriteria::constructor.Reset(ctor);
   ctor->InstanceTemplate()->SetInternalFieldCount(1);
   ctor->SetClassName(FF::newString(env, "TermCriteria"));

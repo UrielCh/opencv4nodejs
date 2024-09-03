@@ -54,7 +54,7 @@ Napi::Object Vec(Napi::Env env, Napi::Object exports) {
   Nan::SetPrototypeMethod(vec6Ctor, "norm", Vec6::Norm);
   Vec6::Init(vec6Ctor);
 
-  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(Vec::New);
+  Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, Vec::New));
   ctor->InstanceTemplate()->SetInternalFieldCount(1);
   ctor->SetClassName(Nan::New("Vec").ToLocalChecked());
   target.Set("Vec", FF::getFunction(ctor));

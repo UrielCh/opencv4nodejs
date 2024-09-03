@@ -7,7 +7,7 @@
 Napi::FunctionReference SURFDetector::constructor;
 
 Napi::Object SURFDetector(Napi::Env env, Napi::Object exports) {
-  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(SURFDetector::New);
+  Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, SURFDetector::New));
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
   FeatureDetector::Init(ctor);

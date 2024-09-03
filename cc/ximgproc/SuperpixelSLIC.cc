@@ -9,7 +9,7 @@
 Napi::FunctionReference SuperpixelSLIC::constructor;
 
 Napi::Object SuperpixelSLIC(Napi::Env env, Napi::Object exports) {
-  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(SuperpixelSLIC::New);
+  Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, SuperpixelSLIC::New));
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
   constructor.Reset(ctor);
   instanceTemplate->SetInternalFieldCount(1);

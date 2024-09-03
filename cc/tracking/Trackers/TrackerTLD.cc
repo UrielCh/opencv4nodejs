@@ -7,7 +7,7 @@
 Napi::FunctionReference TrackerTLD::constructor;
 
 Napi::Object TrackerTLD(Napi::Env env, Napi::Object exports) {
-  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(TrackerTLD::New);
+  Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, TrackerTLD::New));
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
   Tracker::Init(ctor);

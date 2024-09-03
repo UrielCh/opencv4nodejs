@@ -7,7 +7,7 @@
 Napi::FunctionReference ORBDetector::constructor;
 
 Napi::Object ORBDetector(Napi::Env env, Napi::Object exports) {
-  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(ORBDetector::New);
+  Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, ORBDetector::New));
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
   FeatureDetector::Init(ctor);

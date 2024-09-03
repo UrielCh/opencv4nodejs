@@ -8,7 +8,7 @@
 Napi::FunctionReference OCRHMMDecoder::constructor;
 
 Napi::Object OCRHMMDecoder(Napi::Env env, Napi::Object exports) {
-  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(OCRHMMDecoder::New);
+  Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, OCRHMMDecoder::New));
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
   constructor.Reset(ctor);

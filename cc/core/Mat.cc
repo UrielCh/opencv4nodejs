@@ -103,7 +103,7 @@ static inline Napi::Value matGetVec4(cv::Mat mat, const cv::Vec<int, n>& idx) {
 
 Napi::Object Mat(Napi::Env env, Napi::Object exports) {
 
-  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(Mat::New);
+  Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, Mat::New));
   constructor.Reset(ctor);
   ctor->InstanceTemplate()->SetInternalFieldCount(1);
   ctor->SetClassName(Nan::New("Mat").ToLocalChecked());

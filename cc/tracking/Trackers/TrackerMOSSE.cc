@@ -9,7 +9,7 @@
 Napi::FunctionReference TrackerMOSSE::constructor;
 
 Napi::Object TrackerMOSSE(Napi::Env env, Napi::Object exports) {
-  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(TrackerMOSSE::New);
+  Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, TrackerMOSSE::New));
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
   Tracker::Init(ctor);

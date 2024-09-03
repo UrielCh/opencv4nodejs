@@ -8,7 +8,7 @@
 Napi::FunctionReference OCRHMMClassifier::constructor;
 
 Napi::Object OCRHMMClassifier(Napi::Env env, Napi::Object exports) {
-  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(OCRHMMClassifier::New);
+  Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, OCRHMMClassifier::New));
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
   constructor.Reset(ctor);

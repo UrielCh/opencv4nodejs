@@ -7,7 +7,7 @@
 Napi::FunctionReference HistAxes::constructor;
 
 Napi::Object HistAxes(Napi::Env env, Napi::Object exports) {
-  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(HistAxes::New);
+  Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, HistAxes::New));
   HistAxes::constructor.Reset(ctor);
   ctor->InstanceTemplate()->SetInternalFieldCount(1);
   ctor->SetClassName(Nan::New("HistAxes").ToLocalChecked());

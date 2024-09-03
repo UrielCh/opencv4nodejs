@@ -8,7 +8,7 @@
 Napi::FunctionReference CascadeClassifier::constructor;
 
 Napi::Object CascadeClassifier(Napi::Env env, Napi::Object exports) {
-  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(CascadeClassifier::New);
+  Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, CascadeClassifier::New));
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
   constructor.Reset(ctor);

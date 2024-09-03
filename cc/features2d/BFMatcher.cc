@@ -8,7 +8,7 @@
 Napi::FunctionReference BFMatcher::constructor;
 
 Napi::Object BFMatcher(Napi::Env env, Napi::Object exports) {
-  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(BFMatcher::New);
+  Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, BFMatcher::New));
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
   constructor.Reset(ctor);

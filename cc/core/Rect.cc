@@ -4,7 +4,7 @@
 Napi::FunctionReference Rect::constructor;
 
 Napi::Object Rect(Napi::Env env, Napi::Object exports) {
-  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(Rect::New);
+  Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, Rect::New));
   Rect::constructor.Reset(ctor);
   ctor->InstanceTemplate()->SetInternalFieldCount(1);
   ctor->SetClassName(Nan::New("Rect").ToLocalChecked());

@@ -7,7 +7,7 @@
 Napi::FunctionReference AGASTDetector::constructor;
 
 Napi::Object AGASTDetector(Napi::Env env, Napi::Object exports) {
-  Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(AGASTDetector::New);
+  Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, AGASTDetector::New));
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
   FeatureDetector::Init(ctor);
