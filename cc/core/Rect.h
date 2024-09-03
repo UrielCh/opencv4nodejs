@@ -9,7 +9,8 @@
 
 class Rect : public FF::ObjectWrap<Rect, cv::Rect2d> {
 public:
-  static Napi::FunctionReference constructor;;
+  static Napi::FunctionReference constructor;
+  ;
 
   static const char* getClassName() {
     return "Rect";

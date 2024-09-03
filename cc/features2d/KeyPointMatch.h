@@ -17,7 +17,8 @@ public:
   static NAN_GETTER(GetKpTo);
   static NAN_GETTER(GetDistance);
 
-  static Napi::FunctionReference constructor;;
+  static Napi::FunctionReference constructor;
+  ;
 
   void setNativeProps(KeyPoint* kpFrom, KeyPoint* kpTo, float distance);
 

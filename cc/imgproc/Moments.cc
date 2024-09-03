@@ -43,7 +43,7 @@ Napi::Object Moments(Napi::Env env, Napi::Object exports) {
 };
 
 void Moments::New(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "Moments::New");
   FF_ASSERT_CONSTRUCT_CALL();
   Moments* self = new Moments();

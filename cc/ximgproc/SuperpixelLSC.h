@@ -9,7 +9,8 @@
 
 class SuperpixelLSC : public FF::ObjectWrap<SuperpixelLSC, cv::Ptr<cv::ximgproc::SuperpixelLSC>> {
 public:
-  static Napi::FunctionReference constructor;;
+  static Napi::FunctionReference constructor;
+  ;
 
   static const char* getClassName() {
     return "SuperpixelLSC";

@@ -23,7 +23,7 @@ Napi::Object FacemarkAAM(Napi::Env env, Napi::Object exports) {
 };
 
 void FacemarkAAM::New(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "FacemarkAAM::New");
   FF_ASSERT_CONSTRUCT_CALL();
 

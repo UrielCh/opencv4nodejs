@@ -70,7 +70,7 @@ void Highgui::moveWindow(const Napi::CallbackInfo& info) {
 }
 
 void Highgui::setWindowTitle(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "Highgui::setWindowTitle");
   if (!info[0].IsString()) {
     return tryCatch.throwError("expected arg0 to be the window name");
@@ -83,7 +83,7 @@ void Highgui::setWindowTitle(const Napi::CallbackInfo& info) {
 }
 
 void Highgui::getWindowProperty(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "Highgui::getWindowProperty");
   int prop_id;
 
@@ -98,7 +98,7 @@ void Highgui::getWindowProperty(const Napi::CallbackInfo& info) {
 }
 
 void Highgui::namedWindow(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "Highgui::namedWindow");
 
   std::string winName;
@@ -113,7 +113,7 @@ void Highgui::namedWindow(const Napi::CallbackInfo& info) {
 }
 
 void Highgui::resizeWindow(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "Highgui::resizeWindow");
   int width;
   int height;
@@ -136,7 +136,7 @@ void Highgui::resizeWindow(const Napi::CallbackInfo& info) {
 }
 
 void Highgui::startWindowThread(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "Highgui::startWindowThread");
   int retval = cv::startWindowThread();
   info.GetReturnValue().Set(Nan::New(retval));

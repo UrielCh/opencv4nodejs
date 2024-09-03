@@ -11,7 +11,8 @@
 
 class OCRHMMDecoder : public FF::ObjectWrap<OCRHMMDecoder, cv::Ptr<cv::text::OCRHMMDecoder>> {
 public:
-  static Napi::FunctionReference constructor;;
+  static Napi::FunctionReference constructor;
+  ;
 
   static const char* getClassName() {
     return "OCRHMMDecoder";

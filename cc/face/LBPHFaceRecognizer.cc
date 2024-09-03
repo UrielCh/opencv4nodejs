@@ -44,7 +44,7 @@ public:
 };
 
 void LBPHFaceRecognizer::New(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "LBPHFaceRecognizer::New");
   FF_ASSERT_CONSTRUCT_CALL();
   LBPHFaceRecognizer::NewWorker worker;

@@ -25,7 +25,7 @@ void FaceRecognizer::Save(const Napi::CallbackInfo& info) {
 }
 
 void FaceRecognizer::Load(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "FaceRecognizer::Load");
 
   std::string path;

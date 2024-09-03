@@ -9,7 +9,8 @@
 
 class RotatedRect : public FF::ObjectWrap<RotatedRect, cv::RotatedRect> {
 public:
-  static Napi::FunctionReference constructor;;
+  static Napi::FunctionReference constructor;
+  ;
 
   static const char* getClassName() {
     return "RotatedRect";

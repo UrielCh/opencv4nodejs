@@ -8,7 +8,8 @@
 
 class DetectionROI : public FF::ObjectWrap<DetectionROI, cv::DetectionROI> {
 public:
-  static Napi::FunctionReference constructor;;
+  static Napi::FunctionReference constructor;
+  ;
 
   static const char* getClassName() {
     return "DetectionROI";

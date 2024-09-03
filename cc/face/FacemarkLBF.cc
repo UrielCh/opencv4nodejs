@@ -23,7 +23,7 @@ Napi::Object FacemarkLBF(Napi::Env env, Napi::Object exports) {
 };
 
 void FacemarkLBF::New(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "FacemarkLBF::New");
   FF_ASSERT_CONSTRUCT_CALL();
 

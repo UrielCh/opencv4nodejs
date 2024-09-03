@@ -7,7 +7,8 @@
 
 class DescriptorMatch : public FF::ObjectWrap<DescriptorMatch, cv::DMatch> {
 public:
-  static Napi::FunctionReference constructor;;
+  static Napi::FunctionReference constructor;
+  ;
 
   static const char* getClassName() {
     return "DescriptorMatch";

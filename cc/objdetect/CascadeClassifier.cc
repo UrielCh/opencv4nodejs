@@ -26,7 +26,7 @@ Napi::Object CascadeClassifier(Napi::Env env, Napi::Object exports) {
 };
 
 void CascadeClassifier::New(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "CascadeClassifier::New");
   FF_ASSERT_CONSTRUCT_CALL();
   CascadeClassifierBindings::NewWorker worker;

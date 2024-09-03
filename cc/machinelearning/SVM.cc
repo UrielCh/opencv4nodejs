@@ -42,7 +42,7 @@ Napi::Object SVM(Napi::Env env, Napi::Object exports) {
 };
 
 void SVM::setParams(Napi::Object params) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "SVM::setParams");
   double c = this->self->getC();
   double coef0 = this->self->getCoef0();
@@ -67,7 +67,7 @@ void SVM::setParams(Napi::Object params) {
 }
 
 void SVM::New(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "SVM::New");
   FF_ASSERT_CONSTRUCT_CALL();
   SVM* self = new SVM();
@@ -102,7 +102,7 @@ void SVM::SetParams(const Napi::CallbackInfo& info) {
 };
 
 void SVM::Predict(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "SVM::Predict");
 
   if (!info[0].IsArray() && !Mat::hasInstance(info[0])) {
@@ -153,7 +153,7 @@ void SVM::GetUncompressedSupportVectors(const Napi::CallbackInfo& info) {
 }
 
 void SVM::GetDecisionFunction(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "SVM::GetDecisionFunction");
 
   if (!info[0].IsNumber()) {
@@ -176,7 +176,7 @@ void SVM::GetDecisionFunction(const Napi::CallbackInfo& info) {
 }
 
 void SVM::CalcError(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "SVM::CalcError");
   cv::Ptr<cv::ml::TrainData> trainData;
   bool test;
@@ -195,7 +195,7 @@ void SVM::CalcError(const Napi::CallbackInfo& info) {
 }
 
 void SVM::Save(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "SVM::Save");
 
   std::string path;
@@ -206,7 +206,7 @@ void SVM::Save(const Napi::CallbackInfo& info) {
 }
 
 void SVM::Load(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "SVM::Load");
 
   std::string path;

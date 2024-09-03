@@ -20,7 +20,7 @@ Napi::Object KeyPointMatch(Napi::Env env, Napi::Object exports) {
 };
 
 void KeyPointMatch::New(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "KeyPointMatch::New");
   FF_ASSERT_CONSTRUCT_CALL();
   if (info.Length() > 0) {

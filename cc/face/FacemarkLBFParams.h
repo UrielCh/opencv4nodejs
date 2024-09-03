@@ -10,7 +10,8 @@
 
 class FacemarkLBFParams : public FF::ObjectWrap<FacemarkLBFParams, cv::face::FacemarkLBF::Params> {
 public:
-  static Napi::FunctionReference constructor;;
+  static Napi::FunctionReference constructor;
+  ;
 
   static const char* getClassName() {
     return "FacemarkLBFParams";
@@ -44,7 +45,7 @@ public:
   }
 
   static NAN_SETTER(pupils_setter) {
-    Napi::Env env = info.Env();  
+    Napi::Env env = info.Env();
     FF::TryCatch tryCatch(env, "FacemarkLBFParams::pupils_setter");
     v8::Local<v8::Array> jsArr = v8::Local<v8::Array>::Cast(value);
     for (uint i = 0; i < jsArr->Length(); i++) {

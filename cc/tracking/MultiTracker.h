@@ -17,7 +17,8 @@ class MultiTracker : public FF::ObjectWrap<MultiTracker, cv::Ptr<cv::legacy::Mul
 class MultiTracker : public FF::ObjectWrap<MultiTracker, cv::Ptr<cv::MultiTracker>> {
 #endif
 public:
-  static Napi::FunctionReference constructor;;
+  static Napi::FunctionReference constructor;
+  ;
 
   static const char* getClassName() {
     return "MultiTracker";

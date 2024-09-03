@@ -7,7 +7,8 @@
 
 class BackgroundSubtractorKNN : public BackgroundSubtractor, public FF::ObjectWrapTemplate<BackgroundSubtractorKNN, cv::Ptr<cv::BackgroundSubtractorKNN>> {
 public:
-  static Napi::FunctionReference constructor;;
+  static Napi::FunctionReference constructor;
+  ;
 
   static const char* getClassName() {
     return "BackgroundSubtractorKNN";

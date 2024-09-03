@@ -17,7 +17,7 @@ Napi::Object RotatedRect(Napi::Env env, Napi::Object exports) {
 };
 
 void RotatedRect::New(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "RotatedRect::New");
   FF_ASSERT_CONSTRUCT_CALL();
   RotatedRect* self = new RotatedRect();

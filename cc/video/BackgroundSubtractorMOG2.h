@@ -7,7 +7,8 @@
 
 class BackgroundSubtractorMOG2 : public BackgroundSubtractor, public FF::ObjectWrapTemplate<BackgroundSubtractorMOG2, cv::Ptr<cv::BackgroundSubtractorMOG2>> {
 public:
-  static Napi::FunctionReference constructor;;
+  static Napi::FunctionReference constructor;
+  ;
 
   static const char* getClassName() {
     return "BackgroundSubtractorMOG2";

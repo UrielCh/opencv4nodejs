@@ -14,7 +14,8 @@
 
 class Mat : public FF::ObjectWrap<Mat, cv::Mat> {
 public:
-  static Napi::FunctionReference constructor;;
+  static Napi::FunctionReference constructor;
+  ;
 
   static const char* getClassName() {
     return "Mat";

@@ -45,7 +45,7 @@ void VideoCapture::New(const Napi::CallbackInfo& info) {
 }
 
 void VideoCapture::Reset(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "VideoCapture::Reset");
   VideoCapture* self = Nan::ObjectWrap::Unwrap<VideoCapture>(info.This());
   self->self.release();

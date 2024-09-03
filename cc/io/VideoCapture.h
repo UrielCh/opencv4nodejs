@@ -9,7 +9,8 @@
 
 class VideoCapture : public FF::ObjectWrap<VideoCapture, cv::VideoCapture> {
 public:
-  static Napi::FunctionReference constructor;;
+  static Napi::FunctionReference constructor;
+  ;
 
   static const char* getClassName() {
     return "VideoCapture";

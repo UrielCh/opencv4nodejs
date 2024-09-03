@@ -29,7 +29,7 @@ Napi::Object SuperpixelSEEDS(Napi::Env env, Napi::Object exports) {
 };
 
 void SuperpixelSEEDS::New(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "SuperpixelSEEDS::New");
   FF_ASSERT_CONSTRUCT_CALL();
   SuperpixelSEEDS::NewWorker worker;
@@ -60,7 +60,7 @@ void SuperpixelSEEDS::New(const Napi::CallbackInfo& info) {
 }
 
 void SuperpixelSEEDS::Iterate(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "SuperpixelSEEDS::Iterate");
 
   uint iterations = 4;

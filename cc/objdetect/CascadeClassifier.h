@@ -11,7 +11,8 @@
 
 class CascadeClassifier : public FF::ObjectWrap<CascadeClassifier, cv::CascadeClassifier> {
 public:
-  static Napi::FunctionReference constructor;;
+  static Napi::FunctionReference constructor;
+  ;
 
   static const char* getClassName() {
     return "CascadeClassifier";

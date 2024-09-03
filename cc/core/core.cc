@@ -248,7 +248,7 @@ Napi::Value Core::GetNumThreads(const Napi::CallbackInfo& info) {
 }
 
 void Core::SetNumThreads(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "Core::SetNumThreads");
   int num;
   if (FF::IntConverter::arg(0, &num, info)) {

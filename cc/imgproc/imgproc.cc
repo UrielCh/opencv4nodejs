@@ -50,7 +50,7 @@ Napi::Object Imgproc(Napi::Env env, Napi::Object exports) {
 };
 
 void Imgproc::GetStructuringElement(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "Imgproc::GetStructuringElement");
 
   uint shape;
@@ -66,7 +66,7 @@ void Imgproc::GetStructuringElement(const Napi::CallbackInfo& info) {
 }
 
 void Imgproc::GetRotationMatrix2D(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "Imgproc::GetRotationMatrix2D");
 
   cv::Point2d center;
@@ -80,7 +80,7 @@ void Imgproc::GetRotationMatrix2D(const Napi::CallbackInfo& info) {
 }
 
 void Imgproc::GetAffineTransform(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "Imgproc::GetAffineTransform");
 
   std::vector<cv::Point2f> srcPoints, dstPoints;
@@ -93,7 +93,7 @@ void Imgproc::GetAffineTransform(const Napi::CallbackInfo& info) {
 }
 
 void Imgproc::GetPerspectiveTransform(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "Imgproc::GetPerspectiveTransform");
 
   std::vector<cv::Point2f> srcPoints, dstPoints;
@@ -106,7 +106,7 @@ void Imgproc::GetPerspectiveTransform(const Napi::CallbackInfo& info) {
 }
 
 void Imgproc::Plot1DHist(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "Imgproc::Plot1DHist");
 
   cv::Mat hist, plot;
@@ -152,7 +152,7 @@ void Imgproc::Plot1DHist(const Napi::CallbackInfo& info) {
 }
 
 void Imgproc::FitLine(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "Imgproc::FitLine");
 
   if (!info[0].IsArray()) {

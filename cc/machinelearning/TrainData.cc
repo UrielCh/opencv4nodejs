@@ -24,7 +24,7 @@ Napi::Object TrainData(Napi::Env env, Napi::Object exports) {
 };
 
 void TrainData::New(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "TrainData::New");
   FF_ASSERT_CONSTRUCT_CALL();
   TrainData::NewWorker worker;

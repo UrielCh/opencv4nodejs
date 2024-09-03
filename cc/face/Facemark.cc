@@ -8,7 +8,7 @@
 #if CV_VERSION_GREATER_EQUAL(3, 4, 0)
 
 void Facemark::Save(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "Facemark::Save");
 
   std::string path;
@@ -19,7 +19,7 @@ void Facemark::Save(const Napi::CallbackInfo& info) {
 }
 
 void Facemark::Load(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "Facemark::Load");
 
   std::string path;
@@ -122,7 +122,7 @@ void Facemark::GetFacesAsync(const Napi::CallbackInfo& info) {
 }
 
 void Facemark::SetFaceDetector(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "Facemark::SetFaceDetector");
   if (!info[0].IsFunction()) {
     return tryCatch.throwError("expected argument 0 to be of type");

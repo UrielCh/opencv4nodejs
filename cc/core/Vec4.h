@@ -8,7 +8,8 @@
 
 class Vec4 : public FF::ObjectWrap<Vec4, cv::Vec4d> {
 public:
-  static Napi::FunctionReference constructor;;
+  static Napi::FunctionReference constructor;
+  ;
 
   static const char* getClassName() {
     return "Vec4";

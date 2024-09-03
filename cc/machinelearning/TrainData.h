@@ -8,7 +8,8 @@
 
 class TrainData : public FF::ObjectWrap<TrainData, cv::Ptr<cv::ml::TrainData>> {
 public:
-  static Napi::FunctionReference constructor;;
+  static Napi::FunctionReference constructor;
+  ;
 
   static const char* getClassName() {
     return "TrainData";

@@ -75,8 +75,8 @@ Napi::Object Io(Napi::Env env, Napi::Object exports) {
 };
 
 void Io::Imshow(const Napi::CallbackInfo& info) {
-   Napi::Env env = info.Env();  
- FF::TryCatch tryCatch(env, "Io::Imshow");
+  Napi::Env env = info.Env();
+  FF::TryCatch tryCatch(env, "Io::Imshow");
   if (!info[0].IsString()) {
     return tryCatch.throwError("expected arg0 to be the window name");
   }
@@ -87,7 +87,7 @@ void Io::Imshow(const Napi::CallbackInfo& info) {
 }
 
 void Io::ImshowWait(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "Io::ImshowWait");
   if (!info[0].IsString()) {
     return tryCatch.throwError("expected arg0 to be the window name");
@@ -122,7 +122,7 @@ void Io::WaitKeyEx(const Napi::CallbackInfo& info) {
 #endif
 
 void Io::DestroyWindow(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "Io::DestroyWindow");
   std::string winName;
   if (FF::StringConverter::arg(0, &winName, info)) {
@@ -136,7 +136,7 @@ void Io::DestroyAllWindows(const Napi::CallbackInfo& info) {
 }
 
 void Io::Imdecode(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "Io::Imdecode");
 
   if (!info[0].IsUint8Array()) {
@@ -157,7 +157,7 @@ void Io::Imdecode(const Napi::CallbackInfo& info) {
 }
 
 void Io::ImdecodeAsync(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "Io::ImdecodeAsync");
 
   if (!info[0].IsUint8Array()) {

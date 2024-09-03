@@ -7,7 +7,8 @@
 
 class Moments : public FF::ObjectWrap<Moments, cv::Moments> {
 public:
-  static Napi::FunctionReference constructor;;
+  static Napi::FunctionReference constructor;
+  ;
 
   static const char* getClassName() {
     return "Moments";

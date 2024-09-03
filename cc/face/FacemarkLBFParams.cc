@@ -38,7 +38,7 @@ Napi::Object FacemarkLBFParams(Napi::Env env, Napi::Object exports) {
 };
 
 void FacemarkLBFParams::New(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "FacemarkLBFParams::New");
   FF_ASSERT_CONSTRUCT_CALL();
   FacemarkLBFParams* self = new FacemarkLBFParams();

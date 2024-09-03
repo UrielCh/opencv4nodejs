@@ -15,7 +15,7 @@ void Tracker::Clear(const Napi::CallbackInfo& info) {
   Tracker::unwrapThis(info)->getTracker()->clear();
 }
 
-Napi:Value Tracker::Init(const Napi::CallbackInfo& info) {
+Napi : Value Tracker::Init(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "Tracker::Init");
   cv::Mat image;
@@ -29,8 +29,8 @@ Napi:Value Tracker::Init(const Napi::CallbackInfo& info) {
   return Nan::New(ret);
 }
 
-Napi:Value Tracker::Update(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+Napi : Value Tracker::Update(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "Tracker::Update");
   cv::Mat image;
   if (Mat::Converter::arg(0, &image, info)) {

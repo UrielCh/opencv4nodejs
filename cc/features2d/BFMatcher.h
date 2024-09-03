@@ -10,7 +10,8 @@
 
 class BFMatcher : public FF::ObjectWrap<BFMatcher, cv::BFMatcher> {
 public:
-  static Napi::FunctionReference constructor;;
+  static Napi::FunctionReference constructor;
+  ;
 
   static const char* getClassName() {
     return "BFMatcher";

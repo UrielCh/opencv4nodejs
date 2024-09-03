@@ -7,7 +7,8 @@
 
 class Size : public FF::ObjectWrap<Size, cv::Size2d> {
 public:
-  static Napi::FunctionReference constructor;;
+  static Napi::FunctionReference constructor;
+  ;
 
   static const char* getClassName() {
     return "Size";

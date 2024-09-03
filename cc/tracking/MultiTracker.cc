@@ -33,7 +33,7 @@ Napi::Object MultiTracker(Napi::Env env, Napi::Object exports) {
 };
 
 void MultiTracker::New(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "MultiTracker::New");
   FF_ASSERT_CONSTRUCT_CALL();
   MultiTracker* self = new MultiTracker();
@@ -47,7 +47,7 @@ void MultiTracker::New(const Napi::CallbackInfo& info) {
 };
 
 void MultiTracker::AddMIL(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "MultiTracker::AddMIL");
   cv::Mat image;
   cv::Rect2d boundingBox;
@@ -67,7 +67,7 @@ void MultiTracker::AddMIL(const Napi::CallbackInfo& info) {
 }
 
 void MultiTracker::AddBOOSTING(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "MultiTracker::AddBOOSTING");
   cv::Mat image;
   cv::Rect2d boundingBox;
@@ -87,7 +87,7 @@ void MultiTracker::AddBOOSTING(const Napi::CallbackInfo& info) {
 }
 
 void MultiTracker::AddMEDIANFLOW(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "MultiTracker::AddMEDIANFLOW");
   cv::Mat image;
   cv::Rect2d boundingBox;
@@ -107,7 +107,7 @@ void MultiTracker::AddMEDIANFLOW(const Napi::CallbackInfo& info) {
 }
 
 void MultiTracker::AddTLD(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "MultiTracker::AddTLD");
   cv::Mat image;
   cv::Rect2d boundingBox;
@@ -127,7 +127,7 @@ void MultiTracker::AddTLD(const Napi::CallbackInfo& info) {
 }
 
 void MultiTracker::AddKCF(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "MultiTracker::AddKCF");
   cv::Mat image;
   cv::Rect2d boundingBox;
@@ -147,7 +147,7 @@ void MultiTracker::AddKCF(const Napi::CallbackInfo& info) {
 }
 
 void MultiTracker::Update(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "MultiTracker::Update");
   cv::Mat image;
   if (Mat::Converter::arg(0, &image, info)) {
@@ -161,7 +161,7 @@ void MultiTracker::Update(const Napi::CallbackInfo& info) {
 #if CV_VERSION_GREATER_EQUAL(3, 4, 0)
 
 void MultiTracker::AddMOSSE(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "MultiTracker::AddMOSSE");
   cv::Mat image;
   cv::Rect2d boundingBox;
@@ -182,7 +182,7 @@ void MultiTracker::AddMOSSE(const Napi::CallbackInfo& info) {
 #if CV_VERSION_GREATER_EQUAL(3, 4, 1)
 
 void MultiTracker::AddCSRT(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "MultiTracker::AddCSRT");
   cv::Mat image;
   cv::Rect2d boundingBox;

@@ -7,7 +7,8 @@
 
 class ParamGrid : public FF::ObjectWrap<ParamGrid, cv::ml::ParamGrid> {
 public:
-  static Napi::FunctionReference constructor;;
+  static Napi::FunctionReference constructor;
+  ;
 
   static const char* getClassName() {
     return "ParamGrid";

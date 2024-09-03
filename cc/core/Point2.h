@@ -8,7 +8,8 @@
 
 class Point2 : public FF::ObjectWrap<Point2, cv::Point2d> {
 public:
-  static Napi::FunctionReference constructor;;
+  static Napi::FunctionReference constructor;
+  ;
 
   static const char* getClassName() {
     return "Point2";
@@ -34,7 +35,7 @@ public:
   }
 
   static NAN_METHOD(At) {
-    Napi::Env env = info.Env();  
+    Napi::Env env = info.Env();
     FF::TryCatch tryCatch(env, "Point2::At");
     FF_ASSERT_INDEX_RANGE(info[0]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value(), 1, "Point2");
     cv::Point2d ptSelf = Point2::unwrapSelf(info);

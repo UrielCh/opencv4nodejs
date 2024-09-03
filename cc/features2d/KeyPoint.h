@@ -8,7 +8,8 @@
 
 class KeyPoint : public FF::ObjectWrap<KeyPoint, cv::KeyPoint> {
 public:
-  static Napi::FunctionReference constructor;;
+  static Napi::FunctionReference constructor;
+  ;
 
   static const char* getClassName() {
     return "KeyPoint";

@@ -29,7 +29,7 @@ Napi::Object SuperpixelSLIC(Napi::Env env, Napi::Object exports) {
 };
 
 void SuperpixelSLIC::New(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "SuperpixelSLIC::New");
   FF_ASSERT_CONSTRUCT_CALL();
   SuperpixelSLIC::NewWorker worker;
@@ -53,7 +53,7 @@ void SuperpixelSLIC::New(const Napi::CallbackInfo& info) {
 }
 
 void SuperpixelSLIC::Iterate(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "SuperpixelSLIC::Iterate");
 
   uint iterations = 10;

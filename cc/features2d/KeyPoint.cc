@@ -26,7 +26,7 @@ Napi::Object KeyPoint(Napi::Env env, Napi::Object exports) {
 };
 
 void KeyPoint::New(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "KeyPoint::New");
   FF_ASSERT_CONSTRUCT_CALL();
   KeyPoint* self = new KeyPoint();

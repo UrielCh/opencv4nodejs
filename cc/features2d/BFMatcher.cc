@@ -28,7 +28,7 @@ Napi::Object BFMatcher(Napi::Env env, Napi::Object exports) {
 };
 
 void BFMatcher::New(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "BFMatcher::New");
   FF_ASSERT_CONSTRUCT_CALL();
   BFMatcher::NewWorker worker;

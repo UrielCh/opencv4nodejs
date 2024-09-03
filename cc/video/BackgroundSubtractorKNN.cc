@@ -23,7 +23,7 @@ Napi::Object BackgroundSubtractorKNN(Napi::Env env, Napi::Object exports) {
 };
 
 void BackgroundSubtractorKNN::New(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "BackgroundSubtractor::New");
   FF_ASSERT_CONSTRUCT_CALL();
   BackgroundSubtractorKNN::NewWorker worker;

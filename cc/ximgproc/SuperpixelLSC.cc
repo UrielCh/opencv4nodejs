@@ -28,7 +28,7 @@ Napi::Object SuperpixelLSC(Napi::Env env, Napi::Object exports) {
 };
 
 void SuperpixelLSC::New(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "SuperpixelLSC::New");
   FF_ASSERT_CONSTRUCT_CALL();
   SuperpixelLSC::NewWorker worker;
@@ -50,7 +50,7 @@ void SuperpixelLSC::New(const Napi::CallbackInfo& info) {
 }
 
 void SuperpixelLSC::Iterate(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "SuperpixelLSC::Iterate");
 
   uint iterations = 10;

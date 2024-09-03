@@ -8,7 +8,8 @@
 
 class Contour : public FF::ObjectWrap<Contour, std::vector<cv::Point2i>> {
 public:
-  static Napi::FunctionReference constructor;;
+  static Napi::FunctionReference constructor;
+  ;
 
   static const char* getClassName() {
     return "Contour";

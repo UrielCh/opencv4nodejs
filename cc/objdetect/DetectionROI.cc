@@ -22,7 +22,7 @@ Napi::Object DetectionROI(Napi::Env env, Napi::Object exports) {
 };
 
 void DetectionROI::New(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "DetectionROI::New");
   FF_ASSERT_CONSTRUCT_CALL();
   DetectionROI* self = new DetectionROI();

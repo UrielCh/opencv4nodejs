@@ -7,7 +7,8 @@
 
 class TermCriteria : public FF::ObjectWrap<TermCriteria, cv::TermCriteria> {
 public:
-  static Napi::FunctionReference constructor;;
+  static Napi::FunctionReference constructor;
+  ;
 
   static const char* getClassName() {
     return "TermCriteria";

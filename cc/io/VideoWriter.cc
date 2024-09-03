@@ -24,7 +24,7 @@ Napi::Object VideoWriter(Napi::Env env, Napi::Object exports) {
 };
 
 void VideoWriter::New(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();  
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "VideoWriter::New");
   FF_ASSERT_CONSTRUCT_CALL();
   VideoWriterBindings::NewWorker worker;

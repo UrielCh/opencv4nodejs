@@ -8,7 +8,8 @@
 
 class VideoWriter : public FF::ObjectWrap<VideoWriter, cv::VideoWriter> {
 public:
-  static Napi::FunctionReference constructor;;
+  static Napi::FunctionReference constructor;
+  ;
 
   static const char* getClassName() {
     return "VideoWriter";

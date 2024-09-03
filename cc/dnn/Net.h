@@ -8,7 +8,8 @@
 
 class Net : public FF::ObjectWrap<Net, cv::dnn::Net> {
 public:
-  static Napi::FunctionReference constructor;;
+  static Napi::FunctionReference constructor;
+  ;
 
   static const char* getClassName() {
     return "Net";
