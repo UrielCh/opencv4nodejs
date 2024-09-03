@@ -14,7 +14,6 @@ template <class TClass>
 class ObjectWrapBase {
 public:
   static TClass* unwrapClassPtrUnchecked(Napi::Value jsVal) {
-    Napi::Env env = jsVal.Env();
     return unwrapNanObjectWrap<TClass>(jsVal);
   }
 
@@ -78,7 +77,6 @@ public:
   }
 
   static bool hasInstance(Napi::Value jsVal) {
-    Napi::Env env = jsVal.Env();
     return TClass::ConverterImpl::assertType(jsVal);
   }
 

@@ -70,12 +70,10 @@ public:
   }
 
   static bool assertType(Napi::Value jsVal) {
-    Napi::Env env = jsVal.Env();
     return getMappingIndex(jsVal) != -1;
   }
 
   static Type unwrapUnchecked(Napi::Value jsVal) {
-    Napi::Env env = jsVal.Env();
     int idx = getMappingIndex(jsVal);
     if (idx == -1) {
       idx = 0;
@@ -90,7 +88,6 @@ public:
 
 private:
   static int getMappingIndex(Napi::Value jsVal) {
-    Napi::Env env = jsVal.Env();
     std::string val;
     std::vector<const char*> mappings = TEnum::getEnumMappings();
     if (!StringConverter::unwrapTo(&val, jsVal)) {

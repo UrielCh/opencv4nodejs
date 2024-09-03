@@ -21,7 +21,6 @@ public:
   }
 
   static T unwrapUnchecked(Napi::Value jsVal) {
-    Napi::Env env = jsVal.Env();
     return unwrapNanObjectWrap<TClass>(jsVal)->self;
   }
 

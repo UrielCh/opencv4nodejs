@@ -102,7 +102,6 @@ public:
   }
 
   bool assertType(Napi::Value jsVal) {
-    Napi::Env env = jsVal.Env();
     return Converter::assertType(jsVal);
   }
 

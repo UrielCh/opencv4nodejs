@@ -31,7 +31,6 @@ public:
   typedef typename ConverterImpl::Type Type;
 
   static bool assertType(Napi::Value jsVal) {
-    Napi::Env env = jsVal.Env();
     return ConverterImpl::assertType(jsVal);
   }
 
@@ -40,7 +39,6 @@ public:
   }
 
   static Type unwrapUnchecked(Napi::Value jsVal) {
-    Napi::Env env = jsVal.Env();
     return ConverterImpl::unwrapUnchecked(jsVal);
   }
 
