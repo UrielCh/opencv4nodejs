@@ -4,104 +4,104 @@
 
 #include "descriptorMatching.h"
 
-NAN_MODULE_INIT(DescriptorMatching::Init) {
-  Nan::SetMethod(target, "matchFlannBased", MatchFlannBased);
-  Nan::SetMethod(target, "matchBruteForce", MatchBruteForce);
-  Nan::SetMethod(target, "matchBruteForceL1", MatchBruteForceL1);
-  Nan::SetMethod(target, "matchBruteForceHamming", MatchBruteForceHamming);
-  Nan::SetMethod(target, "matchFlannBasedAsync", MatchFlannBasedAsync);
-  Nan::SetMethod(target, "matchBruteForceAsync", MatchBruteForceAsync);
-  Nan::SetMethod(target, "matchBruteForceL1Async", MatchBruteForceL1Async);
-  Nan::SetMethod(target, "matchBruteForceHammingAsync", MatchBruteForceHammingAsync);
+Napi::Object DescriptorMatching(Napi::Env env, Napi::Object exports) {
+  exports.Set("matchFlannBased", Napi::Function::New(env, DescriptorMatching::MatchFlannBased));
+  exports.Set("matchBruteForce", Napi::Function::New(env, DescriptorMatching::MatchBruteForce));
+  exports.Set("matchBruteForceL1", Napi::Function::New(env, DescriptorMatching::MatchBruteForceL1));
+  exports.Set("matchBruteForceHamming", Napi::Function::New(env, DescriptorMatching::MatchBruteForceHamming));
+  exports.Set("matchFlannBasedAsync", Napi::Function::New(env, DescriptorMatching::MatchFlannBasedAsync));
+  exports.Set("matchBruteForceAsync", Napi::Function::New(env, DescriptorMatching::MatchBruteForceAsync));
+  exports.Set("matchBruteForceL1Async", Napi::Function::New(env, DescriptorMatching::MatchBruteForceL1Async));
+  exports.Set("matchBruteForceHammingAsync", Napi::Function::New(env, DescriptorMatching::MatchBruteForceHammingAsync));
 #if CV_VERSION_GREATER_EQUAL(3, 2, 0)
-  Nan::SetMethod(target, "matchBruteForceHammingLut", MatchBruteForceHammingLut);
-  Nan::SetMethod(target, "matchBruteForceSL2", MatchBruteForceSL2);
-  Nan::SetMethod(target, "matchBruteForceHammingLutAsync", MatchBruteForceHammingLutAsync);
-  Nan::SetMethod(target, "matchBruteForceSL2Async", MatchBruteForceSL2Async);
+  exports.Set("matchBruteForceHammingLut", Napi::Function::New(env, DescriptorMatching::MatchBruteForceHammingLut));
+  exports.Set("matchBruteForceSL2", Napi::Function::New(env, DescriptorMatching::MatchBruteForceSL2));
+  exports.Set("matchBruteForceHammingLutAsync", Napi::Function::New(env, DescriptorMatching::MatchBruteForceHammingLutAsync));
+  exports.Set("matchBruteForceSL2Async", Napi::Function::New(env, DescriptorMatching::MatchBruteForceSL2Async));
 #endif
 };
 
 #if CV_VERSION_GREATER_EQUAL(3, 2, 0)
 
-NAN_METHOD(DescriptorMatching::MatchFlannBased) {
+void DescriptorMatching::MatchFlannBased(const Napi::CallbackInfo& info) {
   match(info, cv::DescriptorMatcher::FLANNBASED);
 }
 
-NAN_METHOD(DescriptorMatching::MatchBruteForce) {
+void DescriptorMatching::MatchBruteForce(const Napi::CallbackInfo& info) {
   match(info, cv::DescriptorMatcher::BRUTEFORCE);
 }
 
-NAN_METHOD(DescriptorMatching::MatchBruteForceL1) {
+void DescriptorMatching::MatchBruteForceL1(const Napi::CallbackInfo& info) {
   match(info, cv::DescriptorMatcher::BRUTEFORCE_L1);
 }
 
-NAN_METHOD(DescriptorMatching::MatchBruteForceHamming) {
+void DescriptorMatching::MatchBruteForceHamming(const Napi::CallbackInfo& info) {
   match(info, cv::DescriptorMatcher::BRUTEFORCE_HAMMING);
 }
 
-NAN_METHOD(DescriptorMatching::MatchBruteForceHammingLut) {
+void DescriptorMatching::MatchBruteForceHammingLut(const Napi::CallbackInfo& info) {
   match(info, cv::DescriptorMatcher::BRUTEFORCE_HAMMINGLUT);
 }
 
-NAN_METHOD(DescriptorMatching::MatchBruteForceSL2) {
+void DescriptorMatching::MatchBruteForceSL2(const Napi::CallbackInfo& info) {
   match(info, cv::DescriptorMatcher::BRUTEFORCE_SL2);
 }
 
-NAN_METHOD(DescriptorMatching::MatchFlannBasedAsync) {
+void DescriptorMatching::MatchFlannBasedAsync(const Napi::CallbackInfo& info) {
   matchAsync(info, cv::DescriptorMatcher::FLANNBASED);
 }
 
-NAN_METHOD(DescriptorMatching::MatchBruteForceAsync) {
+void DescriptorMatching::MatchBruteForceAsync(const Napi::CallbackInfo& info) {
   matchAsync(info, cv::DescriptorMatcher::BRUTEFORCE);
 }
 
-NAN_METHOD(DescriptorMatching::MatchBruteForceL1Async) {
+void DescriptorMatching::MatchBruteForceL1Async(const Napi::CallbackInfo& info) {
   matchAsync(info, cv::DescriptorMatcher::BRUTEFORCE_L1);
 }
 
-NAN_METHOD(DescriptorMatching::MatchBruteForceHammingAsync) {
+void DescriptorMatching::MatchBruteForceHammingAsync(const Napi::CallbackInfo& info) {
   matchAsync(info, cv::DescriptorMatcher::BRUTEFORCE_HAMMING);
 }
 
-NAN_METHOD(DescriptorMatching::MatchBruteForceHammingLutAsync) {
+void DescriptorMatching::MatchBruteForceHammingLutAsync(const Napi::CallbackInfo& info) {
   matchAsync(info, cv::DescriptorMatcher::BRUTEFORCE_HAMMINGLUT);
 }
 
-NAN_METHOD(DescriptorMatching::MatchBruteForceSL2Async) {
+void DescriptorMatching::MatchBruteForceSL2Async(const Napi::CallbackInfo& info) {
   matchAsync(info, cv::DescriptorMatcher::BRUTEFORCE_SL2);
 }
 
 #else
 
-NAN_METHOD(DescriptorMatching::MatchFlannBased) {
+void DescriptorMatching::MatchFlannBased(const Napi::CallbackInfo& info) {
   match(info, "FlannBased");
 }
 
-NAN_METHOD(DescriptorMatching::MatchBruteForce) {
+void DescriptorMatching::MatchBruteForce(const Napi::CallbackInfo& info) {
   match(info, "BruteForce");
 }
 
-NAN_METHOD(DescriptorMatching::MatchBruteForceL1) {
+void DescriptorMatching::MatchBruteForceL1(const Napi::CallbackInfo& info) {
   match(info, "BruteForce-L1");
 }
 
-NAN_METHOD(DescriptorMatching::MatchBruteForceHamming) {
+void DescriptorMatching::MatchBruteForceHamming(const Napi::CallbackInfo& info) {
   match(info, "BruteForce-Hamming");
 }
 
-NAN_METHOD(DescriptorMatching::MatchFlannBasedAsync) {
+void DescriptorMatching::MatchFlannBasedAsync(const Napi::CallbackInfo& info) {
   matchAsync(info, "FlannBased");
 }
 
-NAN_METHOD(DescriptorMatching::MatchBruteForceAsync) {
+void DescriptorMatching::MatchBruteForceAsync(const Napi::CallbackInfo& info) {
   matchAsync(info, "BruteForce");
 }
 
-NAN_METHOD(DescriptorMatching::MatchBruteForceL1Async) {
+void DescriptorMatching::MatchBruteForceL1Async(const Napi::CallbackInfo& info) {
   matchAsync(info, "BruteForce-L1");
 }
 
-NAN_METHOD(DescriptorMatching::MatchBruteForceHammingAsync) {
+void DescriptorMatching::MatchBruteForceHammingAsync(const Napi::CallbackInfo& info) {
   matchAsync(info, "BruteForce-Hamming");
 }
 

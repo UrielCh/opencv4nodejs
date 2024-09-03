@@ -6,7 +6,7 @@
 
 Nan::Persistent<v8::FunctionTemplate> TrackerTLD::constructor;
 
-NAN_MODULE_INIT(TrackerTLD::Init) {
+Napi::Object TrackerTLD(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(TrackerTLD::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
@@ -19,7 +19,7 @@ NAN_MODULE_INIT(TrackerTLD::Init) {
   Nan::Set(target, FF::newString(env, "TrackerTLD"), FF::getFunction(ctor));
 };
 
-NAN_METHOD(TrackerTLD::New) {
+void TrackerTLD::New(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("TrackerTLD::New");
   FF_ASSERT_CONSTRUCT_CALL();
 

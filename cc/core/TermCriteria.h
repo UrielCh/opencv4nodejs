@@ -13,8 +13,8 @@ public:
     return "TermCriteria";
   }
 
-  static NAN_MODULE_INIT(Init);
-  static NAN_METHOD(New);
+  static Napi::Object Init(Napi::Env env, Napi::Object exports);
+  static void New(const Napi::CallbackInfo& info);
 
   int type;     //!< the type of termination criteria: COUNT, EPS or COUNT + EPS
   int maxCount; //!< the maximum number of iterations/elements

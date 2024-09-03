@@ -10,14 +10,14 @@ void MatXimgproc::Init(Napi::FunctionReference ctor) {
   Nan::SetPrototypeMethod(ctor, "guidedFilterAsync", GuidedFilterAsync);
 };
 
-NAN_METHOD(MatXimgproc::GuidedFilter) {
+void MatXimgproc::GuidedFilter(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<MatXimgprocBindings::GuidedFilterWorker>(Mat::unwrapSelf(info)),
       "Mat::GuidedFilter",
       info);
 }
 
-NAN_METHOD(MatXimgproc::GuidedFilterAsync) {
+void MatXimgproc::GuidedFilterAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<MatXimgprocBindings::GuidedFilterWorker>(Mat::unwrapSelf(info)),
       "Mat::GuidedFilterAsync",

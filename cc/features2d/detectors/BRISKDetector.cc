@@ -6,7 +6,7 @@
 
 Nan::Persistent<v8::FunctionTemplate> BRISKDetector::constructor;
 
-NAN_MODULE_INIT(BRISKDetector::Init) {
+Napi::Object BRISKDetector(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(BRISKDetector::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
@@ -22,7 +22,7 @@ NAN_MODULE_INIT(BRISKDetector::Init) {
   Nan::Set(target, Nan::New("BRISKDetector").ToLocalChecked(), FF::getFunction(ctor));
 };
 
-NAN_METHOD(BRISKDetector::New) {
+void BRISKDetector::New(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("BRISKDetector::New");
   FF_ASSERT_CONSTRUCT_CALL();
   BRISKDetector::NewWorker worker;

@@ -7,8 +7,8 @@ class PHash : public ImgHashBase {
 public:
   cv::Ptr<cv::img_hash::ImgHashBase> imgHashBase;
 
-  static NAN_MODULE_INIT(Init);
-  static NAN_METHOD(New);
+  static Napi::Object Init(Napi::Env env, Napi::Object exports);
+  static void New(const Napi::CallbackInfo& info);
 
   static Nan::Persistent<v8::FunctionTemplate> constructor;
 

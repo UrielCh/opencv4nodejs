@@ -15,12 +15,12 @@ public:
 
   static void Init(Napi::FunctionReference);
 
-  static NAN_METHOD(Save);
-  static NAN_METHOD(Load);
-  static NAN_METHOD(Train);
-  static NAN_METHOD(TrainAsync);
-  static NAN_METHOD(Predict);
-  static NAN_METHOD(PredictAsync);
+  static void Save(const Napi::CallbackInfo& info);
+  static void Load(const Napi::CallbackInfo& info);
+  static void Train(const Napi::CallbackInfo& info);
+  static void TrainAsync(const Napi::CallbackInfo& info);
+  static void Predict(const Napi::CallbackInfo& info);
+  static void PredictAsync(const Napi::CallbackInfo& info);
 };
 
 #endif

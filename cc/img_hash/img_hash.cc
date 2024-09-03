@@ -5,8 +5,8 @@
 #include "PHash.h"
 #include "img_hash.h"
 
-NAN_MODULE_INIT(ImgHash::Init) {
-  PHash::Init(target);
+Napi::Object ImgHash(Napi::Env env, Napi::Object exports) {
+  PHash::Init(env, exports);
 };
 
 #endif

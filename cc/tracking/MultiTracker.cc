@@ -8,7 +8,7 @@
 
 Nan::Persistent<v8::FunctionTemplate> MultiTracker::constructor;
 
-NAN_MODULE_INIT(MultiTracker::Init) {
+Napi::Object MultiTracker(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(MultiTracker::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
@@ -32,7 +32,7 @@ NAN_MODULE_INIT(MultiTracker::Init) {
   Nan::Set(target, FF::newString(env, "MultiTracker"), FF::getFunction(ctor));
 };
 
-NAN_METHOD(MultiTracker::New) {
+void MultiTracker::New(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("MultiTracker::New");
   FF_ASSERT_CONSTRUCT_CALL();
   MultiTracker* self = new MultiTracker();
@@ -45,7 +45,7 @@ NAN_METHOD(MultiTracker::New) {
   info.GetReturnValue().Set(info.Holder());
 };
 
-NAN_METHOD(MultiTracker::AddMIL) {
+void MultiTracker::AddMIL(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("MultiTracker::AddMIL");
   cv::Mat image;
   cv::Rect2d boundingBox;
@@ -64,7 +64,7 @@ NAN_METHOD(MultiTracker::AddMIL) {
   info.GetReturnValue().Set(Nan::New(ret));
 }
 
-NAN_METHOD(MultiTracker::AddBOOSTING) {
+void MultiTracker::AddBOOSTING(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("MultiTracker::AddBOOSTING");
   cv::Mat image;
   cv::Rect2d boundingBox;
@@ -83,7 +83,7 @@ NAN_METHOD(MultiTracker::AddBOOSTING) {
   info.GetReturnValue().Set(Nan::New(ret));
 }
 
-NAN_METHOD(MultiTracker::AddMEDIANFLOW) {
+void MultiTracker::AddMEDIANFLOW(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("MultiTracker::AddMEDIANFLOW");
   cv::Mat image;
   cv::Rect2d boundingBox;
@@ -102,7 +102,7 @@ NAN_METHOD(MultiTracker::AddMEDIANFLOW) {
   info.GetReturnValue().Set(Nan::New(ret));
 }
 
-NAN_METHOD(MultiTracker::AddTLD) {
+void MultiTracker::AddTLD(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("MultiTracker::AddTLD");
   cv::Mat image;
   cv::Rect2d boundingBox;
@@ -121,7 +121,7 @@ NAN_METHOD(MultiTracker::AddTLD) {
   info.GetReturnValue().Set(Nan::New(ret));
 }
 
-NAN_METHOD(MultiTracker::AddKCF) {
+void MultiTracker::AddKCF(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("MultiTracker::AddKCF");
   cv::Mat image;
   cv::Rect2d boundingBox;
@@ -140,7 +140,7 @@ NAN_METHOD(MultiTracker::AddKCF) {
   info.GetReturnValue().Set(Nan::New(ret));
 }
 
-NAN_METHOD(MultiTracker::Update) {
+void MultiTracker::Update(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("MultiTracker::Update");
   cv::Mat image;
   if (Mat::Converter::arg(0, &image, info)) {
@@ -153,7 +153,7 @@ NAN_METHOD(MultiTracker::Update) {
 }
 #if CV_VERSION_GREATER_EQUAL(3, 4, 0)
 
-NAN_METHOD(MultiTracker::AddMOSSE) {
+void MultiTracker::AddMOSSE(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("MultiTracker::AddMOSSE");
   cv::Mat image;
   cv::Rect2d boundingBox;
@@ -173,7 +173,7 @@ NAN_METHOD(MultiTracker::AddMOSSE) {
 #endif
 #if CV_VERSION_GREATER_EQUAL(3, 4, 1)
 
-NAN_METHOD(MultiTracker::AddCSRT) {
+void MultiTracker::AddCSRT(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("MultiTracker::AddCSRT");
   cv::Mat image;
   cv::Rect2d boundingBox;

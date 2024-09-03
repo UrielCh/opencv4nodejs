@@ -11,8 +11,8 @@ public:
   Nan::Persistent<v8::Object> kpTo;
   float distance;
 
-  static NAN_MODULE_INIT(Init);
-  static NAN_METHOD(New);
+  static Napi::Object Init(Napi::Env env, Napi::Object exports);
+  static void New(const Napi::CallbackInfo& info);
   static NAN_GETTER(GetKpFrom);
   static NAN_GETTER(GetKpTo);
   static NAN_GETTER(GetDistance);

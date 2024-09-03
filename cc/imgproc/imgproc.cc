@@ -6,50 +6,50 @@
 #include "imgprocBindings.h"
 #include "imgprocConstants.h"
 
-NAN_MODULE_INIT(Imgproc::Init) {
-  ImgprocConstants::Init(target);
-  Nan::SetMethod(target, "getStructuringElement", GetStructuringElement);
-  Nan::SetMethod(target, "getRotationMatrix2D", GetRotationMatrix2D);
-  Nan::SetMethod(target, "plot1DHist", Plot1DHist);
-  Nan::SetMethod(target, "fitLine", FitLine);
-  Nan::SetMethod(target, "getAffineTransform", GetAffineTransform);
-  Nan::SetMethod(target, "getPerspectiveTransform", GetPerspectiveTransform);
-  Nan::SetMethod(target, "getTextSize", GetTextSize);
-  Nan::SetMethod(target, "getTextSizeAsync", GetTextSizeAsync);
-  Nan::SetMethod(target, "applyColorMap", ApplyColorMap);
-  Nan::SetMethod(target, "applyColorMapAsync", ApplyColorMapAsync);
+Napi::Object Imgproc(Napi::Env env, Napi::Object exports) {
+  ImgprocConstants::Init(env, exports);
+  exports.Set("getStructuringElement", Napi::Function::New(env, Imgproc::GetStructuringElement));
+  exports.Set("getRotationMatrix2D", Napi::Function::New(env, Imgproc::GetRotationMatrix2D));
+  exports.Set("plot1DHist", Napi::Function::New(env, Imgproc::Plot1DHist));
+  exports.Set("fitLine", Napi::Function::New(env, Imgproc::FitLine));
+  exports.Set("getAffineTransform", Napi::Function::New(env, Imgproc::GetAffineTransform));
+  exports.Set("getPerspectiveTransform", Napi::Function::New(env, Imgproc::GetPerspectiveTransform));
+  exports.Set("getTextSize", Napi::Function::New(env, Imgproc::GetTextSize));
+  exports.Set("getTextSizeAsync", Napi::Function::New(env, Imgproc::GetTextSizeAsync));
+  exports.Set("applyColorMap", Napi::Function::New(env, Imgproc::ApplyColorMap));
+  exports.Set("applyColorMapAsync", Napi::Function::New(env, Imgproc::ApplyColorMapAsync));
 #if CV_VERSION_GREATER_EQUAL(3, 2, 0)
-  Nan::SetMethod(target, "canny", Canny);
-  Nan::SetMethod(target, "cannyAsync", CannyAsync);
+  exports.Set("canny", Napi::Function::New(env, Imgproc::Canny));
+  exports.Set("cannyAsync", Napi::Function::New(env, Imgproc::CannyAsync));
 #endif
 #if CV_VERSION_LOWER_THAN(4, 0, 0)
-  Nan::SetMethod(target, "undistortPoints", UndistortPoints);
-  Nan::SetMethod(target, "undistortPointsAsync", UndistortPointsAsync);
+  exports.Set("undistortPoints", Napi::Function::New(env, Imgproc::UndistortPoints));
+  exports.Set("undistortPointsAsync", Napi::Function::New(env, Imgproc::UndistortPointsAsync));
 #endif
-  Nan::SetMethod(target, "goodFeaturesToTrack", GoodFeaturesToTrack);
-  Nan::SetMethod(target, "goodFeaturesToTrackAsync", GoodFeaturesToTrackAsync);
-  Nan::SetMethod(target, "blur", Blur);
-  Nan::SetMethod(target, "blurAsync", BlurAsync);
-  Nan::SetMethod(target, "gaussianBlur", GaussianBlur);
-  Nan::SetMethod(target, "gaussianBlurAsync", GaussianBlurAsync);
-  Nan::SetMethod(target, "medianBlur", MedianBlur);
-  Nan::SetMethod(target, "medianBlurAsync", MedianBlurAsync);
-  Nan::SetMethod(target, "accumulate", Accumulate);
-  Nan::SetMethod(target, "accumulateAsync", AccumulateAsync);
-  Nan::SetMethod(target, "accumulateProduct", AccumulateProduct);
-  Nan::SetMethod(target, "accumulateProductAsync", AccumulateProductAsync);
-  Nan::SetMethod(target, "accumulateSquare", AccumulateSquare);
-  Nan::SetMethod(target, "accumulateSquareAsync", AccumulateSquareAsync);
-  Nan::SetMethod(target, "accumulateWeighted", AccumulateWeighted);
-  Nan::SetMethod(target, "accumulateWeightedAsync", AccumulateWeightedAsync);
-  Nan::SetMethod(target, "calcHist", CalcHist);
-  Nan::SetMethod(target, "calcHistAsync", CalcHistAsync);
+  exports.Set("goodFeaturesToTrack", Napi::Function::New(env, Imgproc::GoodFeaturesToTrack));
+  exports.Set("goodFeaturesToTrackAsync", Napi::Function::New(env, Imgproc::GoodFeaturesToTrackAsync));
+  exports.Set("blur", Napi::Function::New(env, Imgproc::Blur));
+  exports.Set("blurAsync", Napi::Function::New(env, Imgproc::BlurAsync));
+  exports.Set("gaussianBlur", Napi::Function::New(env, Imgproc::GaussianBlur));
+  exports.Set("gaussianBlurAsync", Napi::Function::New(env, Imgproc::GaussianBlurAsync));
+  exports.Set("medianBlur", Napi::Function::New(env, Imgproc::MedianBlur));
+  exports.Set("medianBlurAsync", Napi::Function::New(env, Imgproc::MedianBlurAsync));
+  exports.Set("accumulate", Napi::Function::New(env, Imgproc::Accumulate));
+  exports.Set("accumulateAsync", Napi::Function::New(env, Imgproc::AccumulateAsync));
+  exports.Set("accumulateProduct", Napi::Function::New(env, Imgproc::AccumulateProduct));
+  exports.Set("accumulateProductAsync", Napi::Function::New(env, Imgproc::AccumulateProductAsync));
+  exports.Set("accumulateSquare", Napi::Function::New(env, Imgproc::AccumulateSquare));
+  exports.Set("accumulateSquareAsync", Napi::Function::New(env, Imgproc::AccumulateSquareAsync));
+  exports.Set("accumulateWeighted", Napi::Function::New(env, Imgproc::AccumulateWeighted));
+  exports.Set("accumulateWeightedAsync", Napi::Function::New(env, Imgproc::AccumulateWeightedAsync));
+  exports.Set("calcHist", Napi::Function::New(env, Imgproc::CalcHist));
+  exports.Set("calcHistAsync", Napi::Function::New(env, Imgproc::CalcHistAsync));
 
-  Moments::Init(target);
-  Contour::Init(target);
+  Moments::Init(env, exports);
+  Contour::Init(env, exports);
 };
 
-NAN_METHOD(Imgproc::GetStructuringElement) {
+void Imgproc::GetStructuringElement(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Imgproc::GetStructuringElement");
 
   uint shape;
@@ -64,7 +64,7 @@ NAN_METHOD(Imgproc::GetStructuringElement) {
   info.GetReturnValue().Set(Mat::Converter::wrap(cv::getStructuringElement(shape, size, anchor)));
 }
 
-NAN_METHOD(Imgproc::GetRotationMatrix2D) {
+void Imgproc::GetRotationMatrix2D(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Imgproc::GetRotationMatrix2D");
 
   cv::Point2d center;
@@ -77,7 +77,7 @@ NAN_METHOD(Imgproc::GetRotationMatrix2D) {
   info.GetReturnValue().Set(Mat::Converter::wrap(cv::getRotationMatrix2D(center, angle, scale)));
 }
 
-NAN_METHOD(Imgproc::GetAffineTransform) {
+void Imgproc::GetAffineTransform(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Imgproc::GetAffineTransform");
 
   std::vector<cv::Point2f> srcPoints, dstPoints;
@@ -89,7 +89,7 @@ NAN_METHOD(Imgproc::GetAffineTransform) {
   info.GetReturnValue().Set(Mat::Converter::wrap(cv::getAffineTransform(srcPoints, dstPoints)));
 }
 
-NAN_METHOD(Imgproc::GetPerspectiveTransform) {
+void Imgproc::GetPerspectiveTransform(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Imgproc::GetPerspectiveTransform");
 
   std::vector<cv::Point2f> srcPoints, dstPoints;
@@ -101,7 +101,7 @@ NAN_METHOD(Imgproc::GetPerspectiveTransform) {
   info.GetReturnValue().Set(Mat::Converter::wrap(cv::getPerspectiveTransform(srcPoints, dstPoints)));
 }
 
-NAN_METHOD(Imgproc::Plot1DHist) {
+void Imgproc::Plot1DHist(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Imgproc::Plot1DHist");
 
   cv::Mat hist, plot;
@@ -110,7 +110,7 @@ NAN_METHOD(Imgproc::Plot1DHist) {
   int thickness = 2;
   int shift = 0;
 
-  Napi::Object opts = FF::isArgObject(info, 3) ? info[3]->ToObject(Nan::GetCurrentContext()).ToLocalChecked() : Nan::New<v8::Object>();
+  Napi::Object opts = FF::isArgObject(info, 3) ? info[3]->ToObject(Nan::GetCurrentContext()).ToLocalChecked() : Napi::Object::New(env);
 
   if (Mat::Converter::arg(0, &hist, info) || Mat::Converter::arg(1, &plot, info) || Vec3::Converter::arg(2, &color, info) || ((FF::isArgObject(info, 3) && (FF::IntConverter::optProp(&lineType, "lineType", opts) || FF::IntConverter::optProp(&thickness, "thickness", opts) || FF::IntConverter::optProp(&shift, "shift", opts))) || (FF::IntConverter::optArg(3, &lineType, info) || FF::IntConverter::optArg(4, &thickness, info) || FF::IntConverter::optArg(5, &shift, info)))) {
     return tryCatch.reThrow();
@@ -146,7 +146,7 @@ NAN_METHOD(Imgproc::Plot1DHist) {
   info.GetReturnValue().Set(Mat::Converter::wrap(plot));
 }
 
-NAN_METHOD(Imgproc::FitLine) {
+void Imgproc::FitLine(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Imgproc::FitLine");
 
   if (!info[0]->IsArray()) {
@@ -189,38 +189,38 @@ NAN_METHOD(Imgproc::FitLine) {
   }
 }
 
-NAN_METHOD(Imgproc::GetTextSize) {
+void Imgproc::GetTextSize(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<ImgprocBindings::GetTextSizeWorker>(),
       "Imgproc::GetTextSize",
       info);
 }
 
-NAN_METHOD(Imgproc::GetTextSizeAsync) {
+void Imgproc::GetTextSizeAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<ImgprocBindings::GetTextSizeWorker>(),
       "Imgproc::GetTextSizeAsync",
       info);
 }
 
-NAN_METHOD(Imgproc::ApplyColorMap) {
+void Imgproc::ApplyColorMap(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(std::make_shared<ImgprocBindings::ApplyColorMapWorker>(),
                          "Imgproc::ApplyColorMap", info);
 }
 
-NAN_METHOD(Imgproc::ApplyColorMapAsync) {
+void Imgproc::ApplyColorMapAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(std::make_shared<ImgprocBindings::ApplyColorMapWorker>(),
                           "Imgproc::ApplyColorMapAsync", info);
 }
 
 #if CV_VERSION_GREATER_EQUAL(3, 2, 0)
 
-NAN_METHOD(Imgproc::Canny) {
+void Imgproc::Canny(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(std::make_shared<ImgprocBindings::CannyWorker>(),
                          "Imgproc::Canny", info);
 }
 
-NAN_METHOD(Imgproc::CannyAsync) {
+void Imgproc::CannyAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(std::make_shared<ImgprocBindings::CannyWorker>(),
                           "Imgproc::CannyAsync", info);
 }
@@ -228,84 +228,84 @@ NAN_METHOD(Imgproc::CannyAsync) {
 #endif
 
 #if CV_VERSION_LOWER_THAN(4, 0, 0)
-NAN_METHOD(Imgproc::UndistortPoints) {
+void Imgproc::UndistortPoints(const Napi::CallbackInfo& info) {
   FF::syncBinding<ImgprocBindings::UndistortPoints>("Imgproc", "UndistortPoints", info);
 }
 
-NAN_METHOD(Imgproc::UndistortPointsAsync) {
+void Imgproc::UndistortPointsAsync(const Napi::CallbackInfo& info) {
   FF::asyncBinding<ImgprocBindings::UndistortPoints>("Imgproc", "UndistortPoints", info);
 }
 #endif
 
-NAN_METHOD(Imgproc::GoodFeaturesToTrack) {
+void Imgproc::GoodFeaturesToTrack(const Napi::CallbackInfo& info) {
   FF::syncBinding<ImgprocBindings::GoodFeaturesToTrack>("Imgproc", "GoodFeaturesToTrack", info);
 }
 
-NAN_METHOD(Imgproc::GoodFeaturesToTrackAsync) {
+void Imgproc::GoodFeaturesToTrackAsync(const Napi::CallbackInfo& info) {
   FF::asyncBinding<ImgprocBindings::GoodFeaturesToTrack>("Imgproc", "GoodFeaturesToTrack", info);
 }
 
-NAN_METHOD(Imgproc::Blur) {
+void Imgproc::Blur(const Napi::CallbackInfo& info) {
   FF::syncBinding<ImgprocBindings::Blur>("Imgproc", "Blur", info);
 }
 
-NAN_METHOD(Imgproc::BlurAsync) {
+void Imgproc::BlurAsync(const Napi::CallbackInfo& info) {
   FF::asyncBinding<ImgprocBindings::Blur>("Imgproc", "Blur", info);
 }
 
-NAN_METHOD(Imgproc::GaussianBlur) {
+void Imgproc::GaussianBlur(const Napi::CallbackInfo& info) {
   FF::syncBinding<ImgprocBindings::GaussianBlur>("Imgproc", "GaussianBlur", info);
 }
 
-NAN_METHOD(Imgproc::GaussianBlurAsync) {
+void Imgproc::GaussianBlurAsync(const Napi::CallbackInfo& info) {
   FF::asyncBinding<ImgprocBindings::GaussianBlur>("Imgproc", "GaussianBlur", info);
 }
 
-NAN_METHOD(Imgproc::MedianBlur) {
+void Imgproc::MedianBlur(const Napi::CallbackInfo& info) {
   FF::syncBinding<ImgprocBindings::MedianBlur>("Imgproc", "MedianBlur", info);
 }
 
-NAN_METHOD(Imgproc::MedianBlurAsync) {
+void Imgproc::MedianBlurAsync(const Napi::CallbackInfo& info) {
   FF::asyncBinding<ImgprocBindings::MedianBlur>("Imgproc", "MedianBlur", info);
 }
 
-NAN_METHOD(Imgproc::Accumulate) {
+void Imgproc::Accumulate(const Napi::CallbackInfo& info) {
   FF::syncBinding<ImgprocBindings::Accumulate>("Imgproc", "Accumulate", info);
 }
 
-NAN_METHOD(Imgproc::AccumulateAsync) {
+void Imgproc::AccumulateAsync(const Napi::CallbackInfo& info) {
   FF::asyncBinding<ImgprocBindings::Accumulate>("Imgproc", "Accumulate", info);
 }
 
-NAN_METHOD(Imgproc::AccumulateProduct) {
+void Imgproc::AccumulateProduct(const Napi::CallbackInfo& info) {
   FF::syncBinding<ImgprocBindings::AccumulateProduct>("Imgproc", "AccumulateProduct", info);
 }
 
-NAN_METHOD(Imgproc::AccumulateProductAsync) {
+void Imgproc::AccumulateProductAsync(const Napi::CallbackInfo& info) {
   FF::asyncBinding<ImgprocBindings::AccumulateProduct>("Imgproc", "AccumulateProduct", info);
 }
 
-NAN_METHOD(Imgproc::AccumulateSquare) {
+void Imgproc::AccumulateSquare(const Napi::CallbackInfo& info) {
   FF::syncBinding<ImgprocBindings::AccumulateSquare>("Imgproc", "AccumulateSquare", info);
 }
 
-NAN_METHOD(Imgproc::AccumulateSquareAsync) {
+void Imgproc::AccumulateSquareAsync(const Napi::CallbackInfo& info) {
   FF::asyncBinding<ImgprocBindings::AccumulateSquare>("Imgproc", "AccumulateSquare", info);
 }
 
-NAN_METHOD(Imgproc::AccumulateWeighted) {
+void Imgproc::AccumulateWeighted(const Napi::CallbackInfo& info) {
   FF::syncBinding<ImgprocBindings::AccumulateWeighted>("Imgproc", "AccumulateWeighted", info);
 }
 
-NAN_METHOD(Imgproc::AccumulateWeightedAsync) {
+void Imgproc::AccumulateWeightedAsync(const Napi::CallbackInfo& info) {
   FF::asyncBinding<ImgprocBindings::AccumulateWeighted>("Imgproc", "AccumulateWeighted", info);
 }
 
-NAN_METHOD(Imgproc::CalcHist) {
+void Imgproc::CalcHist(const Napi::CallbackInfo& info) {
   FF::syncBinding<ImgprocBindings::CalcHist>("Imgproc", "CalcHist", info);
 }
 
-NAN_METHOD(Imgproc::CalcHistAsync) {
+void Imgproc::CalcHistAsync(const Napi::CallbackInfo& info) {
   FF::asyncBinding<ImgprocBindings::CalcHist>("Imgproc", "CalcHist", info);
 }
 

@@ -17,8 +17,8 @@ public:
     cv::Algorithm::load<cv::face::FacemarkLBF>(path);
   }
 
-  static NAN_MODULE_INIT(Init);
-  static NAN_METHOD(New);
+  static Napi::Object Init(Napi::Env env, Napi::Object exports);
+  static void New(const Napi::CallbackInfo& info);
 
   static Nan::Persistent<v8::FunctionTemplate> constructor;
 

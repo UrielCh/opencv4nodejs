@@ -6,7 +6,7 @@
 
 Nan::Persistent<v8::FunctionTemplate> BackgroundSubtractorMOG2::constructor;
 
-NAN_MODULE_INIT(BackgroundSubtractorMOG2::Init) {
+Napi::Object BackgroundSubtractorMOG2(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(BackgroundSubtractorMOG2::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
@@ -22,7 +22,7 @@ NAN_MODULE_INIT(BackgroundSubtractorMOG2::Init) {
   Nan::Set(target, FF::newString(env, "BackgroundSubtractorMOG2"), FF::getFunction(ctor));
 };
 
-NAN_METHOD(BackgroundSubtractorMOG2::New) {
+void BackgroundSubtractorMOG2::New(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("BackgroundSubtractor::New");
   FF_ASSERT_CONSTRUCT_CALL();
   BackgroundSubtractorMOG2::NewWorker worker;

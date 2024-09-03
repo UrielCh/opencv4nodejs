@@ -6,49 +6,49 @@
 #include "photoBindings.h"
 #include "photoConstants.h"
 
-NAN_MODULE_INIT(Photo::Init) {
-  PhotoConstants::Init(target);
-  Nan::SetMethod(target, "fastNlMeansDenoisingColored", FastNlMeansDenoisingColored);
-  Nan::SetMethod(target, "fastNlMeansDenoisingColoredAsync", FastNlMeansDenoisingColoredAsync);
-  Nan::SetMethod(target, "inpaint", Inpaint);
-  Nan::SetMethod(target, "inpaintAsync", InpaintAsync);
-  Nan::SetMethod(target, "seamlessClone", SeamlessClone);
-  Nan::SetMethod(target, "seamlessCloneAsync", SeamlessCloneAsync);
+Napi::Object Photo(Napi::Env env, Napi::Object exports) {
+  PhotoConstants::Init(env, exports);
+  exports.Set("fastNlMeansDenoisingColored", Napi::Function::New(env, Photo::FastNlMeansDenoisingColored));
+  exports.Set("fastNlMeansDenoisingColoredAsync", Napi::Function::New(env, Photo::FastNlMeansDenoisingColoredAsync));
+  exports.Set("inpaint", Napi::Function::New(env, Photo::Inpaint));
+  exports.Set("inpaintAsync", Napi::Function::New(env, Photo::InpaintAsync));
+  exports.Set("seamlessClone", Napi::Function::New(env, Photo::SeamlessClone));
+  exports.Set("seamlessCloneAsync", Napi::Function::New(env, Photo::SeamlessCloneAsync));
 };
 
-NAN_METHOD(Photo::FastNlMeansDenoisingColored) {
+void Photo::FastNlMeansDenoisingColored(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<PhotoBindings::FastNlMeansDenoisingColoredWorker>(),
       "Photo::FastNlMeansDenoisingColored",
       info);
 }
 
-NAN_METHOD(Photo::FastNlMeansDenoisingColoredAsync) {
+void Photo::FastNlMeansDenoisingColoredAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<PhotoBindings::FastNlMeansDenoisingColoredWorker>(),
       "Photo::FastNlMeansDenoisingColoredAsync",
       info);
 }
 
-NAN_METHOD(Photo::Inpaint) {
+void Photo::Inpaint(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<PhotoBindings::InpaintWorker>(),
       "Photo::Inpaint",
       info);
 }
 
-NAN_METHOD(Photo::InpaintAsync) {
+void Photo::InpaintAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<PhotoBindings::InpaintWorker>(),
       "Photo::InpaintAsync",
       info);
 }
 
-NAN_METHOD(Photo::SeamlessClone) {
+void Photo::SeamlessClone(const Napi::CallbackInfo& info) {
   FF::syncBinding<PhotoBindings::SeamlessClone>("Photo", "SeamlessClone", info);
 }
 
-NAN_METHOD(Photo::SeamlessCloneAsync) {
+void Photo::SeamlessCloneAsync(const Napi::CallbackInfo& info) {
   FF::asyncBinding<PhotoBindings::SeamlessClone>("Photo", "SeamlessClone", info);
 }
 

@@ -7,7 +7,7 @@
 
 Nan::Persistent<v8::FunctionTemplate> EigenFaceRecognizer::constructor;
 
-NAN_MODULE_INIT(EigenFaceRecognizer::Init) {
+Napi::Object EigenFaceRecognizer(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(EigenFaceRecognizer::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
@@ -19,7 +19,7 @@ NAN_MODULE_INIT(EigenFaceRecognizer::Init) {
   Nan::Set(target, Nan::New("EigenFaceRecognizer").ToLocalChecked(), FF::getFunction(ctor));
 };
 
-NAN_METHOD(EigenFaceRecognizer::New) {
+void EigenFaceRecognizer::New(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("EigenFaceRecognizer::New");
   FF_ASSERT_CONSTRUCT_CALL();
   FaceRecognizerBindings::NewWorker worker;

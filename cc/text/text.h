@@ -10,17 +10,17 @@
 
 class Text {
 public:
-  static NAN_MODULE_INIT(Init);
+  static Napi::Object Init(Napi::Env env, Napi::Object exports);
 
-  static NAN_METHOD(LoadOCRHMMClassifierNM);
-  static NAN_METHOD(LoadOCRHMMClassifierNMAsync);
+  static void LoadOCRHMMClassifierNM(const Napi::CallbackInfo& info);
+  static void LoadOCRHMMClassifierNMAsync(const Napi::CallbackInfo& info);
 
 #if CV_VERSION_GREATER_EQUAL(3, 1, 0)
-  static NAN_METHOD(LoadOCRHMMClassifierCNN);
-  static NAN_METHOD(LoadOCRHMMClassifierCNNAsync);
+  static void LoadOCRHMMClassifierCNN(const Napi::CallbackInfo& info);
+  static void LoadOCRHMMClassifierCNNAsync(const Napi::CallbackInfo& info);
 
-  static NAN_METHOD(CreateOCRHMMTransitionsTable);
-  static NAN_METHOD(CreateOCRHMMTransitionsTableAsync);
+  static void CreateOCRHMMTransitionsTable(const Napi::CallbackInfo& info);
+  static void CreateOCRHMMTransitionsTableAsync(const Napi::CallbackInfo& info);
 #endif
 };
 

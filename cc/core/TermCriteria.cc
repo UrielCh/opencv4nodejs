@@ -2,7 +2,7 @@
 
 Nan::Persistent<v8::FunctionTemplate> TermCriteria::constructor;
 
-NAN_MODULE_INIT(TermCriteria::Init) {
+Napi::Object TermCriteria(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(TermCriteria::New);
   TermCriteria::constructor.Reset(ctor);
   ctor->InstanceTemplate()->SetInternalFieldCount(1);
@@ -14,7 +14,7 @@ NAN_MODULE_INIT(TermCriteria::Init) {
   Nan::Set(target, FF::newString(env, "TermCriteria"), FF::getFunction(ctor));
 };
 
-NAN_METHOD(TermCriteria::New) {
+void TermCriteria::New(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("TermCriteria::New");
   FF_ASSERT_CONSTRUCT_CALL();
   TermCriteria* self = new TermCriteria();

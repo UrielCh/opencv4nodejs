@@ -11,11 +11,11 @@ void Tracker::Init(Napi::FunctionReference ctor) {
   Nan::SetPrototypeMethod(ctor, "getModel", Tracker::GetModel);
 };
 
-NAN_METHOD(Tracker::Clear) {
+void Tracker::Clear(const Napi::CallbackInfo& info) {
   Tracker::unwrapThis(info)->getTracker()->clear();
 }
 
-NAN_METHOD(Tracker::Init) {
+void Tracker::Init(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Tracker::Init");
   cv::Mat image;
   cv::Rect2d boundingBox;
@@ -28,7 +28,7 @@ NAN_METHOD(Tracker::Init) {
   info.GetReturnValue().Set(Nan::New(ret));
 }
 
-NAN_METHOD(Tracker::Update) {
+void Tracker::Update(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Tracker::Update");
   cv::Mat image;
   if (Mat::Converter::arg(0, &image, info)) {
@@ -51,7 +51,7 @@ NAN_METHOD(Tracker::Update) {
   }
 }
 
-NAN_METHOD(Tracker::GetModel) {
+void Tracker::GetModel(const Napi::CallbackInfo& info) {
   // TBD
 }
 

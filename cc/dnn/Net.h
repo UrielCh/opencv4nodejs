@@ -14,30 +14,30 @@ public:
     return "Net";
   }
 
-  static NAN_MODULE_INIT(Init);
+  static Napi::Object Init(Napi::Env env, Napi::Object exports);
 
-  static NAN_METHOD(New);
+  static void New(const Napi::CallbackInfo& info);
   // setInput(blob: Mat, name?: string, scalefactor?: number, mean?: number): void;
   // setInput(blob: Mat, inputName?: string): void;
-  static NAN_METHOD(SetInput);
-  static NAN_METHOD(SetInputAsync);
+  static void SetInput(const Napi::CallbackInfo& info);
+  static void SetInputAsync(const Napi::CallbackInfo& info);
   // forward(inputName?: string): Mat;
-  static NAN_METHOD(Forward);
-  static NAN_METHOD(ForwardAsync);
+  static void Forward(const Napi::CallbackInfo& info);
+  static void ForwardAsync(const Napi::CallbackInfo& info);
   // getLayerNames(): string[];
-  static NAN_METHOD(GetLayerNames);
-  static NAN_METHOD(GetLayerNamesAsync);
+  static void GetLayerNames(const Napi::CallbackInfo& info);
+  static void GetLayerNamesAsync(const Napi::CallbackInfo& info);
   // getUnconnectedOutLayers(): number[];
-  static NAN_METHOD(GetUnconnectedOutLayers);
-  static NAN_METHOD(GetUnconnectedOutLayersAsync);
+  static void GetUnconnectedOutLayers(const Napi::CallbackInfo& info);
+  static void GetUnconnectedOutLayersAsync(const Napi::CallbackInfo& info);
   // dump(): string;
-  static NAN_METHOD(Dump);
+  static void Dump(const Napi::CallbackInfo& info);
   // setPreferableBackend(backendId: number): void;
-  static NAN_METHOD(SetPreferableBackend);
+  static void SetPreferableBackend(const Napi::CallbackInfo& info);
   // setPreferableTarget(targetId: number): void;
-  static NAN_METHOD(SetPreferableTarget);
+  static void SetPreferableTarget(const Napi::CallbackInfo& info);
   // getPerfProfile(): {	retval: number, timings: number[] };
-  static NAN_METHOD(GetPerfProfile);
+  static void GetPerfProfile(const Napi::CallbackInfo& info);
 };
 
 #endif

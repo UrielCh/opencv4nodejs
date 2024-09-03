@@ -19,9 +19,9 @@ public:
 #endif
   }
 
-  static NAN_MODULE_INIT(Init);
+  static Napi::Object Init(Napi::Env env, Napi::Object exports);
   struct NewWorker;
-  static NAN_METHOD(New);
+  static void New(const Napi::CallbackInfo& info);
 
   static Nan::Persistent<v8::FunctionTemplate> constructor;
 

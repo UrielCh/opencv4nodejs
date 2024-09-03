@@ -7,7 +7,7 @@
 
 Nan::Persistent<v8::FunctionTemplate> VideoWriter::constructor;
 
-NAN_MODULE_INIT(VideoWriter::Init) {
+Napi::Object VideoWriter(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(VideoWriter::New);
   constructor.Reset(ctor);
   ctor->InstanceTemplate()->SetInternalFieldCount(1);
@@ -23,7 +23,7 @@ NAN_MODULE_INIT(VideoWriter::Init) {
   Nan::Set(target, FF::newString(env, "VideoWriter"), FF::getFunction(ctor));
 };
 
-NAN_METHOD(VideoWriter::New) {
+void VideoWriter::New(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("VideoWriter::New");
   FF_ASSERT_CONSTRUCT_CALL();
   VideoWriterBindings::NewWorker worker;
@@ -38,53 +38,53 @@ NAN_METHOD(VideoWriter::New) {
   info.GetReturnValue().Set(info.Holder());
 }
 
-NAN_METHOD(VideoWriter::Release) {
+void VideoWriter::Release(const Napi::CallbackInfo& info) {
   Nan::ObjectWrap::Unwrap<VideoWriter>(info.This())->self.release();
 }
 
-NAN_METHOD(VideoWriter::Get) {
+void VideoWriter::Get(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<VideoWriterBindings::GetWorker>(VideoWriter::unwrapSelf(info)),
       "VideoWriter::Get",
       info);
 }
 
-NAN_METHOD(VideoWriter::GetAsync) {
+void VideoWriter::GetAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<VideoWriterBindings::GetWorker>(VideoWriter::unwrapSelf(info)),
       "VideoWriter::GetAsync",
       info);
 }
 
-NAN_METHOD(VideoWriter::Set) {
+void VideoWriter::Set(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<VideoWriterBindings::SetWorker>(VideoWriter::unwrapSelf(info)),
       "VideoCaptureVideoWriter::Set",
       info);
 }
 
-NAN_METHOD(VideoWriter::SetAsync) {
+void VideoWriter::SetAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<VideoWriterBindings::SetWorker>(VideoWriter::unwrapSelf(info)),
       "VideoWriter::SetAsync",
       info);
 }
 
-NAN_METHOD(VideoWriter::Fourcc) {
+void VideoWriter::Fourcc(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<VideoWriterBindings::FourccWorker>(),
       "VideoWriter::Fourcc",
       info);
 }
 
-NAN_METHOD(VideoWriter::Write) {
+void VideoWriter::Write(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<VideoWriterBindings::WriteWorker>(VideoWriter::unwrapSelf(info)),
       "VideoWriter::Write",
       info);
 }
 
-NAN_METHOD(VideoWriter::WriteAsync) {
+void VideoWriter::WriteAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<VideoWriterBindings::WriteWorker>(VideoWriter::unwrapSelf(info)),
       "VideoWriter::WriteAsync",

@@ -15,22 +15,22 @@ public:
     return "Rect";
   }
 
-  static NAN_MODULE_INIT(Init);
+  static Napi::Object Init(Napi::Env env, Napi::Object exports);
 
   FF_ACCESSORS(x, FF::DoubleConverter);
   FF_ACCESSORS(y, FF::DoubleConverter);
   FF_ACCESSORS(width, FF::DoubleConverter);
   FF_ACCESSORS(height, FF::DoubleConverter);
 
-  static NAN_METHOD(New);
-  static NAN_METHOD(And);
-  static NAN_METHOD(Or);
-  static NAN_METHOD(ToSquare);
-  static NAN_METHOD(ToSquareAsync);
-  static NAN_METHOD(Pad);
-  static NAN_METHOD(PadAsync);
-  static NAN_METHOD(Rescale);
-  static NAN_METHOD(RescaleAsync);
+  static void New(const Napi::CallbackInfo& info);
+  static void And(const Napi::CallbackInfo& info);
+  static void Or(const Napi::CallbackInfo& info);
+  static void ToSquare(const Napi::CallbackInfo& info);
+  static void ToSquareAsync(const Napi::CallbackInfo& info);
+  static void Pad(const Napi::CallbackInfo& info);
+  static void PadAsync(const Napi::CallbackInfo& info);
+  static void Rescale(const Napi::CallbackInfo& info);
+  static void RescaleAsync(const Napi::CallbackInfo& info);
 };
 
 #endif

@@ -11,8 +11,8 @@ public:
   cv::Mat fgMask;
 
   static void Init(Napi::FunctionReference);
-  static NAN_METHOD(SetBackgroundImage);
-  static NAN_METHOD(Apply);
+  static void SetBackgroundImage(const Napi::CallbackInfo& info);
+  static void Apply(const Napi::CallbackInfo& info);
 };
 
 #endif

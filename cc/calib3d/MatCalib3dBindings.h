@@ -26,7 +26,7 @@ public:
   }
 
   Napi::Value getReturnValue() {
-    Napi::Object ret = Nan::New<v8::Object>();
+    Napi::Object ret = Napi::Object::New(env);
     Nan::Set(ret, Nan::New("dst").ToLocalChecked(), Mat::Converter::wrap(dst));
     Nan::Set(ret, Nan::New("jacobian").ToLocalChecked(), Mat::Converter::wrap(jacobian));
     return ret;
@@ -57,7 +57,7 @@ public:
   }
 
   Napi::Value getReturnValue() {
-    Napi::Object ret = Nan::New<v8::Object>();
+    Napi::Object ret = Napi::Object::New(env);
     Nan::Set(ret, Nan::New("returnValue").ToLocalChecked(), Vec3::Converter::wrap(returnValue));
     Nan::Set(ret, Nan::New("mtxR").ToLocalChecked(), Mat::Converter::wrap(mtxR));
     Nan::Set(ret, Nan::New("mtxQ").ToLocalChecked(), Mat::Converter::wrap(mtxQ));
@@ -93,7 +93,7 @@ public:
   }
 
   Napi::Value getReturnValue() {
-    Napi::Object ret = Nan::New<v8::Object>();
+    Napi::Object ret = Napi::Object::New(env);
     Nan::Set(ret, Nan::New("cameraMatrix").ToLocalChecked(), Mat::Converter::wrap(cameraMatrix));
     Nan::Set(ret, Nan::New("rotMatrix").ToLocalChecked(), Mat::Converter::wrap(rotMatrix));
     Nan::Set(ret, Nan::New("transVect").ToLocalChecked(), Vec4::Converter::wrap(transVect));
@@ -126,7 +126,7 @@ public:
   }
 
   Napi::Value getReturnValue() {
-    Napi::Object ret = Nan::New<v8::Object>();
+    Napi::Object ret = Napi::Object::New(env);
     Nan::Set(ret, Nan::New("dABdA").ToLocalChecked(), Mat::Converter::wrap(dABdA));
     Nan::Set(ret, Nan::New("dABdB").ToLocalChecked(), Mat::Converter::wrap(dABdB));
     return ret;
@@ -161,7 +161,7 @@ public:
   }
 
   Napi::Value getReturnValue() {
-    Napi::Object ret = Nan::New<v8::Object>();
+    Napi::Object ret = Napi::Object::New(env);
     Nan::Set(ret, Nan::New("returnValue").ToLocalChecked(), FF::BoolConverter::wrap(returnValue));
     Nan::Set(ret, Nan::New("corners").ToLocalChecked(), Point2::ArrayConverter::wrap(corners));
     return ret;
@@ -262,7 +262,7 @@ public:
   }
 
   Napi::Value getReturnValue() {
-    Napi::Object ret = Nan::New<v8::Object>();
+    Napi::Object ret = Napi::Object::New(env);
     Nan::Set(ret, Nan::New("fovx").ToLocalChecked(), FF::DoubleConverter::wrap(fovx));
     Nan::Set(ret, Nan::New("fovy").ToLocalChecked(), FF::DoubleConverter::wrap(fovy));
     Nan::Set(ret, Nan::New("focalLength").ToLocalChecked(), FF::DoubleConverter::wrap(focalLength));
@@ -312,7 +312,7 @@ public:
   }
 
   Napi::Value getReturnValue() {
-    Napi::Object ret = Nan::New<v8::Object>();
+    Napi::Object ret = Napi::Object::New(env);
     Nan::Set(ret, Nan::New("R1").ToLocalChecked(), Mat::Converter::wrap(R1));
     Nan::Set(ret, Nan::New("R2").ToLocalChecked(), Mat::Converter::wrap(R2));
     Nan::Set(ret, Nan::New("P1").ToLocalChecked(), Mat::Converter::wrap(P1));
@@ -388,7 +388,7 @@ public:
   }
 
   Napi::Value getReturnValue() {
-    Napi::Object ret = Nan::New<v8::Object>();
+    Napi::Object ret = Napi::Object::New(env);
     Nan::Set(ret, Nan::New("returnValue").ToLocalChecked(), FF::FloatConverter::wrap(returnValue));
     Nan::Set(ret, Nan::New("R1").ToLocalChecked(), Mat::Converter::wrap(R1));
     Nan::Set(ret, Nan::New("R2").ToLocalChecked(), Mat::Converter::wrap(R2));
@@ -434,7 +434,7 @@ public:
   }
 
   Napi::Value getReturnValue() {
-    Napi::Object ret = Nan::New<v8::Object>();
+    Napi::Object ret = Napi::Object::New(env);
     Nan::Set(ret, Nan::New("out").ToLocalChecked(), Mat::Converter::wrap(out));
     Nan::Set(ret, Nan::New("validPixROI").ToLocalChecked(), Rect::Converter::wrap(validPixROI));
     return ret;
@@ -484,7 +484,7 @@ public:
   }
 
   Napi::Value getReturnValue() {
-    Napi::Object ret = Nan::New<v8::Object>();
+    Napi::Object ret = Napi::Object::New(env);
     Nan::Set(ret, Nan::New("R1").ToLocalChecked(), Mat::Converter::wrap(R1));
     Nan::Set(ret, Nan::New("R2").ToLocalChecked(), Mat::Converter::wrap(R2));
     Nan::Set(ret, Nan::New("T").ToLocalChecked(), Vec3::Converter::wrap(T));
@@ -547,7 +547,7 @@ public:
   }
 
   Napi::Value getReturnValue() {
-    Napi::Object ret = Nan::New<v8::Object>();
+    Napi::Object ret = Napi::Object::New(env);
     Nan::Set(ret, Nan::New("newPoints1").ToLocalChecked(), Point2::ArrayWithCastConverter<cv::Point2f>::wrap(newPoints1));
     Nan::Set(ret, Nan::New("newPoints2").ToLocalChecked(), Point2::ArrayWithCastConverter<cv::Point2f>::wrap(newPoints2));
     return ret;
@@ -580,7 +580,7 @@ public:
   }
 
   Napi::Value getReturnValue() {
-    Napi::Object ret = Nan::New<v8::Object>();
+    Napi::Object ret = Napi::Object::New(env);
     return ret;
   }
 
@@ -612,7 +612,7 @@ public:
   }
 
   Napi::Value getReturnValue() {
-    Napi::Object ret = Nan::New<v8::Object>();
+    Napi::Object ret = Napi::Object::New(env);
     return ret;
   }
 
@@ -698,7 +698,7 @@ public:
   }
 
   Napi::Value getReturnValue() {
-    Napi::Object ret = Nan::New<v8::Object>();
+    Napi::Object ret = Napi::Object::New(env);
     Nan::Set(ret, Nan::New("returnValue").ToLocalChecked(), FF::IntConverter::wrap(returnValue));
     Nan::Set(ret, Nan::New("rotations").ToLocalChecked(), Mat::ArrayConverter::wrap(rotations));
     Nan::Set(ret, Nan::New("translations").ToLocalChecked(), Mat::ArrayConverter::wrap(translations));
@@ -739,7 +739,7 @@ public:
   }
 
   Napi::Value getReturnValue() {
-    Napi::Object ret = Nan::New<v8::Object>();
+    Napi::Object ret = Napi::Object::New(env);
     Nan::Set(ret, Nan::New("E").ToLocalChecked(), Mat::Converter::wrap(E));
     Nan::Set(ret, Nan::New("mask").ToLocalChecked(), Mat::Converter::wrap(mask));
     return ret;
@@ -792,7 +792,7 @@ public:
   }
 
   Napi::Value getReturnValue() {
-    Napi::Object ret = Nan::New<v8::Object>();
+    Napi::Object ret = Napi::Object::New(env);
     Nan::Set(ret, Nan::New("returnValue").ToLocalChecked(), FF::IntConverter::wrap(returnValue));
     Nan::Set(ret, Nan::New("R").ToLocalChecked(), Mat::Converter::wrap(R));
     Nan::Set(ret, Nan::New("T").ToLocalChecked(), Vec3::Converter::wrap(T));

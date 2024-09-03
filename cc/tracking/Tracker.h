@@ -19,10 +19,10 @@ public:
 
   static void Init(Napi::FunctionReference);
 
-  static NAN_METHOD(Clear);
-  static NAN_METHOD(Init);
-  static NAN_METHOD(Update);
-  static NAN_METHOD(GetModel);
+  static void Clear(const Napi::CallbackInfo& info);
+  static void Init(const Napi::CallbackInfo& info);
+  static void Update(const Napi::CallbackInfo& info);
+  static void GetModel(const Napi::CallbackInfo& info);
 };
 
 #endif

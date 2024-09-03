@@ -38,8 +38,8 @@ public:
   FF_GETTER_CUSTOM(edgeThreshold, FF::DoubleConverter, edgeThreshold);
   FF_GETTER_CUSTOM(sigma, FF::DoubleConverter, sigma);
 
-  static NAN_MODULE_INIT(Init);
-  static NAN_METHOD(New);
+  static Napi::Object Init(Napi::Env env, Napi::Object exports);
+  static void New(const Napi::CallbackInfo& info);
 
   class Constructor : public ConstructorBase {
   public:

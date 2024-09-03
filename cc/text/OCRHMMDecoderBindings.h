@@ -106,7 +106,7 @@ public:
   }
 
   Napi::Value getReturnValue() {
-    Napi::Object ret = Nan::New<v8::Object>();
+    Napi::Object ret = Napi::Object::New(env);
     Nan::Set(ret, FF::newString(env, "outputText"), FF::StringConverter::wrap(output_text));
     Nan::Set(ret, FF::newString(env, "rects"), Rect::ArrayWithCastConverter<cv::Rect>::wrap(component_rects));
     Nan::Set(ret, FF::newString(env, "words"), FF::StringArrayConverter::wrap(component_texts));

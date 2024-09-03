@@ -7,7 +7,7 @@
 
 Nan::Persistent<v8::FunctionTemplate> HOGDescriptor::constructor;
 
-NAN_MODULE_INIT(HOGDescriptor::Init) {
+Napi::Object HOGDescriptor(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(HOGDescriptor::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
@@ -52,29 +52,29 @@ NAN_MODULE_INIT(HOGDescriptor::Init) {
 
   Nan::Set(target, FF::newString(env, "HOGDescriptor"), FF::getFunction(ctor));
 #if CV_VERSION_GREATER_EQUAL(4, 0, 0)
-  HistogramNormType::init(target);
+  HistogramNormType::Init(env, exports);
 #endif
 };
 
-NAN_METHOD(HOGDescriptor::New) {
+void HOGDescriptor::New(const Napi::CallbackInfo& info) {
   constructorBinding<Constructor>(info);
 }
 
-NAN_METHOD(HOGDescriptor::GetDaimlerPeopleDetector) {
+void HOGDescriptor::GetDaimlerPeopleDetector(const Napi::CallbackInfo& info) {
   std::vector<float> detector = cv::HOGDescriptor::getDaimlerPeopleDetector();
   info.GetReturnValue().Set(FF::FloatArrayConverter::wrap(detector));
 }
 
-NAN_METHOD(HOGDescriptor::GetDefaultPeopleDetector) {
+void HOGDescriptor::GetDefaultPeopleDetector(const Napi::CallbackInfo& info) {
   std::vector<float> detector = cv::HOGDescriptor::getDefaultPeopleDetector();
   info.GetReturnValue().Set(FF::FloatArrayConverter::wrap(detector));
 }
 
-NAN_METHOD(HOGDescriptor::CheckDetectorSize) {
+void HOGDescriptor::CheckDetectorSize(const Napi::CallbackInfo& info) {
   info.GetReturnValue().Set(Nan::New(HOGDescriptor::unwrapSelf(info)->checkDetectorSize()));
 }
 
-NAN_METHOD(HOGDescriptor::SetSVMDetector) {
+void HOGDescriptor::SetSVMDetector(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("HOGDescriptor::SetSVMDetector");
   std::vector<float> detector;
   if (!FF::hasArg(info, 0) || FF::FloatArrayConverter::unwrapTo(&detector, info[0])) {
@@ -83,7 +83,7 @@ NAN_METHOD(HOGDescriptor::SetSVMDetector) {
   HOGDescriptor::unwrapSelf(info)->setSVMDetector(detector);
 }
 
-NAN_METHOD(HOGDescriptor::Save) {
+void HOGDescriptor::Save(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("HOGDescriptor::Save");
 
   std::string path;
@@ -93,7 +93,7 @@ NAN_METHOD(HOGDescriptor::Save) {
   HOGDescriptor::unwrapSelf(info)->save(path);
 }
 
-NAN_METHOD(HOGDescriptor::Load) {
+void HOGDescriptor::Load(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("HOGDescriptor::Load");
 
   std::string path;
@@ -103,98 +103,98 @@ NAN_METHOD(HOGDescriptor::Load) {
   HOGDescriptor::unwrapSelf(info)->load(path);
 }
 
-NAN_METHOD(HOGDescriptor::Compute) {
+void HOGDescriptor::Compute(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<HOGDescriptorBindings::ComputeWorker>(HOGDescriptor::unwrapSelf(info)),
       "HOGDescriptor::Compute",
       info);
 }
 
-NAN_METHOD(HOGDescriptor::ComputeAsync) {
+void HOGDescriptor::ComputeAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<HOGDescriptorBindings::ComputeWorker>(HOGDescriptor::unwrapSelf(info)),
       "HOGDescriptor::ComputeAsync",
       info);
 }
 
-NAN_METHOD(HOGDescriptor::ComputeGradient) {
+void HOGDescriptor::ComputeGradient(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<HOGDescriptorBindings::ComputeGradientWorker>(HOGDescriptor::unwrapSelf(info)),
       "HOGDescriptor::ComputeGradient",
       info);
 }
 
-NAN_METHOD(HOGDescriptor::ComputeGradientAsync) {
+void HOGDescriptor::ComputeGradientAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<HOGDescriptorBindings::ComputeGradientWorker>(HOGDescriptor::unwrapSelf(info)),
       "HOGDescriptor::ComputeGradientAsync",
       info);
 }
 
-NAN_METHOD(HOGDescriptor::Detect) {
+void HOGDescriptor::Detect(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<HOGDescriptorBindings::DetectWorker>(HOGDescriptor::unwrapSelf(info)),
       "HOGDescriptor::Detect",
       info);
 }
 
-NAN_METHOD(HOGDescriptor::DetectAsync) {
+void HOGDescriptor::DetectAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<HOGDescriptorBindings::DetectWorker>(HOGDescriptor::unwrapSelf(info)),
       "HOGDescriptor::DetectAsync",
       info);
 }
 
-NAN_METHOD(HOGDescriptor::DetectROI) {
+void HOGDescriptor::DetectROI(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<HOGDescriptorBindings::DetectROIWorker>(HOGDescriptor::unwrapSelf(info)),
       "HOGDescriptor::DetectROI",
       info);
 }
 
-NAN_METHOD(HOGDescriptor::DetectROIAsync) {
+void HOGDescriptor::DetectROIAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<HOGDescriptorBindings::DetectROIWorker>(HOGDescriptor::unwrapSelf(info)),
       "HOGDescriptor::DetectROIAsync",
       info);
 }
 
-NAN_METHOD(HOGDescriptor::DetectMultiScale) {
+void HOGDescriptor::DetectMultiScale(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<HOGDescriptorBindings::DetectMultiScaleWorker>(HOGDescriptor::unwrapSelf(info)),
       "HOGDescriptor::DetectMultiScale",
       info);
 }
 
-NAN_METHOD(HOGDescriptor::DetectMultiScaleAsync) {
+void HOGDescriptor::DetectMultiScaleAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<HOGDescriptorBindings::DetectMultiScaleWorker>(HOGDescriptor::unwrapSelf(info)),
       "HOGDescriptor::DetectMultiScaleAsync",
       info);
 }
 
-NAN_METHOD(HOGDescriptor::DetectMultiScaleROI) {
+void HOGDescriptor::DetectMultiScaleROI(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<HOGDescriptorBindings::DetectMultiScaleROIWorker>(HOGDescriptor::unwrapSelf(info)),
       "HOGDescriptor::DetectMultiScaleROI",
       info);
 }
 
-NAN_METHOD(HOGDescriptor::DetectMultiScaleROIAsync) {
+void HOGDescriptor::DetectMultiScaleROIAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<HOGDescriptorBindings::DetectMultiScaleROIWorker>(HOGDescriptor::unwrapSelf(info)),
       "HOGDescriptor::DetectMultiScaleROIAsync",
       info);
 }
 
-NAN_METHOD(HOGDescriptor::GroupRectangles) {
+void HOGDescriptor::GroupRectangles(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<HOGDescriptorBindings::GroupRectanglesWorker>(HOGDescriptor::unwrapSelf(info)),
       "HOGDescriptor::GroupRectangles",
       info);
 }
 
-NAN_METHOD(HOGDescriptor::GroupRectanglesAsync) {
+void HOGDescriptor::GroupRectanglesAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<HOGDescriptorBindings::GroupRectanglesWorker>(HOGDescriptor::unwrapSelf(info)),
       "HOGDescriptor::GroupRectanglesAsync",

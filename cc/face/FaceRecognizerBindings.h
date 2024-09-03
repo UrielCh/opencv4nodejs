@@ -71,7 +71,7 @@ public:
   }
 
   Napi::Value getReturnValue() {
-    Napi::Object ret = Nan::New<v8::Object>();
+    Napi::Object ret = Napi::Object::New(env);
     Nan::Set(ret, Nan::New("label").ToLocalChecked(), Nan::New(label));
     Nan::Set(ret, Nan::New("confidence").ToLocalChecked(), Nan::New(confidence));
     return ret;

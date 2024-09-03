@@ -6,28 +6,28 @@
 #include "ioBindings.h"
 #include "ioConstants.h"
 
-NAN_MODULE_INIT(Io::Init) {
-  IoConstants::Init(target);
-  VideoCapture::Init(target);
-  VideoWriter::Init(target);
+Napi::Object Io(Napi::Env env, Napi::Object exports) {
+  IoConstants::Init(env, exports);
+  VideoCapture::Init(env, exports);
+  VideoWriter::Init(env, exports);
 
-  Nan::SetMethod(target, "imread", Imread);
-  Nan::SetMethod(target, "imshow", Imshow);
-  Nan::SetMethod(target, "imshowWait", ImshowWait);
-  Nan::SetMethod(target, "imwrite", Imwrite);
-  Nan::SetMethod(target, "waitKey", WaitKey);
+  exports.Set("imread", Napi::Function::New(env, Io::Imread));
+  exports.Set("imshow", Napi::Function::New(env, Io::Imshow));
+  exports.Set("imshowWait", Napi::Function::New(env, Io::ImshowWait));
+  exports.Set("imwrite", Napi::Function::New(env, Io::Imwrite));
+  exports.Set("waitKey", Napi::Function::New(env, Io::WaitKey));
 #if CV_VERSION_GREATER_EQUAL(3, 2, 0)
-  Nan::SetMethod(target, "waitKeyEx", WaitKeyEx);
+  exports.Set("waitKeyEx", Napi::Function::New(env, Io::WaitKeyEx));
 #endif
-  Nan::SetMethod(target, "imencode", Imencode);
-  Nan::SetMethod(target, "imdecode", Imdecode);
-  Nan::SetMethod(target, "destroyWindow", DestroyWindow);
-  Nan::SetMethod(target, "destroyAllWindows", DestroyAllWindows);
+  exports.Set("imencode", Napi::Function::New(env, Io::Imencode));
+  exports.Set("imdecode", Napi::Function::New(env, Io::Imdecode));
+  exports.Set("destroyWindow", Napi::Function::New(env, Io::DestroyWindow));
+  exports.Set("destroyAllWindows", Napi::Function::New(env, Io::DestroyAllWindows));
 
-  Nan::SetMethod(target, "imreadAsync", ImreadAsync);
-  Nan::SetMethod(target, "imwriteAsync", ImwriteAsync);
-  Nan::SetMethod(target, "imencodeAsync", ImencodeAsync);
-  Nan::SetMethod(target, "imdecodeAsync", ImdecodeAsync);
+  exports.Set("imreadAsync", Napi::Function::New(env, Io::ImreadAsync));
+  exports.Set("imwriteAsync", Napi::Function::New(env, Io::ImwriteAsync));
+  exports.Set("imencodeAsync", Napi::Function::New(env, Io::ImencodeAsync));
+  exports.Set("imdecodeAsync", Napi::Function::New(env, Io::ImdecodeAsync));
 
   FF_SET_JS_PROP(target, IMREAD_UNCHANGED, Nan::New<v8::Integer>(cv::IMREAD_UNCHANGED));
   FF_SET_JS_PROP(target, IMREAD_GRAYSCALE, Nan::New<v8::Integer>(cv::IMREAD_GRAYSCALE));
@@ -74,7 +74,7 @@ NAN_MODULE_INIT(Io::Init) {
   FF_SET_JS_PROP(target, IMWRITE_PNG_STRATEGY_FIXED, Nan::New<v8::Integer>(cv::IMWRITE_PNG_STRATEGY_FIXED));
 };
 
-NAN_METHOD(Io::Imshow) {
+void Io::Imshow(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Io::Imshow");
   if (!info[0]->IsString()) {
     return tryCatch.throwError("expected arg0 to be the window name");
@@ -85,7 +85,7 @@ NAN_METHOD(Io::Imshow) {
   cv::imshow(FF::StringConverter::unwrapUnchecked(info[0]), Mat::Converter::unwrapUnchecked(info[1]));
 }
 
-NAN_METHOD(Io::ImshowWait) {
+void Io::ImshowWait(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Io::ImshowWait");
   if (!info[0]->IsString()) {
     return tryCatch.throwError("expected arg0 to be the window name");
@@ -97,7 +97,7 @@ NAN_METHOD(Io::ImshowWait) {
   cv::waitKey();
 }
 
-NAN_METHOD(Io::WaitKey) {
+void Io::WaitKey(const Napi::CallbackInfo& info) {
   int key;
   if (info[0]->IsNumber()) {
     key = cv::waitKey(info[0]->ToNumber(Nan::GetCurrentContext()).ToLocalChecked()->Value());
@@ -108,7 +108,7 @@ NAN_METHOD(Io::WaitKey) {
 }
 
 #if CV_VERSION_GREATER_EQUAL(3, 2, 0)
-NAN_METHOD(Io::WaitKeyEx) {
+void Io::WaitKeyEx(const Napi::CallbackInfo& info) {
   int key;
   if (info[0]->IsNumber()) {
     key = cv::waitKeyEx(info[0]->ToNumber(Nan::GetCurrentContext()).ToLocalChecked()->Value());
@@ -119,7 +119,7 @@ NAN_METHOD(Io::WaitKeyEx) {
 }
 #endif
 
-NAN_METHOD(Io::DestroyWindow) {
+void Io::DestroyWindow(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Io::DestroyWindow");
   std::string winName;
   if (FF::StringConverter::arg(0, &winName, info)) {
@@ -128,11 +128,11 @@ NAN_METHOD(Io::DestroyWindow) {
   cv::destroyWindow(winName);
 }
 
-NAN_METHOD(Io::DestroyAllWindows) {
+void Io::DestroyAllWindows(const Napi::CallbackInfo& info) {
   cv::destroyAllWindows();
 }
 
-NAN_METHOD(Io::Imdecode) {
+void Io::Imdecode(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Io::Imdecode");
 
   if (!info[0]->IsUint8Array()) {
@@ -152,7 +152,7 @@ NAN_METHOD(Io::Imdecode) {
   info.GetReturnValue().Set(Mat::Converter::wrap(cv::imdecode(vec, flags)));
 }
 
-NAN_METHOD(Io::ImdecodeAsync) {
+void Io::ImdecodeAsync(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Io::ImdecodeAsync");
 
   if (!info[0]->IsUint8Array()) {
@@ -185,42 +185,42 @@ NAN_METHOD(Io::ImdecodeAsync) {
       worker));
 }
 
-NAN_METHOD(Io::Imread) {
+void Io::Imread(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<IoBindings::ImreadWorker>(),
       "Io::Imread",
       info);
 }
 
-NAN_METHOD(Io::ImreadAsync) {
+void Io::ImreadAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<IoBindings::ImreadWorker>(),
       "Io::ImreadAsync",
       info);
 }
 
-NAN_METHOD(Io::Imwrite) {
+void Io::Imwrite(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<IoBindings::ImwriteWorker>(),
       "Io::Imwrite",
       info);
 }
 
-NAN_METHOD(Io::ImwriteAsync) {
+void Io::ImwriteAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<IoBindings::ImwriteWorker>(),
       "Io::ImwriteAsync",
       info);
 }
 
-NAN_METHOD(Io::Imencode) {
+void Io::Imencode(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<IoBindings::ImencodeWorker>(),
       "Io::Imencode",
       info);
 }
 
-NAN_METHOD(Io::ImencodeAsync) {
+void Io::ImencodeAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<IoBindings::ImencodeWorker>(),
       "Io::ImencodeAsync",

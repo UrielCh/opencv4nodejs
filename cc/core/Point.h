@@ -8,10 +8,10 @@
 
 class Point : public Napi::ObjectWrap<Point> {
 public:
-  static NAN_MODULE_INIT(Init);
-  static NAN_METHOD(New);
-  static NAN_METHOD(NewPoint2);
-  static NAN_METHOD(NewPoint3);
+  static Napi::Object Init(Napi::Env env, Napi::Object exports);
+  static void New(const Napi::CallbackInfo& info);
+  static void NewPoint2(const Napi::CallbackInfo& info);
+  static void NewPoint3(const Napi::CallbackInfo& info);
 };
 
 #endif

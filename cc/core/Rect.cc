@@ -3,7 +3,7 @@
 
 Nan::Persistent<v8::FunctionTemplate> Rect::constructor;
 
-NAN_MODULE_INIT(Rect::Init) {
+Napi::Object Rect(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(Rect::New);
   Rect::constructor.Reset(ctor);
   ctor->InstanceTemplate()->SetInternalFieldCount(1);
@@ -25,7 +25,7 @@ NAN_MODULE_INIT(Rect::Init) {
   Nan::Set(target, Nan::New("Rect").ToLocalChecked(), FF::getFunction(ctor));
 };
 
-NAN_METHOD(Rect::New) {
+void Rect::New(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Rect::New");
   FF_ASSERT_CONSTRUCT_CALL();
   Rect* self = new Rect();
@@ -45,56 +45,56 @@ NAN_METHOD(Rect::New) {
   info.GetReturnValue().Set(info.Holder());
 }
 
-NAN_METHOD(Rect::And) {
+void Rect::And(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<RectBindings::AndWorker>(Rect::unwrapSelf(info)),
       "Rect::And",
       info);
 }
 
-NAN_METHOD(Rect::Or) {
+void Rect::Or(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<RectBindings::OrWorker>(Rect::unwrapSelf(info)),
       "Rect::Or",
       info);
 }
 
-NAN_METHOD(Rect::ToSquare) {
+void Rect::ToSquare(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<RectBindings::ToSquareWorker>(Rect::unwrapSelf(info)),
       "Rect::ToSquare",
       info);
 }
 
-NAN_METHOD(Rect::ToSquareAsync) {
+void Rect::ToSquareAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<RectBindings::ToSquareWorker>(Rect::unwrapSelf(info)),
       "Rect::ToSquareAsync",
       info);
 }
 
-NAN_METHOD(Rect::Pad) {
+void Rect::Pad(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<RectBindings::PadWorker>(Rect::unwrapSelf(info)),
       "Rect::Pad",
       info);
 }
 
-NAN_METHOD(Rect::PadAsync) {
+void Rect::PadAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<RectBindings::PadWorker>(Rect::unwrapSelf(info)),
       "Rect::PadAsync",
       info);
 }
 
-NAN_METHOD(Rect::Rescale) {
+void Rect::Rescale(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<RectBindings::RescaleWorker>(Rect::unwrapSelf(info)),
       "Rect::Rescale",
       info);
 }
 
-NAN_METHOD(Rect::RescaleAsync) {
+void Rect::RescaleAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<RectBindings::RescaleWorker>(Rect::unwrapSelf(info)),
       "Rect::RescaleAsync",

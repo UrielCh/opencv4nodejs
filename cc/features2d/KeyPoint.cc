@@ -6,7 +6,7 @@
 
 Nan::Persistent<v8::FunctionTemplate> KeyPoint::constructor;
 
-NAN_MODULE_INIT(KeyPoint::Init) {
+Napi::Object KeyPoint(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(KeyPoint::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
@@ -25,7 +25,7 @@ NAN_MODULE_INIT(KeyPoint::Init) {
   Nan::Set(target, Nan::New("KeyPoint").ToLocalChecked(), FF::getFunction(ctor));
 };
 
-NAN_METHOD(KeyPoint::New) {
+void KeyPoint::New(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("KeyPoint::New");
   FF_ASSERT_CONSTRUCT_CALL();
   KeyPoint* self = new KeyPoint();

@@ -6,7 +6,7 @@
 
 Nan::Persistent<v8::FunctionTemplate> KAZEDetector::constructor;
 
-NAN_MODULE_INIT(KAZEDetector::Init) {
+Napi::Object KAZEDetector(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(KAZEDetector::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
@@ -24,11 +24,11 @@ NAN_MODULE_INIT(KAZEDetector::Init) {
 
   Nan::Set(target, Nan::New("KAZEDetector").ToLocalChecked(), FF::getFunction(ctor));
 #if CV_VERSION_GREATER_EQUAL(4, 0, 0)
-  DiffusivityType::init(target);
+  DiffusivityType::Init(env, exports);
 #endif
 };
 
-NAN_METHOD(KAZEDetector::New) {
+void KAZEDetector::New(const Napi::CallbackInfo& info) {
   NewBinding().construct(info);
 }
 

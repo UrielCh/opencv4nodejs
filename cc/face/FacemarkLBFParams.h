@@ -16,8 +16,8 @@ public:
     return "FacemarkLBFParams";
   }
 
-  static NAN_MODULE_INIT(Init);
-  static NAN_METHOD(New);
+  static Napi::Object Init(Napi::Env env, Napi::Object exports);
+  static void New(const Napi::CallbackInfo& info);
   FF_ACCESSORS(bagging_overlap, FF::DoubleConverter);
   FF_ACCESSORS(cascade_face, FF::StringConverter);
   FF_ACCESSORS(detectROI, Rect::Converter);

@@ -6,7 +6,7 @@
 
 Nan::Persistent<v8::FunctionTemplate> HistAxes::constructor;
 
-NAN_MODULE_INIT(HistAxes::Init) {
+Napi::Object HistAxes(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(HistAxes::New);
   HistAxes::constructor.Reset(ctor);
   ctor->InstanceTemplate()->SetInternalFieldCount(1);
@@ -19,7 +19,7 @@ NAN_MODULE_INIT(HistAxes::Init) {
   Nan::Set(target, Nan::New("HistAxes").ToLocalChecked(), FF::getFunction(ctor));
 }
 
-NAN_METHOD(HistAxes::New) {
+void HistAxes::New(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("HistAxes::New");
   FF_ASSERT_CONSTRUCT_CALL();
   if (info.Length() != 1) {

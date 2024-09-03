@@ -9,7 +9,7 @@ void BackgroundSubtractor::Init(Napi::FunctionReference ctor) {
   Nan::SetPrototypeMethod(ctor, "apply", BackgroundSubtractor::Apply);
 };
 
-NAN_METHOD(BackgroundSubtractor::Apply) {
+void BackgroundSubtractor::Apply(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("BackgroundSubtractor::Apply");
   cv::Mat frame;
   double learningRate = -1;

@@ -7,7 +7,7 @@
 
 Nan::Persistent<v8::FunctionTemplate> SVM::constructor;
 
-NAN_MODULE_INIT(SVM::Init) {
+Napi::Object SVM(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(SVM::New);
   constructor.Reset(ctor);
   ctor->InstanceTemplate()->SetInternalFieldCount(1);
@@ -65,7 +65,7 @@ void SVM::setParams(Napi::Object params) {
   this->self->setClassWeights(classWeights);
 }
 
-NAN_METHOD(SVM::New) {
+void SVM::New(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("SVM::New");
   FF_ASSERT_CONSTRUCT_CALL();
   SVM* self = new SVM();
@@ -85,7 +85,7 @@ NAN_METHOD(SVM::New) {
   info.GetReturnValue().Set(info.Holder());
 };
 
-NAN_METHOD(SVM::SetParams) {
+void SVM::SetParams(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("SVM::SetParams");
   if (!info[0]->IsObject()) {
     return tryCatch.throwError("SVM::SetParams - args object required");
@@ -99,7 +99,7 @@ NAN_METHOD(SVM::SetParams) {
   info.GetReturnValue().Set(info.This());
 };
 
-NAN_METHOD(SVM::Predict) {
+void SVM::Predict(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("SVM::Predict");
 
   if (!info[0]->IsArray() && !Mat::hasInstance(info[0])) {
@@ -136,11 +136,11 @@ NAN_METHOD(SVM::Predict) {
   info.GetReturnValue().Set(jsResult);
 }
 
-NAN_METHOD(SVM::GetSupportVectors) {
+void SVM::GetSupportVectors(const Napi::CallbackInfo& info) {
   info.GetReturnValue().Set(Mat::Converter::wrap(SVM::unwrapSelf(info)->getSupportVectors()));
 }
 
-NAN_METHOD(SVM::GetUncompressedSupportVectors) {
+void SVM::GetUncompressedSupportVectors(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("SVM::GetUncompressedSupportVectors");
 #if CV_VERSION_GREATER_EQUAL(3, 2, 0)
   info.GetReturnValue().Set(Mat::Converter::wrap(SVM::unwrapSelf(info)->getUncompressedSupportVectors()));
@@ -149,7 +149,7 @@ NAN_METHOD(SVM::GetUncompressedSupportVectors) {
 #endif
 }
 
-NAN_METHOD(SVM::GetDecisionFunction) {
+void SVM::GetDecisionFunction(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("SVM::GetDecisionFunction");
 
   if (!info[0]->IsNumber()) {
@@ -164,14 +164,14 @@ NAN_METHOD(SVM::GetDecisionFunction) {
   cv::Mat alpha, svidx;
   double rho = SVM::unwrapSelf(info)->getDecisionFunction(i, alpha, svidx);
 
-  Napi::Object ret = Nan::New<v8::Object>();
+  Napi::Object ret = Napi::Object::New(env);
   Nan::Set(ret, FF::newString(env, "rho"), Nan::New((double)rho));
   Nan::Set(ret, FF::newString(env, "alpha"), Mat::Converter::wrap(alpha));
   Nan::Set(ret, FF::newString(env, "svidx"), Mat::Converter::wrap(svidx));
   info.GetReturnValue().Set(ret);
 }
 
-NAN_METHOD(SVM::CalcError) {
+void SVM::CalcError(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("SVM::CalcError");
   cv::Ptr<cv::ml::TrainData> trainData;
   bool test;
@@ -183,13 +183,13 @@ NAN_METHOD(SVM::CalcError) {
   Napi::Object jsResponses = FF::newInstance(Nan::New(Mat::constructor));
   float error = SVM::unwrapSelf(info)->calcError(trainData, test, Mat::Converter::unwrapUnchecked(jsResponses));
 
-  Napi::Object ret = Nan::New<v8::Object>();
+  Napi::Object ret = Napi::Object::New(env);
   Nan::Set(ret, FF::newString(env, "error"), Nan::New((double)error));
   Nan::Set(ret, FF::newString(env, "responses"), jsResponses);
   info.GetReturnValue().Set(ret);
 }
 
-NAN_METHOD(SVM::Save) {
+void SVM::Save(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("SVM::Save");
 
   std::string path;
@@ -199,7 +199,7 @@ NAN_METHOD(SVM::Save) {
   SVM::unwrapSelf(info)->save(path);
 }
 
-NAN_METHOD(SVM::Load) {
+void SVM::Load(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("SVM::Load");
 
   std::string path;
@@ -213,7 +213,7 @@ NAN_METHOD(SVM::Load) {
 #endif
 }
 
-NAN_METHOD(SVM::Train) {
+void SVM::Train(const Napi::CallbackInfo& info) {
   bool isTrainFromTrainData = TrainData::hasInstance(info[0]);
   if (isTrainFromTrainData) {
     FF::executeSyncBinding(
@@ -228,7 +228,7 @@ NAN_METHOD(SVM::Train) {
   }
 }
 
-NAN_METHOD(SVM::TrainAsync) {
+void SVM::TrainAsync(const Napi::CallbackInfo& info) {
   bool isTrainFromTrainData = TrainData::hasInstance(info[0]);
   if (isTrainFromTrainData) {
     FF::executeAsyncBinding(
@@ -243,14 +243,14 @@ NAN_METHOD(SVM::TrainAsync) {
   }
 }
 
-NAN_METHOD(SVM::TrainAuto) {
+void SVM::TrainAuto(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<SVMBindings::TrainAutoWorker>(SVM::unwrapSelf(info)),
       "SVM::TrainAuto",
       info);
 }
 
-NAN_METHOD(SVM::TrainAutoAsync) {
+void SVM::TrainAutoAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<SVMBindings::TrainAutoWorker>(SVM::unwrapSelf(info)),
       "SVM::TrainAutoAsync",

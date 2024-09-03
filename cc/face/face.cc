@@ -15,16 +15,16 @@
 #include "FacemarkLBFParams.h"
 #endif
 
-NAN_MODULE_INIT(Face::Init) {
-  EigenFaceRecognizer::Init(target);
-  FisherFaceRecognizer::Init(target);
-  LBPHFaceRecognizer::Init(target);
+Napi::Object Face(Napi::Env env, Napi::Object exports) {
+  EigenFaceRecognizer::Init(env, exports);
+  FisherFaceRecognizer::Init(env, exports);
+  LBPHFaceRecognizer::Init(env, exports);
 #if CV_VERSION_GREATER_EQUAL(3, 4, 0)
-  FacemarkAAM::Init(target);
-  FacemarkAAMData::Init(target);
-  FacemarkAAMParams::Init(target);
-  FacemarkLBF::Init(target);
-  FacemarkLBFParams::Init(target);
+  FacemarkAAM::Init(env, exports);
+  FacemarkAAMData::Init(env, exports);
+  FacemarkAAMParams::Init(env, exports);
+  FacemarkLBF::Init(env, exports);
+  FacemarkLBFParams::Init(env, exports);
 #endif
 };
 

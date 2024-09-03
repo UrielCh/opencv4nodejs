@@ -8,7 +8,7 @@
 
 Nan::Persistent<v8::FunctionTemplate> FacemarkLBFParams::constructor;
 
-NAN_MODULE_INIT(FacemarkLBFParams::Init) {
+Napi::Object FacemarkLBFParams(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor =
       Nan::New<v8::FunctionTemplate>(FacemarkLBFParams::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
@@ -37,7 +37,7 @@ NAN_MODULE_INIT(FacemarkLBFParams::Init) {
   Nan::Set(target, FF::newString(env, "FacemarkLBFParams"), FF::getFunction(ctor));
 };
 
-NAN_METHOD(FacemarkLBFParams::New) {
+void FacemarkLBFParams::New(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("FacemarkLBFParams::New");
   FF_ASSERT_CONSTRUCT_CALL();
   FacemarkLBFParams* self = new FacemarkLBFParams();

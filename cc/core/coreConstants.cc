@@ -2,7 +2,7 @@
 
 using namespace cv;
 
-void CoreConstants::Init(Napi::Object target) {
+void CoreConstants::Init(Napi::Env env, Napi::Object exports) {
   FF_SET_CV_CONSTANT(target, NORM_INF);
   FF_SET_CV_CONSTANT(target, NORM_L1);
   FF_SET_CV_CONSTANT(target, NORM_L2);
@@ -17,13 +17,13 @@ void CoreConstants::Init(Napi::Object target) {
   FF_SET_CV_CONSTANT(target, KMEANS_PP_CENTERS);
   FF_SET_CV_CONSTANT(target, KMEANS_USE_INITIAL_LABELS);
 
-  Napi::Object termCriteriaTypes = Nan::New<v8::Object>();
+  Napi::Object termCriteriaTypes = Napi::Object::New(env);
   FF_SET_JS_PROP(termCriteriaTypes, COUNT, Nan::New<v8::Integer>(cv::TermCriteria::COUNT));
   FF_SET_JS_PROP(termCriteriaTypes, MAX_ITER, Nan::New<v8::Integer>(cv::TermCriteria::MAX_ITER));
   FF_SET_JS_PROP(termCriteriaTypes, EPS, Nan::New<v8::Integer>(cv::TermCriteria::EPS));
   Nan::Set(target, FF::newString(env, "termCriteria"), termCriteriaTypes);
 
-  Napi::Object haarCascades = Nan::New<v8::Object>();
+  Napi::Object haarCascades = Napi::Object::New(env);
   FF_SET_CONST_WITH_VALUE(haarCascades, HAAR_EYE, FF::newString(env, "./haarcascade_eye.xml"));
   FF_SET_CONST_WITH_VALUE(haarCascades, HAAR_EYE_TREE_EYEGLASSES, FF::newString(env, "./haarcascade_eye_tree_eyeglasses.xml"));
   FF_SET_CONST_WITH_VALUE(haarCascades, HAAR_FRONTALCATFACE, FF::newString(env, "./haarcascade_frontalcatface.xml"));
@@ -43,7 +43,7 @@ void CoreConstants::Init(Napi::Object target) {
   FF_SET_CONST_WITH_VALUE(haarCascades, HAAR_UPPERBODY, FF::newString(env, "./haarcascade_upperbody.xml"));
   Nan::Set(target, FF::newString(env, "haarCascades"), haarCascades);
 
-  Napi::Object lbpCascades = Nan::New<v8::Object>();
+  Napi::Object lbpCascades = Napi::Object::New(env);
   FF_SET_CONST_WITH_VALUE(lbpCascades, LBP_FRONTALCATFACE, FF::newString(env, "./lbpcascade_frontalcatface.xml"));
   FF_SET_CONST_WITH_VALUE(lbpCascades, LBP_FRONTALFACE, FF::newString(env, "./lbpcascade_frontalface.xml"));
   FF_SET_CONST_WITH_VALUE(lbpCascades, LBP_FRONTALFACE_IMPROVED, FF::newString(env, "./lbpcascade_frontalface_improved.xml"));

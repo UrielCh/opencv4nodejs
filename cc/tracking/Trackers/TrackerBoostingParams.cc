@@ -6,7 +6,7 @@
 
 Nan::Persistent<v8::FunctionTemplate> TrackerBoostingParams::constructor;
 
-NAN_MODULE_INIT(TrackerBoostingParams::Init) {
+Napi::Object TrackerBoostingParams(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(TrackerBoostingParams::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
@@ -23,7 +23,7 @@ NAN_MODULE_INIT(TrackerBoostingParams::Init) {
   Nan::Set(target, FF::newString(env, "TrackerBoostingParams"), FF::getFunction(ctor));
 };
 
-NAN_METHOD(TrackerBoostingParams::New) {
+void TrackerBoostingParams::New(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("TrackerBoostingParams::New");
   FF_ASSERT_CONSTRUCT_CALL();
   TrackerBoostingParams* self = new TrackerBoostingParams();

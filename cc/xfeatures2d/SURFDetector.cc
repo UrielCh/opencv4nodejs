@@ -6,7 +6,7 @@
 
 Nan::Persistent<v8::FunctionTemplate> SURFDetector::constructor;
 
-NAN_MODULE_INIT(SURFDetector::Init) {
+Napi::Object SURFDetector(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(SURFDetector::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
@@ -24,7 +24,7 @@ NAN_MODULE_INIT(SURFDetector::Init) {
   Nan::Set(target, Nan::New("SURFDetector").ToLocalChecked(), FF::getFunction(ctor));
 };
 
-NAN_METHOD(SURFDetector::New) {
+void SURFDetector::New(const Napi::CallbackInfo& info) {
   constructorBinding<Constructor>(info);
 }
 

@@ -10,11 +10,11 @@ void MatPhoto::Init(Napi::FunctionReference ctor) {
   Nan::SetPrototypeMethod(ctor, "seamlessCloneAsync", SeamlessCloneAsync);
 };
 
-NAN_METHOD(MatPhoto::SeamlessClone) {
+void MatPhoto::SeamlessClone(const Napi::CallbackInfo& info) {
   Mat::syncBinding<PhotoBindings::SeamlessClone>("SeamlessClone", info);
 }
 
-NAN_METHOD(MatPhoto::SeamlessCloneAsync) {
+void MatPhoto::SeamlessCloneAsync(const Napi::CallbackInfo& info) {
   Mat::asyncBinding<PhotoBindings::SeamlessClone>("SeamlessClone", info);
 }
 

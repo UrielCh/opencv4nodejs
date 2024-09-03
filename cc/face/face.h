@@ -7,7 +7,7 @@
 
 class Face {
 public:
-  static NAN_MODULE_INIT(Init);
+  static Napi::Object Init(Napi::Env env, Napi::Object exports);
 };
 
 #endif

@@ -6,7 +6,7 @@
 
 Nan::Persistent<v8::FunctionTemplate> TrackerMILParams::constructor;
 
-NAN_MODULE_INIT(TrackerMILParams::Init) {
+Napi::Object TrackerMILParams(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(TrackerMILParams::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
@@ -25,7 +25,7 @@ NAN_MODULE_INIT(TrackerMILParams::Init) {
   Nan::Set(target, FF::newString(env, "TrackerMILParams"), FF::getFunction(ctor));
 };
 
-NAN_METHOD(TrackerMILParams::New) {
+void TrackerMILParams::New(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("TrackerMILParams::New");
   FF_ASSERT_CONSTRUCT_CALL();
   TrackerMILParams* self = new TrackerMILParams();

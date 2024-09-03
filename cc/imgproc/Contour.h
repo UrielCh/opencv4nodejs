@@ -16,8 +16,8 @@ public:
 
   cv::Vec4i hierarchy;
 
-  static NAN_MODULE_INIT(Init);
-  static NAN_METHOD(New);
+  static Napi::Object Init(Napi::Env env, Napi::Object exports);
+  static void New(const Napi::CallbackInfo& info);
 
   static NAN_GETTER(GetNumPoints) {
     info.GetReturnValue().Set(Nan::New((uint)Contour::unwrapSelf(info).size()));
@@ -35,23 +35,23 @@ public:
     info.GetReturnValue().Set(Nan::New(cv::isContourConvex(Contour::unwrapSelf(info))));
   }
 
-  static NAN_METHOD(GetPoints);
-  static NAN_METHOD(ApproxPolyDP);
-  static NAN_METHOD(ApproxPolyDPAsync);
-  static NAN_METHOD(ApproxPolyDPContour);
-  static NAN_METHOD(ArcLength);
-  static NAN_METHOD(BoundingRect);
-  static NAN_METHOD(ConvexHull);
-  static NAN_METHOD(ConvexHullAsync);
-  static NAN_METHOD(ConvexHullIndices);
-  static NAN_METHOD(ConvexHullIndicesAsync);
-  static NAN_METHOD(ConvexityDefects);
-  static NAN_METHOD(MinEnclosingCircle);
-  static NAN_METHOD(MinEnclosingTriangle);
-  static NAN_METHOD(PointPolygonTest);
-  static NAN_METHOD(MatchShapes);
-  static NAN_METHOD(FitEllipse);
-  static NAN_METHOD(MinAreaRect);
+  static void GetPoints(const Napi::CallbackInfo& info);
+  static void ApproxPolyDP(const Napi::CallbackInfo& info);
+  static void ApproxPolyDPAsync(const Napi::CallbackInfo& info);
+  static void ApproxPolyDPContour(const Napi::CallbackInfo& info);
+  static void ArcLength(const Napi::CallbackInfo& info);
+  static void BoundingRect(const Napi::CallbackInfo& info);
+  static void ConvexHull(const Napi::CallbackInfo& info);
+  static void ConvexHullAsync(const Napi::CallbackInfo& info);
+  static void ConvexHullIndices(const Napi::CallbackInfo& info);
+  static void ConvexHullIndicesAsync(const Napi::CallbackInfo& info);
+  static void ConvexityDefects(const Napi::CallbackInfo& info);
+  static void MinEnclosingCircle(const Napi::CallbackInfo& info);
+  static void MinEnclosingTriangle(const Napi::CallbackInfo& info);
+  static void PointPolygonTest(const Napi::CallbackInfo& info);
+  static void MatchShapes(const Napi::CallbackInfo& info);
+  static void FitEllipse(const Napi::CallbackInfo& info);
+  static void MinAreaRect(const Napi::CallbackInfo& info);
   static NAN_METHOD(_Moments);
 };
 

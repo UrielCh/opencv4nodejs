@@ -6,7 +6,7 @@
 
 Nan::Persistent<v8::FunctionTemplate> AKAZEDetector::constructor;
 
-NAN_MODULE_INIT(AKAZEDetector::Init) {
+Napi::Object AKAZEDetector(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(AKAZEDetector::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
@@ -25,11 +25,11 @@ NAN_MODULE_INIT(AKAZEDetector::Init) {
 
   Nan::Set(target, Nan::New("AKAZEDetector").ToLocalChecked(), FF::getFunction(ctor));
 #if CV_VERSION_GREATER_EQUAL(4, 0, 0)
-  DescriptorType::init(target);
+  DescriptorType::Init(env, exports);
 #endif
 };
 
-NAN_METHOD(AKAZEDetector::New) {
+void AKAZEDetector::New(const Napi::CallbackInfo& info) {
   NewBinding().construct(info);
 }
 

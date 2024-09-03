@@ -5,27 +5,27 @@
 #include "text.h"
 #include "textBindings.h"
 
-NAN_MODULE_INIT(Text::Init) {
-  OCRHMMDecoder::Init(target);
-  OCRHMMClassifier::Init(target);
-  Nan::SetMethod(target, "loadOCRHMMClassifierNM", LoadOCRHMMClassifierNM);
-  Nan::SetMethod(target, "loadOCRHMMClassifierNMAsync", LoadOCRHMMClassifierNMAsync);
+Napi::Object Text(Napi::Env env, Napi::Object exports) {
+  OCRHMMDecoder::Init(env, exports);
+  OCRHMMClassifier::Init(env, exports);
+  exports.Set("loadOCRHMMClassifierNM", Napi::Function::New(env, Text::LoadOCRHMMClassifierNM));
+  exports.Set("loadOCRHMMClassifierNMAsync", Napi::Function::New(env, Text::LoadOCRHMMClassifierNMAsync));
 #if CV_VERSION_GREATER_EQUAL(3, 1, 0)
-  Nan::SetMethod(target, "loadOCRHMMClassifierCNN", LoadOCRHMMClassifierCNN);
-  Nan::SetMethod(target, "loadOCRHMMClassifierCNNAsync", LoadOCRHMMClassifierCNNAsync);
-  Nan::SetMethod(target, "createOCRHMMTransitionsTable", CreateOCRHMMTransitionsTable);
-  Nan::SetMethod(target, "createOCRHMMTransitionsTableAsync", CreateOCRHMMTransitionsTableAsync);
+  exports.Set("loadOCRHMMClassifierCNN", Napi::Function::New(env, Text::LoadOCRHMMClassifierCNN));
+  exports.Set("loadOCRHMMClassifierCNNAsync", Napi::Function::New(env, Text::LoadOCRHMMClassifierCNNAsync));
+  exports.Set("createOCRHMMTransitionsTable", Napi::Function::New(env, Text::CreateOCRHMMTransitionsTable));
+  exports.Set("createOCRHMMTransitionsTableAsync", Napi::Function::New(env, Text::CreateOCRHMMTransitionsTableAsync));
 #endif
 }
 
-NAN_METHOD(Text::LoadOCRHMMClassifierNM) {
+void Text::LoadOCRHMMClassifierNM(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<TextBindings::LoadOCRHMMClassifierNMWorker>(),
       "Text::LoadOCRHMMClassifierNM",
       info);
 }
 
-NAN_METHOD(Text::LoadOCRHMMClassifierNMAsync) {
+void Text::LoadOCRHMMClassifierNMAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<TextBindings::LoadOCRHMMClassifierNMWorker>(),
       "Text::LoadOCRHMMClassifierNMAsync",
@@ -34,28 +34,28 @@ NAN_METHOD(Text::LoadOCRHMMClassifierNMAsync) {
 
 #if CV_VERSION_GREATER_EQUAL(3, 1, 0)
 
-NAN_METHOD(Text::LoadOCRHMMClassifierCNN) {
+void Text::LoadOCRHMMClassifierCNN(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<TextBindings::LoadOCRHMMClassifierCNNWorker>(),
       "Text::LoadOCRHMMClassifierCNN",
       info);
 }
 
-NAN_METHOD(Text::LoadOCRHMMClassifierCNNAsync) {
+void Text::LoadOCRHMMClassifierCNNAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<TextBindings::LoadOCRHMMClassifierCNNWorker>(),
       "Text::LoadOCRHMMClassifierCNNAsync",
       info);
 }
 
-NAN_METHOD(Text::CreateOCRHMMTransitionsTable) {
+void Text::CreateOCRHMMTransitionsTable(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<TextBindings::CreateOCRHMMTransitionsTableWorker>(),
       "Text::CreateOCRHMMTransitionsTable",
       info);
 }
 
-NAN_METHOD(Text::CreateOCRHMMTransitionsTableAsync) {
+void Text::CreateOCRHMMTransitionsTableAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<TextBindings::CreateOCRHMMTransitionsTableWorker>(),
       "Text::CreateOCRHMMTransitionsTableAsync",

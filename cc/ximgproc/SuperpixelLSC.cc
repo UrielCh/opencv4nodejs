@@ -8,7 +8,7 @@
 
 Nan::Persistent<v8::FunctionTemplate> SuperpixelLSC::constructor;
 
-NAN_MODULE_INIT(SuperpixelLSC::Init) {
+Napi::Object SuperpixelLSC(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(SuperpixelLSC::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
   constructor.Reset(ctor);
@@ -27,7 +27,7 @@ NAN_MODULE_INIT(SuperpixelLSC::Init) {
   Nan::Set(target, Nan::New("SuperpixelLSC").ToLocalChecked(), FF::getFunction(ctor));
 };
 
-NAN_METHOD(SuperpixelLSC::New) {
+void SuperpixelLSC::New(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("SuperpixelLSC::New");
   FF_ASSERT_CONSTRUCT_CALL();
   SuperpixelLSC::NewWorker worker;
@@ -48,7 +48,7 @@ NAN_METHOD(SuperpixelLSC::New) {
   info.GetReturnValue().Set(info.Holder());
 }
 
-NAN_METHOD(SuperpixelLSC::Iterate) {
+void SuperpixelLSC::Iterate(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("SuperpixelLSC::Iterate");
 
   uint iterations = 10;

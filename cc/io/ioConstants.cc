@@ -6,7 +6,7 @@
 
 using namespace cv;
 
-void IoConstants::Init(Napi::Object target) {
+void IoConstants::Init(Napi::Env env, Napi::Object exports) {
   FF_SET_CV_CONSTANT(target, CAP_PROP_POS_MSEC);
   FF_SET_CV_CONSTANT(target, CAP_PROP_POS_FRAMES);
   FF_SET_CV_CONSTANT(target, CAP_PROP_POS_AVI_RATIO);

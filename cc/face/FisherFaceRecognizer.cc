@@ -7,7 +7,7 @@
 
 Nan::Persistent<v8::FunctionTemplate> FisherFaceRecognizer::constructor;
 
-NAN_MODULE_INIT(FisherFaceRecognizer::Init) {
+Napi::Object FisherFaceRecognizer(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(FisherFaceRecognizer::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
@@ -19,7 +19,7 @@ NAN_MODULE_INIT(FisherFaceRecognizer::Init) {
   Nan::Set(target, Nan::New("FisherFaceRecognizer").ToLocalChecked(), FF::getFunction(ctor));
 };
 
-NAN_METHOD(FisherFaceRecognizer::New) {
+void FisherFaceRecognizer::New(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("FisherFaceRecognizer::New");
   FF_ASSERT_CONSTRUCT_CALL();
   FaceRecognizerBindings::NewWorker worker;

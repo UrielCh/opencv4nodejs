@@ -55,7 +55,7 @@ public:
     if (isGpu) {
       return Rect::ArrayWithCastConverter<cv::Rect>::wrap(objectRects);
     } else {
-      Napi::Object ret = Nan::New<v8::Object>();
+      Napi::Object ret = Napi::Object::New(env);
       Nan::Set(ret, FF::newString(env, "objects"), Rect::ArrayWithCastConverter<cv::Rect>::wrap(objectRects));
       Nan::Set(ret, FF::newString(env, "numDetections"), FF::IntArrayConverter::wrap(numDetections));
       return ret;
@@ -102,7 +102,7 @@ public:
   }
 
   Napi::Value getReturnValue() {
-    Napi::Object ret = Nan::New<v8::Object>();
+    Napi::Object ret = Napi::Object::New(env);
     Nan::Set(ret, FF::newString(env, "objects"), Rect::ArrayWithCastConverter<cv::Rect>::wrap(objectRects));
     Nan::Set(ret, FF::newString(env, "rejectLevels"), FF::IntArrayConverter::wrap(rejectLevels));
     Nan::Set(ret, FF::newString(env, "levelWeights"), FF::DoubleArrayConverter::wrap(levelWeights));

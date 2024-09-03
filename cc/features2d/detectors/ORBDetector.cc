@@ -6,7 +6,7 @@
 
 Nan::Persistent<v8::FunctionTemplate> ORBDetector::constructor;
 
-NAN_MODULE_INIT(ORBDetector::Init) {
+Napi::Object ORBDetector(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(ORBDetector::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
@@ -27,11 +27,11 @@ NAN_MODULE_INIT(ORBDetector::Init) {
 
   Nan::Set(target, Nan::New("ORBDetector").ToLocalChecked(), FF::getFunction(ctor));
 #if CV_VERSION_GREATER_EQUAL(4, 0, 0)
-  ScoreType::init(target);
+  ScoreType::Init(env, exports);
 #endif
 };
 
-NAN_METHOD(ORBDetector::New) {
+void ORBDetector::New(const Napi::CallbackInfo& info) {
   NewBinding().construct(info);
 }
 

@@ -24,16 +24,16 @@
 #include "./Trackers/TrackerCSRT.h"
 #endif
 
-NAN_MODULE_INIT(Tracking::Init) {
-  TrackerBoosting::Init(target);
-  TrackerMedianFlow::Init(target);
-  TrackerMIL::Init(target);
-  TrackerTLD::Init(target);
+Napi::Object Tracking(Napi::Env env, Napi::Object exports) {
+  TrackerBoosting::Init(env, exports);
+  TrackerMedianFlow::Init(env, exports);
+  TrackerMIL::Init(env, exports);
+  TrackerTLD::Init(env, exports);
 
 #if CV_VERSION_GREATER_EQUAL(3, 1, 0)
-  TrackerKCF::Init(target);
-  MultiTracker::Init(target);
-  Napi::Object trackerKCFModes = Nan::New<v8::Object>();
+  TrackerKCF::Init(env, exports);
+  MultiTracker::Init(env, exports);
+  Napi::Object trackerKCFModes = Napi::Object::New(env);
   FF_SET_JS_PROP(trackerKCFModes, GRAY, Nan::New<v8::Integer>(cv::TrackerKCF::MODE::GRAY));
   FF_SET_JS_PROP(trackerKCFModes, CN, Nan::New<v8::Integer>(cv::TrackerKCF::MODE::CN));
   FF_SET_JS_PROP(trackerKCFModes, CUSTOM, Nan::New<v8::Integer>(cv::TrackerKCF::MODE::CUSTOM));
@@ -41,14 +41,14 @@ NAN_MODULE_INIT(Tracking::Init) {
 #endif
 
 #if CV_VERSION_GREATER_EQUAL(3, 2, 0)
-  TrackerGOTURN::Init(target);
+  TrackerGOTURN::Init(env, exports);
 #endif
 
 #if CV_VERSION_GREATER_EQUAL(3, 4, 0)
-  TrackerMOSSE::Init(target);
+  TrackerMOSSE::Init(env, exports);
 #endif
 #if CV_VERSION_GREATER_EQUAL(3, 4, 1)
-  TrackerCSRT::Init(target);
+  TrackerCSRT::Init(env, exports);
 #endif
 };
 

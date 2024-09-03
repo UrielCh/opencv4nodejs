@@ -9,28 +9,28 @@
 
 class Dnn {
 public:
-  static NAN_MODULE_INIT(Init);
+  static Napi::Object Init(Napi::Env env, Napi::Object exports);
 
-  static NAN_METHOD(ReadNetFromTensorflow);
-  static NAN_METHOD(ReadNetFromTensorflowAsync);
-  static NAN_METHOD(ReadNetFromCaffe);
-  static NAN_METHOD(ReadNetFromCaffeAsync);
-  static NAN_METHOD(BlobFromImage);
-  static NAN_METHOD(BlobFromImageAsync);
-  static NAN_METHOD(BlobFromImages);
-  static NAN_METHOD(BlobFromImagesAsync);
+  static void ReadNetFromTensorflow(const Napi::CallbackInfo& info);
+  static void ReadNetFromTensorflowAsync(const Napi::CallbackInfo& info);
+  static void ReadNetFromCaffe(const Napi::CallbackInfo& info);
+  static void ReadNetFromCaffeAsync(const Napi::CallbackInfo& info);
+  static void BlobFromImage(const Napi::CallbackInfo& info);
+  static void BlobFromImageAsync(const Napi::CallbackInfo& info);
+  static void BlobFromImages(const Napi::CallbackInfo& info);
+  static void BlobFromImagesAsync(const Napi::CallbackInfo& info);
 #if CV_VERSION_GREATER_EQUAL(3, 4, 0)
-  static NAN_METHOD(ReadNetFromDarknet);
-  static NAN_METHOD(ReadNetFromDarknetAsync);
-  static NAN_METHOD(NMSBoxes);
+  static void ReadNetFromDarknet(const Napi::CallbackInfo& info);
+  static void ReadNetFromDarknetAsync(const Napi::CallbackInfo& info);
+  static void NMSBoxes(const Napi::CallbackInfo& info);
 #endif
 #if CV_VERSION_GREATER_EQUAL(4, 0, 0)
-  static NAN_METHOD(ReadNetFromONNX);
-  static NAN_METHOD(ReadNetFromONNXAsync);
+  static void ReadNetFromONNX(const Napi::CallbackInfo& info);
+  static void ReadNetFromONNXAsync(const Napi::CallbackInfo& info);
 #endif
 #if CV_VERSION_GREATER_EQUAL(3, 4, 2)
-  static NAN_METHOD(ReadNet);
-  static NAN_METHOD(ReadNetAsync);
+  static void ReadNet(const Napi::CallbackInfo& info);
+  static void ReadNetAsync(const Napi::CallbackInfo& info);
 #endif
 };
 

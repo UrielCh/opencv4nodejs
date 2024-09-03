@@ -19,21 +19,21 @@ public:
 
   static void Init(Napi::FunctionReference);
 
-  static NAN_METHOD(AddTrainingSample);
-  static NAN_METHOD(AddTrainingSampleAsync);
-  static NAN_METHOD(LoadModel);
-  static NAN_METHOD(LoadModelAsync);
-  static NAN_METHOD(GetData);
-  static NAN_METHOD(GetDataAsync);
-  static NAN_METHOD(GetFaces);
-  static NAN_METHOD(GetFacesAsync);
-  static NAN_METHOD(SetFaceDetector);
-  static NAN_METHOD(Training);
-  static NAN_METHOD(TrainingAsync);
-  static NAN_METHOD(Fit);
-  static NAN_METHOD(FitAsync);
-  static NAN_METHOD(Save);
-  static NAN_METHOD(Load);
+  static void AddTrainingSample(const Napi::CallbackInfo& info);
+  static void AddTrainingSampleAsync(const Napi::CallbackInfo& info);
+  static void LoadModel(const Napi::CallbackInfo& info);
+  static void LoadModelAsync(const Napi::CallbackInfo& info);
+  static void GetData(const Napi::CallbackInfo& info);
+  static void GetDataAsync(const Napi::CallbackInfo& info);
+  static void GetFaces(const Napi::CallbackInfo& info);
+  static void GetFacesAsync(const Napi::CallbackInfo& info);
+  static void SetFaceDetector(const Napi::CallbackInfo& info);
+  static void Training(const Napi::CallbackInfo& info);
+  static void TrainingAsync(const Napi::CallbackInfo& info);
+  static void Fit(const Napi::CallbackInfo& info);
+  static void FitAsync(const Napi::CallbackInfo& info);
+  static void Save(const Napi::CallbackInfo& info);
+  static void Load(const Napi::CallbackInfo& info);
 
   static bool detector(cv::InputArray image, cv::OutputArray faces,
                        Nan::Callback* callback);

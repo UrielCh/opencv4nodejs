@@ -7,7 +7,7 @@
 
 Nan::Persistent<v8::FunctionTemplate> CascadeClassifier::constructor;
 
-NAN_MODULE_INIT(CascadeClassifier::Init) {
+Napi::Object CascadeClassifier(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(CascadeClassifier::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
@@ -25,7 +25,7 @@ NAN_MODULE_INIT(CascadeClassifier::Init) {
   Nan::Set(target, FF::newString(env, "CascadeClassifier"), FF::getFunction(ctor));
 };
 
-NAN_METHOD(CascadeClassifier::New) {
+void CascadeClassifier::New(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("CascadeClassifier::New");
   FF_ASSERT_CONSTRUCT_CALL();
   CascadeClassifierBindings::NewWorker worker;
@@ -43,42 +43,42 @@ NAN_METHOD(CascadeClassifier::New) {
   info.GetReturnValue().Set(info.Holder());
 }
 
-NAN_METHOD(CascadeClassifier::DetectMultiScale) {
+void CascadeClassifier::DetectMultiScale(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<CascadeClassifierBindings::DetectMultiScaleWorker>(CascadeClassifier::unwrapSelf(info)),
       "CascadeClassifier::DetectMultiScale",
       info);
 }
 
-NAN_METHOD(CascadeClassifier::DetectMultiScaleAsync) {
+void CascadeClassifier::DetectMultiScaleAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<CascadeClassifierBindings::DetectMultiScaleWorker>(CascadeClassifier::unwrapSelf(info)),
       "CascadeClassifier::DetectMultiScaleAsync",
       info);
 }
 
-NAN_METHOD(CascadeClassifier::DetectMultiScaleGpu) {
+void CascadeClassifier::DetectMultiScaleGpu(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<CascadeClassifierBindings::DetectMultiScaleWorker>(CascadeClassifier::unwrapSelf(info)),
       "CascadeClassifier::DetectMultiScaleGpu",
       info);
 }
 
-NAN_METHOD(CascadeClassifier::DetectMultiScaleWithRejectLevels) {
+void CascadeClassifier::DetectMultiScaleWithRejectLevels(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<CascadeClassifierBindings::DetectMultiScaleWithRejectLevelsWorker>(CascadeClassifier::unwrapSelf(info)),
       "CascadeClassifier::DetectMultiScaleWithRejectLevels",
       info);
 }
 
-NAN_METHOD(CascadeClassifier::DetectMultiScaleWithRejectLevelsAsync) {
+void CascadeClassifier::DetectMultiScaleWithRejectLevelsAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<CascadeClassifierBindings::DetectMultiScaleWithRejectLevelsWorker>(CascadeClassifier::unwrapSelf(info)),
       "CascadeClassifier::DetectMultiScaleWithRejectLevelsAsync",
       info);
 }
 
-NAN_METHOD(CascadeClassifier::DetectMultiScaleWithRejectLevelsGpu) {
+void CascadeClassifier::DetectMultiScaleWithRejectLevelsGpu(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<CascadeClassifierBindings::DetectMultiScaleWithRejectLevelsWorker>(CascadeClassifier::unwrapSelf(info)),
       "CascadeClassifier::DetectMultiScaleWithRejectLevelsGpu",

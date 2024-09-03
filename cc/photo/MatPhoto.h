@@ -8,8 +8,8 @@ class MatPhoto {
 public:
   static void Init(Napi::FunctionReference ctor);
 
-  static NAN_METHOD(SeamlessClone);
-  static NAN_METHOD(SeamlessCloneAsync);
+  static void SeamlessClone(const Napi::CallbackInfo& info);
+  static void SeamlessCloneAsync(const Napi::CallbackInfo& info);
 };
 
 #endif

@@ -15,10 +15,10 @@ public:
 
   static void Init(Napi::FunctionReference);
 
-  static NAN_METHOD(Compare);
-  static NAN_METHOD(CompareAsync);
-  static NAN_METHOD(Compute);
-  static NAN_METHOD(ComputeAsync);
+  static void Compare(const Napi::CallbackInfo& info);
+  static void CompareAsync(const Napi::CallbackInfo& info);
+  static void Compute(const Napi::CallbackInfo& info);
+  static void ComputeAsync(const Napi::CallbackInfo& info);
 };
 
 #endif

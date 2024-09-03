@@ -8,7 +8,7 @@
 
 Nan::Persistent<v8::FunctionTemplate> FacemarkAAMData::constructor;
 
-NAN_MODULE_INIT(FacemarkAAMData::Init) {
+Napi::Object FacemarkAAMData(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor =
       Nan::New<v8::FunctionTemplate>(FacemarkAAMData::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
@@ -22,7 +22,7 @@ NAN_MODULE_INIT(FacemarkAAMData::Init) {
   Nan::Set(target, FF::newString(env, "FacemarkAAMData"), FF::getFunction(ctor));
 };
 
-NAN_METHOD(FacemarkAAMData::New) {
+void FacemarkAAMData::New(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("FacemarkAAMData::New");
   FF_ASSERT_CONSTRUCT_CALL();
   FacemarkAAMData* self = new FacemarkAAMData();

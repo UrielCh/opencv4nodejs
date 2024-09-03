@@ -16,17 +16,17 @@ public:
 
   std::string path;
 
-  static NAN_MODULE_INIT(Init);
+  static Napi::Object Init(Napi::Env env, Napi::Object exports);
 
-  static NAN_METHOD(New);
-  static NAN_METHOD(Fourcc);
-  static NAN_METHOD(Write);
-  static NAN_METHOD(WriteAsync);
-  static NAN_METHOD(Get);
-  static NAN_METHOD(GetAsync);
-  static NAN_METHOD(Set);
-  static NAN_METHOD(SetAsync);
-  static NAN_METHOD(Release);
+  static void New(const Napi::CallbackInfo& info);
+  static void Fourcc(const Napi::CallbackInfo& info);
+  static void Write(const Napi::CallbackInfo& info);
+  static void WriteAsync(const Napi::CallbackInfo& info);
+  static void Get(const Napi::CallbackInfo& info);
+  static void GetAsync(const Napi::CallbackInfo& info);
+  static void Set(const Napi::CallbackInfo& info);
+  static void SetAsync(const Napi::CallbackInfo& info);
+  static void Release(const Napi::CallbackInfo& info);
 };
 
 #endif

@@ -7,7 +7,7 @@
 
 Nan::Persistent<v8::FunctionTemplate> OCRHMMDecoder::constructor;
 
-NAN_MODULE_INIT(OCRHMMDecoder::Init) {
+Napi::Object OCRHMMDecoder(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(OCRHMMDecoder::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
@@ -23,7 +23,7 @@ NAN_MODULE_INIT(OCRHMMDecoder::Init) {
   Nan::Set(target, FF::newString(env, "OCRHMMDecoder"), FF::getFunction(ctor));
 };
 
-NAN_METHOD(OCRHMMDecoder::New) {
+void OCRHMMDecoder::New(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("OCRHMMDecoder::New");
   FF_ASSERT_CONSTRUCT_CALL();
   OCRHMMDecoderBindings::NewWorker worker;
@@ -48,28 +48,28 @@ NAN_METHOD(OCRHMMDecoder::New) {
   info.GetReturnValue().Set(info.Holder());
 }
 
-NAN_METHOD(OCRHMMDecoder::Run) {
+void OCRHMMDecoder::Run(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<OCRHMMDecoderBindings::RunWorker>(OCRHMMDecoder::unwrapSelf(info)),
       "OCRHMMDecoder::Run",
       info);
 }
 
-NAN_METHOD(OCRHMMDecoder::RunAsync) {
+void OCRHMMDecoder::RunAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<OCRHMMDecoderBindings::RunWorker>(OCRHMMDecoder::unwrapSelf(info)),
       "OCRHMMDecoder::RunAsync",
       info);
 }
 
-NAN_METHOD(OCRHMMDecoder::RunWithInfo) {
+void OCRHMMDecoder::RunWithInfo(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<OCRHMMDecoderBindings::RunWithInfoWorker>(OCRHMMDecoder::unwrapSelf(info)),
       "OCRHMMDecoder::RunWithInfo",
       info);
 }
 
-NAN_METHOD(OCRHMMDecoder::RunWithInfoAsync) {
+void OCRHMMDecoder::RunWithInfoAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<OCRHMMDecoderBindings::RunWithInfoWorker>(OCRHMMDecoder::unwrapSelf(info)),
       "OCRHMMDecoder::RunWithInfoAsync",

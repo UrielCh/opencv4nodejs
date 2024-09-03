@@ -2,7 +2,7 @@
 
 Nan::Persistent<v8::FunctionTemplate> Size::constructor;
 
-NAN_MODULE_INIT(Size::Init) {
+Napi::Object Size(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(Size::New);
   Size::constructor.Reset(ctor);
   ctor->InstanceTemplate()->SetInternalFieldCount(1);
@@ -13,7 +13,7 @@ NAN_MODULE_INIT(Size::Init) {
   Nan::Set(target, Nan::New("Size").ToLocalChecked(), FF::getFunction(ctor));
 };
 
-NAN_METHOD(Size::New) {
+void Size::New(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Size::New");
   FF_ASSERT_CONSTRUCT_CALL();
   Size* self = new Size();

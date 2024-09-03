@@ -10,11 +10,11 @@
 #include "SuperpixelSLIC.h"
 #endif
 
-NAN_MODULE_INIT(XImgproc::Init) {
-  SuperpixelSEEDS::Init(target);
+Napi::Object XImgproc(Napi::Env env, Napi::Object exports) {
+  SuperpixelSEEDS::Init(env, exports);
 #if CV_VERSION_GREATER_EQUAL(3, 1, 0)
-  SuperpixelSLIC::Init(target);
-  SuperpixelLSC::Init(target);
+  SuperpixelSLIC::Init(env, exports);
+  SuperpixelLSC::Init(env, exports);
   FF_SET_JS_PROP(target, SLIC, Nan::New<v8::Integer>(cv::ximgproc::SLIC));
   FF_SET_JS_PROP(target, SLICO, Nan::New<v8::Integer>(cv::ximgproc::SLICO));
 #endif

@@ -5,57 +5,57 @@
 
 class Calib3d {
 public:
-  static NAN_MODULE_INIT(Init);
+  static Napi::Object Init(Napi::Env env, Napi::Object exports);
 
-  static NAN_METHOD(FindHomography);
-  static NAN_METHOD(FindHomographyAsync);
-  static NAN_METHOD(ComposeRT);
-  static NAN_METHOD(ComposeRTAsync);
-  static NAN_METHOD(SolvePnP);
-  static NAN_METHOD(SolvePnPAsync);
-  static NAN_METHOD(SolvePnPRansac);
-  static NAN_METHOD(SolvePnPRansacAsync);
-  static NAN_METHOD(ProjectPoints);
-  static NAN_METHOD(ProjectPointsAsync);
-  static NAN_METHOD(InitCameraMatrix2D);
-  static NAN_METHOD(InitCameraMatrix2DAsync);
-  static NAN_METHOD(StereoCalibrate);
-  static NAN_METHOD(StereoCalibrateAsync);
-  static NAN_METHOD(StereoRectifyUncalibrated);
-  static NAN_METHOD(StereoRectifyUncalibratedAsync);
-  static NAN_METHOD(FindFundamentalMat);
-  static NAN_METHOD(FindFundamentalMatAsync);
-  static NAN_METHOD(FindEssentialMat);
-  static NAN_METHOD(FindEssentialMatAsync);
-  static NAN_METHOD(RecoverPose);
-  static NAN_METHOD(RecoverPoseAsync);
-  static NAN_METHOD(ComputeCorrespondEpilines);
-  static NAN_METHOD(ComputeCorrespondEpilinesAsync);
-  static NAN_METHOD(GetValidDisparityROI);
-  static NAN_METHOD(GetValidDisparityROIAsync);
-  static NAN_METHOD(EstimateAffine3D);
-  static NAN_METHOD(EstimateAffine3DAsync);
+  static void FindHomography(const Napi::CallbackInfo& info);
+  static void FindHomographyAsync(const Napi::CallbackInfo& info);
+  static void ComposeRT(const Napi::CallbackInfo& info);
+  static void ComposeRTAsync(const Napi::CallbackInfo& info);
+  static void SolvePnP(const Napi::CallbackInfo& info);
+  static void SolvePnPAsync(const Napi::CallbackInfo& info);
+  static void SolvePnPRansac(const Napi::CallbackInfo& info);
+  static void SolvePnPRansacAsync(const Napi::CallbackInfo& info);
+  static void ProjectPoints(const Napi::CallbackInfo& info);
+  static void ProjectPointsAsync(const Napi::CallbackInfo& info);
+  static void InitCameraMatrix2D(const Napi::CallbackInfo& info);
+  static void InitCameraMatrix2DAsync(const Napi::CallbackInfo& info);
+  static void StereoCalibrate(const Napi::CallbackInfo& info);
+  static void StereoCalibrateAsync(const Napi::CallbackInfo& info);
+  static void StereoRectifyUncalibrated(const Napi::CallbackInfo& info);
+  static void StereoRectifyUncalibratedAsync(const Napi::CallbackInfo& info);
+  static void FindFundamentalMat(const Napi::CallbackInfo& info);
+  static void FindFundamentalMatAsync(const Napi::CallbackInfo& info);
+  static void FindEssentialMat(const Napi::CallbackInfo& info);
+  static void FindEssentialMatAsync(const Napi::CallbackInfo& info);
+  static void RecoverPose(const Napi::CallbackInfo& info);
+  static void RecoverPoseAsync(const Napi::CallbackInfo& info);
+  static void ComputeCorrespondEpilines(const Napi::CallbackInfo& info);
+  static void ComputeCorrespondEpilinesAsync(const Napi::CallbackInfo& info);
+  static void GetValidDisparityROI(const Napi::CallbackInfo& info);
+  static void GetValidDisparityROIAsync(const Napi::CallbackInfo& info);
+  static void EstimateAffine3D(const Napi::CallbackInfo& info);
+  static void EstimateAffine3DAsync(const Napi::CallbackInfo& info);
 #if CV_VERSION_GREATER_EQUAL(3, 1, 0)
-  static NAN_METHOD(SampsonDistance);
-  static NAN_METHOD(SampsonDistanceAsync);
-  static NAN_METHOD(CalibrateCamera);
-  static NAN_METHOD(CalibrateCameraAsync);
+  static void SampsonDistance(const Napi::CallbackInfo& info);
+  static void SampsonDistanceAsync(const Napi::CallbackInfo& info);
+  static void CalibrateCamera(const Napi::CallbackInfo& info);
+  static void CalibrateCameraAsync(const Napi::CallbackInfo& info);
 #endif
 #if CV_VERSION_GREATER_EQUAL(3, 2, 0)
-  static NAN_METHOD(CalibrateCameraExtended);
-  static NAN_METHOD(CalibrateCameraExtendedAsync);
-  static NAN_METHOD(EstimateAffine2D);
-  static NAN_METHOD(EstimateAffine2DAsync);
-  static NAN_METHOD(EstimateAffinePartial2D);
-  static NAN_METHOD(EstimateAffinePartial2DAsync);
+  static void CalibrateCameraExtended(const Napi::CallbackInfo& info);
+  static void CalibrateCameraExtendedAsync(const Napi::CallbackInfo& info);
+  static void EstimateAffine2D(const Napi::CallbackInfo& info);
+  static void EstimateAffine2DAsync(const Napi::CallbackInfo& info);
+  static void EstimateAffinePartial2D(const Napi::CallbackInfo& info);
+  static void EstimateAffinePartial2DAsync(const Napi::CallbackInfo& info);
 #endif
 #if CV_VERSION_GREATER_EQUAL(3, 3, 0)
-  static NAN_METHOD(SolveP3P);
-  static NAN_METHOD(SolveP3PAsync);
+  static void SolveP3P(const Napi::CallbackInfo& info);
+  static void SolveP3PAsync(const Napi::CallbackInfo& info);
 #endif
 #if CV_VERSION_GREATER_EQUAL(4, 0, 0)
-  static NAN_METHOD(UndistortPoints);
-  static NAN_METHOD(UndistortPointsAsync);
+  static void UndistortPoints(const Napi::CallbackInfo& info);
+  static void UndistortPointsAsync(const Napi::CallbackInfo& info);
 #endif
 };
 

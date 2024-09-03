@@ -10,12 +10,12 @@
 
 class Vec : public Napi::ObjectWrap<Vec> {
 public:
-  static NAN_MODULE_INIT(Init);
-  static NAN_METHOD(New);
-  static NAN_METHOD(NewVec2);
-  static NAN_METHOD(NewVec3);
-  static NAN_METHOD(NewVec4);
-  static NAN_METHOD(NewVec6);
+  static Napi::Object Init(Napi::Env env, Napi::Object exports);
+  static void New(const Napi::CallbackInfo& info);
+  static void NewVec2(const Napi::CallbackInfo& info);
+  static void NewVec3(const Napi::CallbackInfo& info);
+  static void NewVec4(const Napi::CallbackInfo& info);
+  static void NewVec6(const Napi::CallbackInfo& info);
 
   static Nan::Persistent<v8::FunctionTemplate> constructor;
 };

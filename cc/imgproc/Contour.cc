@@ -12,7 +12,7 @@
 
 Nan::Persistent<v8::FunctionTemplate> Contour::constructor;
 
-NAN_MODULE_INIT(Contour::Init) {
+Napi::Object Contour(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(Contour::New);
   constructor.Reset(ctor);
   ctor->InstanceTemplate()->SetInternalFieldCount(1);
@@ -43,7 +43,7 @@ NAN_MODULE_INIT(Contour::Init) {
   Nan::Set(target, Nan::New("Contour").ToLocalChecked(), FF::getFunction(ctor));
 };
 
-NAN_METHOD(Contour::New) {
+void Contour::New(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Contour::New");
   FF_ASSERT_CONSTRUCT_CALL();
   if (info.Length() > 1) {
@@ -80,25 +80,25 @@ NAN_METHOD(Contour::New) {
   info.GetReturnValue().Set(info.Holder());
 }
 
-NAN_METHOD(Contour::GetPoints) {
+void Contour::GetPoints(const Napi::CallbackInfo& info) {
   info.GetReturnValue().Set(Point2::ArrayWithCastConverter<cv::Point2i>::wrap(Contour::unwrapSelf(info)));
 }
 
-NAN_METHOD(Contour::ApproxPolyDP) {
+void Contour::ApproxPolyDP(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<ContourBindings::ApproxPolyDPWorker>(Contour::unwrapSelf(info)),
       "Contour::ApproxPolyDP",
       info);
 }
 
-NAN_METHOD(Contour::ApproxPolyDPAsync) {
+void Contour::ApproxPolyDPAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<ContourBindings::ApproxPolyDPWorker>(Contour::unwrapSelf(info)),
       "Contour::ApproxPolyDPAsync",
       info);
 }
 
-NAN_METHOD(Contour::ApproxPolyDPContour) {
+void Contour::ApproxPolyDPContour(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Contour::ApproxPolyDPContour");
   double epsilon;
   bool closed;
@@ -117,7 +117,7 @@ NAN_METHOD(Contour::ApproxPolyDPContour) {
   info.GetReturnValue().Set(jsApprox);
 }
 
-NAN_METHOD(Contour::ArcLength) {
+void Contour::ArcLength(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Contour::ArcLength");
   bool closed = false;
   if (FF::BoolConverter::optArg(0, &closed, info)) {
@@ -128,11 +128,11 @@ NAN_METHOD(Contour::ArcLength) {
   info.GetReturnValue().Set(Nan::New(arcLength));
 }
 
-NAN_METHOD(Contour::BoundingRect) {
+void Contour::BoundingRect(const Napi::CallbackInfo& info) {
   info.GetReturnValue().Set(Rect::Converter::wrap(cv::boundingRect(Contour::unwrapSelf(info))));
 }
 
-NAN_METHOD(Contour::ConvexHull) {
+void Contour::ConvexHull(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Contour::ConvexHull");
   bool clockwise = false;
   if (FF::BoolConverter::optArg(0, &clockwise, info)) {
@@ -152,7 +152,7 @@ NAN_METHOD(Contour::ConvexHull) {
   info.GetReturnValue().Set(jsHull);
 }
 
-NAN_METHOD(Contour::ConvexHullIndices) {
+void Contour::ConvexHullIndices(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Contour::ConvexHullIndices");
   bool clockwise = false;
   if (FF::BoolConverter::optArg(0, &clockwise, info)) {
@@ -168,7 +168,7 @@ NAN_METHOD(Contour::ConvexHullIndices) {
   info.GetReturnValue().Set(FF::IntArrayConverter::wrap(hullIndices));
 }
 
-NAN_METHOD(Contour::ConvexityDefects) {
+void Contour::ConvexityDefects(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Contour::ConvexityDefects");
   std::vector<int> hull;
   if (FF::IntArrayConverter::arg(0, &hull, info)) {
@@ -184,18 +184,18 @@ NAN_METHOD(Contour::ConvexityDefects) {
   info.GetReturnValue().Set(Vec4::ArrayConverter::wrap(defects));
 }
 
-NAN_METHOD(Contour::MinEnclosingCircle) {
+void Contour::MinEnclosingCircle(const Napi::CallbackInfo& info) {
   cv::Point2f center;
   float radius;
   cv::minEnclosingCircle(Contour::unwrapSelf(info), center, radius);
 
-  Napi::Object jsCircle = Nan::New<v8::Object>();
+  Napi::Object jsCircle = Napi::Object::New(env);
   Nan::Set(jsCircle, FF::newString(env, "center"), Point2::Converter::wrap(center));
   Nan::Set(jsCircle, FF::newString(env, "radius"), Nan::New((double)radius));
   info.GetReturnValue().Set(jsCircle);
 }
 
-NAN_METHOD(Contour::MinEnclosingTriangle) {
+void Contour::MinEnclosingTriangle(const Napi::CallbackInfo& info) {
   std::vector<cv::Point2f> triangle;
   cv::minEnclosingTriangle(
       Contour::unwrapSelf(info),
@@ -203,7 +203,7 @@ NAN_METHOD(Contour::MinEnclosingTriangle) {
   info.GetReturnValue().Set(Point2::ArrayWithCastConverter<cv::Point2f>::wrap(triangle));
 }
 
-NAN_METHOD(Contour::PointPolygonTest) {
+void Contour::PointPolygonTest(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Contour::PointPolygonTest");
   cv::Point2d point;
   if (Point2::Converter::arg(0, &point, info)) {
@@ -217,7 +217,7 @@ NAN_METHOD(Contour::PointPolygonTest) {
   info.GetReturnValue().Set(Nan::New(dist));
 }
 
-NAN_METHOD(Contour::MatchShapes) {
+void Contour::MatchShapes(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Contour::MatchShapes");
   std::vector<cv::Point> contour2;
   uint method;
@@ -236,11 +236,11 @@ NAN_METHOD(Contour::MatchShapes) {
   info.GetReturnValue().Set(Nan::New(cmp));
 }
 
-NAN_METHOD(Contour::MinAreaRect) {
+void Contour::MinAreaRect(const Napi::CallbackInfo& info) {
   info.GetReturnValue().Set(RotatedRect::Converter::wrap(cv::minAreaRect(Contour::unwrapSelf(info))));
 }
 
-NAN_METHOD(Contour::FitEllipse) {
+void Contour::FitEllipse(const Napi::CallbackInfo& info) {
   info.GetReturnValue().Set(RotatedRect::Converter::wrap(cv::fitEllipse(Contour::unwrapSelf(info))));
 }
 

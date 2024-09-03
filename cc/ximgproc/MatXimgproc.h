@@ -8,8 +8,8 @@ class MatXimgproc {
 public:
   static void Init(Napi::FunctionReference ctor);
 
-  static NAN_METHOD(GuidedFilter);
-  static NAN_METHOD(GuidedFilterAsync);
+  static void GuidedFilter(const Napi::CallbackInfo& info);
+  static void GuidedFilterAsync(const Napi::CallbackInfo& info);
 };
 
 #endif

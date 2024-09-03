@@ -14,7 +14,7 @@ void FaceRecognizer::Init(Napi::FunctionReference ctor) {
   Nan::SetPrototypeMethod(ctor, "load", Load);
 };
 
-NAN_METHOD(FaceRecognizer::Save) {
+void FaceRecognizer::Save(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("FaceRecognizer::Save");
 
   std::string path;
@@ -24,7 +24,7 @@ NAN_METHOD(FaceRecognizer::Save) {
   Nan::ObjectWrap::Unwrap<FaceRecognizer>(info.This())->save(path);
 }
 
-NAN_METHOD(FaceRecognizer::Load) {
+void FaceRecognizer::Load(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("FaceRecognizer::Load");
 
   std::string path;
@@ -34,28 +34,28 @@ NAN_METHOD(FaceRecognizer::Load) {
   Nan::ObjectWrap::Unwrap<FaceRecognizer>(info.This())->load(path);
 }
 
-NAN_METHOD(FaceRecognizer::Train) {
+void FaceRecognizer::Train(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<FaceRecognizerBindings::TrainWorker>(FaceRecognizer::unwrapThis(info)->getFaceRecognizer()),
       "FaceRecognizer::Train",
       info);
 }
 
-NAN_METHOD(FaceRecognizer::TrainAsync) {
+void FaceRecognizer::TrainAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<FaceRecognizerBindings::TrainWorker>(FaceRecognizer::unwrapThis(info)->getFaceRecognizer()),
       "FaceRecognizer::TrainAsync",
       info);
 }
 
-NAN_METHOD(FaceRecognizer::Predict) {
+void FaceRecognizer::Predict(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<FaceRecognizerBindings::PredictWorker>(FaceRecognizer::unwrapThis(info)->getFaceRecognizer()),
       "FaceRecognizer::Predict",
       info);
 }
 
-NAN_METHOD(FaceRecognizer::PredictAsync) {
+void FaceRecognizer::PredictAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<FaceRecognizerBindings::PredictWorker>(FaceRecognizer::unwrapThis(info)->getFaceRecognizer()),
       "FaceRecognizer::PredictAsync",

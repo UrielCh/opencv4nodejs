@@ -6,7 +6,7 @@
 
 Nan::Persistent<v8::FunctionTemplate> AGASTDetector::constructor;
 
-NAN_MODULE_INIT(AGASTDetector::Init) {
+Napi::Object AGASTDetector(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(AGASTDetector::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
@@ -21,7 +21,7 @@ NAN_MODULE_INIT(AGASTDetector::Init) {
 
   Nan::Set(target, Nan::New("AGASTDetector").ToLocalChecked(), FF::getFunction(ctor));
 #if CV_VERSION_GREATER_EQUAL(4, 0, 0)
-  DetectorType::init(target);
+  DetectorType::Init(env, exports);
 #endif
 };
 
@@ -51,7 +51,7 @@ public:
   }
 };
 
-NAN_METHOD(AGASTDetector::New) {
+void AGASTDetector::New(const Napi::CallbackInfo& info) {
   NewBinding().construct(info);
 }
 

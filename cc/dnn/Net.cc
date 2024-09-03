@@ -10,7 +10,7 @@
 
 Nan::Persistent<v8::FunctionTemplate> Net::constructor;
 
-NAN_MODULE_INIT(Net::Init) {
+Napi::Object Net(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(Net::New);
   Net::constructor.Reset(ctor);
   ctor->InstanceTemplate()->SetInternalFieldCount(1);
@@ -41,7 +41,7 @@ NAN_MODULE_INIT(Net::Init) {
   Nan::Set(target, Nan::New("Net").ToLocalChecked(), FF::getFunction(ctor));
 };
 
-NAN_METHOD(Net::New) {
+void Net::New(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Net::New");
   FF_ASSERT_CONSTRUCT_CALL();
   Net* self = new Net();
@@ -49,69 +49,69 @@ NAN_METHOD(Net::New) {
   info.GetReturnValue().Set(info.Holder());
 }
 
-NAN_METHOD(Net::SetInput) {
+void Net::SetInput(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<NetBindings::SetInputWorker>(Net::unwrapSelf(info)),
       "Net::SetInput",
       info);
 }
 
-NAN_METHOD(Net::SetInputAsync) {
+void Net::SetInputAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<NetBindings::SetInputWorker>(Net::unwrapSelf(info)),
       "Net::SetInputAsync",
       info);
 }
 
-NAN_METHOD(Net::Forward) {
+void Net::Forward(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<NetBindings::ForwardWorker>(Net::unwrapSelf(info)),
       "Net::Forward",
       info);
 }
 
-NAN_METHOD(Net::ForwardAsync) {
+void Net::ForwardAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<NetBindings::ForwardWorker>(Net::unwrapSelf(info)),
       "Net::ForwardAsync",
       info);
 }
 
-NAN_METHOD(Net::GetLayerNames) {
+void Net::GetLayerNames(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<NetBindings::GetLayerNamesWorker>(Net::unwrapSelf(info)),
       "Net::GetLayerNames",
       info);
 }
 
-NAN_METHOD(Net::GetLayerNamesAsync) {
+void Net::GetLayerNamesAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<NetBindings::GetLayerNamesWorker>(Net::unwrapSelf(info)),
       "Net::GetLayerNamesAsync",
       info);
 }
 
-NAN_METHOD(Net::GetUnconnectedOutLayers) {
+void Net::GetUnconnectedOutLayers(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<NetBindings::GetUnconnectedOutLayersWorker>(Net::unwrapSelf(info)),
       "Net::GetUnconnectedOutLayers",
       info);
 }
 
-NAN_METHOD(Net::GetUnconnectedOutLayersAsync) {
+void Net::GetUnconnectedOutLayersAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<NetBindings::GetUnconnectedOutLayersWorker>(Net::unwrapSelf(info)),
       "Net::GetUnconnectedOutLayersAsync",
       info);
 }
 
-NAN_METHOD(Net::Dump) {
+void Net::Dump(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Core::Dump");
   cv::dnn::Net self = Net::unwrapSelf(info);
   info.GetReturnValue().Set(FF::newString(self.dump()));
 }
 
-NAN_METHOD(Net::SetPreferableBackend) {
+void Net::SetPreferableBackend(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Core::SetPreferableBackend");
   cv::dnn::Net self = Net::unwrapSelf(info);
   int backendId;
@@ -121,7 +121,7 @@ NAN_METHOD(Net::SetPreferableBackend) {
   self.setPreferableBackend(backendId);
 }
 
-NAN_METHOD(Net::SetPreferableTarget) {
+void Net::SetPreferableTarget(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Core::SetPreferableTarget");
   cv::dnn::Net self = Net::unwrapSelf(info);
   int targetId;
@@ -133,7 +133,7 @@ NAN_METHOD(Net::SetPreferableTarget) {
 
 // ret {	retval: number, timings: number[] }
 
-NAN_METHOD(Net::GetPerfProfile) {
+void Net::GetPerfProfile(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Core::GetPerfProfile");
   cv::dnn::Net self = Net::unwrapSelf(info);
 
@@ -141,7 +141,7 @@ NAN_METHOD(Net::GetPerfProfile) {
   std::vector<double> layersTimes;
   int64 time = self.getPerfProfile(layersTimes);
 
-  Napi::Object obj = Nan::New<v8::Object>();
+  Napi::Object obj = Napi::Object::New(env);
 
   Nan::Set(obj, Nan::New("retval").ToLocalChecked(), FF::DoubleConverter::wrap(time));
   Nan::Set(obj, Nan::New("timings").ToLocalChecked(), FF::DoubleArrayConverter::wrap(layersTimes));

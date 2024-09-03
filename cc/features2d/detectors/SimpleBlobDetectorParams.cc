@@ -6,7 +6,7 @@
 
 Nan::Persistent<v8::FunctionTemplate> SimpleBlobDetectorParams::constructor;
 
-NAN_MODULE_INIT(SimpleBlobDetectorParams::Init) {
+Napi::Object SimpleBlobDetectorParams(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(SimpleBlobDetectorParams::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
@@ -37,7 +37,7 @@ NAN_MODULE_INIT(SimpleBlobDetectorParams::Init) {
   Nan::Set(target, FF::newString(env, "SimpleBlobDetectorParams"), FF::getFunction(ctor));
 };
 
-NAN_METHOD(SimpleBlobDetectorParams::New) {
+void SimpleBlobDetectorParams::New(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("SimpleBlobDetectorParams::New");
   FF_ASSERT_CONSTRUCT_CALL();
   SimpleBlobDetectorParams* self = new SimpleBlobDetectorParams();

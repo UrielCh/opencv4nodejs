@@ -23,8 +23,8 @@ public:
   FF_GETTER_CUSTOM(harrisDetector, FF::BoolConverter, self->getHarrisDetector());
   FF_GETTER_CUSTOM(k, FF::DoubleConverter, self->getK());
 
-  static NAN_MODULE_INIT(Init);
-  static NAN_METHOD(New);
+static Napi::Object Init(Napi::Env env, Napi::Object exports);
+  static void New(const Napi::CallbackInfo& info);
 
   struct NewWorker : CatchCvExceptionWorker {
   public:

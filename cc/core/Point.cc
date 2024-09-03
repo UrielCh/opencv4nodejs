@@ -3,7 +3,7 @@
 Nan::Persistent<v8::FunctionTemplate> Point2::constructor;
 Nan::Persistent<v8::FunctionTemplate> Point3::constructor;
 
-NAN_MODULE_INIT(Point::Init) {
+Napi::Object Point(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference pt2Ctor = Nan::New<v8::FunctionTemplate>(Point2::New);
   Point2::constructor.Reset(pt2Ctor);
   pt2Ctor->InstanceTemplate()->SetInternalFieldCount(1);
@@ -33,7 +33,7 @@ NAN_MODULE_INIT(Point::Init) {
   Nan::Set(target, Nan::New("Point3").ToLocalChecked(), FF::getFunction(ctor));
 };
 
-NAN_METHOD(Point::New) {
+void Point::New(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Point::New");
   FF_ASSERT_CONSTRUCT_CALL();
   if (info.Length() < 2) {

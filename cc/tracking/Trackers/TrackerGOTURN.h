@@ -13,13 +13,13 @@ class TrackerGOTURN : public Tracker {
 public:
   cv::Ptr<cv::TrackerGOTURN> tracker;
 
-  static NAN_MODULE_INIT(Init);
-  static NAN_METHOD(New);
+static Napi::Object Init(Napi::Env env, Napi::Object exports);
+  static void New(const Napi::CallbackInfo& info);
 #if CV_VERSION_GREATER_EQUAL(4, 5, 2)
-  static NAN_METHOD(Clear);
-  static NAN_METHOD(Init);
-  static NAN_METHOD(Update);
-  static NAN_METHOD(GetModel);
+  static void Clear(const Napi::CallbackInfo& info);
+  static void Init(const Napi::CallbackInfo& info);
+  static void Update(const Napi::CallbackInfo& info);
+  static void GetModel(const Napi::CallbackInfo& info);
 #endif
   static Nan::Persistent<v8::FunctionTemplate> constructor;
 

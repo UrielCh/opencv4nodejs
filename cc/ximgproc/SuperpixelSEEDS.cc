@@ -6,7 +6,7 @@
 
 Nan::Persistent<v8::FunctionTemplate> SuperpixelSEEDS::constructor;
 
-NAN_MODULE_INIT(SuperpixelSEEDS::Init) {
+Napi::Object SuperpixelSEEDS(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(SuperpixelSEEDS::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
   constructor.Reset(ctor);
@@ -28,7 +28,7 @@ NAN_MODULE_INIT(SuperpixelSEEDS::Init) {
   Nan::Set(target, Nan::New("SuperpixelSEEDS").ToLocalChecked(), FF::getFunction(ctor));
 };
 
-NAN_METHOD(SuperpixelSEEDS::New) {
+void SuperpixelSEEDS::New(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("SuperpixelSEEDS::New");
   FF_ASSERT_CONSTRUCT_CALL();
   SuperpixelSEEDS::NewWorker worker;
@@ -58,7 +58,7 @@ NAN_METHOD(SuperpixelSEEDS::New) {
   info.GetReturnValue().Set(info.Holder());
 }
 
-NAN_METHOD(SuperpixelSEEDS::Iterate) {
+void SuperpixelSEEDS::Iterate(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("SuperpixelSEEDS::Iterate");
 
   uint iterations = 4;

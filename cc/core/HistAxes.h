@@ -23,9 +23,9 @@ public:
     return "HistAxes";
   }
 
-  static NAN_METHOD(New);
+  static void New(const Napi::CallbackInfo& info);
 
-  static NAN_MODULE_INIT(Init);
+  static Napi::Object Init(Napi::Env env, Napi::Object exports);
 
   FF_GETTER_CUSTOM(bins, FF::IntConverter, self.bins);
   FF_GETTER_CUSTOM(channel, FF::IntConverter, self.channel);

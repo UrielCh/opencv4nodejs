@@ -7,7 +7,7 @@
 
 Nan::Persistent<v8::FunctionTemplate> TrainData::constructor;
 
-NAN_MODULE_INIT(TrainData::Init) {
+Napi::Object TrainData(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(TrainData::New);
   constructor.Reset(ctor);
   ctor->InstanceTemplate()->SetInternalFieldCount(1);
@@ -23,7 +23,7 @@ NAN_MODULE_INIT(TrainData::Init) {
   Nan::Set(target, FF::newString(env, "TrainData"), FF::getFunction(ctor));
 };
 
-NAN_METHOD(TrainData::New) {
+void TrainData::New(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("TrainData::New");
   FF_ASSERT_CONSTRUCT_CALL();
   TrainData::NewWorker worker;

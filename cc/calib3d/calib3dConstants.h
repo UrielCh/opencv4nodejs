@@ -6,7 +6,7 @@
 
 class Calib3dConstants {
 public:
-  static void Init(Napi::Object module);
+  static void Init(Napi::Env env, Napi::Object exports);
 };
 
 #endif

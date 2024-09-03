@@ -21,10 +21,10 @@ public:
     info.GetReturnValue().Set(info.Holder());
   }
 
-  static NAN_MODULE_INIT(Init);
+  static Napi::Object Init(Napi::Env env, Napi::Object exports);
 
-  static NAN_METHOD(Eval);
-  static NAN_METHOD(EvalAsync);
+  static void Eval(const Napi::CallbackInfo& info);
+  static void EvalAsync(const Napi::CallbackInfo& info);
 };
 
 #endif

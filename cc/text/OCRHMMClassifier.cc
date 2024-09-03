@@ -7,7 +7,7 @@
 
 Nan::Persistent<v8::FunctionTemplate> OCRHMMClassifier::constructor;
 
-NAN_MODULE_INIT(OCRHMMClassifier::Init) {
+Napi::Object OCRHMMClassifier(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(OCRHMMClassifier::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
@@ -21,14 +21,14 @@ NAN_MODULE_INIT(OCRHMMClassifier::Init) {
   Nan::Set(target, FF::newString(env, "OCRHMMClassifier"), FF::getFunction(ctor));
 };
 
-NAN_METHOD(OCRHMMClassifier::Eval) {
+void OCRHMMClassifier::Eval(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<OCRHMMClassifierBindings::EvalWorker>(OCRHMMClassifier::unwrapSelf(info)),
       "OCRHMMClassifier::Eval",
       info);
 }
 
-NAN_METHOD(OCRHMMClassifier::EvalAsync) {
+void OCRHMMClassifier::EvalAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<OCRHMMClassifierBindings::EvalWorker>(OCRHMMClassifier::unwrapSelf(info)),
       "OCRHMMClassifier::EvalAsync",

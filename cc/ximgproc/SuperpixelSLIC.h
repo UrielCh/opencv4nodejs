@@ -32,9 +32,9 @@ public:
   FF_GETTER_CUSTOM(ruler, FF::FloatConverter, ruler);
   FF_GETTER_CUSTOM(numCalculatedSuperpixels, FF::IntConverter, numCalculatedSuperpixels);
 
-  static NAN_MODULE_INIT(Init);
-  static NAN_METHOD(New);
-  static NAN_METHOD(Iterate);
+  static Napi::Object Init(Napi::Env env, Napi::Object exports);
+  static void New(const Napi::CallbackInfo& info);
+  static void Iterate(const Napi::CallbackInfo& info);
 
   struct NewWorker : public CatchCvExceptionWorker {
   public:

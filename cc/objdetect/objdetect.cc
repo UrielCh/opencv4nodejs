@@ -7,10 +7,10 @@
 #include "HOGDescriptor.h"
 #include "objdetect.h"
 
-NAN_MODULE_INIT(Objdetect::Init) {
-  CascadeClassifier::Init(target);
-  HOGDescriptor::Init(target);
-  DetectionROI::Init(target);
+Napi::Object Objdetect(Napi::Env env, Napi::Object exports) {
+  CascadeClassifier::Init(env, exports);
+  HOGDescriptor::Init(env, exports);
+  DetectionROI::Init(env, exports);
 };
 
 #endif

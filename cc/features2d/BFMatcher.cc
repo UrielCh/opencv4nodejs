@@ -7,7 +7,7 @@
 
 Nan::Persistent<v8::FunctionTemplate> BFMatcher::constructor;
 
-NAN_MODULE_INIT(BFMatcher::Init) {
+Napi::Object BFMatcher(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(BFMatcher::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
@@ -27,7 +27,7 @@ NAN_MODULE_INIT(BFMatcher::Init) {
   Nan::Set(target, Nan::New("BFMatcher").ToLocalChecked(), FF::getFunction(ctor));
 };
 
-NAN_METHOD(BFMatcher::New) {
+void BFMatcher::New(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("BFMatcher::New");
   FF_ASSERT_CONSTRUCT_CALL();
   BFMatcher::NewWorker worker;
@@ -46,28 +46,28 @@ NAN_METHOD(BFMatcher::New) {
   info.GetReturnValue().Set(info.Holder());
 }
 
-NAN_METHOD(BFMatcher::match) {
+void BFMatcher::match(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<BFMatcherBindings::MatchWorker>(BFMatcher::unwrapSelf(info)),
       "BFMatcher::match",
       info);
 }
 
-NAN_METHOD(BFMatcher::matchAsync) {
+void BFMatcher::matchAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<BFMatcherBindings::MatchWorker>(BFMatcher::unwrapSelf(info)),
       "BFMatcher::matchAsync",
       info);
 }
 
-NAN_METHOD(BFMatcher::knnMatch) {
+void BFMatcher::knnMatch(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<BFMatcherBindings::MatchKnnWorker>(BFMatcher::unwrapSelf(info)),
       "BFMatcher::knnMatch",
       info);
 }
 
-NAN_METHOD(BFMatcher::knnMatchAsync) {
+void BFMatcher::knnMatchAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<BFMatcherBindings::MatchKnnWorker>(BFMatcher::unwrapSelf(info)),
       "BFMatcher::knnMatchAsync",

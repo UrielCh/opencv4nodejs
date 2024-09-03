@@ -9,12 +9,15 @@
 #include "machinelearning.h"
 #include "machinelearningConstants.h"
 
-NAN_MODULE_INIT(MachineLearning::Init) {
-  MachineLearningConstants::Init(target);
-  TrainData::Init(target);
-  ParamGrid::Init(target);
-  StatModel::Init(target);
-  SVM::Init(target);
-};
+Napi::Object MachineLearning::Init(Napi::Env env, Napi::Object exports) {
+  MachineLearningConstants::Init(env, exports);
+  TrainData::Init(env, exports);
+  ParamGrid::Init(env, exports);
+  StatModel::Init(env, exports);
+  SVM::Init(env, exports);
+  return exports;
+}
+
+NODE_API_MODULE(machinelearning, MachineLearning::Init)
 
 #endif

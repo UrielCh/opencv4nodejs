@@ -6,7 +6,7 @@
 
 Nan::Persistent<v8::FunctionTemplate> PHash::constructor;
 
-NAN_MODULE_INIT(PHash::Init) {
+Napi::Object PHash(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(PHash::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
@@ -18,7 +18,7 @@ NAN_MODULE_INIT(PHash::Init) {
   Nan::Set(target, FF::newString(env, "PHash"), FF::getFunction(ctor));
 };
 
-NAN_METHOD(PHash::New) {
+void PHash::New(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("PHash::New");
   FF_ASSERT_CONSTRUCT_CALL();
 

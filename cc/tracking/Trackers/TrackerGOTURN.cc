@@ -10,10 +10,10 @@ Nan::Persistent<v8::FunctionTemplate> TrackerGOTURN::constructor;
 
 #if CV_VERSION_GREATER_EQUAL(4, 5, 2)
 
-NAN_METHOD(TrackerGOTURN::Clear) {
+void TrackerGOTURN::Clear(const Napi::CallbackInfo& info) {
 }
 
-NAN_METHOD(TrackerGOTURN::Init) {
+void TrackerGOTURN::Init(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("TrackerGOTURN::Init");
   cv::Mat image;
   cv::Rect2d boundingBox;
@@ -25,7 +25,7 @@ NAN_METHOD(TrackerGOTURN::Init) {
   TrackerGOTURN::unwrapThis(info)->getTracker()->init(image, boundingBox);
 }
 
-NAN_METHOD(TrackerGOTURN::Update) {
+void TrackerGOTURN::Update(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("TrackerGOTURN::Update");
   cv::Mat image;
   if (Mat::Converter::arg(0, &image, info)) {
@@ -48,13 +48,13 @@ NAN_METHOD(TrackerGOTURN::Update) {
   }
 }
 
-NAN_METHOD(TrackerGOTURN::GetModel) {
+void TrackerGOTURN::GetModel(const Napi::CallbackInfo& info) {
   // TBD
 }
 
 #endif
 
-NAN_MODULE_INIT(TrackerGOTURN::Init) {
+Napi::Object TrackerGOTURN(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(TrackerGOTURN::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
@@ -73,7 +73,7 @@ NAN_MODULE_INIT(TrackerGOTURN::Init) {
   Nan::Set(target, FF::newString(env, "TrackerGOTURN"), FF::getFunction(ctor));
 };
 
-NAN_METHOD(TrackerGOTURN::New) {
+void TrackerGOTURN::New(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("TrackerGOTURN::New");
   FF_ASSERT_CONSTRUCT_CALL();
 

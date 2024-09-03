@@ -6,9 +6,9 @@
 #include "SURFDetector.h"
 #include "xfeatures2d.h"
 
-NAN_MODULE_INIT(XFeatures2d::Init) {
-  SIFTDetector::Init(target);
-  SURFDetector::Init(target);
+Napi::Object XFeatures2d(Napi::Env env, Napi::Object exports) {
+  SIFTDetector::Init(env, exports);
+  SURFDetector::Init(env, exports);
 };
 
 #endif // HAVE_OPENCV_XFEATURES2D

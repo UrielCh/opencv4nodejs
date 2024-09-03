@@ -6,7 +6,7 @@
 
 Nan::Persistent<v8::FunctionTemplate> DescriptorMatch::constructor;
 
-NAN_MODULE_INIT(DescriptorMatch::Init) {
+Napi::Object DescriptorMatch(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(DescriptorMatch::New);
   constructor.Reset(ctor);
   ctor->InstanceTemplate()->SetInternalFieldCount(1);
@@ -19,7 +19,7 @@ NAN_MODULE_INIT(DescriptorMatch::Init) {
   Nan::Set(target, Nan::New("DescriptorMatch").ToLocalChecked(), FF::getFunction(ctor));
 };
 
-NAN_METHOD(DescriptorMatch::New) {
+void DescriptorMatch::New(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("DescriptorMatch::New");
   FF_ASSERT_CONSTRUCT_CALL();
   DescriptorMatch* self = new DescriptorMatch();

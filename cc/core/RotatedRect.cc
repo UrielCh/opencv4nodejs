@@ -2,7 +2,7 @@
 
 Nan::Persistent<v8::FunctionTemplate> RotatedRect::constructor;
 
-NAN_MODULE_INIT(RotatedRect::Init) {
+Napi::Object RotatedRect(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(RotatedRect::New);
   RotatedRect::constructor.Reset(ctor);
   ctor->InstanceTemplate()->SetInternalFieldCount(1);
@@ -16,7 +16,7 @@ NAN_MODULE_INIT(RotatedRect::Init) {
   Nan::Set(target, Nan::New("RotatedRect").ToLocalChecked(), FF::getFunction(ctor));
 };
 
-NAN_METHOD(RotatedRect::New) {
+void RotatedRect::New(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("RotatedRect::New");
   FF_ASSERT_CONSTRUCT_CALL();
   RotatedRect* self = new RotatedRect();

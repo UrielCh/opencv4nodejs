@@ -23,7 +23,7 @@ public:
   }
 
   Napi::Value getReturnValue() {
-    Napi::Object ret = Nan::New<v8::Object>();
+    Napi::Object ret = Napi::Object::New(env);
     Nan::Set(ret, Nan::New("size").ToLocalChecked(), Size::Converter::wrap(returnValue));
     Nan::Set(ret, Nan::New("baseLine").ToLocalChecked(), FF::IntConverter::wrap(baseLine));
     return ret;

@@ -6,7 +6,7 @@
 
 Nan::Persistent<v8::FunctionTemplate> BackgroundSubtractorKNN::constructor;
 
-NAN_MODULE_INIT(BackgroundSubtractorKNN::Init) {
+Napi::Object BackgroundSubtractorKNN(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(BackgroundSubtractorKNN::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
@@ -22,7 +22,7 @@ NAN_MODULE_INIT(BackgroundSubtractorKNN::Init) {
   Nan::Set(target, FF::newString(env, "BackgroundSubtractorKNN"), FF::getFunction(ctor));
 };
 
-NAN_METHOD(BackgroundSubtractorKNN::New) {
+void BackgroundSubtractorKNN::New(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("BackgroundSubtractor::New");
   FF_ASSERT_CONSTRUCT_CALL();
   BackgroundSubtractorKNN::NewWorker worker;

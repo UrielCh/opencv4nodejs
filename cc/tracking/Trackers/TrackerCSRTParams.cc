@@ -8,7 +8,7 @@
 
 Nan::Persistent<v8::FunctionTemplate> TrackerCSRTParams::constructor;
 
-NAN_MODULE_INIT(TrackerCSRTParams::Init) {
+Napi::Object TrackerCSRTParams(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(TrackerCSRTParams::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
@@ -49,7 +49,7 @@ NAN_MODULE_INIT(TrackerCSRTParams::Init) {
   Nan::Set(target, FF::newString(env, "TrackerCSRTParams"), FF::getFunction(ctor));
 };
 
-NAN_METHOD(TrackerCSRTParams::New) {
+void TrackerCSRTParams::New(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("TrackerCSRTParams::New");
   FF_ASSERT_CONSTRUCT_CALL();
   TrackerCSRTParams* self = new TrackerCSRTParams();

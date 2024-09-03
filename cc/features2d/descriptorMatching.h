@@ -9,22 +9,22 @@
 #ifndef __FF_DESCRIPTORMATCHING_H__
 #define __FF_DESCRIPTORMATCHING_H__
 
-class DescriptorMatching : public Napi::ObjectWrap<DescriptorMatching>  {
+class DescriptorMatching : public Napi::ObjectWrap<DescriptorMatching> {
 public:
-  static NAN_MODULE_INIT(Init);
+  static Napi::Object Init(Napi::Env env, Napi::Object exports);
 
-  static NAN_METHOD(MatchFlannBased);
-  static NAN_METHOD(MatchBruteForce);
-  static NAN_METHOD(MatchBruteForceL1);
-  static NAN_METHOD(MatchBruteForceHamming);
-  static NAN_METHOD(MatchBruteForceHammingLut);
-  static NAN_METHOD(MatchBruteForceSL2);
-  static NAN_METHOD(MatchFlannBasedAsync);
-  static NAN_METHOD(MatchBruteForceAsync);
-  static NAN_METHOD(MatchBruteForceL1Async);
-  static NAN_METHOD(MatchBruteForceHammingAsync);
-  static NAN_METHOD(MatchBruteForceHammingLutAsync);
-  static NAN_METHOD(MatchBruteForceSL2Async);
+  static void MatchFlannBased(const Napi::CallbackInfo& info);
+  static void MatchBruteForce(const Napi::CallbackInfo& info);
+  static void MatchBruteForceL1(const Napi::CallbackInfo& info);
+  static void MatchBruteForceHamming(const Napi::CallbackInfo& info);
+  static void MatchBruteForceHammingLut(const Napi::CallbackInfo& info);
+  static void MatchBruteForceSL2(const Napi::CallbackInfo& info);
+  static void MatchFlannBasedAsync(const Napi::CallbackInfo& info);
+  static void MatchBruteForceAsync(const Napi::CallbackInfo& info);
+  static void MatchBruteForceL1Async(const Napi::CallbackInfo& info);
+  static void MatchBruteForceHammingAsync(const Napi::CallbackInfo& info);
+  static void MatchBruteForceHammingLutAsync(const Napi::CallbackInfo& info);
+  static void MatchBruteForceSL2Async(const Napi::CallbackInfo& info);
 
 #if CV_VERSION_GREATER_EQUAL(4, 0, 0)
   static void match(const Napi::CallbackInfo& info, cv::DescriptorMatcher::MatcherType matcherType);

@@ -7,7 +7,7 @@
 
 Nan::Persistent<v8::FunctionTemplate> StatModel::constructor;
 
-NAN_MODULE_INIT(StatModel::Init) {
+Napi::Object StatModel(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(StatModel::New);
   constructor.Reset(ctor);
   ctor->InstanceTemplate()->SetInternalFieldCount(1);
@@ -16,7 +16,7 @@ NAN_MODULE_INIT(StatModel::Init) {
   Nan::Set(target, Nan::New("StatModel").ToLocalChecked(), FF::getFunction(ctor));
 };
 
-NAN_METHOD(StatModel::New) {
+void StatModel::New(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("StatModel::New");
   FF_ASSERT_CONSTRUCT_CALL();
   StatModel* self = new StatModel();

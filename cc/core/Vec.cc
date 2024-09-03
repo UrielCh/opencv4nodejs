@@ -5,7 +5,7 @@ Nan::Persistent<v8::FunctionTemplate> Vec3::constructor;
 Nan::Persistent<v8::FunctionTemplate> Vec4::constructor;
 Nan::Persistent<v8::FunctionTemplate> Vec6::constructor;
 
-NAN_MODULE_INIT(Vec::Init) {
+Napi::Object Vec(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference vec2Ctor = Nan::New<v8::FunctionTemplate>(Vec2::New);
   Vec2::constructor.Reset(vec2Ctor);
   vec2Ctor->InstanceTemplate()->SetInternalFieldCount(1);
@@ -64,7 +64,7 @@ NAN_MODULE_INIT(Vec::Init) {
   Nan::Set(target, Nan::New("Vec6").ToLocalChecked(), FF::getFunction(ctor));
 };
 
-NAN_METHOD(Vec::New) {
+void Vec::New(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Vec::New");
   FF_ASSERT_CONSTRUCT_CALL();
   if (info.Length() < 2 || info.Length() > 6 || info.Length() == 5) {

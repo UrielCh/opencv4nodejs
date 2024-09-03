@@ -17,15 +17,15 @@ public:
     return "CascadeClassifier";
   }
 
-  static NAN_MODULE_INIT(Init);
+  static Napi::Object Init(Napi::Env env, Napi::Object exports);
 
-  static NAN_METHOD(New);
-  static NAN_METHOD(DetectMultiScale);
-  static NAN_METHOD(DetectMultiScaleAsync);
-  static NAN_METHOD(DetectMultiScaleGpu);
-  static NAN_METHOD(DetectMultiScaleWithRejectLevels);
-  static NAN_METHOD(DetectMultiScaleWithRejectLevelsAsync);
-  static NAN_METHOD(DetectMultiScaleWithRejectLevelsGpu);
+  static void New(const Napi::CallbackInfo& info);
+  static void DetectMultiScale(const Napi::CallbackInfo& info);
+  static void DetectMultiScaleAsync(const Napi::CallbackInfo& info);
+  static void DetectMultiScaleGpu(const Napi::CallbackInfo& info);
+  static void DetectMultiScaleWithRejectLevels(const Napi::CallbackInfo& info);
+  static void DetectMultiScaleWithRejectLevelsAsync(const Napi::CallbackInfo& info);
+  static void DetectMultiScaleWithRejectLevelsGpu(const Napi::CallbackInfo& info);
 };
 
 #endif

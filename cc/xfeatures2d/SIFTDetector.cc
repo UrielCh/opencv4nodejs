@@ -6,7 +6,7 @@
 
 Nan::Persistent<v8::FunctionTemplate> SIFTDetector::constructor;
 
-NAN_MODULE_INIT(SIFTDetector::Init) {
+Napi::Object SIFTDetector(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(SIFTDetector::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
@@ -24,7 +24,7 @@ NAN_MODULE_INIT(SIFTDetector::Init) {
   Nan::Set(target, Nan::New("SIFTDetector").ToLocalChecked(), FF::getFunction(ctor));
 };
 
-NAN_METHOD(SIFTDetector::New) {
+void SIFTDetector::New(const Napi::CallbackInfo& info) {
   constructorBinding<Constructor>(info);
 }
 

@@ -7,7 +7,7 @@
 
 #if CV_VERSION_GREATER_EQUAL(3, 4, 0)
 
-NAN_METHOD(Facemark::Save) {
+void Facemark::Save(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Facemark::Save");
 
   std::string path;
@@ -17,7 +17,7 @@ NAN_METHOD(Facemark::Save) {
   Nan::ObjectWrap::Unwrap<Facemark>(info.This())->save(path);
 }
 
-NAN_METHOD(Facemark::Load) {
+void Facemark::Load(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Facemark::Load");
 
   std::string path;
@@ -47,28 +47,28 @@ void Facemark::Init(Napi::FunctionReference ctor) {
 #endif
 };
 
-NAN_METHOD(Facemark::LoadModel) {
+void Facemark::LoadModel(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<FacemarkBindings::LoadModelWorker>(Facemark::unwrapThis(info)->getFacemark()),
       "Facemark::LoadModel",
       info);
 }
 
-NAN_METHOD(Facemark::LoadModelAsync) {
+void Facemark::LoadModelAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<FacemarkBindings::LoadModelWorker>(Facemark::unwrapThis(info)->getFacemark()),
       "Facemark::LoadModelAsync",
       info);
 }
 
-NAN_METHOD(Facemark::Fit) {
+void Facemark::Fit(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<FacemarkBindings::FitWorker>(Facemark::unwrapThis(info)->getFacemark()),
       "Facemark::Fit",
       info);
 }
 
-NAN_METHOD(Facemark::FitAsync) {
+void Facemark::FitAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<FacemarkBindings::FitWorker>(Facemark::unwrapThis(info)->getFacemark()),
       "Facemark::FitAsync",
@@ -77,49 +77,49 @@ NAN_METHOD(Facemark::FitAsync) {
 
 #if CV_VERSION_MAJOR <= 3 && CV_VERSION_MINOR < 2
 
-NAN_METHOD(Facemark::AddTrainingSample) {
+void Facemark::AddTrainingSample(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<FacemarkBindings::AddTrainingSampleWorker>(Facemark::unwrapThis(info)->getFacemark()),
       "Facemark::AddTrainingSample",
       info);
 }
 
-NAN_METHOD(Facemark::AddTrainingSampleAsync) {
+void Facemark::AddTrainingSampleAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<FacemarkBindings::AddTrainingSampleWorker>(Facemark::unwrapThis(info)->getFacemark()),
       "Facemark::AddTrainingSampleAsync",
       info);
 }
 
-NAN_METHOD(Facemark::GetData) {
+void Facemark::GetData(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<FacemarkBindings::GetDataWorker>(Facemark::unwrapThis(info)->getFacemark()),
       "Facemark::GetData",
       info);
 }
 
-NAN_METHOD(Facemark::GetDataAsync) {
+void Facemark::GetDataAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<FacemarkBindings::GetDataWorker>(Facemark::unwrapThis(info)->getFacemark()),
       "Facemark::GetDataAsync",
       info);
 }
 
-NAN_METHOD(Facemark::GetFaces) {
+void Facemark::GetFaces(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<FacemarkBindings::GetFacesWorker>(Facemark::unwrapThis(info)->getFacemark()),
       "Facemark::GetFaces",
       info);
 }
 
-NAN_METHOD(Facemark::GetFacesAsync) {
+void Facemark::GetFacesAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<FacemarkBindings::GetFacesWorker>(Facemark::unwrapThis(info)->getFacemark()),
       "Facemark::GetFacesAsync",
       info);
 }
 
-NAN_METHOD(Facemark::SetFaceDetector) {
+void Facemark::SetFaceDetector(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Facemark::SetFaceDetector");
   if (!info[0]->IsFunction()) {
     return tryCatch.throwError("expected argument 0 to be of type");
@@ -134,14 +134,14 @@ NAN_METHOD(Facemark::SetFaceDetector) {
   info.GetReturnValue().Set(Nan::New<v8::Boolean>(results));
 }
 
-NAN_METHOD(Facemark::Training) {
+void Facemark::Training(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<FacemarkBindings::TrainingWorker>(Facemark::unwrapThis(info)->getFacemark()),
       "Facemark::Train",
       info);
 }
 
-NAN_METHOD(Facemark::TrainingAsync) {
+void Facemark::TrainingAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<FacemarkBindings::TrainingWorker>(Facemark::unwrapThis(info)->getFacemark()),
       "Facemark::TrainAsync",

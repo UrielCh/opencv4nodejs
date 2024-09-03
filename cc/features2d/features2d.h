@@ -5,9 +5,9 @@
 
 class Features2d {
 public:
-  static NAN_MODULE_INIT(Init);
-  static NAN_METHOD(DrawKeyPoints);
-  static NAN_METHOD(DrawMatches);
+  static Napi::Object Init(Napi::Env env, Napi::Object exports);
+  static void DrawKeyPoints(const Napi::CallbackInfo& info);
+  static void DrawMatches(const Napi::CallbackInfo& info);
 };
 
 #endif

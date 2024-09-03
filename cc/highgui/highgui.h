@@ -7,15 +7,15 @@
 
 class Highgui {
 public:
-  static NAN_MODULE_INIT(Init);
+  static Napi::Object Init(Napi::Env env, Napi::Object exports);
 
-  static NAN_METHOD(setWindowProperty);
-  static NAN_METHOD(getWindowProperty);
-  static NAN_METHOD(setWindowTitle);
-  static NAN_METHOD(moveWindow);
-  static NAN_METHOD(namedWindow);
-  static NAN_METHOD(resizeWindow);
-  static NAN_METHOD(startWindowThread);
+  static void setWindowProperty(const Napi::CallbackInfo& info);
+  static void getWindowProperty(const Napi::CallbackInfo& info);
+  static void setWindowTitle(const Napi::CallbackInfo& info);
+  static void moveWindow(const Napi::CallbackInfo& info);
+  static void namedWindow(const Napi::CallbackInfo& info);
+  static void resizeWindow(const Napi::CallbackInfo& info);
+  static void startWindowThread(const Napi::CallbackInfo& info);
 };
 
 #endif

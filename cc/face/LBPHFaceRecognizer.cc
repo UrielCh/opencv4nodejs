@@ -7,7 +7,7 @@
 
 Nan::Persistent<v8::FunctionTemplate> LBPHFaceRecognizer::constructor;
 
-NAN_MODULE_INIT(LBPHFaceRecognizer::Init) {
+Napi::Object LBPHFaceRecognizer(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(LBPHFaceRecognizer::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
@@ -43,7 +43,7 @@ public:
   }
 };
 
-NAN_METHOD(LBPHFaceRecognizer::New) {
+void LBPHFaceRecognizer::New(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("LBPHFaceRecognizer::New");
   FF_ASSERT_CONSTRUCT_CALL();
   LBPHFaceRecognizer::NewWorker worker;

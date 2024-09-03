@@ -23,17 +23,17 @@ public:
     return "MultiTracker";
   }
 
-  static NAN_MODULE_INIT(Init);
+  static Napi::Object Init(Napi::Env env, Napi::Object exports);
 
-  static NAN_METHOD(New);
-  static NAN_METHOD(AddMIL);
-  static NAN_METHOD(AddBOOSTING);
-  static NAN_METHOD(AddMEDIANFLOW);
-  static NAN_METHOD(AddTLD);
-  static NAN_METHOD(AddKCF);
-  static NAN_METHOD(AddMOSSE);
-  static NAN_METHOD(AddCSRT);
-  static NAN_METHOD(Update);
+  static void New(const Napi::CallbackInfo& info);
+  static void AddMIL(const Napi::CallbackInfo& info);
+  static void AddBOOSTING(const Napi::CallbackInfo& info);
+  static void AddMEDIANFLOW(const Napi::CallbackInfo& info);
+  static void AddTLD(const Napi::CallbackInfo& info);
+  static void AddKCF(const Napi::CallbackInfo& info);
+  static void AddMOSSE(const Napi::CallbackInfo& info);
+  static void AddCSRT(const Napi::CallbackInfo& info);
+  static void Update(const Napi::CallbackInfo& info);
 };
 
 #endif

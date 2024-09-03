@@ -6,7 +6,7 @@
 
 Nan::Persistent<v8::FunctionTemplate> ParamGrid::constructor;
 
-NAN_MODULE_INIT(ParamGrid::Init) {
+Napi::Object ParamGrid(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(ParamGrid::New);
   constructor.Reset(ctor);
   ctor->InstanceTemplate()->SetInternalFieldCount(1);
@@ -19,7 +19,7 @@ NAN_MODULE_INIT(ParamGrid::Init) {
   Nan::Set(target, FF::newString(env, "ParamGrid"), FF::getFunction(ctor));
 };
 
-NAN_METHOD(ParamGrid::New) {
+void ParamGrid::New(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("ParamGrid::New");
   FF_ASSERT_CONSTRUCT_CALL();
   ParamGrid* self = new ParamGrid();

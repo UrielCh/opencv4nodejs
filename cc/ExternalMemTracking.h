@@ -18,11 +18,11 @@ public:
 #endif
   }
 
-  static NAN_MODULE_INIT(Init);
-  static NAN_METHOD(IsCustomMatAllocatorEnabled);
-  static NAN_METHOD(GetMemMetrics);
-  static NAN_METHOD(DangerousEnableCustomMatAllocator);
-  static NAN_METHOD(DangerousDisableCustomMatAllocator);
+  static Napi::Object Init(Napi::Env env, Napi::Object exports);
+  static void IsCustomMatAllocatorEnabled(const Napi::CallbackInfo& info);
+  static void GetMemMetrics(const Napi::CallbackInfo& info);
+  static void DangerousEnableCustomMatAllocator(const Napi::CallbackInfo& info);
+  static void DangerousDisableCustomMatAllocator(const Napi::CallbackInfo& info);
 };
 
 #endif

@@ -17,13 +17,13 @@ public:
     return "OCRHMMDecoder";
   }
 
-  static NAN_MODULE_INIT(Init);
+  static Napi::Object Init(Napi::Env env, Napi::Object exports);
 
-  static NAN_METHOD(New);
-  static NAN_METHOD(Run);
-  static NAN_METHOD(RunAsync);
-  static NAN_METHOD(RunWithInfo);
-  static NAN_METHOD(RunWithInfoAsync);
+  static void New(const Napi::CallbackInfo& info);
+  static void Run(const Napi::CallbackInfo& info);
+  static void RunAsync(const Napi::CallbackInfo& info);
+  static void RunWithInfo(const Napi::CallbackInfo& info);
+  static void RunWithInfoAsync(const Napi::CallbackInfo& info);
 };
 
 #endif

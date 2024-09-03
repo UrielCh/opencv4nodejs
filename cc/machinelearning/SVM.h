@@ -19,7 +19,7 @@ public:
 
   void setParams(Napi::Object params);
 
-  static NAN_MODULE_INIT(Init);
+  static Napi::Object Init(Napi::Env env, Napi::Object exports);
 
   FF_GETTER_CUSTOM(c, FF::DoubleConverter, self->getC());
   FF_GETTER_CUSTOM(coef0, FF::DoubleConverter, self->getCoef0());
@@ -34,19 +34,19 @@ public:
 
   // TODO custom kernel
 
-  static NAN_METHOD(New);
-  static NAN_METHOD(SetParams);
-  static NAN_METHOD(Predict);
-  static NAN_METHOD(GetSupportVectors);
-  static NAN_METHOD(GetUncompressedSupportVectors);
-  static NAN_METHOD(GetDecisionFunction);
-  static NAN_METHOD(CalcError);
-  static NAN_METHOD(Save);
-  static NAN_METHOD(Load);
-  static NAN_METHOD(Train);
-  static NAN_METHOD(TrainAsync);
-  static NAN_METHOD(TrainAuto);
-  static NAN_METHOD(TrainAutoAsync);
+  static void New(const Napi::CallbackInfo& info);
+  static void SetParams(const Napi::CallbackInfo& info);
+  static void Predict(const Napi::CallbackInfo& info);
+  static void GetSupportVectors(const Napi::CallbackInfo& info);
+  static void GetUncompressedSupportVectors(const Napi::CallbackInfo& info);
+  static void GetDecisionFunction(const Napi::CallbackInfo& info);
+  static void CalcError(const Napi::CallbackInfo& info);
+  static void Save(const Napi::CallbackInfo& info);
+  static void Load(const Napi::CallbackInfo& info);
+  static void Train(const Napi::CallbackInfo& info);
+  static void TrainAsync(const Napi::CallbackInfo& info);
+  static void TrainAuto(const Napi::CallbackInfo& info);
+  static void TrainAutoAsync(const Napi::CallbackInfo& info);
 };
 
 #endif

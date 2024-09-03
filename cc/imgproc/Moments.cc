@@ -7,7 +7,7 @@
 
 Nan::Persistent<v8::FunctionTemplate> Moments::constructor;
 
-NAN_MODULE_INIT(Moments::Init) {
+Napi::Object Moments(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(Moments::New);
   Moments::constructor.Reset(ctor);
   ctor->InstanceTemplate()->SetInternalFieldCount(1);
@@ -42,7 +42,7 @@ NAN_MODULE_INIT(Moments::Init) {
   Nan::Set(target, Nan::New("Moments").ToLocalChecked(), FF::getFunction(ctor));
 };
 
-NAN_METHOD(Moments::New) {
+void Moments::New(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Moments::New");
   FF_ASSERT_CONSTRUCT_CALL();
   Moments* self = new Moments();
@@ -50,7 +50,7 @@ NAN_METHOD(Moments::New) {
   info.GetReturnValue().Set(info.Holder());
 }
 
-NAN_METHOD(Moments::HuMoments) {
+void Moments::HuMoments(const Napi::CallbackInfo& info) {
   std::vector<double> huMoments;
   cv::HuMoments(Moments::unwrapThis(info)->self, huMoments);
   info.GetReturnValue().Set(FF::DoubleArrayConverter::wrap(huMoments));

@@ -11,25 +11,25 @@
 
 class Io {
 public:
-  static NAN_MODULE_INIT(Init);
+  static Napi::Object Init(Napi::Env env, Napi::Object exports);
 
-  static NAN_METHOD(Imshow);
-  static NAN_METHOD(ImshowWait);
-  static NAN_METHOD(WaitKey);
+  static void Imshow(const Napi::CallbackInfo& info);
+  static void ImshowWait(const Napi::CallbackInfo& info);
+  static void WaitKey(const Napi::CallbackInfo& info);
 #if CV_VERSION_GREATER_EQUAL(3, 2, 0)
-  static NAN_METHOD(WaitKeyEx);
+  static void WaitKeyEx(const Napi::CallbackInfo& info);
 #endif
-  // static NAN_METHOD(MoveWindow); moved to highgui
-  static NAN_METHOD(DestroyWindow);
-  static NAN_METHOD(DestroyAllWindows);
-  static NAN_METHOD(Imread);
-  static NAN_METHOD(ImreadAsync);
-  static NAN_METHOD(Imwrite);
-  static NAN_METHOD(ImwriteAsync);
-  static NAN_METHOD(Imencode);
-  static NAN_METHOD(ImencodeAsync);
-  static NAN_METHOD(Imdecode);
-  static NAN_METHOD(ImdecodeAsync);
+  // static void MoveWindow(const Napi::CallbackInfo& info); moved to highgui
+  static void DestroyWindow(const Napi::CallbackInfo& info);
+  static void DestroyAllWindows(const Napi::CallbackInfo& info);
+  static void Imread(const Napi::CallbackInfo& info);
+  static void ImreadAsync(const Napi::CallbackInfo& info);
+  static void Imwrite(const Napi::CallbackInfo& info);
+  static void ImwriteAsync(const Napi::CallbackInfo& info);
+  static void Imencode(const Napi::CallbackInfo& info);
+  static void ImencodeAsync(const Napi::CallbackInfo& info);
+  static void Imdecode(const Napi::CallbackInfo& info);
+  static void ImdecodeAsync(const Napi::CallbackInfo& info);
 };
 
 #endif

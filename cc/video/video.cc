@@ -6,9 +6,9 @@
 #include "BackgroundSubtractorMOG2.h"
 #include "video.h"
 
-NAN_MODULE_INIT(Video::Init) {
-  BackgroundSubtractorMOG2::Init(target);
-  BackgroundSubtractorKNN::Init(target);
+Napi::Object Video(Napi::Env env, Napi::Object exports) {
+  BackgroundSubtractorMOG2::Init(env, exports);
+  BackgroundSubtractorKNN::Init(env, exports);
 };
 
 #endif

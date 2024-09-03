@@ -19,24 +19,24 @@
 #include "detectors/SimpleBlobDetector.h"
 #include "features2d.h"
 
-NAN_MODULE_INIT(Features2d::Init) {
-  KeyPoint::Init(target);
-  KeyPointMatch::Init(target);
-  DescriptorMatch::Init(target);
-  DescriptorMatching::Init(target);
-  DescriptorMatchingKnn::Init(target);
-  AGASTDetector::Init(target);
-  AKAZEDetector::Init(target);
-  BRISKDetector::Init(target);
-  BFMatcher::Init(target);
-  FASTDetector::Init(target);
-  GFTTDetector::Init(target);
-  KAZEDetector::Init(target);
-  MSERDetector::Init(target);
-  ORBDetector::Init(target);
-  SimpleBlobDetector::Init(target);
+Napi::Object Features2d(Napi::Env env, Napi::Object exports) {
+  KeyPoint::Init(env, exports);
+  KeyPointMatch::Init(env, exports);
+  DescriptorMatch::Init(env, exports);
+  DescriptorMatching::Init(env, exports);
+  DescriptorMatchingKnn::Init(env, exports);
+  AGASTDetector::Init(env, exports);
+  AKAZEDetector::Init(env, exports);
+  BRISKDetector::Init(env, exports);
+  BFMatcher::Init(env, exports);
+  FASTDetector::Init(env, exports);
+  GFTTDetector::Init(env, exports);
+  KAZEDetector::Init(env, exports);
+  MSERDetector::Init(env, exports);
+  ORBDetector::Init(env, exports);
+  SimpleBlobDetector::Init(env, exports);
 
-  Napi::Object agastTypes = Nan::New<v8::Object>();
+  Napi::Object agastTypes = Napi::Object::New(env);
   FF_SET_JS_PROP(agastTypes, AGAST_5_8, Nan::New<v8::Integer>(cv::AgastFeatureDetector::AGAST_5_8));
   FF_SET_JS_PROP(agastTypes, AGAST_7_12d, Nan::New<v8::Integer>(cv::AgastFeatureDetector::AGAST_7_12d));
   FF_SET_JS_PROP(agastTypes, AGAST_7_12s, Nan::New<v8::Integer>(cv::AgastFeatureDetector::AGAST_7_12s));
@@ -45,21 +45,21 @@ NAN_MODULE_INIT(Features2d::Init) {
   FF_SET_JS_PROP(agastTypes, NONMAX_SUPPRESSION, Nan::New<v8::Integer>(cv::AgastFeatureDetector::NONMAX_SUPPRESSION));
   FF_SET_JS_PROP(target, "AGAST", agastTypes);
 
-  Napi::Object akazeTypes = Nan::New<v8::Object>();
+  Napi::Object akazeTypes = Napi::Object::New(env);
   FF_SET_JS_PROP(akazeTypes, DESCRIPTOR_KAZE, Nan::New<v8::Integer>(cv::AKAZE::DESCRIPTOR_KAZE));
   FF_SET_JS_PROP(akazeTypes, DESCRIPTOR_KAZE, Nan::New<v8::Integer>(cv::AKAZE::DESCRIPTOR_KAZE));
   FF_SET_JS_PROP(akazeTypes, DESCRIPTOR_MLDB_UPRIGHT, Nan::New<v8::Integer>(cv::AKAZE::DESCRIPTOR_MLDB_UPRIGHT));
   FF_SET_JS_PROP(akazeTypes, DESCRIPTOR_MLDB, Nan::New<v8::Integer>(cv::AKAZE::DESCRIPTOR_MLDB));
   FF_SET_JS_PROP(target, "AKAZE", akazeTypes);
 
-  Napi::Object kazeTypes = Nan::New<v8::Object>();
+  Napi::Object kazeTypes = Napi::Object::New(env);
   FF_SET_JS_PROP(kazeTypes, DIFF_PM_G1, Nan::New<v8::Integer>(cv::KAZE::DIFF_PM_G1));
   FF_SET_JS_PROP(kazeTypes, DIFF_PM_G2, Nan::New<v8::Integer>(cv::KAZE::DIFF_PM_G2));
   FF_SET_JS_PROP(kazeTypes, DIFF_WEICKERT, Nan::New<v8::Integer>(cv::KAZE::DIFF_WEICKERT));
   FF_SET_JS_PROP(kazeTypes, DIFF_CHARBONNIER, Nan::New<v8::Integer>(cv::KAZE::DIFF_CHARBONNIER));
   FF_SET_JS_PROP(target, "KAZE", kazeTypes);
 
-  Napi::Object fastTypes = Nan::New<v8::Object>();
+  Napi::Object fastTypes = Napi::Object::New(env);
   FF_SET_JS_PROP(fastTypes, TYPE_5_8, Nan::New<v8::Integer>(cv::FastFeatureDetector::TYPE_5_8));
   FF_SET_JS_PROP(fastTypes, TYPE_7_12, Nan::New<v8::Integer>(cv::FastFeatureDetector::TYPE_7_12));
   FF_SET_JS_PROP(fastTypes, TYPE_9_16, Nan::New<v8::Integer>(cv::FastFeatureDetector::TYPE_9_16));
@@ -67,17 +67,17 @@ NAN_MODULE_INIT(Features2d::Init) {
   FF_SET_JS_PROP(fastTypes, NONMAX_SUPPRESSION, Nan::New<v8::Integer>(cv::FastFeatureDetector::NONMAX_SUPPRESSION));
   FF_SET_JS_PROP(target, "FAST", fastTypes);
 
-  Napi::Object orbTypes = Nan::New<v8::Object>();
+  Napi::Object orbTypes = Napi::Object::New(env);
   FF_SET_JS_PROP(orbTypes, HARRIS_SCORE, Nan::New<v8::Integer>(cv::ORB::HARRIS_SCORE));
   FF_SET_JS_PROP(orbTypes, FAST_SCORE, Nan::New<v8::Integer>(cv::ORB::FAST_SCORE));
   FF_SET_JS_PROP(orbTypes, kBytes, Nan::New<v8::Integer>(cv::ORB::kBytes));
   FF_SET_JS_PROP(target, "ORB", orbTypes);
 
-  Nan::SetMethod(target, "drawKeyPoints", DrawKeyPoints);
-  Nan::SetMethod(target, "drawMatches", DrawMatches);
+  exports.Set("drawKeyPoints", Napi::Function::New(env, Features2d::DrawKeyPoints));
+  exports.Set("drawMatches", Napi::Function::New(env, Features2d::DrawMatches));
 };
 
-NAN_METHOD(Features2d::DrawKeyPoints) {
+void Features2d::DrawKeyPoints(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Features2d::DrawKeyPoints");
 
   cv::Mat img;
@@ -92,7 +92,7 @@ NAN_METHOD(Features2d::DrawKeyPoints) {
   info.GetReturnValue().Set(Mat::Converter::wrap(drawMat));
 }
 
-NAN_METHOD(Features2d::DrawMatches) {
+void Features2d::DrawMatches(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Features2d::DrawMatches");
 
   cv::Mat img1, img2;

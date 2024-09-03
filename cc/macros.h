@@ -117,7 +117,7 @@ public:
   typedef AbstractConverter<EnumConverterImpl<TEnum>> Converter;
 
   static void init(Nan::ADDON_REGISTER_FUNCTION_ARGS_TYPE target) {
-    Napi::Object scoreTypes = Nan::New<v8::Object>();
+    Napi::Object scoreTypes = Napi::Object::New(env);
     for (const char* e : TEnum::getEnumMappings()) {
       Nan::Set(scoreTypes, newString(e), newString(e));
     }

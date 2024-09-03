@@ -12,28 +12,28 @@ void ImgHashBase::Init(Napi::FunctionReference ctor) {
   Nan::SetPrototypeMethod(ctor, "computeAsync", ComputeAsync);
 };
 
-NAN_METHOD(ImgHashBase::Compare) {
+void ImgHashBase::Compare(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<ImgHashBaseBindings::CompareWorker>(ImgHashBase::unwrapThis(info)->getImgHashBase()),
       "ImgHashBase::Compare",
       info);
 }
 
-NAN_METHOD(ImgHashBase::CompareAsync) {
+void ImgHashBase::CompareAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<ImgHashBaseBindings::CompareWorker>(ImgHashBase::unwrapThis(info)->getImgHashBase()),
       "ImgHashBase::CompareAsync",
       info);
 }
 
-NAN_METHOD(ImgHashBase::Compute) {
+void ImgHashBase::Compute(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<ImgHashBaseBindings::ComputeWorker>(ImgHashBase::unwrapThis(info)->getImgHashBase()),
       "ImgHashBase::Compute",
       info);
 }
 
-NAN_METHOD(ImgHashBase::ComputeAsync) {
+void ImgHashBase::ComputeAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<ImgHashBaseBindings::ComputeWorker>(ImgHashBase::unwrapThis(info)->getImgHashBase()),
       "ImgHashBase::ComputeAsync",

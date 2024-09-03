@@ -6,7 +6,7 @@
 
 Nan::Persistent<v8::FunctionTemplate> TrackerMedianFlow::constructor;
 
-NAN_MODULE_INIT(TrackerMedianFlow::Init) {
+Napi::Object TrackerMedianFlow(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(TrackerMedianFlow::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
@@ -19,7 +19,7 @@ NAN_MODULE_INIT(TrackerMedianFlow::Init) {
   Nan::Set(target, FF::newString(env, "TrackerMedianFlow"), FF::getFunction(ctor));
 };
 
-NAN_METHOD(TrackerMedianFlow::New) {
+void TrackerMedianFlow::New(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("TrackerMedianFlow::New");
   FF_ASSERT_CONSTRUCT_CALL();
 

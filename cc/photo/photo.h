@@ -9,13 +9,13 @@
 
 class Photo {
 public:
-  static NAN_MODULE_INIT(Init);
-  static NAN_METHOD(FastNlMeansDenoisingColored);
-  static NAN_METHOD(FastNlMeansDenoisingColoredAsync);
-  static NAN_METHOD(Inpaint);
-  static NAN_METHOD(InpaintAsync);
-  static NAN_METHOD(SeamlessClone);
-  static NAN_METHOD(SeamlessCloneAsync);
+  static Napi::Object Init(Napi::Env env, Napi::Object exports);
+  static void FastNlMeansDenoisingColored(const Napi::CallbackInfo& info);
+  static void FastNlMeansDenoisingColoredAsync(const Napi::CallbackInfo& info);
+  static void Inpaint(const Napi::CallbackInfo& info);
+  static void InpaintAsync(const Napi::CallbackInfo& info);
+  static void SeamlessClone(const Napi::CallbackInfo& info);
+  static void SeamlessCloneAsync(const Napi::CallbackInfo& info);
 };
 
 #endif

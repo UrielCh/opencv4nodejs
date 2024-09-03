@@ -10,7 +10,7 @@
 #define FF_CONST_TYPE(CONST, VALUE) \
   Nan::Set(target, Nan::New<v8::String>(#CONST).ToLocalChecked(), Nan::New<v8::Integer>(VALUE));
 
-NAN_MODULE_INIT(Dnn::Init) {
+Napi::Object Dnn(Napi::Env env, Napi::Object exports) {
 
 #if CV_VERSION_GREATER_EQUAL(3, 4, 2)
   FF_CONST_TYPE(DNN_BACKEND_OPENCV, cv::dnn::DNN_BACKEND_OPENCV)
@@ -52,93 +52,93 @@ NAN_MODULE_INIT(Dnn::Init) {
   FF_CONST_TYPE(DNN_BACKEND_WEBNN, cv::dnn::DNN_BACKEND_WEBNN)
 #endif
 
-  Net::Init(target);
+  Net::Init(env, exports);
 
-  Nan::SetMethod(target, "readNetFromTensorflow", ReadNetFromTensorflow);
-  Nan::SetMethod(target, "readNetFromTensorflowAsync", ReadNetFromTensorflowAsync);
-  Nan::SetMethod(target, "readNetFromCaffe", ReadNetFromCaffe);
-  Nan::SetMethod(target, "readNetFromCaffeAsync", ReadNetFromCaffeAsync);
-  Nan::SetMethod(target, "blobFromImage", BlobFromImage);
-  Nan::SetMethod(target, "blobFromImageAsync", BlobFromImageAsync);
-  Nan::SetMethod(target, "blobFromImages", BlobFromImages);
-  Nan::SetMethod(target, "blobFromImagesAsync", BlobFromImagesAsync);
+  exports.Set("readNetFromTensorflow", Napi::Function::New(env, Dnn::ReadNetFromTensorflow));
+  exports.Set("readNetFromTensorflowAsync", Napi::Function::New(env, Dnn::ReadNetFromTensorflowAsync));
+  exports.Set("readNetFromCaffe", Napi::Function::New(env, Dnn::ReadNetFromCaffe));
+  exports.Set("readNetFromCaffeAsync", Napi::Function::New(env, Dnn::ReadNetFromCaffeAsync));
+  exports.Set("blobFromImage", Napi::Function::New(env, Dnn::BlobFromImage));
+  exports.Set("blobFromImageAsync", Napi::Function::New(env, Dnn::BlobFromImageAsync));
+  exports.Set("blobFromImages", Napi::Function::New(env, Dnn::BlobFromImages));
+  exports.Set("blobFromImagesAsync", Napi::Function::New(env, Dnn::BlobFromImagesAsync));
 #if CV_VERSION_GREATER_EQUAL(3, 4, 0)
-  Nan::SetMethod(target, "readNetFromDarknet", ReadNetFromDarknet);
-  Nan::SetMethod(target, "readNetFromDarknetAsync", ReadNetFromDarknetAsync);
-  Nan::SetMethod(target, "NMSBoxes", NMSBoxes);
+  exports.Set("readNetFromDarknet", Napi::Function::New(env, Dnn::ReadNetFromDarknet));
+  exports.Set("readNetFromDarknetAsync", Napi::Function::New(env, Dnn::ReadNetFromDarknetAsync));
+  exports.Set("NMSBoxes", Napi::Function::New(env, Dnn::NMSBoxes));
 #endif
 #if CV_VERSION_GREATER_EQUAL(4, 0, 0)
-  Nan::SetMethod(target, "readNetFromONNX", ReadNetFromONNX);
-  Nan::SetMethod(target, "readNetFromONNXAsync", ReadNetFromONNXAsync);
+  exports.Set("readNetFromONNX", Napi::Function::New(env, Dnn::ReadNetFromONNX));
+  exports.Set("readNetFromONNXAsync", Napi::Function::New(env, Dnn::ReadNetFromONNXAsync));
 #endif
 #if CV_VERSION_GREATER_EQUAL(3, 4, 2)
-  Nan::SetMethod(target, "readNet", ReadNet);
-  Nan::SetMethod(target, "readNetAsync", ReadNetAsync);
+  exports.Set("readNet", Napi::Function::New(env, Dnn::ReadNet));
+  exports.Set("readNetAsync", Napi::Function::New(env, Dnn::ReadNetAsync));
 #endif
 };
 
-NAN_METHOD(Dnn::ReadNetFromTensorflow) {
+void Dnn::ReadNetFromTensorflow(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(std::make_shared<DnnBindings::ReadNetFromTensorflowWorker>(), "ReadNetFromTensorflow", info);
 }
 
-NAN_METHOD(Dnn::ReadNetFromTensorflowAsync) {
+void Dnn::ReadNetFromTensorflowAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(std::make_shared<DnnBindings::ReadNetFromTensorflowWorker>(), "ReadNetFromTensorflowAsync", info);
 }
 
-NAN_METHOD(Dnn::ReadNetFromCaffe) {
+void Dnn::ReadNetFromCaffe(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(std::make_shared<DnnBindings::ReadNetFromCaffeWorker>(), "ReadNetFromCaffe", info);
 }
 
-NAN_METHOD(Dnn::ReadNetFromCaffeAsync) {
+void Dnn::ReadNetFromCaffeAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(std::make_shared<DnnBindings::ReadNetFromCaffeWorker>(), "ReadNetFromCaffeAsync", info);
 }
 
-NAN_METHOD(Dnn::BlobFromImage) {
+void Dnn::BlobFromImage(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(std::make_shared<DnnBindings::BlobFromImageWorker>(true), "BlobFromImage", info);
 }
 
-NAN_METHOD(Dnn::BlobFromImageAsync) {
+void Dnn::BlobFromImageAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(std::make_shared<DnnBindings::BlobFromImageWorker>(true), "BlobFromImageAsync", info);
 }
 
-NAN_METHOD(Dnn::BlobFromImages) {
+void Dnn::BlobFromImages(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(std::make_shared<DnnBindings::BlobFromImageWorker>(false), "BlobFromImages", info);
 }
 
-NAN_METHOD(Dnn::BlobFromImagesAsync) {
+void Dnn::BlobFromImagesAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(std::make_shared<DnnBindings::BlobFromImageWorker>(false), "BlobFromImagesAsync", info);
 }
 
 #if CV_VERSION_GREATER_EQUAL(3, 4, 0)
-NAN_METHOD(Dnn::ReadNetFromDarknet) {
+void Dnn::ReadNetFromDarknet(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(std::make_shared<DnnBindings::ReadNetFromDarknetWorker>(), "ReadNetFromDarknet", info);
 }
 
-NAN_METHOD(Dnn::ReadNetFromDarknetAsync) {
+void Dnn::ReadNetFromDarknetAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(std::make_shared<DnnBindings::ReadNetFromDarknetWorker>(), "ReadNetFromDarknetAsync", info);
 }
 
-NAN_METHOD(Dnn::NMSBoxes) {
+void Dnn::NMSBoxes(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(std::make_shared<DnnBindings::NMSBoxes>(), "NMSBoxes", info);
 }
 #endif
 
 #if CV_VERSION_GREATER_EQUAL(4, 0, 0)
-NAN_METHOD(Dnn::ReadNetFromONNX) {
+void Dnn::ReadNetFromONNX(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(std::make_shared<DnnBindings::ReadNetFromONNXWorker>(), "ReadNetFromONNX", info);
 }
 
-NAN_METHOD(Dnn::ReadNetFromONNXAsync) {
+void Dnn::ReadNetFromONNXAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(std::make_shared<DnnBindings::ReadNetFromONNXWorker>(), "ReadNetFromONNXAsync", info);
 }
 #endif
 
 #if CV_VERSION_GREATER_EQUAL(3, 4, 2)
-NAN_METHOD(Dnn::ReadNet) {
+void Dnn::ReadNet(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(std::make_shared<DnnBindings::ReadNetWorker>(), "ReadNet", info);
 }
 
-NAN_METHOD(Dnn::ReadNetAsync) {
+void Dnn::ReadNetAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(std::make_shared<DnnBindings::ReadNetWorker>(), "ReadNetAsync", info);
 }
 #endif

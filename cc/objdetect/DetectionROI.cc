@@ -6,7 +6,7 @@
 
 Nan::Persistent<v8::FunctionTemplate> DetectionROI::constructor;
 
-NAN_MODULE_INIT(DetectionROI::Init) {
+Napi::Object DetectionROI(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(DetectionROI::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
@@ -21,7 +21,7 @@ NAN_MODULE_INIT(DetectionROI::Init) {
   Nan::Set(target, FF::newString(env, "DetectionROI"), FF::getFunction(ctor));
 };
 
-NAN_METHOD(DetectionROI::New) {
+void DetectionROI::New(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("DetectionROI::New");
   FF_ASSERT_CONSTRUCT_CALL();
   DetectionROI* self = new DetectionROI();

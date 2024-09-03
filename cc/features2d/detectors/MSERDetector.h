@@ -30,8 +30,8 @@ public:
   double minMargin;
   int edgeBlurSize;
 
-  static NAN_MODULE_INIT(Init);
-  static NAN_METHOD(New);
+static Napi::Object Init(Napi::Env env, Napi::Object exports);
+  static void New(const Napi::CallbackInfo& info);
 
   FF_GETTER_CUSTOM(delta, FF::IntConverter, delta);
   FF_GETTER_CUSTOM(minArea, FF::IntConverter, minArea);
@@ -43,8 +43,8 @@ public:
   FF_GETTER_CUSTOM(minMargin, FF::DoubleConverter, minMargin);
   FF_GETTER_CUSTOM(edgeBlurSize, FF::IntConverter, edgeBlurSize);
 
-  static NAN_METHOD(DetectRegions);
-  static NAN_METHOD(DetectRegionsAsync);
+  static void DetectRegions(const Napi::CallbackInfo& info);
+  static void DetectRegionsAsync(const Napi::CallbackInfo& info);
 
   struct NewWorker : CatchCvExceptionWorker {
   public:

@@ -5,7 +5,7 @@
 CustomMatAllocator* ExternalMemTracking::custommatallocator = NULL;
 #endif
 
-NAN_MODULE_INIT(ExternalMemTracking::Init) {
+Napi::Object ExternalMemTracking(Napi::Env env, Napi::Object exports) {
 #ifdef OPENCV4NODEJS_ENABLE_EXTERNALMEMTRACKING
   try {
     char* env = std::getenv("OPENCV4NODEJS_DISABLE_EXTERNAL_MEM_TRACKING");
@@ -17,13 +17,13 @@ NAN_MODULE_INIT(ExternalMemTracking::Init) {
     printf("ExternalMemTracking::Init - fatal exception while trying to read env: OPENCV4NODEJS_DISABLE_EXTERNAL_MEM_TRACKING");
   }
 #endif
-  Nan::SetMethod(target, "isCustomMatAllocatorEnabled", IsCustomMatAllocatorEnabled);
-  Nan::SetMethod(target, "dangerousEnableCustomMatAllocator", DangerousEnableCustomMatAllocator);
-  Nan::SetMethod(target, "dangerousDisableCustomMatAllocator", DangerousDisableCustomMatAllocator);
-  Nan::SetMethod(target, "getMemMetrics", GetMemMetrics);
+    exports.Set("isCustomMatAllocatorEnabled", Napi::Function::New(env, ExternalMemTracking::IsCustomMatAllocatorEnabled));
+    exports.Set("dangerousEnableCustomMatAllocator", Napi::Function::New(env, ExternalMemTracking::DangerousEnableCustomMatAllocator));
+    exports.Set("dangerousDisableCustomMatAllocator", Napi::Function::New(env, ExternalMemTracking::DangerousDisableCustomMatAllocator));
+    exports.Set("getMemMetrics", Napi::Function::New(env, ExternalMemTracking::GetMemMetrics));
 };
 
-NAN_METHOD(ExternalMemTracking::GetMemMetrics) {
+void ExternalMemTracking::GetMemMetrics(const Napi::CallbackInfo& info) {
 
   int64_t TotalAlloc = -1;
   int64_t TotalKnownByJS = -1;
@@ -39,7 +39,7 @@ NAN_METHOD(ExternalMemTracking::GetMemMetrics) {
   }
 #endif
 
-  Napi::Object result = Nan::New<v8::Object>();
+  Napi::Object result = Napi::Object::New(env);
   Nan::Set(result, FF::newString(env, "TotalAlloc"), Nan::New((double)TotalAlloc));
   Nan::Set(result, FF::newString(env, "TotalKnownByJS"), Nan::New((double)TotalKnownByJS));
   Nan::Set(result, FF::newString(env, "NumAllocations"), Nan::New((double)NumAllocations));
@@ -49,7 +49,7 @@ NAN_METHOD(ExternalMemTracking::GetMemMetrics) {
   return;
 }
 
-NAN_METHOD(ExternalMemTracking::IsCustomMatAllocatorEnabled) {
+void ExternalMemTracking::IsCustomMatAllocatorEnabled(const Napi::CallbackInfo& info) {
   bool allocatorOn = false;
 #ifdef OPENCV4NODEJS_ENABLE_EXTERNALMEMTRACKING
   if (ExternalMemTracking::custommatallocator != NULL) {
@@ -59,7 +59,7 @@ NAN_METHOD(ExternalMemTracking::IsCustomMatAllocatorEnabled) {
   info.GetReturnValue().Set(allocatorOn);
 }
 
-NAN_METHOD(ExternalMemTracking::DangerousEnableCustomMatAllocator) {
+void ExternalMemTracking::DangerousEnableCustomMatAllocator(const Napi::CallbackInfo& info) {
   bool success = false;
 #ifdef OPENCV4NODEJS_ENABLE_EXTERNALMEMTRACKING
   if (ExternalMemTracking::custommatallocator == NULL) {
@@ -71,7 +71,7 @@ NAN_METHOD(ExternalMemTracking::DangerousEnableCustomMatAllocator) {
   info.GetReturnValue().Set(success);
 }
 
-NAN_METHOD(ExternalMemTracking::DangerousDisableCustomMatAllocator) {
+void ExternalMemTracking::DangerousDisableCustomMatAllocator(const Napi::CallbackInfo& info) {
   bool success = false;
 #ifdef OPENCV4NODEJS_ENABLE_EXTERNALMEMTRACKING
   if (ExternalMemTracking::custommatallocator != NULL) {

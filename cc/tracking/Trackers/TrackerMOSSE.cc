@@ -8,7 +8,7 @@
 
 Nan::Persistent<v8::FunctionTemplate> TrackerMOSSE::constructor;
 
-NAN_MODULE_INIT(TrackerMOSSE::Init) {
+Napi::Object TrackerMOSSE(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(TrackerMOSSE::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
@@ -21,7 +21,7 @@ NAN_MODULE_INIT(TrackerMOSSE::Init) {
   Nan::Set(target, FF::newString(env, "TrackerMOSSE"), FF::getFunction(ctor));
 };
 
-NAN_METHOD(TrackerMOSSE::New) {
+void TrackerMOSSE::New(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("TrackerMOSSE::New");
   FF_ASSERT_CONSTRUCT_CALL();
 

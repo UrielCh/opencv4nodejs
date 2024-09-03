@@ -7,7 +7,7 @@
 
 Nan::Persistent<v8::FunctionTemplate> VideoCapture::constructor;
 
-NAN_MODULE_INIT(VideoCapture::Init) {
+Napi::Object VideoCapture(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(VideoCapture::New);
   constructor.Reset(ctor);
   ctor->InstanceTemplate()->SetInternalFieldCount(1);
@@ -23,7 +23,7 @@ NAN_MODULE_INIT(VideoCapture::Init) {
   Nan::Set(target, FF::newString(env, "VideoCapture"), FF::getFunction(ctor));
 };
 
-NAN_METHOD(VideoCapture::New) {
+void VideoCapture::New(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("VideoCapture::New");
   FF_ASSERT_CONSTRUCT_CALL();
   VideoCapture* self = new VideoCapture();
@@ -43,7 +43,7 @@ NAN_METHOD(VideoCapture::New) {
   info.GetReturnValue().Set(info.Holder());
 }
 
-NAN_METHOD(VideoCapture::Reset) {
+void VideoCapture::Reset(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("VideoCapture::Reset");
   VideoCapture* self = Nan::ObjectWrap::Unwrap<VideoCapture>(info.This());
   self->self.release();
@@ -53,46 +53,46 @@ NAN_METHOD(VideoCapture::Reset) {
   }
 }
 
-NAN_METHOD(VideoCapture::Release) {
+void VideoCapture::Release(const Napi::CallbackInfo& info) {
   Nan::ObjectWrap::Unwrap<VideoCapture>(info.This())->self.release();
 }
 
-NAN_METHOD(VideoCapture::Get) {
+void VideoCapture::Get(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<VideoCaptureBindings::GetWorker>(VideoCapture::unwrapSelf(info)),
       "VideoCapture::Get",
       info);
 }
 
-NAN_METHOD(VideoCapture::GetAsync) {
+void VideoCapture::GetAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<VideoCaptureBindings::GetWorker>(VideoCapture::unwrapSelf(info)),
       "VideoCapture::GetAsync",
       info);
 }
 
-NAN_METHOD(VideoCapture::Read) {
+void VideoCapture::Read(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<VideoCaptureBindings::ReadWorker>(VideoCapture::unwrapSelf(info)),
       "VideoCapture::Read",
       info);
 }
 
-NAN_METHOD(VideoCapture::ReadAsync) {
+void VideoCapture::ReadAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<VideoCaptureBindings::ReadWorker>(VideoCapture::unwrapSelf(info)),
       "VideoCapture::ReadAsync",
       info);
 }
 
-NAN_METHOD(VideoCapture::Set) {
+void VideoCapture::Set(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<VideoCaptureBindings::SetWorker>(VideoCapture::unwrapSelf(info)),
       "VideoCapture::Set",
       info);
 }
 
-NAN_METHOD(VideoCapture::SetAsync) {
+void VideoCapture::SetAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<VideoCaptureBindings::SetWorker>(VideoCapture::unwrapSelf(info)),
       "VideoCapture::SetAsync",

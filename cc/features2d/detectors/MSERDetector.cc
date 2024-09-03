@@ -8,7 +8,7 @@
 
 Nan::Persistent<v8::FunctionTemplate> MSERDetector::constructor;
 
-NAN_MODULE_INIT(MSERDetector::Init) {
+Napi::Object MSERDetector(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(MSERDetector::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
@@ -33,7 +33,7 @@ NAN_MODULE_INIT(MSERDetector::Init) {
   Nan::Set(target, Nan::New("MSERDetector").ToLocalChecked(), FF::getFunction(ctor));
 };
 
-NAN_METHOD(MSERDetector::New) {
+void MSERDetector::New(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("MSERDetector::New");
   FF_ASSERT_CONSTRUCT_CALL();
   MSERDetector::NewWorker worker;
@@ -84,21 +84,21 @@ public:
   }
 
   Napi::Value getReturnValue() {
-    Napi::Object ret = Nan::New<v8::Object>();
+    Napi::Object ret = Napi::Object::New(env);
     Nan::Set(ret, FF::newString(env, "msers"), Point2::ArrayOfArraysWithCastConverter<cv::Point2i>::wrap(regions));
     Nan::Set(ret, FF::newString(env, "bboxes"), Rect::ArrayWithCastConverter<cv::Rect>::wrap(mser_bbox));
     return ret;
   }
 };
 
-NAN_METHOD(MSERDetector::DetectRegions) {
+void MSERDetector::DetectRegions(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<DetectRegionsWorker>(MSERDetector::unwrapSelf(info)),
       "MSERDetector::DetectRegions",
       info);
 }
 
-NAN_METHOD(MSERDetector::DetectRegionsAsync) {
+void MSERDetector::DetectRegionsAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<DetectRegionsWorker>(MSERDetector::unwrapSelf(info)),
       "MSERDetector::DetectRegionsAsync",

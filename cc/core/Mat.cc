@@ -101,7 +101,7 @@ static inline Napi::Value matGetVec4(cv::Mat mat, const cv::Vec<int, n>& idx) {
 
 } // namespace FF
 
-NAN_MODULE_INIT(Mat::Init) {
+Napi::Object Mat(Napi::Env env, Napi::Object exports) {
 
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(Mat::New);
   constructor.Reset(ctor);
@@ -428,7 +428,7 @@ NAN_MODULE_INIT(Mat::Init) {
     }                                                                                                                  \
   }
 
-NAN_METHOD(Mat::New) {
+void Mat::New(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Mat::New");
   FF_ASSERT_CONSTRUCT_CALL();
   Mat* self = new Mat();
@@ -641,7 +641,7 @@ NAN_METHOD(Mat::New) {
   info.GetReturnValue().Set(info.Holder());
 }
 
-NAN_METHOD(Mat::Eye) {
+void Mat::Eye(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Mat::Eye");
   int rows, cols, type;
   if (
@@ -651,7 +651,7 @@ NAN_METHOD(Mat::Eye) {
   info.GetReturnValue().Set(Mat::Converter::wrap(cv::Mat::eye(cv::Size(cols, rows), type)));
 }
 
-NAN_METHOD(Mat::Ones) {
+void Mat::Ones(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Mat::Ones");
   int rows, cols, type;
   if (
@@ -661,7 +661,7 @@ NAN_METHOD(Mat::Ones) {
   info.GetReturnValue().Set(Mat::Converter::wrap(cv::Mat::ones(cv::Size(cols, rows), type)));
 }
 
-NAN_METHOD(Mat::Zeros) {
+void Mat::Zeros(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Mat::Zero");
   int rows, cols, type;
   if (
@@ -671,7 +671,7 @@ NAN_METHOD(Mat::Zeros) {
   info.GetReturnValue().Set(Mat::Converter::wrap(cv::Mat::zeros(cv::Size(cols, rows), type)));
 }
 
-NAN_METHOD(Mat::FlattenFloat) {
+void Mat::FlattenFloat(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Mat::FlattenFloat");
   int rows, cols;
   if (
@@ -684,7 +684,7 @@ NAN_METHOD(Mat::FlattenFloat) {
   info.GetReturnValue().Set(Mat::Converter::wrap(mat2D));
 }
 
-NAN_METHOD(Mat::At) {
+void Mat::At(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Mat::At");
 
   cv::Mat matSelf = Mat::unwrapSelf(info);
@@ -748,7 +748,7 @@ NAN_METHOD(Mat::At) {
   info.GetReturnValue().Set(jsVal);
 }
 
-NAN_METHOD(Mat::AtRaw) {
+void Mat::AtRaw(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Mat::AtRaw");
   cv::Mat matSelf = Mat::unwrapSelf(info);
   FF_ASSERT_INDEX_RANGE(info[0]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value(), matSelf.size[0] - 1, "Mat::At row");
@@ -758,7 +758,7 @@ NAN_METHOD(Mat::AtRaw) {
   info.GetReturnValue().Set(val);
 }
 
-NAN_METHOD(Mat::Set) {
+void Mat::Set(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Mat::Set");
   cv::Mat matSelf = Mat::unwrapSelf(info);
   FF_ASSERT_INDEX_RANGE(info[0]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value(), matSelf.size[0] - 1, "Mat::At row");
@@ -785,14 +785,14 @@ NAN_METHOD(Mat::Set) {
   }
 }
 
-NAN_METHOD(Mat::SetTo) {
+void Mat::SetTo(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<MatBindings::SetToWorker>(Mat::unwrapSelf(info)),
       "Mat::SetTo",
       info);
 }
 
-NAN_METHOD(Mat::SetToAsync) {
+void Mat::SetToAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<MatBindings::SetToWorker>(Mat::unwrapSelf(info)),
       "Mat::SetToAsync",
@@ -867,7 +867,7 @@ NAN_METHOD(Mat::SetToAsync) {
     }                                                                    \
   }
 
-NAN_METHOD(Mat::GetDataAsArray) {
+void Mat::GetDataAsArray(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Mat::GetDataAsArray");
   cv::Mat mat = Mat::unwrapSelf(info);
   v8::Local<v8::Array> rowArray = Nan::New<v8::Array>(mat.size[0]);
@@ -889,7 +889,7 @@ NAN_METHOD(Mat::GetDataAsArray) {
   info.GetReturnValue().Set(rowArray);
 }
 
-NAN_METHOD(Mat::SetData) {
+void Mat::SetData(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Mat::SetData");
   cv::Mat mat = Mat::unwrapSelf(info);
   char* data = static_cast<char*>(node::Buffer::Data(info[0]->ToObject(Nan::GetCurrentContext()).ToLocalChecked()));
@@ -898,7 +898,7 @@ NAN_METHOD(Mat::SetData) {
   info.GetReturnValue().Set(Mat::Converter::wrap(mat));
 }
 
-NAN_METHOD(Mat::GetRegion) {
+void Mat::GetRegion(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Mat::GetRegion");
   cv::Rect2d rect;
   if (Rect::Converter::arg(0, &rect, info)) {
@@ -912,7 +912,7 @@ NAN_METHOD(Mat::GetRegion) {
   }
 }
 
-NAN_METHOD(Mat::Norm) {
+void Mat::Norm(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Mat::Norm");
   bool withSrc2 = FF::hasArg(info, 0) && Mat::hasInstance(info[0]);
   uint i = withSrc2 ? 1 : 0;
@@ -920,7 +920,7 @@ NAN_METHOD(Mat::Norm) {
 
   // optional args
   bool hasOptArgsObj = FF::isArgObject(info, i);
-  Napi::Object optArgs = hasOptArgsObj ? info[i]->ToObject(Nan::GetCurrentContext()).ToLocalChecked() : Nan::New<v8::Object>();
+  Napi::Object optArgs = hasOptArgsObj ? info[i]->ToObject(Nan::GetCurrentContext()).ToLocalChecked() : Napi::Object::New(env);
 
   uint normType = cv::NORM_L2;
   cv::Mat mask = cv::noArray().getMat();
@@ -945,7 +945,7 @@ NAN_METHOD(Mat::Norm) {
 // The method makes a new header for the specified matrix row and returns it. This is an O(1)
 // operation, regardless of the matrix size. The underlying data of the new matrix is shared with the
 // original matrix.
-NAN_METHOD(Mat::Row) {
+void Mat::Row(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Mat::Row");
   int row;
   if (FF::IntConverter::arg(0, &row, info)) {
@@ -957,7 +957,7 @@ NAN_METHOD(Mat::Row) {
 // The method makes a new header for the specified matrix column and returns it. This is an O(1)
 // operation, regardless of the matrix size. The underlying data of the new matrix is shared with the
 // original matrix. See also the Mat::row description.
-NAN_METHOD(Mat::Col) {
+void Mat::Col(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Mat::Col");
   int col;
   if (FF::IntConverter::arg(0, &col, info)) {
@@ -968,7 +968,7 @@ NAN_METHOD(Mat::Col) {
 
 // The method makes a new header for the specified row span of the matrix. Similarly to Mat::row and
 // Mat::col , this is an O(1) operation.
-NAN_METHOD(Mat::RowRange) {
+void Mat::RowRange(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Mat::RowRange");
   int start, end;
   if (FF::IntConverter::arg(0, &start, info) || FF::IntConverter::arg(1, &end, info)) {
@@ -979,7 +979,7 @@ NAN_METHOD(Mat::RowRange) {
 
 // The method makes a new header for the specified column span of the matrix. Similarly to Mat::row and
 // Mat::col , this is an O(1) operation.
-NAN_METHOD(Mat::ColRange) {
+void Mat::ColRange(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Mat::ColRange");
   int start, end;
   if (FF::IntConverter::arg(0, &start, info) || FF::IntConverter::arg(1, &end, info)) {
@@ -988,151 +988,151 @@ NAN_METHOD(Mat::ColRange) {
   info.GetReturnValue().Set(Mat::Converter::wrap(Mat::unwrapSelf(info).colRange(start, end)));
 }
 
-NAN_METHOD(Mat::Release) {
+void Mat::Release(const Napi::CallbackInfo& info) {
   // must get pointer to the original; else we are just getting a COPY and then releasing that!
   Mat::unwrapThis(info)->self.release();
 }
 
-NAN_METHOD(Mat::PushBack) {
+void Mat::PushBack(const Napi::CallbackInfo& info) {
   Mat::syncBinding<MatBindings::PushBack>("PushBack", info);
 }
 
-NAN_METHOD(Mat::PushBackAsync) {
+void Mat::PushBackAsync(const Napi::CallbackInfo& info) {
   Mat::asyncBinding<MatBindings::PushBack>("PushBack", info);
 }
 
-NAN_METHOD(Mat::PopBack) {
+void Mat::PopBack(const Napi::CallbackInfo& info) {
   Mat::syncBinding<MatBindings::PopBack>("PopBack", info);
 }
 
-NAN_METHOD(Mat::PopBackAsync) {
+void Mat::PopBackAsync(const Napi::CallbackInfo& info) {
   Mat::asyncBinding<MatBindings::PopBack>("PopBack", info);
 }
 
-NAN_METHOD(Mat::GetData) {
+void Mat::GetData(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<MatBindings::GetDataWorker>(Mat::unwrapSelf(info)),
       "Mat::GetData",
       info);
 }
 
-NAN_METHOD(Mat::GetDataAsync) {
+void Mat::GetDataAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<MatBindings::GetDataWorker>(Mat::unwrapSelf(info)),
       "Mat::GetDataAsync",
       info);
 }
 
-NAN_METHOD(Mat::Copy) {
+void Mat::Copy(const Napi::CallbackInfo& info) {
   Mat::syncBinding<MatBindings::Copy>("Copy", info);
 }
 
-NAN_METHOD(Mat::CopyAsync) {
+void Mat::CopyAsync(const Napi::CallbackInfo& info) {
   Mat::asyncBinding<MatBindings::Copy>("Copy", info);
 }
 
-NAN_METHOD(Mat::CopyTo) {
+void Mat::CopyTo(const Napi::CallbackInfo& info) {
   Mat::syncBinding<MatBindings::CopyTo>("CopyTo", info);
 }
 
-NAN_METHOD(Mat::CopyToAsync) {
+void Mat::CopyToAsync(const Napi::CallbackInfo& info) {
   Mat::asyncBinding<MatBindings::CopyTo>("CopyTo", info);
 }
 
-NAN_METHOD(Mat::ConvertTo) {
+void Mat::ConvertTo(const Napi::CallbackInfo& info) {
   Mat::syncBinding<MatBindings::ConvertTo>("ConvertTo", info);
 }
 
-NAN_METHOD(Mat::ConvertToAsync) {
+void Mat::ConvertToAsync(const Napi::CallbackInfo& info) {
   Mat::asyncBinding<MatBindings::ConvertTo>("ConvertTo", info);
 }
 
-NAN_METHOD(Mat::PadToSquare) {
+void Mat::PadToSquare(const Napi::CallbackInfo& info) {
   Mat::syncBinding<MatBindings::PadToSquare>("PadToSquare", info);
 }
 
-NAN_METHOD(Mat::PadToSquareAsync) {
+void Mat::PadToSquareAsync(const Napi::CallbackInfo& info) {
   Mat::asyncBinding<MatBindings::PadToSquare>("PadToSquare", info);
 }
 
-NAN_METHOD(Mat::Dct) {
+void Mat::Dct(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<MatBindings::DCTWorker>(Mat::unwrapSelf(info)),
       "Mat::Dct",
       info);
 }
 
-NAN_METHOD(Mat::DctAsync) {
+void Mat::DctAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<MatBindings::DCTWorker>(Mat::unwrapSelf(info)),
       "Mat::DctAsync",
       info);
 }
 
-NAN_METHOD(Mat::Idct) {
+void Mat::Idct(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<MatBindings::DCTWorker>(Mat::unwrapSelf(info)),
       "Mat::Idct",
       info);
 }
 
-NAN_METHOD(Mat::IdctAsync) {
+void Mat::IdctAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<MatBindings::DCTWorker>(Mat::unwrapSelf(info)),
       "Mat::IdctAsync",
       info);
 }
 
-NAN_METHOD(Mat::Dft) {
+void Mat::Dft(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<MatBindings::DFTWorker>(Mat::unwrapSelf(info)),
       "Mat::Dft",
       info);
 }
 
-NAN_METHOD(Mat::DftAsync) {
+void Mat::DftAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<MatBindings::DFTWorker>(Mat::unwrapSelf(info)),
       "Mat::DftAsync",
       info);
 }
 
-NAN_METHOD(Mat::Idft) {
+void Mat::Idft(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<MatBindings::DFTWorker>(Mat::unwrapSelf(info)),
       "Mat::Idft",
       info);
 }
 
-NAN_METHOD(Mat::IdftAsync) {
+void Mat::IdftAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<MatBindings::DFTWorker>(Mat::unwrapSelf(info)),
       "Mat::IdftAsync",
       info);
 }
 
-NAN_METHOD(Mat::Flip) {
+void Mat::Flip(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<MatBindings::FlipWorker>(Mat::unwrapSelf(info)),
       "Mat::Flip",
       info);
 }
 
-NAN_METHOD(Mat::FlipAsync) {
+void Mat::FlipAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<MatBindings::FlipWorker>(Mat::unwrapSelf(info)),
       "Mat::FlipAsync",
       info);
 }
 
-NAN_METHOD(Mat::CopyMakeBorder) {
+void Mat::CopyMakeBorder(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<MatBindings::CopyMakeBorderWorker>(Mat::unwrapSelf(info)),
       "Mat::CopyMakeBorder",
       info);
 }
 
-NAN_METHOD(Mat::CopyMakeBorderAsync) {
+void Mat::CopyMakeBorderAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<MatBindings::CopyMakeBorderWorker>(Mat::unwrapSelf(info)),
       "Mat::CopyMakeBorderAsync",
@@ -1140,14 +1140,14 @@ NAN_METHOD(Mat::CopyMakeBorderAsync) {
 }
 
 #if CV_VERSION_GREATER_EQUAL(3, 2, 0)
-NAN_METHOD(Mat::Rotate) {
+void Mat::Rotate(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<MatBindings::RotateWorker>(Mat::unwrapSelf(info)),
       "Mat::Rotate",
       info);
 }
 
-NAN_METHOD(Mat::RotateAsync) {
+void Mat::RotateAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<MatBindings::RotateWorker>(Mat::unwrapSelf(info)),
       "Mat::RotateAsync",
@@ -1155,130 +1155,130 @@ NAN_METHOD(Mat::RotateAsync) {
 }
 #endif
 
-NAN_METHOD(Mat::AddWeighted) {
+void Mat::AddWeighted(const Napi::CallbackInfo& info) {
   Mat::syncBinding<CoreBindings::AddWeighted>("AddWeighted", info);
 }
 
-NAN_METHOD(Mat::AddWeightedAsync) {
+void Mat::AddWeightedAsync(const Napi::CallbackInfo& info) {
   Mat::asyncBinding<CoreBindings::AddWeighted>("AddWeighted", info);
 }
 
-NAN_METHOD(Mat::MinMaxLoc) {
+void Mat::MinMaxLoc(const Napi::CallbackInfo& info) {
   Mat::syncBinding<CoreBindings::MinMaxLoc>("MinMaxLoc", info);
 }
 
-NAN_METHOD(Mat::MinMaxLocAsync) {
+void Mat::MinMaxLocAsync(const Napi::CallbackInfo& info) {
   Mat::asyncBinding<CoreBindings::MinMaxLoc>("MinMaxLoc", info);
 }
 
-NAN_METHOD(Mat::FindNonZero) {
+void Mat::FindNonZero(const Napi::CallbackInfo& info) {
   Mat::syncBinding<CoreBindings::FindNonZero>("FindNonZero", info);
 }
 
-NAN_METHOD(Mat::FindNonZeroAsync) {
+void Mat::FindNonZeroAsync(const Napi::CallbackInfo& info) {
   Mat::asyncBinding<CoreBindings::FindNonZero>("FindNonZero", info);
 }
 
-NAN_METHOD(Mat::CountNonZero) {
+void Mat::CountNonZero(const Napi::CallbackInfo& info) {
   Mat::syncBinding<CoreBindings::CountNonZero>("CountNonZero", info);
 }
 
-NAN_METHOD(Mat::CountNonZeroAsync) {
+void Mat::CountNonZeroAsync(const Napi::CallbackInfo& info) {
   Mat::asyncBinding<CoreBindings::CountNonZero>("CountNonZero", info);
 }
 
-NAN_METHOD(Mat::Normalize) {
+void Mat::Normalize(const Napi::CallbackInfo& info) {
   Mat::syncBinding<CoreBindings::Normalize>("Normalize", info);
 }
 
-NAN_METHOD(Mat::NormalizeAsync) {
+void Mat::NormalizeAsync(const Napi::CallbackInfo& info) {
   Mat::asyncBinding<CoreBindings::Normalize>("Normalize", info);
 }
 
-NAN_METHOD(Mat::Split) {
+void Mat::Split(const Napi::CallbackInfo& info) {
   Mat::syncBinding<CoreBindings::Split>("Split", info);
 }
 
-NAN_METHOD(Mat::SplitAsync) {
+void Mat::SplitAsync(const Napi::CallbackInfo& info) {
   Mat::asyncBinding<CoreBindings::Split>("Split", info);
 }
 
-NAN_METHOD(Mat::MulSpectrums) {
+void Mat::MulSpectrums(const Napi::CallbackInfo& info) {
   Mat::syncBinding<CoreBindings::MulSpectrums>("MulSpectrums", info);
 }
 
-NAN_METHOD(Mat::MulSpectrumsAsync) {
+void Mat::MulSpectrumsAsync(const Napi::CallbackInfo& info) {
   Mat::asyncBinding<CoreBindings::MulSpectrums>("MulSpectrums", info);
 }
 
-NAN_METHOD(Mat::Transform) {
+void Mat::Transform(const Napi::CallbackInfo& info) {
   Mat::syncBinding<CoreBindings::Transform>("Transform", info);
 }
 
-NAN_METHOD(Mat::TransformAsync) {
+void Mat::TransformAsync(const Napi::CallbackInfo& info) {
   Mat::asyncBinding<CoreBindings::Transform>("Transform", info);
 }
 
-NAN_METHOD(Mat::PerspectiveTransform) {
+void Mat::PerspectiveTransform(const Napi::CallbackInfo& info) {
   Mat::syncBinding<CoreBindings::PerspectiveTransform>("PerspectiveTransform", info);
 }
 
-NAN_METHOD(Mat::PerspectiveTransformAsync) {
+void Mat::PerspectiveTransformAsync(const Napi::CallbackInfo& info) {
   Mat::asyncBinding<CoreBindings::PerspectiveTransform>("PerspectiveTransform", info);
 }
 
-NAN_METHOD(Mat::Sum) {
+void Mat::Sum(const Napi::CallbackInfo& info) {
   Mat::syncBinding<CoreBindings::Sum>("Sum", info);
 }
 
-NAN_METHOD(Mat::SumAsync) {
+void Mat::SumAsync(const Napi::CallbackInfo& info) {
   Mat::asyncBinding<CoreBindings::Sum>("Sum", info);
 }
 
-NAN_METHOD(Mat::ConvertScaleAbs) {
+void Mat::ConvertScaleAbs(const Napi::CallbackInfo& info) {
   Mat::syncBinding<CoreBindings::ConvertScaleAbs>("ConvertScaleAbs", info);
 }
 
-NAN_METHOD(Mat::ConvertScaleAbsAsync) {
+void Mat::ConvertScaleAbsAsync(const Napi::CallbackInfo& info) {
   Mat::asyncBinding<CoreBindings::ConvertScaleAbs>("ConvertScaleAbs", info);
 }
 
-NAN_METHOD(Mat::Mean) {
+void Mat::Mean(const Napi::CallbackInfo& info) {
   Mat::syncBinding<CoreBindings::Mean>("Mean", info);
 }
 
-NAN_METHOD(Mat::MeanAsync) {
+void Mat::MeanAsync(const Napi::CallbackInfo& info) {
   Mat::asyncBinding<CoreBindings::Mean>("Mean", info);
 }
 
-NAN_METHOD(Mat::MeanStdDev) {
+void Mat::MeanStdDev(const Napi::CallbackInfo& info) {
   Mat::syncBinding<CoreBindings::MeanStdDev>("MeanStdDev", info);
 }
 
-NAN_METHOD(Mat::MeanStdDevAsync) {
+void Mat::MeanStdDevAsync(const Napi::CallbackInfo& info) {
   Mat::asyncBinding<CoreBindings::MeanStdDev>("MeanStdDev", info);
 }
 
-NAN_METHOD(Mat::Reduce) {
+void Mat::Reduce(const Napi::CallbackInfo& info) {
   Mat::syncBinding<CoreBindings::Reduce>("Reduce", info);
 }
 
-NAN_METHOD(Mat::ReduceAsync) {
+void Mat::ReduceAsync(const Napi::CallbackInfo& info) {
   Mat::asyncBinding<CoreBindings::Reduce>("Reduce", info);
 }
 
-NAN_METHOD(Mat::Eigen) {
+void Mat::Eigen(const Napi::CallbackInfo& info) {
   Mat::syncBinding<CoreBindings::Eigen>("Eigen", info);
 }
 
-NAN_METHOD(Mat::EigenAsync) {
+void Mat::EigenAsync(const Napi::CallbackInfo& info) {
   Mat::asyncBinding<CoreBindings::Eigen>("Eigen", info);
 }
 
-NAN_METHOD(Mat::Solve) {
+void Mat::Solve(const Napi::CallbackInfo& info) {
   Mat::syncBinding<CoreBindings::Solve>("Solve", info);
 }
 
-NAN_METHOD(Mat::SolveAsync) {
+void Mat::SolveAsync(const Napi::CallbackInfo& info) {
   Mat::asyncBinding<CoreBindings::Solve>("Solve", info);
 }

@@ -3,81 +3,81 @@
 #include "coreConstants.h"
 #include "matTypes.h"
 
-NAN_MODULE_INIT(Core::Init) {
+Napi::Object Core(Napi::Env env, Napi::Object exports) {
   initMatTypes(target);
-  CoreConstants::Init(target);
-  Mat::Init(target);
-  Point::Init(target);
-  Vec::Init(target);
-  Size::Init(target);
-  Rect::Init(target);
-  RotatedRect::Init(target);
-  TermCriteria::Init(target);
-  HistAxes::Init(target);
+  CoreConstants::Init(env, exports);
+  Mat::Init(env, exports);
+  Point::Init(env, exports);
+  Vec::Init(env, exports);
+  Size::Init(env, exports);
+  Rect::Init(env, exports);
+  RotatedRect::Init(env, exports);
+  TermCriteria::Init(env, exports);
+  HistAxes::Init(env, exports);
 
-  Nan::SetMethod(target, "getBuildInformation", GetBuildInformation);
-  Nan::SetMethod(target, "partition", Partition);
-  Nan::SetMethod(target, "kmeans", Kmeans);
-  Nan::SetMethod(target, "cartToPolar", CartToPolar);
-  Nan::SetMethod(target, "cartToPolarAsync", CartToPolarAsync);
-  Nan::SetMethod(target, "polarToCart", PolarToCart);
-  Nan::SetMethod(target, "polarToCartAsync", PolarToCartAsync);
-  Nan::SetMethod(target, "getNumThreads", GetNumThreads);
-  Nan::SetMethod(target, "setNumThreads", SetNumThreads);
-  Nan::SetMethod(target, "getThreadNum", GetThreadNum);
+  exports.Set("getBuildInformation", Napi::Function::New(env, Core::GetBuildInformation));
+  exports.Set("partition", Napi::Function::New(env, Core::Partition));
+  exports.Set("kmeans", Napi::Function::New(env, Core::Kmeans));
+  exports.Set("cartToPolar", Napi::Function::New(env, Core::CartToPolar));
+  exports.Set("cartToPolarAsync", Napi::Function::New(env, Core::CartToPolarAsync));
+  exports.Set("polarToCart", Napi::Function::New(env, Core::PolarToCart));
+  exports.Set("polarToCartAsync", Napi::Function::New(env, Core::PolarToCartAsync));
+  exports.Set("getNumThreads", Napi::Function::New(env, Core::GetNumThreads));
+  exports.Set("setNumThreads", Napi::Function::New(env, Core::SetNumThreads));
+  exports.Set("getThreadNum", Napi::Function::New(env, Core::GetThreadNum));
 
-  Nan::SetMethod(target, "addWeighted", AddWeighted);
-  Nan::SetMethod(target, "addWeightedAsync", AddWeightedAsync);
-  Nan::SetMethod(target, "minMaxLoc", MinMaxLoc);
-  Nan::SetMethod(target, "minMaxLocAsync", MinMaxLocAsync);
-  Nan::SetMethod(target, "findNonZero", FindNonZero);
-  Nan::SetMethod(target, "findNonZeroAsync", FindNonZeroAsync);
-  Nan::SetMethod(target, "countNonZero", CountNonZero);
-  Nan::SetMethod(target, "countNonZeroAsync", CountNonZeroAsync);
-  Nan::SetMethod(target, "split", Split);
-  Nan::SetMethod(target, "splitAsync", SplitAsync);
-  Nan::SetMethod(target, "mulSpectrums", MulSpectrums);
-  Nan::SetMethod(target, "mulSpectrumsAsync", MulSpectrumsAsync);
-  Nan::SetMethod(target, "transform", Transform);
-  Nan::SetMethod(target, "transformAsync", TransformAsync);
-  Nan::SetMethod(target, "perspectiveTransform", PerspectiveTransform);
-  Nan::SetMethod(target, "perspectiveTransformAsync", PerspectiveTransformAsync);
-  Nan::SetMethod(target, "convertScaleAbs", ConvertScaleAbs);
-  Nan::SetMethod(target, "convertScaleAbsAsync", ConvertScaleAbsAsync);
-  Nan::SetMethod(target, "sum", Sum);
-  Nan::SetMethod(target, "sumAsync", SumAsync);
-  Nan::SetMethod(target, "mean", Mean);
-  Nan::SetMethod(target, "meanAsync", MeanAsync);
-  Nan::SetMethod(target, "meanStdDev", MeanStdDev);
-  Nan::SetMethod(target, "meanStdDevAsync", MeanStdDevAsync);
-  Nan::SetMethod(target, "reduce", Reduce);
-  Nan::SetMethod(target, "reduceAsync", ReduceAsync);
+  exports.Set("addWeighted", Napi::Function::New(env, Core::AddWeighted));
+  exports.Set("addWeightedAsync", Napi::Function::New(env, Core::AddWeightedAsync));
+  exports.Set("minMaxLoc", Napi::Function::New(env, Core::MinMaxLoc));
+  exports.Set("minMaxLocAsync", Napi::Function::New(env, Core::MinMaxLocAsync));
+  exports.Set("findNonZero", Napi::Function::New(env, Core::FindNonZero));
+  exports.Set("findNonZeroAsync", Napi::Function::New(env, Core::FindNonZeroAsync));
+  exports.Set("countNonZero", Napi::Function::New(env, Core::CountNonZero));
+  exports.Set("countNonZeroAsync", Napi::Function::New(env, Core::CountNonZeroAsync));
+  exports.Set("split", Napi::Function::New(env, Core::Split));
+  exports.Set("splitAsync", Napi::Function::New(env, Core::SplitAsync));
+  exports.Set("mulSpectrums", Napi::Function::New(env, Core::MulSpectrums));
+  exports.Set("mulSpectrumsAsync", Napi::Function::New(env, Core::MulSpectrumsAsync));
+  exports.Set("transform", Napi::Function::New(env, Core::Transform));
+  exports.Set("transformAsync", Napi::Function::New(env, Core::TransformAsync));
+  exports.Set("perspectiveTransform", Napi::Function::New(env, Core::PerspectiveTransform));
+  exports.Set("perspectiveTransformAsync", Napi::Function::New(env, Core::PerspectiveTransformAsync));
+  exports.Set("convertScaleAbs", Napi::Function::New(env, Core::ConvertScaleAbs));
+  exports.Set("convertScaleAbsAsync", Napi::Function::New(env, Core::ConvertScaleAbsAsync));
+  exports.Set("sum", Napi::Function::New(env, Core::Sum));
+  exports.Set("sumAsync", Napi::Function::New(env, Core::SumAsync));
+  exports.Set("mean", Napi::Function::New(env, Core::Mean));
+  exports.Set("meanAsync", Napi::Function::New(env, Core::MeanAsync));
+  exports.Set("meanStdDev", Napi::Function::New(env, Core::MeanStdDev));
+  exports.Set("meanStdDevAsync", Napi::Function::New(env, Core::MeanStdDevAsync));
+  exports.Set("reduce", Napi::Function::New(env, Core::Reduce));
+  exports.Set("reduceAsync", Napi::Function::New(env, Core::ReduceAsync));
 
-  Nan::SetMethod(target, "eigen", Eigen);
-  Nan::SetMethod(target, "eigenAsync", EigenAsync);
+  exports.Set("eigen", Napi::Function::New(env, Core::Eigen));
+  exports.Set("eigenAsync", Napi::Function::New(env, Core::EigenAsync));
 
-  Nan::SetMethod(target, "min", Min);
-  Nan::SetMethod(target, "minAsync", MinAsync);
+  exports.Set("min", Napi::Function::New(env, Core::Min));
+  exports.Set("minAsync", Napi::Function::New(env, Core::MinAsync));
 
-  Nan::SetMethod(target, "max", Max);
-  Nan::SetMethod(target, "maxAsync", MaxAsync);
+  exports.Set("max", Napi::Function::New(env, Core::Max));
+  exports.Set("maxAsync", Napi::Function::New(env, Core::MaxAsync));
 
-  Nan::SetMethod(target, "solve", Solve);
-  Nan::SetMethod(target, "solveAsync", SolveAsync);
+  exports.Set("solve", Napi::Function::New(env, Core::Solve));
+  exports.Set("solveAsync", Napi::Function::New(env, Core::SolveAsync));
 
-  Nan::SetMethod(target, "magnitude", Magnitude);
-  Nan::SetMethod(target, "magnitudeAsync", MagnitudeAsync);
+  exports.Set("magnitude", Napi::Function::New(env, Core::Magnitude));
+  exports.Set("magnitudeAsync", Napi::Function::New(env, Core::MagnitudeAsync));
 
-  Nan::SetMethod(target, "getTickFrequency", GetTickFrequency);
-  Nan::SetMethod(target, "getTickCount", GetTickCount);
+  exports.Set("getTickFrequency", Napi::Function::New(env, Core::GetTickFrequency));
+  exports.Set("getTickCount", Napi::Function::New(env, Core::GetTickCount));
 #if CV_VERSION_GREATER_EQUAL(3, 4, 2)
-  Nan::SetMethod(target, "getVersionMajor", GetVersionMajor);
-  Nan::SetMethod(target, "getVersionMinor", GetVersionMinor);
-  Nan::SetMethod(target, "getVersionRevision", GetVersionRevision);
+  exports.Set("getVersionMajor", Napi::Function::New(env, Core::GetVersionMajor));
+  exports.Set("getVersionMinor", Napi::Function::New(env, Core::GetVersionMinor));
+  exports.Set("getVersionRevision", Napi::Function::New(env, Core::GetVersionRevision));
 #endif
 };
 
-NAN_METHOD(Core::GetBuildInformation) {
+void Core::GetBuildInformation(const Napi::CallbackInfo& info) {
   info.GetReturnValue().Set(FF::newString(cv::getBuildInformation()));
 }
 
@@ -92,7 +92,7 @@ static std::function<bool(TNativeObject, TNativeObject)> predicateFactory(Napi::
   };
 }
 
-NAN_METHOD(Core::Partition) {
+void Core::Partition(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Core::Partition");
   if (!info[0]->IsArray()) {
     return tryCatch.throwError("expected arg 0 to be an array");
@@ -156,13 +156,13 @@ NAN_METHOD(Core::Partition) {
     numLabels = cv::partition(mats, labels, predicateFactory<Mat, cv::Mat>(cb));
   }
 
-  Napi::Object ret = Nan::New<v8::Object>();
+  Napi::Object ret = Napi::Object::New(env);
   Nan::Set(ret, FF::newString(env, "labels"), FF::IntArrayConverter::wrap(labels));
   Nan::Set(ret, FF::newString(env, "numLabels"), Nan::New(numLabels));
   info.GetReturnValue().Set(ret);
 }
 
-NAN_METHOD(Core::Kmeans) {
+void Core::Kmeans(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Core::Kmeans");
   if (!info[0]->IsArray()) {
     return tryCatch.throwError("expected arg 0 to be an array");
@@ -196,7 +196,7 @@ NAN_METHOD(Core::Kmeans) {
     cv::kmeans(pts3d, k, labels, termCriteria, attempts, flags, centersMat);
   }
 
-  Napi::Object ret = Nan::New<v8::Object>();
+  Napi::Object ret = Napi::Object::New(env);
   Nan::Set(ret, FF::newString(env, "labels"), FF::IntArrayConverter::wrap(labels));
 
   if (Point2::hasInstance(data0)) {
@@ -216,27 +216,27 @@ NAN_METHOD(Core::Kmeans) {
   info.GetReturnValue().Set(ret);
 }
 
-NAN_METHOD(Core::CartToPolar) {
+void Core::CartToPolar(const Napi::CallbackInfo& info) {
   FF::syncBinding<CoreBindings::CartToPolar>("Core", "CartToPolar", info);
 }
 
-NAN_METHOD(Core::CartToPolarAsync) {
+void Core::CartToPolarAsync(const Napi::CallbackInfo& info) {
   FF::asyncBinding<CoreBindings::CartToPolar>("Core", "CartToPolar", info);
 }
 
-NAN_METHOD(Core::PolarToCart) {
+void Core::PolarToCart(const Napi::CallbackInfo& info) {
   FF::syncBinding<CoreBindings::PolarToCart>("Core", "PolarToCart", info);
 }
 
-NAN_METHOD(Core::PolarToCartAsync) {
+void Core::PolarToCartAsync(const Napi::CallbackInfo& info) {
   FF::asyncBinding<CoreBindings::PolarToCart>("Core", "PolarToCart", info);
 }
 
-NAN_METHOD(Core::GetNumThreads) {
+void Core::GetNumThreads(const Napi::CallbackInfo& info) {
   info.GetReturnValue().Set(FF::IntConverter::wrap(cv::getNumThreads()));
 }
 
-NAN_METHOD(Core::SetNumThreads) {
+void Core::SetNumThreads(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Core::SetNumThreads");
   int num;
   if (FF::IntConverter::arg(0, &num, info)) {
@@ -245,180 +245,180 @@ NAN_METHOD(Core::SetNumThreads) {
   cv::setNumThreads(num);
 }
 
-NAN_METHOD(Core::GetThreadNum) {
+void Core::GetThreadNum(const Napi::CallbackInfo& info) {
   info.GetReturnValue().Set(FF::IntConverter::wrap(cv::getThreadNum()));
 }
 
-NAN_METHOD(Core::AddWeighted) {
+void Core::AddWeighted(const Napi::CallbackInfo& info) {
   FF::syncBinding<CoreBindings::AddWeighted>("Core", "AddWeighted", info);
 }
 
-NAN_METHOD(Core::AddWeightedAsync) {
+void Core::AddWeightedAsync(const Napi::CallbackInfo& info) {
   FF::asyncBinding<CoreBindings::AddWeighted>("Core", "AddWeighted", info);
 }
 
-NAN_METHOD(Core::MinMaxLoc) {
+void Core::MinMaxLoc(const Napi::CallbackInfo& info) {
   FF::syncBinding<CoreBindings::MinMaxLoc>("Core", "MinMaxLoc", info);
 }
 
-NAN_METHOD(Core::MinMaxLocAsync) {
+void Core::MinMaxLocAsync(const Napi::CallbackInfo& info) {
   FF::asyncBinding<CoreBindings::MinMaxLoc>("Core", "MinMaxLoc", info);
 }
 
-NAN_METHOD(Core::FindNonZero) {
+void Core::FindNonZero(const Napi::CallbackInfo& info) {
   FF::syncBinding<CoreBindings::FindNonZero>("Core", "FindNonZero", info);
 }
 
-NAN_METHOD(Core::FindNonZeroAsync) {
+void Core::FindNonZeroAsync(const Napi::CallbackInfo& info) {
   FF::asyncBinding<CoreBindings::FindNonZero>("Core", "FindNonZero", info);
 }
 
-NAN_METHOD(Core::CountNonZero) {
+void Core::CountNonZero(const Napi::CallbackInfo& info) {
   FF::syncBinding<CoreBindings::CountNonZero>("Core", "CountNonZero", info);
 }
 
-NAN_METHOD(Core::CountNonZeroAsync) {
+void Core::CountNonZeroAsync(const Napi::CallbackInfo& info) {
   FF::asyncBinding<CoreBindings::CountNonZero>("Core", "CountNonZero", info);
 }
 
-NAN_METHOD(Core::Normalize) {
+void Core::Normalize(const Napi::CallbackInfo& info) {
   FF::syncBinding<CoreBindings::Normalize>("Core", "Normalize", info);
 }
 
-NAN_METHOD(Core::NormalizeAsync) {
+void Core::NormalizeAsync(const Napi::CallbackInfo& info) {
   FF::asyncBinding<CoreBindings::Normalize>("Core", "Normalize", info);
 }
 
-NAN_METHOD(Core::Split) {
+void Core::Split(const Napi::CallbackInfo& info) {
   FF::syncBinding<CoreBindings::Split>("Core", "Split", info);
 }
 
-NAN_METHOD(Core::SplitAsync) {
+void Core::SplitAsync(const Napi::CallbackInfo& info) {
   FF::asyncBinding<CoreBindings::Split>("Core", "Split", info);
 }
 
-NAN_METHOD(Core::MulSpectrums) {
+void Core::MulSpectrums(const Napi::CallbackInfo& info) {
   FF::syncBinding<CoreBindings::MulSpectrums>("Core", "MulSpectrums", info);
 }
 
-NAN_METHOD(Core::MulSpectrumsAsync) {
+void Core::MulSpectrumsAsync(const Napi::CallbackInfo& info) {
   FF::asyncBinding<CoreBindings::MulSpectrums>("Core", "MulSpectrums", info);
 }
 
-NAN_METHOD(Core::Transform) {
+void Core::Transform(const Napi::CallbackInfo& info) {
   FF::syncBinding<CoreBindings::Transform>("Core", "Transform", info);
 }
 
-NAN_METHOD(Core::TransformAsync) {
+void Core::TransformAsync(const Napi::CallbackInfo& info) {
   FF::asyncBinding<CoreBindings::Transform>("Core", "Transform", info);
 }
 
-NAN_METHOD(Core::PerspectiveTransform) {
+void Core::PerspectiveTransform(const Napi::CallbackInfo& info) {
   FF::syncBinding<CoreBindings::PerspectiveTransform>("Core", "PerspectiveTransform", info);
 }
 
-NAN_METHOD(Core::PerspectiveTransformAsync) {
+void Core::PerspectiveTransformAsync(const Napi::CallbackInfo& info) {
   FF::asyncBinding<CoreBindings::PerspectiveTransform>("Core", "PerspectiveTransform", info);
 }
 
-NAN_METHOD(Core::Sum) {
+void Core::Sum(const Napi::CallbackInfo& info) {
   FF::syncBinding<CoreBindings::Sum>("Core", "Sum", info);
 }
 
-NAN_METHOD(Core::SumAsync) {
+void Core::SumAsync(const Napi::CallbackInfo& info) {
   FF::asyncBinding<CoreBindings::Sum>("Core", "Sum", info);
 }
 
-NAN_METHOD(Core::ConvertScaleAbs) {
+void Core::ConvertScaleAbs(const Napi::CallbackInfo& info) {
   FF::syncBinding<CoreBindings::ConvertScaleAbs>("Core", "ConvertScaleAbs", info);
 }
 
-NAN_METHOD(Core::ConvertScaleAbsAsync) {
+void Core::ConvertScaleAbsAsync(const Napi::CallbackInfo& info) {
   FF::asyncBinding<CoreBindings::ConvertScaleAbs>("Core", "ConvertScaleAbs", info);
 }
 
-NAN_METHOD(Core::Mean) {
+void Core::Mean(const Napi::CallbackInfo& info) {
   FF::syncBinding<CoreBindings::Mean>("Core", "Mean", info);
 }
 
-NAN_METHOD(Core::MeanAsync) {
+void Core::MeanAsync(const Napi::CallbackInfo& info) {
   FF::asyncBinding<CoreBindings::Mean>("Core", "Mean", info);
 }
 
-NAN_METHOD(Core::MeanStdDev) {
+void Core::MeanStdDev(const Napi::CallbackInfo& info) {
   FF::syncBinding<CoreBindings::MeanStdDev>("Core", "MeanStdDev", info);
 }
 
-NAN_METHOD(Core::MeanStdDevAsync) {
+void Core::MeanStdDevAsync(const Napi::CallbackInfo& info) {
   FF::asyncBinding<CoreBindings::MeanStdDev>("Core", "MeanStdDev", info);
 }
 
-NAN_METHOD(Core::Reduce) {
+void Core::Reduce(const Napi::CallbackInfo& info) {
   FF::syncBinding<CoreBindings::Reduce>("Core", "Reduce", info);
 }
 
-NAN_METHOD(Core::ReduceAsync) {
+void Core::ReduceAsync(const Napi::CallbackInfo& info) {
   FF::asyncBinding<CoreBindings::Reduce>("Core", "Reduce", info);
 }
 
-NAN_METHOD(Core::Eigen) {
+void Core::Eigen(const Napi::CallbackInfo& info) {
   FF::syncBinding<CoreBindings::Eigen>("Core", "Eigen", info);
 }
 
-NAN_METHOD(Core::EigenAsync) {
+void Core::EigenAsync(const Napi::CallbackInfo& info) {
   FF::asyncBinding<CoreBindings::Eigen>("Core", "Eigen", info);
 }
 
-NAN_METHOD(Core::Min) {
+void Core::Min(const Napi::CallbackInfo& info) {
   FF::syncBinding<CoreBindings::Min>("Core", "Min", info);
 }
 
-NAN_METHOD(Core::MinAsync) {
+void Core::MinAsync(const Napi::CallbackInfo& info) {
   FF::asyncBinding<CoreBindings::Min>("Core", "Min", info);
 }
 
-NAN_METHOD(Core::Max) {
+void Core::Max(const Napi::CallbackInfo& info) {
   FF::syncBinding<CoreBindings::Max>("Core", "Max", info);
 }
 
-NAN_METHOD(Core::MaxAsync) {
+void Core::MaxAsync(const Napi::CallbackInfo& info) {
   FF::asyncBinding<CoreBindings::Max>("Core", "Max", info);
 }
 
-NAN_METHOD(Core::Solve) {
+void Core::Solve(const Napi::CallbackInfo& info) {
   FF::syncBinding<CoreBindings::Solve>("Core", "Solve", info);
 }
 
-NAN_METHOD(Core::SolveAsync) {
+void Core::SolveAsync(const Napi::CallbackInfo& info) {
   FF::asyncBinding<CoreBindings::Solve>("Core", "Solve", info);
 }
 
-NAN_METHOD(Core::Magnitude) {
+void Core::Magnitude(const Napi::CallbackInfo& info) {
   FF::syncBinding<CoreBindings::Magnitude>("Core", "Magnitude", info);
 }
 
-NAN_METHOD(Core::MagnitudeAsync) {
+void Core::MagnitudeAsync(const Napi::CallbackInfo& info) {
   FF::asyncBinding<CoreBindings::Magnitude>("Core", "Magnitude", info);
 }
 
-NAN_METHOD(Core::GetTickFrequency) {
+void Core::GetTickFrequency(const Napi::CallbackInfo& info) {
   info.GetReturnValue().Set(FF::IntConverter::wrap(cv::getTickFrequency()));
 }
 
-NAN_METHOD(Core::GetTickCount) {
+void Core::GetTickCount(const Napi::CallbackInfo& info) {
   info.GetReturnValue().Set(FF::IntConverter::wrap(cv::getTickCount()));
 }
 
 #if CV_VERSION_GREATER_EQUAL(3, 4, 2)
-NAN_METHOD(Core::GetVersionMajor) {
+void Core::GetVersionMajor(const Napi::CallbackInfo& info) {
   info.GetReturnValue().Set(FF::IntConverter::wrap(cv::getVersionMajor()));
 }
 
-NAN_METHOD(Core::GetVersionMinor) {
+void Core::GetVersionMinor(const Napi::CallbackInfo& info) {
   info.GetReturnValue().Set(FF::IntConverter::wrap(cv::getVersionMinor()));
 }
 
-NAN_METHOD(Core::GetVersionRevision) {
+void Core::GetVersionRevision(const Napi::CallbackInfo& info) {
   info.GetReturnValue().Set(FF::IntConverter::wrap(cv::getVersionRevision()));
 }
 #endif

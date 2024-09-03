@@ -76,7 +76,7 @@ public:
   }
 
   Napi::Value getReturnValue() {
-    Napi::Object ret = Nan::New<v8::Object>();
+    Napi::Object ret = Napi::Object::New(env);
     Nan::Set(ret, Nan::New("grad").ToLocalChecked(), Mat::Converter::wrap(grad));
     Nan::Set(ret, Nan::New("angleOfs").ToLocalChecked(), Mat::Converter::wrap(angleOfs));
     return ret;
@@ -129,7 +129,7 @@ public:
   }
 
   Napi::Value getReturnValue() {
-    Napi::Object ret = Nan::New<v8::Object>();
+    Napi::Object ret = Napi::Object::New(env);
     Nan::Set(ret, Nan::New("foundLocations").ToLocalChecked(), Point2::ArrayWithCastConverter<cv::Point2i>::wrap(foundLocations));
     Nan::Set(ret, Nan::New("weights").ToLocalChecked(), FF::DoubleArrayConverter::wrap(weights));
     return ret;
@@ -182,7 +182,7 @@ public:
   }
 
   Napi::Value getReturnValue() {
-    Napi::Object ret = Nan::New<v8::Object>();
+    Napi::Object ret = Napi::Object::New(env);
     Nan::Set(ret, Nan::New("foundLocations").ToLocalChecked(), Point2::ArrayWithCastConverter<cv::Point2i>::wrap(foundLocations));
     Nan::Set(ret, Nan::New("confidences").ToLocalChecked(), FF::DoubleArrayConverter::wrap(confidences));
     return ret;
@@ -237,7 +237,7 @@ public:
   }
 
   Napi::Value getReturnValue() {
-    Napi::Object ret = Nan::New<v8::Object>();
+    Napi::Object ret = Napi::Object::New(env);
     Nan::Set(ret, Nan::New("foundLocations").ToLocalChecked(), Rect::ArrayWithCastConverter<cv::Rect>::wrap(foundLocations));
     Nan::Set(ret, Nan::New("foundWeights").ToLocalChecked(), FF::DoubleArrayConverter::wrap(foundWeights));
     return ret;

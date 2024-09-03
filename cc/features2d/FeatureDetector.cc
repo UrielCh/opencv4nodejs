@@ -12,28 +12,28 @@ void FeatureDetector::Init(Napi::FunctionReference ctor) {
   Nan::SetPrototypeMethod(ctor, "computeAsync", FeatureDetector::ComputeAsync);
 };
 
-NAN_METHOD(FeatureDetector::Detect) {
+void FeatureDetector::Detect(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<FeatureDetectorBindings::DetectWorker>(FeatureDetector::unwrapThis(info)->getDetector()),
       "FeatureDetector::Detect",
       info);
 }
 
-NAN_METHOD(FeatureDetector::DetectAsync) {
+void FeatureDetector::DetectAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<FeatureDetectorBindings::DetectWorker>(FeatureDetector::unwrapThis(info)->getDetector()),
       "FeatureDetector::DetectAsync",
       info);
 }
 
-NAN_METHOD(FeatureDetector::Compute) {
+void FeatureDetector::Compute(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<FeatureDetectorBindings::ComputeWorker>(FeatureDetector::unwrapThis(info)->getDetector()),
       "FeatureDetector::Compute",
       info);
 }
 
-NAN_METHOD(FeatureDetector::ComputeAsync) {
+void FeatureDetector::ComputeAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<FeatureDetectorBindings::ComputeWorker>(FeatureDetector::unwrapThis(info)->getDetector()),
       "FeatureDetector::ComputeAsync",

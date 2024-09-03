@@ -6,8 +6,8 @@
 
 using namespace cv;
 
-void MachineLearningConstants::Init(Napi::Object target) {
-  Napi::Object svmConstants = Nan::New<v8::Object>();
+void MachineLearningConstants::Init(Napi::Env env, Napi::Object exports) {
+  Napi::Object svmConstants = Napi::Object::New(env);
   FF_SET_JS_PROP(svmConstants, CUSTOM, Nan::New<v8::Integer>(ml::SVM::KernelTypes::CUSTOM));
   FF_SET_JS_PROP(svmConstants, LINEAR, Nan::New<v8::Integer>(ml::SVM::KernelTypes::LINEAR));
   FF_SET_JS_PROP(svmConstants, POLY, Nan::New<v8::Integer>(ml::SVM::KernelTypes::POLY));
@@ -23,7 +23,7 @@ void MachineLearningConstants::Init(Napi::Object target) {
   FF_SET_JS_PROP(svmConstants, NU, Nan::New<v8::Integer>(ml::SVM::ParamTypes::NU));
   FF_SET_JS_PROP(svmConstants, P, Nan::New<v8::Integer>(ml::SVM::ParamTypes::P));
 
-  Napi::Object mlConstants = Nan::New<v8::Object>();
+  Napi::Object mlConstants = Napi::Object::New(env);
   FF_SET_JS_PROP(mlConstants, COL_SAMPLE, Nan::New<v8::Integer>(ml::SampleTypes::COL_SAMPLE));
   FF_SET_JS_PROP(mlConstants, ROW_SAMPLE, Nan::New<v8::Integer>(ml::SampleTypes::ROW_SAMPLE));
 
@@ -33,7 +33,7 @@ void MachineLearningConstants::Init(Napi::Object target) {
   Nan::Set(mlConstants, FF::newString(env, "SVM"), svmConstants);
   Nan::Set(target, FF::newString(env, "ml"), mlConstants);
 
-  Napi::Object statModelCostants = Nan::New<v8::Object>();
+  Napi::Object statModelCostants = Napi::Object::New(env);
   FF_SET_JS_PROP(statModelCostants, COMPRESSED_INPUT, Nan::New<v8::Integer>(ml::StatModel::Flags::COMPRESSED_INPUT));
   FF_SET_JS_PROP(statModelCostants, PREPROCESSED_INPUT, Nan::New<v8::Integer>(ml::StatModel::Flags::PREPROCESSED_INPUT));
   FF_SET_JS_PROP(statModelCostants, RAW_OUTPUT, Nan::New<v8::Integer>(ml::StatModel::Flags::RAW_OUTPUT));

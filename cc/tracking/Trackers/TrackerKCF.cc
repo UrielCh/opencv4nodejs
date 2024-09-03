@@ -9,12 +9,12 @@
 
 Nan::Persistent<v8::FunctionTemplate> TrackerKCF::constructor;
 
-NAN_MODULE_INIT(TrackerKCF::Init) {
+Napi::Object TrackerKCF(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(TrackerKCF::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
   Tracker::Init(ctor);
-  TrackerKCFParams::Init(target);
+  TrackerKCFParams::Init(env, exports);
 
   constructor.Reset(ctor);
   ctor->SetClassName(FF::newString(env, "TrackerKCF"));
@@ -23,7 +23,7 @@ NAN_MODULE_INIT(TrackerKCF::Init) {
   Nan::Set(target, FF::newString(env, "TrackerKCF"), FF::getFunction(ctor));
 };
 
-NAN_METHOD(TrackerKCF::New) {
+void TrackerKCF::New(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("TrackerKCF::New");
   FF_ASSERT_CONSTRUCT_CALL();
 

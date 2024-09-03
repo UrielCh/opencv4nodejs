@@ -6,7 +6,7 @@
 
 Nan::Persistent<v8::FunctionTemplate> KeyPointMatch::constructor;
 
-NAN_MODULE_INIT(KeyPointMatch::Init) {
+Napi::Object KeyPointMatch(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(KeyPointMatch::New);
   constructor.Reset(ctor);
   ctor->InstanceTemplate()->SetInternalFieldCount(1);
@@ -19,7 +19,7 @@ NAN_MODULE_INIT(KeyPointMatch::Init) {
   Nan::Set(target, Nan::New("KeyPointMatch").ToLocalChecked(), FF::getFunction(ctor));
 };
 
-NAN_METHOD(KeyPointMatch::New) {
+void KeyPointMatch::New(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("KeyPointMatch::New");
   FF_ASSERT_CONSTRUCT_CALL();
   if (info.Length() > 0) {

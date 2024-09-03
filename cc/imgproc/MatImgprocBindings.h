@@ -507,7 +507,7 @@ struct DistanceTransformWithLabelsWorker : public DistanceTransformWorker {
   }
 
   Napi::Value getReturnValue() {
-    Napi::Object ret = Nan::New<v8::Object>();
+    Napi::Object ret = Napi::Object::New(env);
     Nan::Set(ret, Nan::New("dst").ToLocalChecked(), Mat::Converter::wrap(dst));
     Nan::Set(ret, Nan::New("labels").ToLocalChecked(), Mat::Converter::wrap(labels));
     return ret;
@@ -574,7 +574,7 @@ struct ConnectedComponentsWithStatsWorker : public ConnectedComponentsWorker {
   }
 
   Napi::Value getReturnValue() {
-    Napi::Object ret = Nan::New<v8::Object>();
+    Napi::Object ret = Napi::Object::New(env);
     Nan::Set(ret, Nan::New("labels").ToLocalChecked(), Mat::Converter::wrap(labels));
     Nan::Set(ret, Nan::New("stats").ToLocalChecked(), Mat::Converter::wrap(stats));
     Nan::Set(ret, Nan::New("centroids").ToLocalChecked(), Mat::Converter::wrap(centroids));
@@ -745,7 +745,7 @@ public:
   virtual int getDrawParamsIndex() = 0;
 
   Napi::Value getReturnValue() {
-    Napi::Object ret = Nan::New<v8::Object>();
+    Napi::Object ret = Napi::Object::New(env);
     return ret;
   }
 
@@ -1594,7 +1594,7 @@ public:
   }
 
   Napi::Value getReturnValue() {
-    Napi::Object ret = Nan::New<v8::Object>();
+    Napi::Object ret = Napi::Object::New(env);
     Nan::Set(ret, Nan::New("returnValue").ToLocalChecked(), FF::IntConverter::wrap(returnValue));
     Nan::Set(ret, Nan::New("rect").ToLocalChecked(), Rect::Converter::wrap(rect));
     return ret;
@@ -1988,7 +1988,7 @@ public:
   }
 
   Napi::Value getReturnValue() {
-    Napi::Object ret = Nan::New<v8::Object>();
+    Napi::Object ret = Napi::Object::New(env);
     Nan::Set(ret, Nan::New("sum").ToLocalChecked(), Mat::Converter::wrap(sum));
     Nan::Set(ret, Nan::New("sqsum").ToLocalChecked(), Mat::Converter::wrap(sqsum));
     Nan::Set(ret, Nan::New("tilted").ToLocalChecked(), Mat::Converter::wrap(tilted));
@@ -2037,7 +2037,7 @@ public:
   }
 
   Napi::Value getReturnValue() {
-    Napi::Object ret = Nan::New<v8::Object>();
+    Napi::Object ret = Napi::Object::New(env);
     return ret;
   }
 

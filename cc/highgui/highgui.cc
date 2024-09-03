@@ -8,19 +8,19 @@
 #include "macros.h"
 #include "opencv2/core.hpp"
 
-NAN_MODULE_INIT(Highgui::Init) {
-  HighguiConstants::Init(target);
+Napi::Object Highgui(Napi::Env env, Napi::Object exports) {
+  HighguiConstants::Init(env, exports);
 
-  Nan::SetMethod(target, "setWindowProperty", setWindowProperty);
-  Nan::SetMethod(target, "getWindowProperty", getWindowProperty);
-  Nan::SetMethod(target, "setWindowTitle", setWindowTitle);
-  Nan::SetMethod(target, "moveWindow", moveWindow);
-  Nan::SetMethod(target, "namedWindow", namedWindow);
-  Nan::SetMethod(target, "resizeWindow", resizeWindow);
-  Nan::SetMethod(target, "startWindowThread", startWindowThread);
+  exports.Set("setWindowProperty", Napi::Function::New(env, Highgui::setWindowProperty));
+  exports.Set("getWindowProperty", Napi::Function::New(env, Highgui::getWindowProperty));
+  exports.Set("setWindowTitle", Napi::Function::New(env, Highgui::setWindowTitle));
+  exports.Set("moveWindow", Napi::Function::New(env, Highgui::moveWindow));
+  exports.Set("namedWindow", Napi::Function::New(env, Highgui::namedWindow));
+  exports.Set("resizeWindow", Napi::Function::New(env, Highgui::resizeWindow));
+  exports.Set("startWindowThread", Napi::Function::New(env, Highgui::startWindowThread));
 };
 
-NAN_METHOD(Highgui::setWindowProperty) {
+void Highgui::setWindowProperty(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Highgui::setWindowProperty");
   int prop_id;
   double prop_value;
@@ -39,7 +39,7 @@ NAN_METHOD(Highgui::setWindowProperty) {
   cv::setWindowProperty(FF::StringConverter::unwrapUnchecked(info[0]), prop_id, prop_value);
 }
 
-// NAN_METHOD(Io::MoveWindow) {
+// void Io::MoveWindow(const Napi::CallbackInfo& info) {
 // 	FF::TryCatch tryCatch("Io::MoveWindow");
 // 	std::string winName;
 // 	int x, y;
@@ -49,7 +49,7 @@ NAN_METHOD(Highgui::setWindowProperty) {
 // 	cv::moveWindow(winName, x, y);
 // }
 
-NAN_METHOD(Highgui::moveWindow) {
+void Highgui::moveWindow(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Highgui::moveWindow");
   std::string winName;
   int x;
@@ -69,7 +69,7 @@ NAN_METHOD(Highgui::moveWindow) {
   cv::moveWindow(FF::StringConverter::unwrapUnchecked(info[0]), x, y);
 }
 
-NAN_METHOD(Highgui::setWindowTitle) {
+void Highgui::setWindowTitle(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Highgui::setWindowTitle");
   if (!info[0]->IsString()) {
     return tryCatch.throwError("expected arg0 to be the window name");
@@ -81,7 +81,7 @@ NAN_METHOD(Highgui::setWindowTitle) {
   cv::setWindowTitle(FF::StringConverter::unwrapUnchecked(info[0]), FF::StringConverter::unwrapUnchecked(info[1]));
 }
 
-NAN_METHOD(Highgui::getWindowProperty) {
+void Highgui::getWindowProperty(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Highgui::getWindowProperty");
   int prop_id;
 
@@ -95,7 +95,7 @@ NAN_METHOD(Highgui::getWindowProperty) {
   info.GetReturnValue().Set(Nan::New(cv::getWindowProperty(FF::StringConverter::unwrapUnchecked(info[0]), prop_id)));
 }
 
-NAN_METHOD(Highgui::namedWindow) {
+void Highgui::namedWindow(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Highgui::namedWindow");
 
   std::string winName;
@@ -109,7 +109,7 @@ NAN_METHOD(Highgui::namedWindow) {
   cv::namedWindow(FF::StringConverter::unwrapUnchecked(info[0]), flags);
 }
 
-NAN_METHOD(Highgui::resizeWindow) {
+void Highgui::resizeWindow(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Highgui::resizeWindow");
   int width;
   int height;
@@ -131,7 +131,7 @@ NAN_METHOD(Highgui::resizeWindow) {
   cv::resizeWindow(FF::StringConverter::unwrapUnchecked(info[0]), width, height);
 }
 
-NAN_METHOD(Highgui::startWindowThread) {
+void Highgui::startWindowThread(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("Highgui::startWindowThread");
   int retval = cv::startWindowThread();
   info.GetReturnValue().Set(Nan::New(retval));

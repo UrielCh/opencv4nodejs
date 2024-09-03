@@ -6,7 +6,7 @@
 
 Nan::Persistent<v8::FunctionTemplate> FASTDetector::constructor;
 
-NAN_MODULE_INIT(FASTDetector::Init) {
+Napi::Object FASTDetector(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(FASTDetector::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
@@ -21,11 +21,11 @@ NAN_MODULE_INIT(FASTDetector::Init) {
 
   Nan::Set(target, Nan::New("FASTDetector").ToLocalChecked(), FF::getFunction(ctor));
 #if CV_VERSION_GREATER_EQUAL(4, 0, 0)
-  DetectorType::init(target);
+  DetectorType::Init(env, exports);
 #endif
 };
 
-NAN_METHOD(FASTDetector::New) {
+void FASTDetector::New(const Napi::CallbackInfo& info) {
   NewBinding().construct(info);
 }
 

@@ -22,13 +22,13 @@ public:
   FF_GETTER_CUSTOM(normType, FF::IntConverter, normType);
   FF_GETTER_CUSTOM(crossCheck, FF::BoolConverter, crossCheck);
 
-  static NAN_MODULE_INIT(Init);
+  static Napi::Object Init(Napi::Env env, Napi::Object exports);
 
-  static NAN_METHOD(New);
-  static NAN_METHOD(match);
-  static NAN_METHOD(matchAsync);
-  static NAN_METHOD(knnMatch);
-  static NAN_METHOD(knnMatchAsync);
+  static void New(const Napi::CallbackInfo& info);
+  static void match(const Napi::CallbackInfo& info);
+  static void matchAsync(const Napi::CallbackInfo& info);
+  static void knnMatch(const Napi::CallbackInfo& info);
+  static void knnMatchAsync(const Napi::CallbackInfo& info);
 
   struct NewWorker : CatchCvExceptionWorker {
   public:

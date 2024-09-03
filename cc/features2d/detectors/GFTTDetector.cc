@@ -6,7 +6,7 @@
 
 Nan::Persistent<v8::FunctionTemplate> GFTTDetector::constructor;
 
-NAN_MODULE_INIT(GFTTDetector::Init) {
+Napi::Object GFTTDetector(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Nan::New<v8::FunctionTemplate>(GFTTDetector::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
@@ -25,7 +25,7 @@ NAN_MODULE_INIT(GFTTDetector::Init) {
   Nan::Set(target, Nan::New("GFTTDetector").ToLocalChecked(), FF::getFunction(ctor));
 };
 
-NAN_METHOD(GFTTDetector::New) {
+void GFTTDetector::New(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch("GFTTDetector::New");
   FF_ASSERT_CONSTRUCT_CALL();
   GFTTDetector::NewWorker worker;

@@ -47,8 +47,8 @@ public:
   FF_GETTER_CUSTOM(diffusivity, FF::IntConverter, self->getDiffusivity());
 #endif
 
-  static NAN_MODULE_INIT(Init);
-  static NAN_METHOD(New);
+static Napi::Object Init(Napi::Env env, Napi::Object exports);
+  static void New(const Napi::CallbackInfo& info);
 
   class NewBinding : public CvBinding {
   public:

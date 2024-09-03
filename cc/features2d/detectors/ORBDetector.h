@@ -50,8 +50,8 @@ public:
   FF_GETTER_CUSTOM(patchSize, FF::IntConverter, self->getPatchSize());
   FF_GETTER_CUSTOM(fastThreshold, FF::IntConverter, self->getFastThreshold());
 
-  static NAN_MODULE_INIT(Init);
-  static NAN_METHOD(New);
+static Napi::Object Init(Napi::Env env, Napi::Object exports);
+  static void New(const Napi::CallbackInfo& info);
 
   class NewBinding : public CvBinding {
   public:

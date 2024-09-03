@@ -56,29 +56,29 @@ public:
   FF_ACCESSORS_PTR(nlevels, FF::IntConverter);
   FF_ACCESSORS_PTR(signedGradient, FF::BoolConverter);
 
-  static NAN_MODULE_INIT(Init);
+  static Napi::Object Init(Napi::Env env, Napi::Object exports);
 
-  static NAN_METHOD(New);
-  static NAN_METHOD(GetDaimlerPeopleDetector);
-  static NAN_METHOD(GetDefaultPeopleDetector);
-  static NAN_METHOD(CheckDetectorSize);
-  static NAN_METHOD(SetSVMDetector);
-  static NAN_METHOD(Save);
-  static NAN_METHOD(Load);
-  static NAN_METHOD(Compute);
-  static NAN_METHOD(ComputeAsync);
-  static NAN_METHOD(ComputeGradient);
-  static NAN_METHOD(ComputeGradientAsync);
-  static NAN_METHOD(Detect);
-  static NAN_METHOD(DetectAsync);
-  static NAN_METHOD(DetectROI);
-  static NAN_METHOD(DetectROIAsync);
-  static NAN_METHOD(DetectMultiScale);
-  static NAN_METHOD(DetectMultiScaleAsync);
-  static NAN_METHOD(DetectMultiScaleROI);
-  static NAN_METHOD(DetectMultiScaleROIAsync);
-  static NAN_METHOD(GroupRectangles);
-  static NAN_METHOD(GroupRectanglesAsync);
+  static void New(const Napi::CallbackInfo& info);
+  static void GetDaimlerPeopleDetector(const Napi::CallbackInfo& info);
+  static void GetDefaultPeopleDetector(const Napi::CallbackInfo& info);
+  static void CheckDetectorSize(const Napi::CallbackInfo& info);
+  static void SetSVMDetector(const Napi::CallbackInfo& info);
+  static void Save(const Napi::CallbackInfo& info);
+  static void Load(const Napi::CallbackInfo& info);
+  static void Compute(const Napi::CallbackInfo& info);
+  static void ComputeAsync(const Napi::CallbackInfo& info);
+  static void ComputeGradient(const Napi::CallbackInfo& info);
+  static void ComputeGradientAsync(const Napi::CallbackInfo& info);
+  static void Detect(const Napi::CallbackInfo& info);
+  static void DetectAsync(const Napi::CallbackInfo& info);
+  static void DetectROI(const Napi::CallbackInfo& info);
+  static void DetectROIAsync(const Napi::CallbackInfo& info);
+  static void DetectMultiScale(const Napi::CallbackInfo& info);
+  static void DetectMultiScaleAsync(const Napi::CallbackInfo& info);
+  static void DetectMultiScaleROI(const Napi::CallbackInfo& info);
+  static void DetectMultiScaleROIAsync(const Napi::CallbackInfo& info);
+  static void GroupRectangles(const Napi::CallbackInfo& info);
+  static void GroupRectanglesAsync(const Napi::CallbackInfo& info);
 
   class Constructor : public ConstructorBase {
   public:
