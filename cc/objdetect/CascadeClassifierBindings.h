@@ -51,7 +51,7 @@ public:
     return "";
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     if (isGpu) {
       return Rect::ArrayWithCastConverter<cv::Rect>::wrap(objectRects);
     } else {
@@ -101,7 +101,7 @@ public:
     return "";
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     Napi::Object ret = Napi::Object::New(env);
     Nan::Set(ret, FF::newString(env, "objects"), Rect::ArrayWithCastConverter<cv::Rect>::wrap(objectRects));
     Nan::Set(ret, FF::newString(env, "rejectLevels"), FF::IntArrayConverter::wrap(rejectLevels));

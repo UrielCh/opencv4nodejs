@@ -134,7 +134,7 @@ public:
            || FF::IntConverter::arg(2, &k, info);
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     return DescriptorMatch::ArrayOfArraysConverter::wrap(dmatches);
   }
 };

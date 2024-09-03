@@ -42,7 +42,7 @@ public:
     return "";
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     return Mat::Converter::wrap(returnValue);
   }
 
@@ -126,7 +126,7 @@ public:
     return "";
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     Napi::Value copyData = Nan::CopyBuffer(data, size).ToLocalChecked();
     free(data);
     return copyData;
@@ -225,7 +225,7 @@ public:
 
   cv::Mat dst;
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     return Mat::Converter::wrap(dst);
   }
 
@@ -308,7 +308,7 @@ public:
     return "";
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     return Mat::Converter::wrap(dst);
   }
 
@@ -361,7 +361,7 @@ public:
     return "";
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     return Mat::Converter::wrap(result);
   }
 

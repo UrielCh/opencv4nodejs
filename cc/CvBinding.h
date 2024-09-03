@@ -19,7 +19,7 @@ public:
     return FF::BindingBase::applyUnwrappers(info);
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     return FF::BindingBase::getReturnValue();
   }
 

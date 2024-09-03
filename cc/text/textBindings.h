@@ -10,7 +10,7 @@ public:
   cv::Ptr<cv::text::OCRHMMDecoder::ClassifierCallback> classifier;
   std::string file;
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     return OCRHMMClassifier::Converter::wrap(classifier);
   }
 
@@ -56,7 +56,7 @@ public:
     return "";
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     return Mat::Converter::wrap(transition_probabilities_table);
   }
 

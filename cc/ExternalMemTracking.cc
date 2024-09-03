@@ -24,7 +24,7 @@ Napi::Object ExternalMemTracking(Napi::Env env, Napi::Object exports) {
 };
 
 void ExternalMemTracking::GetMemMetrics(const Napi::CallbackInfo& info) {
-
+  Napi::Env env = info.Env();
   int64_t TotalAlloc = -1;
   int64_t TotalKnownByJS = -1;
   int64_t NumAllocations = -1;
@@ -40,10 +40,10 @@ void ExternalMemTracking::GetMemMetrics(const Napi::CallbackInfo& info) {
 #endif
 
   Napi::Object result = Napi::Object::New(env);
-  Nan::Set(result, FF::newString(env, "TotalAlloc"), Nan::New((double)TotalAlloc));
-  Nan::Set(result, FF::newString(env, "TotalKnownByJS"), Nan::New((double)TotalKnownByJS));
-  Nan::Set(result, FF::newString(env, "NumAllocations"), Nan::New((double)NumAllocations));
-  Nan::Set(result, FF::newString(env, "NumDeAllocations"), Nan::New((double)NumDeAllocations));
+  result.Set("TotalAlloc", Napi::Number::New(env, static_cast<double>(TotalAlloc)));
+  result.Set("TotalKnownByJS", Napi::Number::New(env, static_cast<double>(TotalKnownByJS)));
+  result.Set("NumAllocations", Napi::Number::New(env, static_cast<double>(NumAllocations)));
+  result.Set("NumDeAllocations", Napi::Number::New(env, static_cast<double>(NumDeAllocations)));
 
   info.GetReturnValue().Set(result);
   return;

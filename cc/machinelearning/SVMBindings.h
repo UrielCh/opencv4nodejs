@@ -26,7 +26,7 @@ public:
     return "";
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     return Nan::New(ret);
   }
 
@@ -61,7 +61,7 @@ public:
     return "";
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     return Nan::New(ret);
   }
 
@@ -99,7 +99,7 @@ public:
     return "";
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     return Nan::New(ret);
   }
 

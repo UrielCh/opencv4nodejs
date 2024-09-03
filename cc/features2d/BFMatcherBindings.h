@@ -31,7 +31,7 @@ public:
            || Mat::Converter::arg(1, &descTo, info);
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     return DescriptorMatch::ArrayConverter::wrap(dmatches);
   }
 };
@@ -63,7 +63,7 @@ public:
            || FF::IntConverter::arg(2, &k, info);
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     return DescriptorMatch::ArrayOfArraysConverter::wrap(dmatches);
   }
 };

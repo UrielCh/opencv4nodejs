@@ -28,7 +28,7 @@ public:
     return "";
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     return Mat::Converter::wrap(dst);
   }
 

@@ -29,7 +29,7 @@ public:
     return "";
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     return FF::DoubleConverter::wrap(val);
   }
 };
@@ -52,7 +52,7 @@ public:
     return "";
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     return Mat::Converter::wrap(frame);
   }
 };
@@ -83,7 +83,7 @@ public:
         FF::IntConverter::arg(0, &prop, info) || FF::DoubleConverter::arg(1, &value, info));
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     return Nan::New(ret);
   }
 };

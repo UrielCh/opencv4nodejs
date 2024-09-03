@@ -93,6 +93,7 @@ static std::function<bool(TNativeObject, TNativeObject)> predicateFactory(Napi::
 }
 
 void Core::Partition(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
   FF::TryCatch tryCatch("Core::Partition");
   if (!info[0]->IsArray()) {
     return tryCatch.throwError("expected arg 0 to be an array");
@@ -157,8 +158,8 @@ void Core::Partition(const Napi::CallbackInfo& info) {
   }
 
   Napi::Object ret = Napi::Object::New(env);
-  Nan::Set(ret, FF::newString(env, "labels"), FF::IntArrayConverter::wrap(labels));
-  Nan::Set(ret, FF::newString(env, "numLabels"), Nan::New(numLabels));
+  ret.Set("labels", FF::IntArrayConverter::wrap(labels));
+  ret.Set("numLabels", Nan::New(numLabels));
   info.GetReturnValue().Set(ret);
 }
 

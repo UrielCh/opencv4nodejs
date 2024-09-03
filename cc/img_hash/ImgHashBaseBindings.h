@@ -22,7 +22,7 @@ public:
     return "";
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     Napi::Value ret = FF::DoubleConverter::wrap(returnValue);
     return ret;
   }
@@ -51,7 +51,7 @@ public:
     return "";
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     Napi::Value ret = FF::UcharArrayConverter::wrap(outputArr);
     return ret;
   }

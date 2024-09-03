@@ -25,7 +25,7 @@ public:
     return "";
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     return Point2::ArrayWithCastConverter<cv::Point2i>::wrap(curve);
   }
 

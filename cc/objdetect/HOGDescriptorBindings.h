@@ -28,7 +28,7 @@ public:
     return "";
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     return FF::FloatArrayConverter::wrap(descriptors);
   }
 
@@ -75,7 +75,7 @@ public:
     return "";
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     Napi::Object ret = Napi::Object::New(env);
     Nan::Set(ret, Nan::New("grad").ToLocalChecked(), Mat::Converter::wrap(grad));
     Nan::Set(ret, Nan::New("angleOfs").ToLocalChecked(), Mat::Converter::wrap(angleOfs));
@@ -128,7 +128,7 @@ public:
     return "";
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     Napi::Object ret = Napi::Object::New(env);
     Nan::Set(ret, Nan::New("foundLocations").ToLocalChecked(), Point2::ArrayWithCastConverter<cv::Point2i>::wrap(foundLocations));
     Nan::Set(ret, Nan::New("weights").ToLocalChecked(), FF::DoubleArrayConverter::wrap(weights));
@@ -181,7 +181,7 @@ public:
     return "";
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     Napi::Object ret = Napi::Object::New(env);
     Nan::Set(ret, Nan::New("foundLocations").ToLocalChecked(), Point2::ArrayWithCastConverter<cv::Point2i>::wrap(foundLocations));
     Nan::Set(ret, Nan::New("confidences").ToLocalChecked(), FF::DoubleArrayConverter::wrap(confidences));
@@ -236,7 +236,7 @@ public:
     return "";
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     Napi::Object ret = Napi::Object::New(env);
     Nan::Set(ret, Nan::New("foundLocations").ToLocalChecked(), Rect::ArrayWithCastConverter<cv::Rect>::wrap(foundLocations));
     Nan::Set(ret, Nan::New("foundWeights").ToLocalChecked(), FF::DoubleArrayConverter::wrap(foundWeights));
@@ -287,7 +287,7 @@ public:
     return "";
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     return Rect::ArrayWithCastConverter<cv::Rect>::wrap(foundLocations);
   }
 
@@ -333,7 +333,7 @@ public:
     return "";
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     return Rect::ArrayWithCastConverter<cv::Rect>::wrap(rectList);
   }
 

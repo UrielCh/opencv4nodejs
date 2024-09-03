@@ -20,7 +20,7 @@ public:
         Rect::Converter::arg(0, &rect2, info));
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     return Rect::Converter::wrap(outRect);
   }
 };
@@ -74,7 +74,7 @@ public:
     return "";
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     return Rect::Converter::wrap(outRect);
   }
 
@@ -115,7 +115,7 @@ public:
     return didThrow;
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     return Rect::Converter::wrap(outRect);
   }
 
@@ -143,7 +143,7 @@ public:
         FF::DoubleConverter::arg(0, &f, info));
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     return Rect::Converter::wrap(outRect);
   }
 

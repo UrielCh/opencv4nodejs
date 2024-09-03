@@ -83,7 +83,7 @@ public:
     return Mat::Converter::arg(0, &img, info);
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     Napi::Object ret = Napi::Object::New(env);
     Nan::Set(ret, FF::newString(env, "msers"), Point2::ArrayOfArraysWithCastConverter<cv::Point2i>::wrap(regions));
     Nan::Set(ret, FF::newString(env, "bboxes"), Rect::ArrayWithCastConverter<cv::Rect>::wrap(mser_bbox));

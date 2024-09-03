@@ -70,7 +70,7 @@ public:
     return "";
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     Napi::Object ret = Napi::Object::New(env);
     Nan::Set(ret, Nan::New("label").ToLocalChecked(), Nan::New(label));
     Nan::Set(ret, Nan::New("confidence").ToLocalChecked(), Nan::New(confidence));

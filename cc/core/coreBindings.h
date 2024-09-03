@@ -182,7 +182,7 @@ public:
     };
   };
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     switch (self->ref().channels()) {
     case 1:
       return FF::DoubleConverter::wrap(sum[0]);

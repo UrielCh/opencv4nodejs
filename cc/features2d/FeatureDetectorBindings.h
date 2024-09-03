@@ -34,7 +34,7 @@ public:
         Mat::Converter::optArg(1, &mask, info));
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     return KeyPoint::ArrayConverter::wrap(kps);
   }
 };
@@ -65,7 +65,7 @@ public:
         || KeyPoint::ArrayConverter::arg(1, &kps, info));
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     return Mat::Converter::wrap(desc);
   }
 };

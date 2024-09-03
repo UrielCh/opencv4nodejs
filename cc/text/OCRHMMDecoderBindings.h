@@ -65,7 +65,7 @@ public:
     return "";
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     return FF::StringConverter::wrap(output_text);
   }
 
@@ -105,7 +105,7 @@ public:
     return "";
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     Napi::Object ret = Napi::Object::New(env);
     Nan::Set(ret, FF::newString(env, "outputText"), FF::StringConverter::wrap(output_text));
     Nan::Set(ret, FF::newString(env, "rects"), Rect::ArrayWithCastConverter<cv::Rect>::wrap(component_rects));

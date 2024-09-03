@@ -25,7 +25,7 @@ public:
     return "";
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     Napi::Object ret = Napi::Object::New(env);
     Nan::Set(ret, Nan::New("dst").ToLocalChecked(), Mat::Converter::wrap(dst));
     Nan::Set(ret, Nan::New("jacobian").ToLocalChecked(), Mat::Converter::wrap(jacobian));
@@ -56,7 +56,7 @@ public:
     return "";
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     Napi::Object ret = Napi::Object::New(env);
     Nan::Set(ret, Nan::New("returnValue").ToLocalChecked(), Vec3::Converter::wrap(returnValue));
     Nan::Set(ret, Nan::New("mtxR").ToLocalChecked(), Mat::Converter::wrap(mtxR));
@@ -92,7 +92,7 @@ public:
     return "";
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     Napi::Object ret = Napi::Object::New(env);
     Nan::Set(ret, Nan::New("cameraMatrix").ToLocalChecked(), Mat::Converter::wrap(cameraMatrix));
     Nan::Set(ret, Nan::New("rotMatrix").ToLocalChecked(), Mat::Converter::wrap(rotMatrix));
@@ -125,7 +125,7 @@ public:
     return "";
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     Napi::Object ret = Napi::Object::New(env);
     Nan::Set(ret, Nan::New("dABdA").ToLocalChecked(), Mat::Converter::wrap(dABdA));
     Nan::Set(ret, Nan::New("dABdB").ToLocalChecked(), Mat::Converter::wrap(dABdB));
@@ -160,7 +160,7 @@ public:
     return "";
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     Napi::Object ret = Napi::Object::New(env);
     Nan::Set(ret, Nan::New("returnValue").ToLocalChecked(), FF::BoolConverter::wrap(returnValue));
     Nan::Set(ret, Nan::New("corners").ToLocalChecked(), Point2::ArrayConverter::wrap(corners));
@@ -225,7 +225,7 @@ public:
     return "";
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     return FF::BoolConverter::wrap(returnValue);
   }
 
@@ -261,7 +261,7 @@ public:
     return "";
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     Napi::Object ret = Napi::Object::New(env);
     Nan::Set(ret, Nan::New("fovx").ToLocalChecked(), FF::DoubleConverter::wrap(fovx));
     Nan::Set(ret, Nan::New("fovy").ToLocalChecked(), FF::DoubleConverter::wrap(fovy));
@@ -311,7 +311,7 @@ public:
     return "";
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     Napi::Object ret = Napi::Object::New(env);
     Nan::Set(ret, Nan::New("R1").ToLocalChecked(), Mat::Converter::wrap(R1));
     Nan::Set(ret, Nan::New("R2").ToLocalChecked(), Mat::Converter::wrap(R2));
@@ -387,7 +387,7 @@ public:
     return "";
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     Napi::Object ret = Napi::Object::New(env);
     Nan::Set(ret, Nan::New("returnValue").ToLocalChecked(), FF::FloatConverter::wrap(returnValue));
     Nan::Set(ret, Nan::New("R1").ToLocalChecked(), Mat::Converter::wrap(R1));
@@ -433,7 +433,7 @@ public:
     return "";
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     Napi::Object ret = Napi::Object::New(env);
     Nan::Set(ret, Nan::New("out").ToLocalChecked(), Mat::Converter::wrap(out));
     Nan::Set(ret, Nan::New("validPixROI").ToLocalChecked(), Rect::Converter::wrap(validPixROI));
@@ -483,7 +483,7 @@ public:
     return "";
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     Napi::Object ret = Napi::Object::New(env);
     Nan::Set(ret, Nan::New("R1").ToLocalChecked(), Mat::Converter::wrap(R1));
     Nan::Set(ret, Nan::New("R2").ToLocalChecked(), Mat::Converter::wrap(R2));
@@ -514,7 +514,7 @@ public:
     return "";
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     return Mat::Converter::wrap(points4D);
   }
 
@@ -546,7 +546,7 @@ public:
     return "";
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     Napi::Object ret = Napi::Object::New(env);
     Nan::Set(ret, Nan::New("newPoints1").ToLocalChecked(), Point2::ArrayWithCastConverter<cv::Point2f>::wrap(newPoints1));
     Nan::Set(ret, Nan::New("newPoints2").ToLocalChecked(), Point2::ArrayWithCastConverter<cv::Point2f>::wrap(newPoints2));
@@ -579,7 +579,7 @@ public:
     return "";
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     Napi::Object ret = Napi::Object::New(env);
     return ret;
   }
@@ -611,7 +611,7 @@ public:
     return "";
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     Napi::Object ret = Napi::Object::New(env);
     return ret;
   }
@@ -649,7 +649,7 @@ public:
     return "";
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     return Mat::Converter::wrap(_3dImage);
   }
 
@@ -697,7 +697,7 @@ public:
     return "";
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     Napi::Object ret = Napi::Object::New(env);
     Nan::Set(ret, Nan::New("returnValue").ToLocalChecked(), FF::IntConverter::wrap(returnValue));
     Nan::Set(ret, Nan::New("rotations").ToLocalChecked(), Mat::ArrayConverter::wrap(rotations));
@@ -738,7 +738,7 @@ public:
     return "";
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     Napi::Object ret = Napi::Object::New(env);
     Nan::Set(ret, Nan::New("E").ToLocalChecked(), Mat::Converter::wrap(E));
     Nan::Set(ret, Nan::New("mask").ToLocalChecked(), Mat::Converter::wrap(mask));
@@ -791,7 +791,7 @@ public:
     return "";
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     Napi::Object ret = Napi::Object::New(env);
     Nan::Set(ret, Nan::New("returnValue").ToLocalChecked(), FF::IntConverter::wrap(returnValue));
     Nan::Set(ret, Nan::New("R").ToLocalChecked(), Mat::Converter::wrap(R));

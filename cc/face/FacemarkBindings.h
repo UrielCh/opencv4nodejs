@@ -51,7 +51,7 @@ public:
     return "";
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     Napi::Value ret = Point2::ArrayOfArraysWithCastConverter<cv::Point2f>::wrap(landmarks);
     return ret;
   }
@@ -79,7 +79,7 @@ public:
     return "";
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     Napi::Value ret = Nan::New<v8::Boolean>(results);
     return ret;
   }
@@ -104,7 +104,7 @@ public:
     return "";
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     Napi::Value ret = InstanceConverter<FacemarkAAMData, cv::face::FacemarkAAM::Data>::wrap(data);
     return ret;
   }
@@ -126,7 +126,7 @@ public:
     return "";
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     Napi::Value ret =
         Rect::ArrayConverter::wrap(faces);
     return ret;

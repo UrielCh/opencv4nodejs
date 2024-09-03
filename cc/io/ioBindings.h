@@ -30,7 +30,7 @@ public:
     return FF::IntConverter::optArg(1, &flags, info);
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     return Mat::Converter::wrap(img);
   }
 };
@@ -88,7 +88,7 @@ public:
     return FF::IntArrayConverter::optArg(2, &flags, info);
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     Napi::Value dataCopy = Nan::CopyBuffer(data, dataSize).ToLocalChecked();
     free(data);
     return dataCopy;
@@ -112,7 +112,7 @@ public:
     return "";
   }
 
-  Napi::Value getReturnValue() {
+  Napi::Value getReturnValue(const Napi::Env& env) {
     return Mat::Converter::wrap(img);
   }
 };
