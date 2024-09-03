@@ -4,7 +4,7 @@
 
 #include "BackgroundSubtractorMOG2.h"
 
-Nan::Persistent<v8::FunctionTemplate> BackgroundSubtractorMOG2::constructor;
+Napi::FunctionReference BackgroundSubtractorMOG2::constructor;
 
 Napi::Object BackgroundSubtractorMOG2(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, BackgroundSubtractorMOG2::New));
@@ -13,13 +13,13 @@ Napi::Object BackgroundSubtractorMOG2(Napi::Env env, Napi::Object exports) {
   BackgroundSubtractor::Init(ctor);
   constructor.Reset(ctor);
   ctor->SetClassName(FF::newString(env, "BackgroundSubtractorMOG2"));
-  instanceTemplate->SetInternalFieldCount(1);
 
-  Nan::SetAccessor(instanceTemplate, FF::newString(env, "history"), history_getter);
-  Nan::SetAccessor(instanceTemplate, FF::newString(env, "varThreshold"), varThreshold_getter);
-  Nan::SetAccessor(instanceTemplate, FF::newString(env, "detectShadows"), detectShadows_getter);
 
-  Nan::Set(target, FF::newString(env, "BackgroundSubtractorMOG2"), FF::getFunction(ctor));
+  Napi::SetAccessor(instanceTemplate, FF::newString(env, "history"), history_getter);
+  Napi::SetAccessor(instanceTemplate, FF::newString(env, "varThreshold"), varThreshold_getter);
+  Napi::SetAccessor(instanceTemplate, FF::newString(env, "detectShadows"), detectShadows_getter);
+
+  (target).Set(FF::newString(env, "BackgroundSubtractorMOG2"), FF::getFunction(ctor));
 };
 
 void BackgroundSubtractorMOG2::New(const Napi::CallbackInfo& info) {
@@ -35,7 +35,7 @@ void BackgroundSubtractorMOG2::New(const Napi::CallbackInfo& info) {
   BackgroundSubtractorMOG2* self = new BackgroundSubtractorMOG2();
   self->self = cv::createBackgroundSubtractorMOG2((int)worker.history, worker.varThreshold, worker.detectShadows);
   self->Wrap(info.Holder());
-  info.GetReturnValue().Set(info.Holder());
+  return info.Holder();
 }
 
 #endif

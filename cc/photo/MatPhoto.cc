@@ -6,8 +6,8 @@
 #include "photoBindings.h"
 
 void MatPhoto::Init(Napi::FunctionReference ctor) {
-  Nan::SetPrototypeMethod(ctor, "seamlessClone", SeamlessClone);
-  Nan::SetPrototypeMethod(ctor, "seamlessCloneAsync", SeamlessCloneAsync);
+  InstanceMethod("seamlessClone", &SeamlessClone),
+  InstanceMethod("seamlessCloneAsync", &SeamlessCloneAsync),
 };
 
 void MatPhoto::SeamlessClone(const Napi::CallbackInfo& info) {

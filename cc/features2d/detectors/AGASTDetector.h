@@ -71,7 +71,7 @@ static Napi::Object Init(Napi::Env env, Napi::Object exports);
           nonmaxSuppression->ref(),
           type->ref()));
       self->Wrap(info.Holder());
-      info.GetReturnValue().Set(info.Holder());
+      return info.Holder();
     };
   };
 };

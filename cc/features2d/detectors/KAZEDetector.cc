@@ -12,15 +12,15 @@ Napi::Object KAZEDetector(Napi::Env env, Napi::Object exports) {
 
   FeatureDetector::Init(ctor);
   constructor.Reset(ctor);
-  ctor->SetClassName(Nan::New("KAZEDetector").ToLocalChecked());
-  instanceTemplate->SetInternalFieldCount(1);
+  ctor->SetClassName(Napi::String::New(env, "KAZEDetector"));
 
-  Nan::SetAccessor(instanceTemplate, Nan::New("extended").ToLocalChecked(), extended_getter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("upright").ToLocalChecked(), upright_getter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("threshold").ToLocalChecked(), threshold_getter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("nOctaves").ToLocalChecked(), nOctaves_getter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("nOctaveLayers").ToLocalChecked(), nOctaveLayers_getter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("diffusivity").ToLocalChecked(), diffusivity_getter);
+
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "extended"), extended_getter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "upright"), upright_getter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "threshold"), threshold_getter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "nOctaves"), nOctaves_getter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "nOctaveLayers"), nOctaveLayers_getter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "diffusivity"), diffusivity_getter);
 
   target.Set("KAZEDetector", FF::getFunction(ctor));
 #if CV_VERSION_GREATER_EQUAL(4, 0, 0)

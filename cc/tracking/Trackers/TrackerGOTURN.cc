@@ -44,9 +44,9 @@ void TrackerGOTURN::Update(const Napi::CallbackInfo& info) {
   }
 
   if (ret) {
-    info.GetReturnValue().Set(Rect::Converter::wrap(rect));
+    return Rect::Converter::wrap(rect);
   } else {
-    info.GetReturnValue().Set(Nan::Null());
+    return env.Null();
   }
 }
 
@@ -61,18 +61,18 @@ Napi::Object TrackerGOTURN(Napi::Env env, Napi::Object exports) {
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
 #if CV_VERSION_GREATER_EQUAL(4, 5, 2)
-  Nan::SetPrototypeMethod(ctor, "clear", TrackerGOTURN::Clear);
-  Nan::SetPrototypeMethod(ctor, "init", TrackerGOTURN::Init);
-  Nan::SetPrototypeMethod(ctor, "update", TrackerGOTURN::Update);
-  Nan::SetPrototypeMethod(ctor, "getModel", TrackerGOTURN::GetModel);
+  Napi::SetPrototypeMethod(ctor, "clear", TrackerGOTURN::Clear);
+  Napi::SetPrototypeMethod(ctor, "init", TrackerGOTURN::Init);
+  Napi::SetPrototypeMethod(ctor, "update", TrackerGOTURN::Update);
+  Napi::SetPrototypeMethod(ctor, "getModel", TrackerGOTURN::GetModel);
 #else
   Tracker::Init(ctor);
 #endif
   constructor.Reset(ctor);
   ctor->SetClassName(FF::newString(env, "TrackerGOTURN"));
-  instanceTemplate->SetInternalFieldCount(1);
 
-  Nan::Set(target, FF::newString(env, "TrackerGOTURN"), FF::getFunction(ctor));
+
+  (target).Set("TrackerGOTURN", FF::getFunction(ctor));
 };
 
 void TrackerGOTURN::New(const Napi::CallbackInfo& info) {
@@ -88,7 +88,7 @@ void TrackerGOTURN::New(const Napi::CallbackInfo& info) {
 #endif
 
   self->Wrap(info.Holder());
-  info.GetReturnValue().Set(info.Holder());
+  return info.Holder();
 };
 
 #endif

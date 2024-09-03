@@ -13,16 +13,16 @@ Napi::Object CascadeClassifier(Napi::Env env, Napi::Object exports) {
 
   constructor.Reset(ctor);
   ctor->SetClassName(FF::newString(env, "CascadeClassifier"));
-  instanceTemplate->SetInternalFieldCount(1);
 
-  Nan::SetPrototypeMethod(ctor, "detectMultiScale", DetectMultiScale);
-  Nan::SetPrototypeMethod(ctor, "detectMultiScaleAsync", DetectMultiScaleAsync);
-  Nan::SetPrototypeMethod(ctor, "detectMultiScaleGpu", DetectMultiScaleGpu);
-  Nan::SetPrototypeMethod(ctor, "detectMultiScaleWithRejectLevels", DetectMultiScaleWithRejectLevels);
-  Nan::SetPrototypeMethod(ctor, "detectMultiScaleWithRejectLevelsAsync", DetectMultiScaleWithRejectLevelsAsync);
-  Nan::SetPrototypeMethod(ctor, "detectMultiScaleWithRejectLevelsGpu", DetectMultiScaleWithRejectLevelsGpu);
 
-  Nan::Set(target, FF::newString(env, "CascadeClassifier"), FF::getFunction(ctor));
+  InstanceMethod("detectMultiScale", &DetectMultiScale),
+  InstanceMethod("detectMultiScaleAsync", &DetectMultiScaleAsync),
+  InstanceMethod("detectMultiScaleGpu", &DetectMultiScaleGpu),
+  InstanceMethod("detectMultiScaleWithRejectLevels", &DetectMultiScaleWithRejectLevels),
+  InstanceMethod("detectMultiScaleWithRejectLevelsAsync", &DetectMultiScaleWithRejectLevelsAsync),
+  InstanceMethod("detectMultiScaleWithRejectLevelsGpu", &DetectMultiScaleWithRejectLevelsGpu),
+
+  (target).Set("CascadeClassifier", FF::getFunction(ctor));
 };
 
 void CascadeClassifier::New(const Napi::CallbackInfo& info) {
@@ -41,7 +41,7 @@ void CascadeClassifier::New(const Napi::CallbackInfo& info) {
     return tryCatch.throwError(std::string("failed to load cascade.xml file: " + worker.xmlFilePath));
   }
   self->Wrap(info.Holder());
-  info.GetReturnValue().Set(info.Holder());
+  return info.Holder();
 }
 
 void CascadeClassifier::DetectMultiScale(const Napi::CallbackInfo& info) {

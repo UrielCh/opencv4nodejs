@@ -42,7 +42,7 @@ public:
   }
 
   bool hasOptArgsObject(const Napi::CallbackInfo& info) {
-    return FF::isArgObject(info, 1) && !Size::hasInstance(info[1]->ToObject(Nan::GetCurrentContext()).ToLocalChecked());
+    return FF::isArgObject(info, 1) && !Size::hasInstance(info[1].ToObject(Napi::GetCurrentContext()));
   }
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {

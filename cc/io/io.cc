@@ -29,49 +29,49 @@ Napi::Object Io(Napi::Env env, Napi::Object exports) {
   exports.Set("imencodeAsync", Napi::Function::New(env, Io::ImencodeAsync));
   exports.Set("imdecodeAsync", Napi::Function::New(env, Io::ImdecodeAsync));
 
-  FF_SET_JS_PROP(target, IMREAD_UNCHANGED, Nan::New<v8::Integer>(cv::IMREAD_UNCHANGED));
-  FF_SET_JS_PROP(target, IMREAD_GRAYSCALE, Nan::New<v8::Integer>(cv::IMREAD_GRAYSCALE));
-  FF_SET_JS_PROP(target, IMREAD_COLOR, Nan::New<v8::Integer>(cv::IMREAD_COLOR));
-  FF_SET_JS_PROP(target, IMREAD_ANYDEPTH, Nan::New<v8::Integer>(cv::IMREAD_ANYDEPTH));
-  FF_SET_JS_PROP(target, IMREAD_ANYCOLOR, Nan::New<v8::Integer>(cv::IMREAD_ANYCOLOR));
-  FF_SET_JS_PROP(target, IMREAD_LOAD_GDAL, Nan::New<v8::Integer>(cv::IMREAD_LOAD_GDAL));
+  FF_SET_JS_PROP(target, IMREAD_UNCHANGED, Napi::Number::New(env, cv::IMREAD_UNCHANGED));
+  FF_SET_JS_PROP(target, IMREAD_GRAYSCALE, Napi::Number::New(env, cv::IMREAD_GRAYSCALE));
+  FF_SET_JS_PROP(target, IMREAD_COLOR, Napi::Number::New(env, cv::IMREAD_COLOR));
+  FF_SET_JS_PROP(target, IMREAD_ANYDEPTH, Napi::Number::New(env, cv::IMREAD_ANYDEPTH));
+  FF_SET_JS_PROP(target, IMREAD_ANYCOLOR, Napi::Number::New(env, cv::IMREAD_ANYCOLOR));
+  FF_SET_JS_PROP(target, IMREAD_LOAD_GDAL, Napi::Number::New(env, cv::IMREAD_LOAD_GDAL));
 
-  FF_SET_JS_PROP(target, IMWRITE_JPEG_QUALITY, Nan::New<v8::Integer>(cv::IMWRITE_JPEG_QUALITY));
-  FF_SET_JS_PROP(target, IMWRITE_JPEG_PROGRESSIVE, Nan::New<v8::Integer>(cv::IMWRITE_JPEG_PROGRESSIVE));
-  FF_SET_JS_PROP(target, IMWRITE_JPEG_OPTIMIZE, Nan::New<v8::Integer>(cv::IMWRITE_JPEG_OPTIMIZE));
-  FF_SET_JS_PROP(target, IMWRITE_JPEG_RST_INTERVAL, Nan::New<v8::Integer>(cv::IMWRITE_JPEG_RST_INTERVAL));
-  FF_SET_JS_PROP(target, IMWRITE_JPEG_LUMA_QUALITY, Nan::New<v8::Integer>(cv::IMWRITE_JPEG_LUMA_QUALITY));
-  FF_SET_JS_PROP(target, IMWRITE_JPEG_CHROMA_QUALITY, Nan::New<v8::Integer>(cv::IMWRITE_JPEG_CHROMA_QUALITY));
-  FF_SET_JS_PROP(target, IMWRITE_PNG_COMPRESSION, Nan::New<v8::Integer>(cv::IMWRITE_PNG_COMPRESSION));
-  FF_SET_JS_PROP(target, IMWRITE_PNG_STRATEGY, Nan::New<v8::Integer>(cv::IMWRITE_PNG_STRATEGY));
-  FF_SET_JS_PROP(target, IMWRITE_PNG_BILEVEL, Nan::New<v8::Integer>(cv::IMWRITE_PNG_BILEVEL));
-  FF_SET_JS_PROP(target, IMWRITE_PXM_BINARY, Nan::New<v8::Integer>(cv::IMWRITE_PXM_BINARY));
-  FF_SET_JS_PROP(target, IMWRITE_WEBP_QUALITY, Nan::New<v8::Integer>(cv::IMWRITE_WEBP_QUALITY));
+  FF_SET_JS_PROP(target, IMWRITE_JPEG_QUALITY, Napi::Number::New(env, cv::IMWRITE_JPEG_QUALITY));
+  FF_SET_JS_PROP(target, IMWRITE_JPEG_PROGRESSIVE, Napi::Number::New(env, cv::IMWRITE_JPEG_PROGRESSIVE));
+  FF_SET_JS_PROP(target, IMWRITE_JPEG_OPTIMIZE, Napi::Number::New(env, cv::IMWRITE_JPEG_OPTIMIZE));
+  FF_SET_JS_PROP(target, IMWRITE_JPEG_RST_INTERVAL, Napi::Number::New(env, cv::IMWRITE_JPEG_RST_INTERVAL));
+  FF_SET_JS_PROP(target, IMWRITE_JPEG_LUMA_QUALITY, Napi::Number::New(env, cv::IMWRITE_JPEG_LUMA_QUALITY));
+  FF_SET_JS_PROP(target, IMWRITE_JPEG_CHROMA_QUALITY, Napi::Number::New(env, cv::IMWRITE_JPEG_CHROMA_QUALITY));
+  FF_SET_JS_PROP(target, IMWRITE_PNG_COMPRESSION, Napi::Number::New(env, cv::IMWRITE_PNG_COMPRESSION));
+  FF_SET_JS_PROP(target, IMWRITE_PNG_STRATEGY, Napi::Number::New(env, cv::IMWRITE_PNG_STRATEGY));
+  FF_SET_JS_PROP(target, IMWRITE_PNG_BILEVEL, Napi::Number::New(env, cv::IMWRITE_PNG_BILEVEL));
+  FF_SET_JS_PROP(target, IMWRITE_PXM_BINARY, Napi::Number::New(env, cv::IMWRITE_PXM_BINARY));
+  FF_SET_JS_PROP(target, IMWRITE_WEBP_QUALITY, Napi::Number::New(env, cv::IMWRITE_WEBP_QUALITY));
 
 #if CV_VERSION_GREATER_EQUAL(3, 1, 0)
-  FF_SET_JS_PROP(target, IMREAD_REDUCED_GRAYSCALE_2, Nan::New<v8::Integer>(cv::IMREAD_REDUCED_GRAYSCALE_2));
-  FF_SET_JS_PROP(target, IMREAD_REDUCED_COLOR_2, Nan::New<v8::Integer>(cv::IMREAD_REDUCED_COLOR_2));
-  FF_SET_JS_PROP(target, IMREAD_REDUCED_GRAYSCALE_4, Nan::New<v8::Integer>(cv::IMREAD_REDUCED_GRAYSCALE_4));
-  FF_SET_JS_PROP(target, IMREAD_REDUCED_COLOR_4, Nan::New<v8::Integer>(cv::IMREAD_REDUCED_COLOR_4));
-  FF_SET_JS_PROP(target, IMREAD_REDUCED_GRAYSCALE_8, Nan::New<v8::Integer>(cv::IMREAD_REDUCED_GRAYSCALE_8));
-  FF_SET_JS_PROP(target, IMREAD_REDUCED_COLOR_8, Nan::New<v8::Integer>(cv::IMREAD_REDUCED_COLOR_8));
+  FF_SET_JS_PROP(target, IMREAD_REDUCED_GRAYSCALE_2, Napi::Number::New(env, cv::IMREAD_REDUCED_GRAYSCALE_2));
+  FF_SET_JS_PROP(target, IMREAD_REDUCED_COLOR_2, Napi::Number::New(env, cv::IMREAD_REDUCED_COLOR_2));
+  FF_SET_JS_PROP(target, IMREAD_REDUCED_GRAYSCALE_4, Napi::Number::New(env, cv::IMREAD_REDUCED_GRAYSCALE_4));
+  FF_SET_JS_PROP(target, IMREAD_REDUCED_COLOR_4, Napi::Number::New(env, cv::IMREAD_REDUCED_COLOR_4));
+  FF_SET_JS_PROP(target, IMREAD_REDUCED_GRAYSCALE_8, Napi::Number::New(env, cv::IMREAD_REDUCED_GRAYSCALE_8));
+  FF_SET_JS_PROP(target, IMREAD_REDUCED_COLOR_8, Napi::Number::New(env, cv::IMREAD_REDUCED_COLOR_8));
 #endif
 #if CV_VERSION_GREATER_EQUAL(3, 2, 0)
-  FF_SET_JS_PROP(target, IMREAD_IGNORE_ORIENTATION, Nan::New<v8::Integer>(cv::IMREAD_IGNORE_ORIENTATION));
-  FF_SET_JS_PROP(target, IMWRITE_PAM_TUPLETYPE, Nan::New<v8::Integer>(cv::IMWRITE_PAM_TUPLETYPE));
+  FF_SET_JS_PROP(target, IMREAD_IGNORE_ORIENTATION, Napi::Number::New(env, cv::IMREAD_IGNORE_ORIENTATION));
+  FF_SET_JS_PROP(target, IMWRITE_PAM_TUPLETYPE, Napi::Number::New(env, cv::IMWRITE_PAM_TUPLETYPE));
 
-  FF_SET_JS_PROP(target, IMWRITE_PAM_FORMAT_NULL, Nan::New<v8::Integer>(cv::IMWRITE_PAM_FORMAT_NULL));
-  FF_SET_JS_PROP(target, IMWRITE_PAM_FORMAT_BLACKANDWHITE, Nan::New<v8::Integer>(cv::IMWRITE_PAM_FORMAT_BLACKANDWHITE));
-  FF_SET_JS_PROP(target, IMWRITE_PAM_FORMAT_GRAYSCALE, Nan::New<v8::Integer>(cv::IMWRITE_PAM_FORMAT_GRAYSCALE));
-  FF_SET_JS_PROP(target, IMWRITE_PAM_FORMAT_GRAYSCALE_ALPHA, Nan::New<v8::Integer>(cv::IMWRITE_PAM_FORMAT_GRAYSCALE_ALPHA));
-  FF_SET_JS_PROP(target, IMWRITE_PAM_FORMAT_RGB, Nan::New<v8::Integer>(cv::IMWRITE_PAM_FORMAT_RGB));
-  FF_SET_JS_PROP(target, IMWRITE_PAM_FORMAT_RGB_ALPHA, Nan::New<v8::Integer>(cv::IMWRITE_PAM_FORMAT_RGB_ALPHA));
+  FF_SET_JS_PROP(target, IMWRITE_PAM_FORMAT_NULL, Napi::Number::New(env, cv::IMWRITE_PAM_FORMAT_NULL));
+  FF_SET_JS_PROP(target, IMWRITE_PAM_FORMAT_BLACKANDWHITE, Napi::Number::New(env, cv::IMWRITE_PAM_FORMAT_BLACKANDWHITE));
+  FF_SET_JS_PROP(target, IMWRITE_PAM_FORMAT_GRAYSCALE, Napi::Number::New(env, cv::IMWRITE_PAM_FORMAT_GRAYSCALE));
+  FF_SET_JS_PROP(target, IMWRITE_PAM_FORMAT_GRAYSCALE_ALPHA, Napi::Number::New(env, cv::IMWRITE_PAM_FORMAT_GRAYSCALE_ALPHA));
+  FF_SET_JS_PROP(target, IMWRITE_PAM_FORMAT_RGB, Napi::Number::New(env, cv::IMWRITE_PAM_FORMAT_RGB));
+  FF_SET_JS_PROP(target, IMWRITE_PAM_FORMAT_RGB_ALPHA, Napi::Number::New(env, cv::IMWRITE_PAM_FORMAT_RGB_ALPHA));
 #endif
-  FF_SET_JS_PROP(target, IMWRITE_PNG_STRATEGY_DEFAULT, Nan::New<v8::Integer>(cv::IMWRITE_PNG_STRATEGY_DEFAULT));
-  FF_SET_JS_PROP(target, IMWRITE_PNG_STRATEGY_FILTERED, Nan::New<v8::Integer>(cv::IMWRITE_PNG_STRATEGY_FILTERED));
-  FF_SET_JS_PROP(target, IMWRITE_PNG_STRATEGY_HUFFMAN_ONLY, Nan::New<v8::Integer>(cv::IMWRITE_PNG_STRATEGY_HUFFMAN_ONLY));
-  FF_SET_JS_PROP(target, IMWRITE_PNG_STRATEGY_RLE, Nan::New<v8::Integer>(cv::IMWRITE_PNG_STRATEGY_RLE));
-  FF_SET_JS_PROP(target, IMWRITE_PNG_STRATEGY_FIXED, Nan::New<v8::Integer>(cv::IMWRITE_PNG_STRATEGY_FIXED));
+  FF_SET_JS_PROP(target, IMWRITE_PNG_STRATEGY_DEFAULT, Napi::Number::New(env, cv::IMWRITE_PNG_STRATEGY_DEFAULT));
+  FF_SET_JS_PROP(target, IMWRITE_PNG_STRATEGY_FILTERED, Napi::Number::New(env, cv::IMWRITE_PNG_STRATEGY_FILTERED));
+  FF_SET_JS_PROP(target, IMWRITE_PNG_STRATEGY_HUFFMAN_ONLY, Napi::Number::New(env, cv::IMWRITE_PNG_STRATEGY_HUFFMAN_ONLY));
+  FF_SET_JS_PROP(target, IMWRITE_PNG_STRATEGY_RLE, Napi::Number::New(env, cv::IMWRITE_PNG_STRATEGY_RLE));
+  FF_SET_JS_PROP(target, IMWRITE_PNG_STRATEGY_FIXED, Napi::Number::New(env, cv::IMWRITE_PNG_STRATEGY_FIXED));
 };
 
 void Io::Imshow(const Napi::CallbackInfo& info) {
@@ -102,22 +102,22 @@ void Io::ImshowWait(const Napi::CallbackInfo& info) {
 void Io::WaitKey(const Napi::CallbackInfo& info) {
   int key;
   if (info[0].IsNumber()) {
-    key = cv::waitKey(info[0]->ToNumber(Nan::GetCurrentContext()).ToLocalChecked()->Value());
+    key = cv::waitKey(info[0].ToNumber(Napi::GetCurrentContext())->Value());
   } else {
     key = cv::waitKey();
   }
-  info.GetReturnValue().Set(Nan::New(key));
+  return Napi::New(env, key);
 }
 
 #if CV_VERSION_GREATER_EQUAL(3, 2, 0)
 void Io::WaitKeyEx(const Napi::CallbackInfo& info) {
   int key;
   if (info[0].IsNumber()) {
-    key = cv::waitKeyEx(info[0]->ToNumber(Nan::GetCurrentContext()).ToLocalChecked()->Value());
+    key = cv::waitKeyEx(info[0].ToNumber(Napi::GetCurrentContext())->Value());
   } else {
     key = cv::waitKeyEx();
   }
-  info.GetReturnValue().Set(Nan::New(key));
+  return Napi::New(env, key);
 }
 #endif
 
@@ -148,12 +148,12 @@ void Io::Imdecode(const Napi::CallbackInfo& info) {
     return tryCatch.reThrow();
   }
 
-  char* data = static_cast<char*>(node::Buffer::Data(info[0]->ToObject(Nan::GetCurrentContext()).ToLocalChecked()));
-  size_t size = node::Buffer::Length(info[0]->ToObject(Nan::GetCurrentContext()).ToLocalChecked());
+  char* data = static_cast<char*>(info[0].ToObject(Napi::GetCurrentContext(.As<Napi::Buffer<char>>().Data())));
+  size_t size = info[0].ToObject(Napi::GetCurrentContext(.As<Napi::Buffer<char>>().Length()));
   std::vector<uchar> vec(size);
   memcpy(vec.data(), data, size);
 
-  info.GetReturnValue().Set(Mat::Converter::wrap(cv::imdecode(vec, flags)));
+  return Mat::Converter::wrap(cv::imdecode(vec, flags));
 }
 
 void Io::ImdecodeAsync(const Napi::CallbackInfo& info) {
@@ -168,25 +168,25 @@ void Io::ImdecodeAsync(const Napi::CallbackInfo& info) {
 
   Napi::Function cbFunc;
   if (FF::hasArg(info, 1) && FF::IntConverterImpl::assertType(info[1])) {
-    worker->flags = info[1]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value();
+    worker->flags = info[1].ToInt32(Napi::GetCurrentContext())->Value();
     if (!info[2].IsFunction()) {
       return tryCatch.throwError("expected argument 2 to be of type Function");
     }
-    cbFunc = Napi::Function::Cast(info[2]);
+    cbFunc = info[2].As<Napi::Function>();
   } else {
     if (!info[1].IsFunction()) {
       return tryCatch.throwError("expected argument 1 to be of type Function");
     }
-    cbFunc = Napi::Function::Cast(info[1]);
+    cbFunc = info[1].As<Napi::Function>();
     worker->flags = cv::IMREAD_ANYCOLOR;
   }
 
   Napi::Object jsBuf = info[0].As<Napi::Object>();
-  worker->data = static_cast<char*>(node::Buffer::Data(jsBuf));
-  worker->dataSize = node::Buffer::Length(jsBuf);
+  worker->data = static_cast<char*>(jsBuf.As<Napi::Buffer<char>>().Data());
+  worker->dataSize = jsBuf.As<Napi::Buffer<char>>().Length();
 
-  Nan::AsyncQueueWorker(new FF::AsyncWorker(
-      new Nan::Callback(cbFunc),
+  Napi::AsyncQueueWorker(new FF::AsyncWorker(
+      new Napi::FunctionReference(cbFunc),
       worker));
 }
 

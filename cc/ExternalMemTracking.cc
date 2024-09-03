@@ -23,7 +23,7 @@ Napi::Object ExternalMemTracking(Napi::Env env, Napi::Object exports) {
     exports.Set("getMemMetrics", Napi::Function::New(env, ExternalMemTracking::GetMemMetrics));
 };
 
-void ExternalMemTracking::GetMemMetrics(const Napi::CallbackInfo& info) {
+ Napi::Value ExternalMemTracking::GetMemMetrics(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
   int64_t TotalAlloc = -1;
   int64_t TotalKnownByJS = -1;
@@ -45,21 +45,21 @@ void ExternalMemTracking::GetMemMetrics(const Napi::CallbackInfo& info) {
   result.Set("NumAllocations", Napi::Number::New(env, static_cast<double>(NumAllocations)));
   result.Set("NumDeAllocations", Napi::Number::New(env, static_cast<double>(NumDeAllocations)));
 
-  info.GetReturnValue().Set(result);
+  return result;
   return;
 }
 
-void ExternalMemTracking::IsCustomMatAllocatorEnabled(const Napi::CallbackInfo& info) {
+Napi::Value ExternalMemTracking::IsCustomMatAllocatorEnabled(const Napi::CallbackInfo& info) {
   bool allocatorOn = false;
 #ifdef OPENCV4NODEJS_ENABLE_EXTERNALMEMTRACKING
   if (ExternalMemTracking::custommatallocator != NULL) {
     allocatorOn = true;
   }
 #endif
-  info.GetReturnValue().Set(allocatorOn);
+  return allocatorOn;
 }
 
-void ExternalMemTracking::DangerousEnableCustomMatAllocator(const Napi::CallbackInfo& info) {
+Napi::Value ExternalMemTracking::DangerousEnableCustomMatAllocator(const Napi::CallbackInfo& info) {
   bool success = false;
 #ifdef OPENCV4NODEJS_ENABLE_EXTERNALMEMTRACKING
   if (ExternalMemTracking::custommatallocator == NULL) {
@@ -68,10 +68,10 @@ void ExternalMemTracking::DangerousEnableCustomMatAllocator(const Napi::Callback
   }
   success = ExternalMemTracking::custommatallocator != NULL;
 #endif
-  info.GetReturnValue().Set(success);
+  return success;
 }
 
-void ExternalMemTracking::DangerousDisableCustomMatAllocator(const Napi::CallbackInfo& info) {
+Napi::Value ExternalMemTracking::DangerousDisableCustomMatAllocator(const Napi::CallbackInfo& info) {
   bool success = false;
 #ifdef OPENCV4NODEJS_ENABLE_EXTERNALMEMTRACKING
   if (ExternalMemTracking::custommatallocator != NULL) {
@@ -93,5 +93,5 @@ void ExternalMemTracking::DangerousDisableCustomMatAllocator(const Napi::Callbac
   }
   success = ExternalMemTracking::custommatallocator == NULL;
 #endif
-  info.GetReturnValue().Set(success);
+  return success;
 }

@@ -6,8 +6,8 @@
 #include "MatXimgprocBindings.h"
 
 void MatXimgproc::Init(Napi::FunctionReference ctor) {
-  Nan::SetPrototypeMethod(ctor, "guidedFilter", GuidedFilter);
-  Nan::SetPrototypeMethod(ctor, "guidedFilterAsync", GuidedFilterAsync);
+  InstanceMethod("guidedFilter", &GuidedFilter),
+  InstanceMethod("guidedFilterAsync", &GuidedFilterAsync),
 };
 
 void MatXimgproc::GuidedFilter(const Napi::CallbackInfo& info) {

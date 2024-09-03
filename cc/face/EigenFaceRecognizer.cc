@@ -13,8 +13,8 @@ Napi::Object EigenFaceRecognizer(Napi::Env env, Napi::Object exports) {
 
   FaceRecognizer::Init(ctor);
   constructor.Reset(ctor);
-  ctor->SetClassName(Nan::New("EigenFaceRecognizer").ToLocalChecked());
-  instanceTemplate->SetInternalFieldCount(1);
+  ctor->SetClassName(Napi::String::New(env, "EigenFaceRecognizer"));
+
 
   target.Set("EigenFaceRecognizer", FF::getFunction(ctor));
 };
@@ -36,7 +36,7 @@ void EigenFaceRecognizer::New(const Napi::CallbackInfo& info) {
 #else
   self->faceRecognizer = cv::face::createEigenFaceRecognizer(worker.num_components, worker.threshold);
 #endif
-  info.GetReturnValue().Set(info.Holder());
+  return info.Holder();
 };
 
 #endif

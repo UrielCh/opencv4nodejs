@@ -18,9 +18,9 @@ Napi::Object TrackerCSRT(Napi::Env env, Napi::Object exports) {
 
   constructor.Reset(ctor);
   ctor->SetClassName(FF::newString(env, "TrackerCSRT"));
-  instanceTemplate->SetInternalFieldCount(1);
 
-  Nan::Set(target, FF::newString(env, "TrackerCSRT"), FF::getFunction(ctor));
+
+  (target).Set("TrackerCSRT", FF::getFunction(ctor));
 };
 
 void TrackerCSRT::New(const Napi::CallbackInfo& info) {
@@ -44,7 +44,7 @@ void TrackerCSRT::New(const Napi::CallbackInfo& info) {
   self->tracker = cv::TrackerCSRT::create(params);
 #endif
   self->Wrap(info.Holder());
-  info.GetReturnValue().Set(info.Holder());
+  return info.Holder();
 };
 
 #endif

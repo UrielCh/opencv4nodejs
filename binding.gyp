@@ -157,8 +157,8 @@
 				],
 				"msvs_settings": {
 					"VCCLCompilerTool": {
-						"ExceptionHandling": "2",
-						"RuntimeLibrary": "2"
+						"ExceptionHandling": 2,
+						"RuntimeLibrary": 2
 					},
 				}
 			}],

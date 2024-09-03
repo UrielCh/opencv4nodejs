@@ -12,14 +12,14 @@ Napi::Object SIFTDetector(Napi::Env env, Napi::Object exports) {
 
   FeatureDetector::Init(ctor);
   constructor.Reset(ctor);
-  instanceTemplate->SetInternalFieldCount(1);
-  ctor->SetClassName(Nan::New("SIFTDetector").ToLocalChecked());
 
-  Nan::SetAccessor(instanceTemplate, Nan::New("nFeatures").ToLocalChecked(), nFeatures_getter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("nOctaveLayers").ToLocalChecked(), nOctaveLayers_getter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("contrastThreshold").ToLocalChecked(), contrastThreshold_getter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("edgeThreshold").ToLocalChecked(), edgeThreshold_getter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("sigma").ToLocalChecked(), sigma_getter);
+  ctor->SetClassName(Napi::String::New(env, "SIFTDetector"));
+
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "nFeatures"), nFeatures_getter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "nOctaveLayers"), nOctaveLayers_getter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "contrastThreshold"), contrastThreshold_getter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "edgeThreshold"), edgeThreshold_getter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "sigma"), sigma_getter);
 
   target.Set("SIFTDetector", FF::getFunction(ctor));
 };

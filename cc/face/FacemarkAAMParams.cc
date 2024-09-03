@@ -10,25 +10,25 @@ Napi::FunctionReference FacemarkAAMParams::constructor;
 
 Napi::Object FacemarkAAMParams(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor =
-      Nan::New<v8::FunctionTemplate>(FacemarkAAMParams::New);
+      Napi::Function::New(env, FacemarkAAMParams::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
   constructor.Reset(ctor);
   ctor->SetClassName(FF::newString(env, "FacemarkAAMParams"));
-  instanceTemplate->SetInternalFieldCount(1);
 
-  Nan::SetAccessor(instanceTemplate, FF::newString(env, "m"), m_getter, m_setter);
-  Nan::SetAccessor(instanceTemplate, FF::newString(env, "max_m"), max_m_getter, max_m_setter);
-  Nan::SetAccessor(instanceTemplate, FF::newString(env, "max_n"), max_n_getter, max_n_setter);
-  Nan::SetAccessor(instanceTemplate, FF::newString(env, "model_filename"), model_filename_getter, model_filename_setter);
-  Nan::SetAccessor(instanceTemplate, FF::newString(env, "n"), n_getter, n_setter);
-  Nan::SetAccessor(instanceTemplate, FF::newString(env, "n_iter"), n_iter_getter, n_iter_setter);
-  Nan::SetAccessor(instanceTemplate, FF::newString(env, "save_model"), save_model_getter, save_model_setter);
-  Nan::SetAccessor(instanceTemplate, FF::newString(env, "scales"), scales_getter, scales_setter);
-  Nan::SetAccessor(instanceTemplate, FF::newString(env, "texture_max_m"), texture_max_m_getter, texture_max_m_setter);
-  Nan::SetAccessor(instanceTemplate, FF::newString(env, "verbose"), verbose_getter, verbose_setter);
 
-  Nan::Set(target, FF::newString(env, "FacemarkAAMParams"), FF::getFunction(ctor));
+  Napi::SetAccessor(instanceTemplate, FF::newString(env, "m"), m_getter, m_setter);
+  Napi::SetAccessor(instanceTemplate, FF::newString(env, "max_m"), max_m_getter, max_m_setter);
+  Napi::SetAccessor(instanceTemplate, FF::newString(env, "max_n"), max_n_getter, max_n_setter);
+  Napi::SetAccessor(instanceTemplate, FF::newString(env, "model_filename"), model_filename_getter, model_filename_setter);
+  Napi::SetAccessor(instanceTemplate, FF::newString(env, "n"), n_getter, n_setter);
+  Napi::SetAccessor(instanceTemplate, FF::newString(env, "n_iter"), n_iter_getter, n_iter_setter);
+  Napi::SetAccessor(instanceTemplate, FF::newString(env, "save_model"), save_model_getter, save_model_setter);
+  Napi::SetAccessor(instanceTemplate, FF::newString(env, "scales"), scales_getter, scales_setter);
+  Napi::SetAccessor(instanceTemplate, FF::newString(env, "texture_max_m"), texture_max_m_getter, texture_max_m_setter);
+  Napi::SetAccessor(instanceTemplate, FF::newString(env, "verbose"), verbose_getter, verbose_setter);
+
+  (target).Set("FacemarkAAMParams", FF::getFunction(ctor));
 };
 
 void FacemarkAAMParams::New(const Napi::CallbackInfo& info) {
@@ -38,7 +38,7 @@ void FacemarkAAMParams::New(const Napi::CallbackInfo& info) {
   FacemarkAAMParams* self = new FacemarkAAMParams();
   self->self = cv::face::FacemarkAAM::Params();
   self->Wrap(info.Holder());
-  info.GetReturnValue().Set(info.Holder());
+  return info.Holder();
 };
 
 #endif

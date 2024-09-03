@@ -27,8 +27,8 @@ public:
 
   Napi::Value getReturnValue(const Napi::Env& env) {
     Napi::Object ret = Napi::Object::New(env);
-    Nan::Set(ret, FF::newString(env, "classes"), FF::IntArrayConverter::wrap(clazz));
-    Nan::Set(ret, FF::newString(env, "confidences"), FF::DoubleArrayConverter::wrap(confidence));
+    (ret).Set("classes", FF::IntArrayConverter::wrap(clazz));
+    (ret).Set("confidences", FF::DoubleArrayConverter::wrap(confidence));
     return ret;
   }
 

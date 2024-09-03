@@ -34,10 +34,10 @@ Napi::Object Tracking(Napi::Env env, Napi::Object exports) {
   TrackerKCF::Init(env, exports);
   MultiTracker::Init(env, exports);
   Napi::Object trackerKCFModes = Napi::Object::New(env);
-  FF_SET_JS_PROP(trackerKCFModes, GRAY, Nan::New<v8::Integer>(cv::TrackerKCF::MODE::GRAY));
-  FF_SET_JS_PROP(trackerKCFModes, CN, Nan::New<v8::Integer>(cv::TrackerKCF::MODE::CN));
-  FF_SET_JS_PROP(trackerKCFModes, CUSTOM, Nan::New<v8::Integer>(cv::TrackerKCF::MODE::CUSTOM));
-  Nan::Set(target, FF::newString(env, "trackerKCFModes"), trackerKCFModes);
+  FF_SET_JS_PROP(trackerKCFModes, GRAY, Napi::Number::New(env, cv::TrackerKCF::MODE::GRAY));
+  FF_SET_JS_PROP(trackerKCFModes, CN, Napi::Number::New(env, cv::TrackerKCF::MODE::CN));
+  FF_SET_JS_PROP(trackerKCFModes, CUSTOM, Napi::Number::New(env, cv::TrackerKCF::MODE::CUSTOM));
+  (target).Set("trackerKCFModes", trackerKCFModes);
 #endif
 
 #if CV_VERSION_GREATER_EQUAL(3, 2, 0)

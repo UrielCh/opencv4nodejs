@@ -10,17 +10,17 @@ Napi::FunctionReference VideoWriter::constructor;
 Napi::Object VideoWriter(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, VideoWriter::New));
   constructor.Reset(ctor);
-  ctor->InstanceTemplate()->SetInternalFieldCount(1);
+
   ctor->SetClassName(FF::newString(env, "VideoWriter"));
-  Nan::SetMethod(ctor, "fourcc", Fourcc);
-  Nan::SetPrototypeMethod(ctor, "write", Write);
-  Nan::SetPrototypeMethod(ctor, "writeAsync", WriteAsync);
-  Nan::SetPrototypeMethod(ctor, "get", Get);
-  Nan::SetPrototypeMethod(ctor, "getAsync", GetAsync);
-  Nan::SetPrototypeMethod(ctor, "set", Set);
-  Nan::SetPrototypeMethod(ctor, "setAsync", SetAsync);
-  Nan::SetPrototypeMethod(ctor, "release", Release);
-  Nan::Set(target, FF::newString(env, "VideoWriter"), FF::getFunction(ctor));
+  Napi::SetMethod(ctor, "fourcc", Fourcc);
+  InstanceMethod("write", &Write),
+  InstanceMethod("writeAsync", &WriteAsync),
+  InstanceMethod("get", &Get),
+  InstanceMethod("getAsync", &GetAsync),
+  InstanceMethod("set", &Set),
+  InstanceMethod("setAsync", &SetAsync),
+  InstanceMethod("release", &Release),
+  (target).Set("VideoWriter", FF::getFunction(ctor));
 };
 
 void VideoWriter::New(const Napi::CallbackInfo& info) {
@@ -36,11 +36,11 @@ void VideoWriter::New(const Napi::CallbackInfo& info) {
   VideoWriter* self = new VideoWriter();
   self->self.open(worker.fileName, worker.fourccCode, worker.fps, (cv::Size)worker.frameSize, worker.isColor);
   self->Wrap(info.Holder());
-  info.GetReturnValue().Set(info.Holder());
+  return info.Holder();
 }
 
 void VideoWriter::Release(const Napi::CallbackInfo& info) {
-  Nan::ObjectWrap::Unwrap<VideoWriter>(info.This())->self.release();
+  info.This())->self.release(.Unwrap<VideoWriter>();
 }
 
 void VideoWriter::Get(const Napi::CallbackInfo& info) {

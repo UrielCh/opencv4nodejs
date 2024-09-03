@@ -14,8 +14,8 @@ Napi::Object SimpleBlobDetector(Napi::Env env, Napi::Object exports) {
   SimpleBlobDetectorParams::Init(env, exports);
   FeatureDetector::Init(ctor);
   constructor.Reset(ctor);
-  ctor->SetClassName(Nan::New("SimpleBlobDetector").ToLocalChecked());
-  instanceTemplate->SetInternalFieldCount(1);
+  ctor->SetClassName(Napi::String::New(env, "SimpleBlobDetector"));
+
 
   target.Set("SimpleBlobDetector", FF::getFunction(ctor));
 };
@@ -33,7 +33,7 @@ void SimpleBlobDetector::New(const Napi::CallbackInfo& info) {
   SimpleBlobDetector* self = new SimpleBlobDetector();
   self->Wrap(info.Holder());
   self->detector = cv::SimpleBlobDetector::create(params);
-  info.GetReturnValue().Set(info.Holder());
+  return info.Holder();
 }
 
 #endif

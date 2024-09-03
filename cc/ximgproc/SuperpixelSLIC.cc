@@ -12,18 +12,18 @@ Napi::Object SuperpixelSLIC(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, SuperpixelSLIC::New));
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
   constructor.Reset(ctor);
-  instanceTemplate->SetInternalFieldCount(1);
-  ctor->SetClassName(Nan::New("SuperpixelSLIC").ToLocalChecked());
 
-  Nan::SetAccessor(instanceTemplate, Nan::New("image").ToLocalChecked(), image_getter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("labels").ToLocalChecked(), labels_getter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("labelContourMask").ToLocalChecked(), labelContourMask_getter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("numCalculatedSuperpixels").ToLocalChecked(), numCalculatedSuperpixels_getter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("algorithm").ToLocalChecked(), algorithm_getter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("region_size").ToLocalChecked(), region_size_getter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("ruler").ToLocalChecked(), ruler_getter);
+  ctor->SetClassName(Napi::String::New(env, "SuperpixelSLIC"));
 
-  Nan::SetPrototypeMethod(ctor, "iterate", SuperpixelSLIC::Iterate);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "image"), image_getter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "labels"), labels_getter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "labelContourMask"), labelContourMask_getter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "numCalculatedSuperpixels"), numCalculatedSuperpixels_getter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "algorithm"), algorithm_getter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "region_size"), region_size_getter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "ruler"), ruler_getter);
+
+  Napi::SetPrototypeMethod(ctor, "iterate", SuperpixelSLIC::Iterate);
 
   target.Set("SuperpixelSLIC", FF::getFunction(ctor));
 };
@@ -49,7 +49,7 @@ void SuperpixelSLIC::New(const Napi::CallbackInfo& info) {
       worker.region_size,
       worker.ruler);
   self->Wrap(info.Holder());
-  info.GetReturnValue().Set(info.Holder());
+  return info.Holder();
 }
 
 void SuperpixelSLIC::Iterate(const Napi::CallbackInfo& info) {
@@ -61,7 +61,7 @@ void SuperpixelSLIC::Iterate(const Napi::CallbackInfo& info) {
     return tryCatch.reThrow();
   }
 
-  SuperpixelSLIC* self = Nan::ObjectWrap::Unwrap<SuperpixelSLIC>(info.This());
+  SuperpixelSLIC* self = this;
   self->superpixelSlic->iterate((int)iterations);
   self->superpixelSlic->getLabels(self->labels);
   self->numCalculatedSuperpixels = self->superpixelSlic->getNumberOfSuperpixels();

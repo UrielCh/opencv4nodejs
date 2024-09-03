@@ -13,9 +13,9 @@ Napi::Object PHash(Napi::Env env, Napi::Object exports) {
   ImgHashBase::Init(ctor);
   constructor.Reset(ctor);
   ctor->SetClassName(FF::newString(env, "PHash"));
-  instanceTemplate->SetInternalFieldCount(1);
 
-  Nan::Set(target, FF::newString(env, "PHash"), FF::getFunction(ctor));
+
+  (target).Set("PHash", FF::getFunction(ctor));
 };
 
 void PHash::New(const Napi::CallbackInfo& info) {
@@ -27,7 +27,7 @@ void PHash::New(const Napi::CallbackInfo& info) {
   self->Wrap(info.Holder());
   self->imgHashBase = cv::img_hash::PHash::create();
 
-  info.GetReturnValue().Set(info.Holder());
+  return info.Holder();
 };
 
 #endif

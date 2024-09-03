@@ -17,15 +17,16 @@ public:
   }
 
   static bool assertType(Napi::Value& jsVal) {
-    return !jsVal.IsNull() && !jsVal.IsUndefined() && Nan::New(TClass::constructor)->HasInstance(jsVal);
+    return !jsVal.IsNull() && !jsVal.IsUndefined() && Napi::New(env, TClass::constructor)->HasInstance(jsVal);
   }
 
   static T unwrapUnchecked(Napi::Value jsVal) {
+    Napi::Env env = jsVal.Env();
     return unwrapNanObjectWrap<TClass>(jsVal)->self;
   }
 
   static Napi::Value wrap(T val) {
-    Napi::Object jsObj = FF::newInstance(Nan::New(TClass::constructor));
+    Napi::Object jsObj = FF::newInstance(Napi::New(env, TClass::constructor));
     unwrapNanObjectWrap<TClass>(jsObj)->setNativeObject(val);
     return jsObj;
   }

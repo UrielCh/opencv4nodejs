@@ -13,8 +13,8 @@ Napi::Object FisherFaceRecognizer(Napi::Env env, Napi::Object exports) {
 
   FaceRecognizer::Init(ctor);
   constructor.Reset(ctor);
-  ctor->SetClassName(Nan::New("FisherFaceRecognizer").ToLocalChecked());
-  instanceTemplate->SetInternalFieldCount(1);
+  ctor->SetClassName(Napi::String::New(env, "FisherFaceRecognizer"));
+
 
   target.Set("FisherFaceRecognizer", FF::getFunction(ctor));
 };
@@ -36,7 +36,7 @@ void FisherFaceRecognizer::New(const Napi::CallbackInfo& info) {
 #else
   self->faceRecognizer = cv::face::createFisherFaceRecognizer(worker.num_components, worker.threshold);
 #endif
-  info.GetReturnValue().Set(info.Holder());
+  return info.Holder();
 };
 
 #endif

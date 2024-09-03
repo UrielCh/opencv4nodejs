@@ -6,10 +6,10 @@
 #include "FeatureDetectorBindings.h"
 
 void FeatureDetector::Init(Napi::FunctionReference ctor) {
-  Nan::SetPrototypeMethod(ctor, "detect", FeatureDetector::Detect);
-  Nan::SetPrototypeMethod(ctor, "compute", FeatureDetector::Compute);
-  Nan::SetPrototypeMethod(ctor, "detectAsync", FeatureDetector::DetectAsync);
-  Nan::SetPrototypeMethod(ctor, "computeAsync", FeatureDetector::ComputeAsync);
+  Napi::SetPrototypeMethod(ctor, "detect", FeatureDetector::Detect);
+  Napi::SetPrototypeMethod(ctor, "compute", FeatureDetector::Compute);
+  Napi::SetPrototypeMethod(ctor, "detectAsync", FeatureDetector::DetectAsync);
+  Napi::SetPrototypeMethod(ctor, "computeAsync", FeatureDetector::ComputeAsync);
 };
 
 void FeatureDetector::Detect(const Napi::CallbackInfo& info) {

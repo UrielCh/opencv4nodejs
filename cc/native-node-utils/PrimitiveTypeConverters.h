@@ -24,10 +24,12 @@ public:
   }
 
   static bool assertType(Napi::Value jsVal) {
+    Napi::Env env = jsVal.Env();
     return jsVal.IsNumber();
   }
 
   static int unwrapUnchecked(Napi::Value jsVal) {
+    Napi::Env env = jsVal.Env();
     return jsVal.As<Napi::Number>().Int32Value();
   }
 };
@@ -41,10 +43,12 @@ public:
   }
 
   static bool assertType(Napi::Value jsVal) {
+    Napi::Env env = jsVal.Env();
     return jsVal.IsNumber();
   }
 
   static uint32_t unwrapUnchecked(Napi::Value jsVal) {
+    Napi::Env env = jsVal.Env();
     return jsVal.As<Napi::Number>().Uint32Value();
   }
 };
@@ -58,10 +62,12 @@ public:
   }
 
   static bool assertType(Napi::Value jsVal) {
+    Napi::Env env = jsVal.Env();
     return jsVal.IsNumber();
   }
 
   static long unwrapUnchecked(Napi::Value jsVal) {
+    Napi::Env env = jsVal.Env();
     return jsVal.As<Napi::Number>().Int64Value();
   }
 };
@@ -79,6 +85,7 @@ public:
   }
 
   static ulong unwrapUnchecked(Napi::Value jsVal) {
+    Napi::Env env = jsVal.Env();
     return static_cast<ulong>(jsVal.As<Napi::Number>().Uint32Value());
   }
 };
@@ -92,10 +99,12 @@ public:
   }
 
   static bool assertType(Napi::Value jsVal) {
+    Napi::Env env = jsVal.Env();
     return jsVal.IsNumber();
   }
 
   static char unwrapUnchecked(Napi::Value jsVal) {
+    Napi::Env env = jsVal.Env();
     return static_cast<char>(jsVal.As<Napi::Number>().Int32Value());
   }
 };
@@ -109,10 +118,12 @@ public:
   }
 
   static bool assertType(Napi::Value jsVal) {
+    Napi::Env env = jsVal.Env();
     return jsVal.IsNumber();
   }
 
   static char unwrapUnchecked(Napi::Value jsVal) {
+    Napi::Env env = jsVal.Env();
     return static_cast<uchar>(jsVal.As<Napi::Number>().Uint32Value());
   }
 };
@@ -126,10 +137,12 @@ public:
   }
 
   static bool assertType(Napi::Value jsVal) {
+    Napi::Env env = jsVal.Env();
     return jsVal.IsBoolean();
   }
 
   static bool unwrapUnchecked(Napi::Value jsVal) {
+    Napi::Env env = jsVal.Env();
     return jsVal.As<Napi::Boolean>().Value();
   }
 };
@@ -143,10 +156,12 @@ public:
   }
 
   static bool assertType(Napi::Value jsVal) {
+    Napi::Env env = jsVal.Env();
     return jsVal.IsNumber();
   }
 
   static double unwrapUnchecked(Napi::Value jsVal) {
+    Napi::Env env = jsVal.Env();
     return jsVal.As<Napi::Number>().DoubleValue();
   }
 };
@@ -160,10 +175,12 @@ public:
   }
 
   static bool assertType(Napi::Value jsVal) {
+    Napi::Env env = jsVal.Env();
     return jsVal.IsNumber();
   }
 
   static float unwrapUnchecked(Napi::Value jsVal) {
+    Napi::Env env = jsVal.Env();
     return jsVal.As<Napi::Number>().FloatValue();
   }
 };

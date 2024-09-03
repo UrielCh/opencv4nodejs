@@ -3,20 +3,32 @@
 //
 
 #include "HistAxes.h"
+#include "napi.h"
 
 Napi::FunctionReference HistAxes::constructor;
 
 Napi::Object HistAxes(Napi::Env env, Napi::Object exports) {
-  Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, HistAxes::New));
-  HistAxes::constructor.Reset(ctor);
-  ctor->InstanceTemplate()->SetInternalFieldCount(1);
-  ctor->SetClassName(Nan::New("HistAxes").ToLocalChecked());
+//   Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, HistAxes::New));
+// 
+//   HistAxes::constructor.Reset(ctor);
+// 
+//   ctor->SetClassName(Napi::String::New(env, "HistAxes"));
+// 
+//   Napi::SetAccessor(ctor->InstanceTemplate(), Napi::String::New(env, "bins"), HistAxes::bins_getter);
+//   Napi::SetAccessor(ctor->InstanceTemplate(), Napi::String::New(env, "channel"), HistAxes::channel_getter);
+//   Napi::SetAccessor(ctor->InstanceTemplate(), Napi::String::New(env, "ranges"), HistAxes::ranges_getter);
 
-  Nan::SetAccessor(ctor->InstanceTemplate(), Nan::New("bins").ToLocalChecked(), HistAxes::bins_getter);
-  Nan::SetAccessor(ctor->InstanceTemplate(), Nan::New("channel").ToLocalChecked(), HistAxes::channel_getter);
-  Nan::SetAccessor(ctor->InstanceTemplate(), Nan::New("ranges").ToLocalChecked(), HistAxes::ranges_getter);
+  Napi::Function ctor = DefineClass(env, "HistAxes", {
+    InstanceAccessor<&HistAxes::bins_getter>("bins"),
+    InstanceAccessor<&HistAxes::channel_getter>("channel"),
+    InstanceAccessor<&HistAxes::ranges_getter>("ranges")
+  });
 
-  target.Set("HistAxes", FF::getFunction(ctor));
+  HistAxes::constructor = Napi::Persistent(ctor);
+  HistAxes::constructor.SuppressDestruct();
+
+  exports.Set("HistAxes", FF::getFunction(ctor));
+  return exports;
 }
 
 void HistAxes::New(const Napi::CallbackInfo& info) {
@@ -32,7 +44,7 @@ void HistAxes::New(const Napi::CallbackInfo& info) {
 
   HistAxes* self = new HistAxes();
 
-  auto jsAxis = Nan::To<v8::Object>(info[0]).ToLocalChecked();
+  auto jsAxis = info[0].To<Napi::Object>();
 
   if (!FF::hasOwnProperty(jsAxis, "ranges")) {
     return tryCatch.throwError("expected object to have ranges");
@@ -44,11 +56,11 @@ void HistAxes::New(const Napi::CallbackInfo& info) {
     return tryCatch.throwError("expected object to have channel");
   }
 
-  Napi::Value jsRangesVal = Nan::Get(jsAxis, Nan::New("ranges").ToLocalChecked()).ToLocalChecked();
-  v8::Local<v8::Array> jsRanges = v8::Local<v8::Array>::Cast(jsRangesVal);
+  Napi::Value jsRangesVal = (jsAxis).Get(Napi::String::New(env, "ranges"));
+  Napi::Array jsRanges = jsRangesVal.As<Napi::Array>();
 
   if (
-      jsRanges->Length() != 2 || !Nan::Get(jsRanges, 0).ToLocalChecked()->IsNumber() || !Nan::Get(jsRanges, 1).ToLocalChecked()->IsNumber()) {
+      jsRanges->Length() != 2 || !(jsRanges).Get(0).IsNumber() || !(jsRanges).Get(1).IsNumber()) {
     return tryCatch.throwError("expected ranges to be an array with 2 numbers");
   }
 
@@ -58,5 +70,5 @@ void HistAxes::New(const Napi::CallbackInfo& info) {
   FF::IntConverter::prop(&self->self.bins, "bins", jsAxis);
 
   self->Wrap(info.Holder());
-  info.GetReturnValue().Set(info.Holder());
+  return info.Holder();
 }

@@ -20,20 +20,20 @@ public:
   static Napi::Object Init(Napi::Env env, Napi::Object exports);
   static void New(const Napi::CallbackInfo& info);
 
-  static NAN_GETTER(GetNumPoints) {
-    info.GetReturnValue().Set(Nan::New((uint)Contour::unwrapSelf(info).size()));
+  Napi::Value GetNumPoints(const Napi::CallbackInfo& info) {
+    return Napi::New(env, (uint)Contour::unwrapSelf(info).size());
   }
 
-  static NAN_GETTER(GetHierarchy) {
-    info.GetReturnValue().Set(Vec4::Converter::wrap(unwrapThis(info)->hierarchy));
+  Napi::Value GetHierarchy(const Napi::CallbackInfo& info) {
+    return Vec4::Converter::wrap(unwrapThis(info)->hierarchy);
   }
 
-  static NAN_GETTER(GetArea) {
-    info.GetReturnValue().Set(Nan::New(cv::contourArea(Contour::unwrapSelf(info), false)));
+  Napi::Value GetArea(const Napi::CallbackInfo& info) {
+    return Napi::New(env, cv::contourArea(Contour::unwrapSelf(info), false));
   }
 
-  static NAN_GETTER(GetIsConvex) {
-    info.GetReturnValue().Set(Nan::New(cv::isContourConvex(Contour::unwrapSelf(info))));
+  Napi::Value GetIsConvex(const Napi::CallbackInfo& info) {
+    return Napi::New(env, cv::isContourConvex(Contour::unwrapSelf(info)));
   }
 
   static void GetPoints(const Napi::CallbackInfo& info);
@@ -53,7 +53,7 @@ public:
   static void MatchShapes(const Napi::CallbackInfo& info);
   static void FitEllipse(const Napi::CallbackInfo& info);
   static void MinAreaRect(const Napi::CallbackInfo& info);
-  static NAN_METHOD(_Moments);
+  static Napi::Value _Moments(const Napi::CallbackInfo& info);
 };
 
 #endif

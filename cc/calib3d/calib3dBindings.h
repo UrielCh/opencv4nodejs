@@ -178,7 +178,7 @@ public:
   }
 
   Napi::Value getReturnValue(const Napi::Env& env) {
-    Napi::Object ret = SolvePxPWorker::getReturnValue()->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    Napi::Object ret = SolvePxPWorker::getReturnValue()->ToObject(Napi::GetCurrentContext());
     ret.Set("inliers", FF::IntArrayConverter::wrap(inliers));
     return ret;
   }

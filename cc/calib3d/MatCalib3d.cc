@@ -6,51 +6,51 @@
 #include "MatCalib3dBindings.h"
 
 void MatCalib3d::Init(Napi::FunctionReference ctor) {
-  Nan::SetPrototypeMethod(ctor, "rodrigues", Rodrigues);
-  Nan::SetPrototypeMethod(ctor, "rodriguesAsync", RodriguesAsync);
-  Nan::SetPrototypeMethod(ctor, "rqDecomp3x3", RQDecomp3x3);
-  Nan::SetPrototypeMethod(ctor, "rqDecomp3x3Async", RQDecomp3x3Async);
-  Nan::SetPrototypeMethod(ctor, "decomposeProjectionMatrix", DecomposeProjectionMatrix);
-  Nan::SetPrototypeMethod(ctor, "decomposeProjectionMatrixAsync", DecomposeProjectionMatrixAsync);
-  Nan::SetPrototypeMethod(ctor, "matMulDeriv", MatMulDeriv);
-  Nan::SetPrototypeMethod(ctor, "matMulDerivAsync", MatMulDerivAsync);
-  Nan::SetPrototypeMethod(ctor, "findChessboardCorners", FindChessboardCorners);
-  Nan::SetPrototypeMethod(ctor, "findChessboardCornersAsync", FindChessboardCornersAsync);
-  Nan::SetPrototypeMethod(ctor, "drawChessboardCorners", DrawChessboardCorners);
-  Nan::SetPrototypeMethod(ctor, "drawChessboardCornersAsync", DrawChessboardCornersAsync);
-  Nan::SetPrototypeMethod(ctor, "find4QuadCornerSubpix", Find4QuadCornerSubpix);
-  Nan::SetPrototypeMethod(ctor, "find4QuadCornerSubpixAsync", Find4QuadCornerSubpixAsync);
-  Nan::SetPrototypeMethod(ctor, "calibrationMatrixValues", CalibrationMatrixValues);
-  Nan::SetPrototypeMethod(ctor, "calibrationMatrixValuesAsync", CalibrationMatrixValuesAsync);
-  Nan::SetPrototypeMethod(ctor, "stereoRectify", StereoRectify);
-  Nan::SetPrototypeMethod(ctor, "stereoRectifyAsync", StereoRectifyAsync);
-  Nan::SetPrototypeMethod(ctor, "rectify3Collinear", Rectify3Collinear);
-  Nan::SetPrototypeMethod(ctor, "rectify3CollinearAsync", Rectify3CollinearAsync);
-  Nan::SetPrototypeMethod(ctor, "getOptimalNewCameraMatrix", GetOptimalNewCameraMatrix);
-  Nan::SetPrototypeMethod(ctor, "getOptimalNewCameraMatrixAsync", GetOptimalNewCameraMatrixAsync);
-  Nan::SetPrototypeMethod(ctor, "decomposeEssentialMat", DecomposeEssentialMat);
-  Nan::SetPrototypeMethod(ctor, "decomposeEssentialMatAsync", DecomposeEssentialMatAsync);
-  Nan::SetPrototypeMethod(ctor, "triangulatePoints", TriangulatePoints);
-  Nan::SetPrototypeMethod(ctor, "triangulatePointsAsync", TriangulatePointsAsync);
-  Nan::SetPrototypeMethod(ctor, "correctMatches", CorrectMatches);
-  Nan::SetPrototypeMethod(ctor, "correctMatchesAsync", CorrectMatchesAsync);
-  Nan::SetPrototypeMethod(ctor, "filterSpeckles", FilterSpeckles);
-  Nan::SetPrototypeMethod(ctor, "filterSpecklesAsync", FilterSpecklesAsync);
-  Nan::SetPrototypeMethod(ctor, "validateDisparity", ValidateDisparity);
-  Nan::SetPrototypeMethod(ctor, "validateDisparityAsync", ValidateDisparityAsync);
-  Nan::SetPrototypeMethod(ctor, "reprojectImageTo3D", ReprojectImageTo3D);
-  Nan::SetPrototypeMethod(ctor, "reprojectImageTo3DAsync", ReprojectImageTo3DAsync);
-  Nan::SetPrototypeMethod(ctor, "decomposeHomographyMat", DecomposeHomographyMat);
-  Nan::SetPrototypeMethod(ctor, "decomposeHomographyMatAsync", DecomposeHomographyMatAsync);
+  InstanceMethod("rodrigues", &Rodrigues),
+  InstanceMethod("rodriguesAsync", &RodriguesAsync),
+  InstanceMethod("rqDecomp3x3", &RQDecomp3x3),
+  InstanceMethod("rqDecomp3x3Async", &RQDecomp3x3Async),
+  InstanceMethod("decomposeProjectionMatrix", &DecomposeProjectionMatrix),
+  InstanceMethod("decomposeProjectionMatrixAsync", &DecomposeProjectionMatrixAsync),
+  InstanceMethod("matMulDeriv", &MatMulDeriv),
+  InstanceMethod("matMulDerivAsync", &MatMulDerivAsync),
+  InstanceMethod("findChessboardCorners", &FindChessboardCorners),
+  InstanceMethod("findChessboardCornersAsync", &FindChessboardCornersAsync),
+  InstanceMethod("drawChessboardCorners", &DrawChessboardCorners),
+  InstanceMethod("drawChessboardCornersAsync", &DrawChessboardCornersAsync),
+  InstanceMethod("find4QuadCornerSubpix", &Find4QuadCornerSubpix),
+  InstanceMethod("find4QuadCornerSubpixAsync", &Find4QuadCornerSubpixAsync),
+  InstanceMethod("calibrationMatrixValues", &CalibrationMatrixValues),
+  InstanceMethod("calibrationMatrixValuesAsync", &CalibrationMatrixValuesAsync),
+  InstanceMethod("stereoRectify", &StereoRectify),
+  InstanceMethod("stereoRectifyAsync", &StereoRectifyAsync),
+  InstanceMethod("rectify3Collinear", &Rectify3Collinear),
+  InstanceMethod("rectify3CollinearAsync", &Rectify3CollinearAsync),
+  InstanceMethod("getOptimalNewCameraMatrix", &GetOptimalNewCameraMatrix),
+  InstanceMethod("getOptimalNewCameraMatrixAsync", &GetOptimalNewCameraMatrixAsync),
+  InstanceMethod("decomposeEssentialMat", &DecomposeEssentialMat),
+  InstanceMethod("decomposeEssentialMatAsync", &DecomposeEssentialMatAsync),
+  InstanceMethod("triangulatePoints", &TriangulatePoints),
+  InstanceMethod("triangulatePointsAsync", &TriangulatePointsAsync),
+  InstanceMethod("correctMatches", &CorrectMatches),
+  InstanceMethod("correctMatchesAsync", &CorrectMatchesAsync),
+  InstanceMethod("filterSpeckles", &FilterSpeckles),
+  InstanceMethod("filterSpecklesAsync", &FilterSpecklesAsync),
+  InstanceMethod("validateDisparity", &ValidateDisparity),
+  InstanceMethod("validateDisparityAsync", &ValidateDisparityAsync),
+  InstanceMethod("reprojectImageTo3D", &ReprojectImageTo3D),
+  InstanceMethod("reprojectImageTo3DAsync", &ReprojectImageTo3DAsync),
+  InstanceMethod("decomposeHomographyMat", &DecomposeHomographyMat),
+  InstanceMethod("decomposeHomographyMatAsync", &DecomposeHomographyMatAsync),
 #if CV_VERSION_GREATER_EQUAL(3, 1, 0)
-  Nan::SetPrototypeMethod(ctor, "findEssentialMat", FindEssentialMat);
-  Nan::SetPrototypeMethod(ctor, "findEssentialMatAsync", FindEssentialMatAsync);
-  Nan::SetPrototypeMethod(ctor, "recoverPose", RecoverPose);
-  Nan::SetPrototypeMethod(ctor, "recoverPoseAsync", RecoverPoseAsync);
+  InstanceMethod("findEssentialMat", &FindEssentialMat),
+  InstanceMethod("findEssentialMatAsync", &FindEssentialMatAsync),
+  InstanceMethod("recoverPose", &RecoverPose),
+  InstanceMethod("recoverPoseAsync", &RecoverPoseAsync),
 #endif
 #if CV_VERSION_GREATER_EQUAL(4, 0, 0)
-  Nan::SetPrototypeMethod(ctor, "undistort", Undistort);
-  Nan::SetPrototypeMethod(ctor, "undistortAsync", UndistortAsync);
+  InstanceMethod("undistort", &Undistort),
+  InstanceMethod("undistortAsync", &UndistortAsync),
 #endif
 };
 

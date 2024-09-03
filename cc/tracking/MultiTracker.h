@@ -26,15 +26,15 @@ public:
 
   static Napi::Object Init(Napi::Env env, Napi::Object exports);
 
-  static void New(const Napi::CallbackInfo& info);
-  static void AddMIL(const Napi::CallbackInfo& info);
-  static void AddBOOSTING(const Napi::CallbackInfo& info);
-  static void AddMEDIANFLOW(const Napi::CallbackInfo& info);
-  static void AddTLD(const Napi::CallbackInfo& info);
-  static void AddKCF(const Napi::CallbackInfo& info);
-  static void AddMOSSE(const Napi::CallbackInfo& info);
-  static void AddCSRT(const Napi::CallbackInfo& info);
-  static void Update(const Napi::CallbackInfo& info);
+  static Napi::Value New(const Napi::CallbackInfo& info);
+  static Napi::Value AddMIL(const Napi::CallbackInfo& info);
+  static Napi::Value AddBOOSTING(const Napi::CallbackInfo& info);
+  static Napi::Value AddMEDIANFLOW(const Napi::CallbackInfo& info);
+  static Napi::Value AddTLD(const Napi::CallbackInfo& info);
+  static Napi::Value AddKCF(const Napi::CallbackInfo& info);
+  static Napi::Value AddMOSSE(const Napi::CallbackInfo& info);
+  static Napi::Value AddCSRT(const Napi::CallbackInfo& info);
+  static Napi::Value Update(const Napi::CallbackInfo& info);
 };
 
 #endif

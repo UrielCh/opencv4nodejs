@@ -51,8 +51,8 @@ public:
   static void GrabCutAsync(const Napi::CallbackInfo& info);
   static void Watershed(const Napi::CallbackInfo& info);
   static void WatershedAsync(const Napi::CallbackInfo& info);
-  static NAN_METHOD(_Moments);
-  static NAN_METHOD(_MomentsAsync);
+  static Napi::Value _Moments(const Napi::CallbackInfo& info);
+  static Napi::Value _MomentsAsync(const Napi::CallbackInfo& info);
   static void FindContours(const Napi::CallbackInfo& info);
   static void FindContoursAsync(const Napi::CallbackInfo& info);
   static void DrawLine(const Napi::CallbackInfo& info);

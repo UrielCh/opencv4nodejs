@@ -12,17 +12,17 @@ Napi::Object BFMatcher(Napi::Env env, Napi::Object exports) {
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
   constructor.Reset(ctor);
-  instanceTemplate->SetInternalFieldCount(1);
 
-  ctor->SetClassName(Nan::New("BFMatcher").ToLocalChecked());
 
-  Nan::SetAccessor(instanceTemplate, Nan::New("normType").ToLocalChecked(), normType_getter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("crossCheck").ToLocalChecked(), crossCheck_getter);
+  ctor->SetClassName(Napi::String::New(env, "BFMatcher"));
 
-  Nan::SetPrototypeMethod(ctor, "match", match);
-  Nan::SetPrototypeMethod(ctor, "matchAsync", matchAsync);
-  Nan::SetPrototypeMethod(ctor, "knnMatch", knnMatch);
-  Nan::SetPrototypeMethod(ctor, "knnMatchAsync", knnMatchAsync);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "normType"), normType_getter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "crossCheck"), crossCheck_getter);
+
+  InstanceMethod("match", &match),
+  InstanceMethod("matchAsync", &matchAsync),
+  InstanceMethod("knnMatch", &knnMatch),
+  InstanceMethod("knnMatchAsync", &knnMatchAsync),
 
   target.Set("BFMatcher", FF::getFunction(ctor));
 };
@@ -44,7 +44,7 @@ void BFMatcher::New(const Napi::CallbackInfo& info) {
       worker.normType,
       worker.crossCheck);
   self->Wrap(info.Holder());
-  info.GetReturnValue().Set(info.Holder());
+  return info.Holder();
 }
 
 void BFMatcher::match(const Napi::CallbackInfo& info) {

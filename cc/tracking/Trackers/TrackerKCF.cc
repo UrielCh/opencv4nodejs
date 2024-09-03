@@ -18,9 +18,9 @@ Napi::Object TrackerKCF(Napi::Env env, Napi::Object exports) {
 
   constructor.Reset(ctor);
   ctor->SetClassName(FF::newString(env, "TrackerKCF"));
-  instanceTemplate->SetInternalFieldCount(1);
 
-  Nan::Set(target, FF::newString(env, "TrackerKCF"), FF::getFunction(ctor));
+
+  (target).Set("TrackerKCF", FF::getFunction(ctor));
 };
 
 void TrackerKCF::New(const Napi::CallbackInfo& info) {
@@ -46,7 +46,7 @@ void TrackerKCF::New(const Napi::CallbackInfo& info) {
   self->tracker = cv::TrackerKCF::createTracker(params);
 #endif
   self->Wrap(info.Holder());
-  info.GetReturnValue().Set(info.Holder());
+  return info.Holder();
 };
 
 #endif

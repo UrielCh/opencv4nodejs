@@ -14,9 +14,9 @@ Napi::Object TrackerTLD(Napi::Env env, Napi::Object exports) {
 
   constructor.Reset(ctor);
   ctor->SetClassName(FF::newString(env, "TrackerTLD"));
-  instanceTemplate->SetInternalFieldCount(1);
 
-  Nan::Set(target, FF::newString(env, "TrackerTLD"), FF::getFunction(ctor));
+
+  (target).Set("TrackerTLD", FF::getFunction(ctor));
 };
 
 void TrackerTLD::New(const Napi::CallbackInfo& info) {
@@ -33,7 +33,7 @@ void TrackerTLD::New(const Napi::CallbackInfo& info) {
   self->tracker = cv::TrackerTLD::createTracker();
 #endif
   self->Wrap(info.Holder());
-  info.GetReturnValue().Set(info.Holder());
+  return info.Holder();
 };
 
 #endif

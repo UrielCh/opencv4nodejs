@@ -9,14 +9,14 @@ Napi::FunctionReference ParamGrid::constructor;
 Napi::Object ParamGrid(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, ParamGrid::New));
   constructor.Reset(ctor);
-  ctor->InstanceTemplate()->SetInternalFieldCount(1);
+
   ctor->SetClassName(FF::newString(env, "ParamGrid"));
 
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "minVal"), minVal_getter, minVal_setter);
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "maxVal"), maxVal_getter, maxVal_setter);
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "logStep"), logStep_getter, logStep_setter);
+  Napi::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "minVal"), minVal_getter, minVal_setter);
+  Napi::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "maxVal"), maxVal_getter, maxVal_setter);
+  Napi::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "logStep"), logStep_getter, logStep_setter);
 
-  Nan::Set(target, FF::newString(env, "ParamGrid"), FF::getFunction(ctor));
+  (target).Set("ParamGrid", FF::getFunction(ctor));
 };
 
 void ParamGrid::New(const Napi::CallbackInfo& info) {
@@ -41,7 +41,7 @@ void ParamGrid::New(const Napi::CallbackInfo& info) {
     }
   }
   self->Wrap(info.Holder());
-  info.GetReturnValue().Set(info.Holder());
+  return info.Holder();
 };
 
 #endif

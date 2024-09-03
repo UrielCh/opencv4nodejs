@@ -3,6 +3,7 @@
     "test": "node ./test.js"
   },
   "dependencies": {
+    "node-addon-api": "8.1.0",
     "opencv4nodejs": "../../"
   },
   "opencv4nodejs": {

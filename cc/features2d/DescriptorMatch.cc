@@ -9,12 +9,12 @@ Napi::FunctionReference DescriptorMatch::constructor;
 Napi::Object DescriptorMatch(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, DescriptorMatch::New));
   constructor.Reset(ctor);
-  ctor->InstanceTemplate()->SetInternalFieldCount(1);
-  ctor->SetClassName(Nan::New("DescriptorMatch").ToLocalChecked());
 
-  Nan::SetAccessor(ctor->InstanceTemplate(), Nan::New("queryIdx").ToLocalChecked(), queryIdx_getter, queryIdx_setter);
-  Nan::SetAccessor(ctor->InstanceTemplate(), Nan::New("trainIdx").ToLocalChecked(), trainIdx_getter, trainIdx_setter);
-  Nan::SetAccessor(ctor->InstanceTemplate(), Nan::New("distance").ToLocalChecked(), distance_getter, distance_setter);
+  ctor->SetClassName(Napi::String::New(env, "DescriptorMatch"));
+
+  Napi::SetAccessor(ctor->InstanceTemplate(), Napi::String::New(env, "queryIdx"), queryIdx_getter, queryIdx_setter);
+  Napi::SetAccessor(ctor->InstanceTemplate(), Napi::String::New(env, "trainIdx"), trainIdx_getter, trainIdx_setter);
+  Napi::SetAccessor(ctor->InstanceTemplate(), Napi::String::New(env, "distance"), distance_getter, distance_setter);
 
   target.Set("DescriptorMatch", FF::getFunction(ctor));
 };
@@ -34,7 +34,7 @@ void DescriptorMatch::New(const Napi::CallbackInfo& info) {
     self->self = cv::DMatch(queryIdx, trainIdx, distance);
   }
   self->Wrap(info.Holder());
-  info.GetReturnValue().Set(info.Holder());
+  return info.Holder();
 }
 
 #endif

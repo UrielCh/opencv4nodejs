@@ -6,10 +6,10 @@
 #include "ImgHashBaseBindings.h"
 
 void ImgHashBase::Init(Napi::FunctionReference ctor) {
-  Nan::SetPrototypeMethod(ctor, "compare", Compare);
-  Nan::SetPrototypeMethod(ctor, "compareAsync", CompareAsync);
-  Nan::SetPrototypeMethod(ctor, "compute", Compute);
-  Nan::SetPrototypeMethod(ctor, "computeAsync", ComputeAsync);
+  InstanceMethod("compare", &Compare),
+  InstanceMethod("compareAsync", &CompareAsync),
+  InstanceMethod("compute", &Compute),
+  InstanceMethod("computeAsync", &ComputeAsync),
 };
 
 void ImgHashBase::Compare(const Napi::CallbackInfo& info) {

@@ -6,7 +6,7 @@
 #include "Mat.h"
 
 void BackgroundSubtractor::Init(Napi::FunctionReference ctor) {
-  Nan::SetPrototypeMethod(ctor, "apply", BackgroundSubtractor::Apply);
+  Napi::SetPrototypeMethod(ctor, "apply", BackgroundSubtractor::Apply);
 };
 
 void BackgroundSubtractor::Apply(const Napi::CallbackInfo& info) {
@@ -21,7 +21,7 @@ void BackgroundSubtractor::Apply(const Napi::CallbackInfo& info) {
 
   BackgroundSubtractor* self = BackgroundSubtractor::unwrapThis(info);
   self->getSubtractor()->apply(frame, self->fgMask, learningRate);
-  info.GetReturnValue().Set(Mat::Converter::wrap(self->fgMask));
+  return Mat::Converter::wrap(self->fgMask);
 }
 
 #endif

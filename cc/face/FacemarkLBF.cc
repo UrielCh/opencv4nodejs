@@ -11,13 +11,13 @@ Napi::FunctionReference FacemarkLBF::constructor;
 
 Napi::Object FacemarkLBF(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor =
-      Nan::New<v8::FunctionTemplate>(FacemarkLBF::New);
+      Napi::Function::New(env, FacemarkLBF::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
   Facemark::Init(ctor);
   constructor.Reset(ctor);
-  ctor->SetClassName(Nan::New("FacemarkLBF").ToLocalChecked());
-  instanceTemplate->SetInternalFieldCount(1);
+  ctor->SetClassName(Napi::String::New(env, "FacemarkLBF"));
+
 
   target.Set("FacemarkLBF", FF::getFunction(ctor));
 };
@@ -36,7 +36,7 @@ void FacemarkLBF::New(const Napi::CallbackInfo& info) {
   self->Wrap(info.Holder());
   self->facemark = cv::face::FacemarkLBF::create(params);
 
-  info.GetReturnValue().Set(info.Holder());
+  return info.Holder();
 };
 
 #endif

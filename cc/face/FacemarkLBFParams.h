@@ -35,25 +35,25 @@ public:
   FF_ACCESSORS(tree_n, FF::IntConverter);
   FF_ACCESSORS(verbose, FF::BoolConverter);
 
-  static NAN_GETTER(pupils_getter) {
-    // Nan::ObjectWrap::Unwrap<FacemarkLBFParams>(info.This())->self.pupils;
-    v8::Local<v8::Array> jsArr = Nan::New<v8::Array>(2);
+  Napi::Value pupils_getter(const Napi::CallbackInfo& info) {
+    // Napi::ObjectWrap::Unwrap<FacemarkLBFParams>(info.This())->self.pupils;
+    Napi::Array jsArr = Napi::Array::New(env, 2);
     for (uint i = 0; i < jsArr->Length(); i++) {
-      Nan::Set(jsArr, i, FF::IntArrayConverter::wrap(Nan::ObjectWrap::Unwrap<FacemarkLBFParams>(info.This())->self.pupils[i]));
+      (jsArr).Set(i, FF::IntArrayConverter::wrap(info.This())->self.pupils[i]).Unwrap<FacemarkLBFParams>();
     }
-    info.GetReturnValue().Set(jsArr);
+    return jsArr;
   }
 
-  static NAN_SETTER(pupils_setter) {
+  void pupils_setter(const Napi::CallbackInfo& info, const Napi::Value& value) {
     Napi::Env env = info.Env();
     FF::TryCatch tryCatch(env, "FacemarkLBFParams::pupils_setter");
-    v8::Local<v8::Array> jsArr = v8::Local<v8::Array>::Cast(value);
+    Napi::Array jsArr = value.As<Napi::Array>();
     for (uint i = 0; i < jsArr->Length(); i++) {
       std::vector<int> vec;
-      if (FF::IntArrayConverter::unwrapTo(&vec, Nan::Get(jsArr, i).ToLocalChecked())) {
+      if (FF::IntArrayConverter::unwrapTo(&vec, (jsArr).Get(i))) {
         tryCatch.ReThrow();
       }
-      Nan::ObjectWrap::Unwrap<FacemarkLBFParams>(info.This())->self.pupils[i] = vec;
+      Napi::ObjectWrap::Unwrap<FacemarkLBFParams>(info.This())->self.pupils[i] = vec;
     }
   }
 };

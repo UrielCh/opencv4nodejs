@@ -4,6 +4,7 @@
     "codecov": "codecov -f ./coverage-report/opencv4nodejs.info"
   },
   "dependencies": {
+    "node-addon-api": "8.1.0",
     "codecov": "^3.6.5"
   }
 }

@@ -15,7 +15,7 @@ void Facemark::Save(const Napi::CallbackInfo& info) {
   if (FF::StringConverter::arg(0, &path, info)) {
     return tryCatch.reThrow();
   }
-  Nan::ObjectWrap::Unwrap<Facemark>(info.This())->save(path);
+  info.This())->save(path.Unwrap<Facemark>();
 }
 
 void Facemark::Load(const Napi::CallbackInfo& info) {
@@ -26,26 +26,26 @@ void Facemark::Load(const Napi::CallbackInfo& info) {
   if (FF::StringConverter::arg(0, &path, info)) {
     return tryCatch.reThrow();
   }
-  Nan::ObjectWrap::Unwrap<Facemark>(info.This())->load(path);
+  info.This())->load(path.Unwrap<Facemark>();
 }
 
 void Facemark::Init(Napi::FunctionReference ctor) {
-  Nan::SetPrototypeMethod(ctor, "loadModel", LoadModel);
-  Nan::SetPrototypeMethod(ctor, "loadModelAsync", LoadModelAsync);
-  Nan::SetPrototypeMethod(ctor, "fit", Fit);
-  Nan::SetPrototypeMethod(ctor, "fitAsync", FitAsync);
-  Nan::SetPrototypeMethod(ctor, "save", Save);
-  Nan::SetPrototypeMethod(ctor, "load", Load);
+  InstanceMethod("loadModel", &LoadModel),
+  InstanceMethod("loadModelAsync", &LoadModelAsync),
+  InstanceMethod("fit", &Fit),
+  InstanceMethod("fitAsync", &FitAsync),
+  InstanceMethod("save", &Save),
+  InstanceMethod("load", &Load),
 #if CV_VERSION_MAJOR <= 3 && CV_VERSION_MINOR < 2
-  Nan::SetPrototypeMethod(ctor, "addTrainingSample", AddTrainingSample);
-  Nan::SetPrototypeMethod(ctor, "addTrainingSampleAsync", AddTrainingSampleAsync);
-  Nan::SetPrototypeMethod(ctor, "getData", GetData);
-  Nan::SetPrototypeMethod(ctor, "getDataAsync", GetDataAsync);
-  Nan::SetPrototypeMethod(ctor, "getFaces", GetFaces);
-  Nan::SetPrototypeMethod(ctor, "getFacesAsync", GetFacesAsync);
-  Nan::SetPrototypeMethod(ctor, "setFaceDetector", SetFaceDetector);
-  Nan::SetPrototypeMethod(ctor, "training", Training);
-  Nan::SetPrototypeMethod(ctor, "trainingAsync", TrainingAsync);
+  InstanceMethod("addTrainingSample", &AddTrainingSample),
+  InstanceMethod("addTrainingSampleAsync", &AddTrainingSampleAsync),
+  InstanceMethod("getData", &GetData),
+  InstanceMethod("getDataAsync", &GetDataAsync),
+  InstanceMethod("getFaces", &GetFaces),
+  InstanceMethod("getFacesAsync", &GetFacesAsync),
+  InstanceMethod("setFaceDetector", &SetFaceDetector),
+  InstanceMethod("training", &Training),
+  InstanceMethod("trainingAsync", &TrainingAsync),
 #endif
 };
 
@@ -127,14 +127,14 @@ void Facemark::SetFaceDetector(const Napi::CallbackInfo& info) {
   if (!info[0].IsFunction()) {
     return tryCatch.throwError("expected argument 0 to be of type");
   }
-  Napi::Function cbFunc = Napi::Function::Cast(info[0]);
-  Nan::Callback* callback = new Nan::Callback(cbFunc);
+  Napi::Function cbFunc = info[0].As<Napi::Function>();
+  Napi::FunctionReference* callback = new Napi::FunctionReference(cbFunc);
 
   bool results = Facemark::unwrapThis(info)
                      ->getFacemark()
                      ->setFaceDetector((cv::face::FN_FaceDetector)detector, callback);
 
-  info.GetReturnValue().Set(Nan::New<v8::Boolean>(results));
+  return Napi::Boolean::New(env, results);
 }
 
 void Facemark::Training(const Napi::CallbackInfo& info) {
@@ -154,19 +154,19 @@ void Facemark::TrainingAsync(const Napi::CallbackInfo& info) {
 #endif
 
 bool Facemark::detector(cv::InputArray image, cv::OutputArray faces,
-                        Nan::Callback* callback) {
-  Nan::HandleScope scope;
+                        Napi::FunctionReference* callback) {
+  Napi::HandleScope scope(env);
 
   cv::Mat frame = image.getMat().clone();
   Napi::Value jsMat = Mat::Converter::wrap(frame);
 
   Napi::Value argv[] = {jsMat};
 
-  Nan::AsyncResource resource("opencv4nodejs:Facemark::Detector");
-  Napi::Object jsObject = resource.runInAsyncScope(Nan::GetCurrentContext()->Global(), **callback, 1, argv)
-                              .ToLocalChecked()
-                              ->ToObject(Nan::GetCurrentContext())
-                              .ToLocalChecked();
+  Napi::AsyncResource resource("opencv4nodejs:Facemark::Detector");
+  Napi::Object jsObject = resource.runInAsyncScope(Napi::GetCurrentContext()->Global(), **callback, 1, argv)
+                              
+                              ->ToObject(Napi::GetCurrentContext())
+                              ;
 
   std::vector<cv::Rect2d> _faces;
   Rect::ArrayConverter::unwrapTo(&_faces, jsObject);

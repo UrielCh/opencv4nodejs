@@ -107,10 +107,10 @@ public:
 
   Napi::Value getReturnValue(const Napi::Env& env) {
     Napi::Object ret = Napi::Object::New(env);
-    Nan::Set(ret, FF::newString(env, "outputText"), FF::StringConverter::wrap(output_text));
-    Nan::Set(ret, FF::newString(env, "rects"), Rect::ArrayWithCastConverter<cv::Rect>::wrap(component_rects));
-    Nan::Set(ret, FF::newString(env, "words"), FF::StringArrayConverter::wrap(component_texts));
-    Nan::Set(ret, FF::newString(env, "confidences"), FF::FloatArrayConverter::wrap(component_confidences));
+    (ret).Set("outputText", FF::StringConverter::wrap(output_text));
+    (ret).Set("rects", Rect::ArrayWithCastConverter<cv::Rect>::wrap(component_rects));
+    (ret).Set("words", FF::StringArrayConverter::wrap(component_texts));
+    (ret).Set("confidences", FF::FloatArrayConverter::wrap(component_confidences));
     return ret;
   }
 

@@ -10,33 +10,33 @@ Napi::FunctionReference SVM::constructor;
 Napi::Object SVM(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, SVM::New));
   constructor.Reset(ctor);
-  ctor->InstanceTemplate()->SetInternalFieldCount(1);
-  ctor->SetClassName(Nan::New("SVM").ToLocalChecked());
 
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "c"), c_getter);
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "coef0"), coef0_getter);
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "degree"), degree_getter);
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "gamma"), gamma_getter);
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "nu"), nu_getter);
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "p"), p_getter);
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "kernelType"), kernelType_getter);
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "classWeights"), classWeights_getter);
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "varCount"), varCount_getter);
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "isTrained"), isTrained_getter);
+  ctor->SetClassName(Napi::String::New(env, "SVM"));
 
-  Nan::SetPrototypeMethod(ctor, "setParams", SetParams);
-  Nan::SetPrototypeMethod(ctor, "train", Train);
-  Nan::SetPrototypeMethod(ctor, "trainAuto", TrainAuto);
-  Nan::SetPrototypeMethod(ctor, "predict", Predict);
-  Nan::SetPrototypeMethod(ctor, "getSupportVectors", GetSupportVectors);
-  Nan::SetPrototypeMethod(ctor, "getUncompressedSupportVectors", GetUncompressedSupportVectors);
-  Nan::SetPrototypeMethod(ctor, "getDecisionFunction", GetDecisionFunction);
-  Nan::SetPrototypeMethod(ctor, "calcError", CalcError);
-  Nan::SetPrototypeMethod(ctor, "save", Save);
-  Nan::SetPrototypeMethod(ctor, "load", Load);
+  Napi::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "c"), c_getter);
+  Napi::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "coef0"), coef0_getter);
+  Napi::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "degree"), degree_getter);
+  Napi::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "gamma"), gamma_getter);
+  Napi::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "nu"), nu_getter);
+  Napi::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "p"), p_getter);
+  Napi::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "kernelType"), kernelType_getter);
+  Napi::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "classWeights"), classWeights_getter);
+  Napi::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "varCount"), varCount_getter);
+  Napi::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "isTrained"), isTrained_getter);
 
-  Nan::SetPrototypeMethod(ctor, "trainAsync", TrainAsync);
-  Nan::SetPrototypeMethod(ctor, "trainAutoAsync", TrainAutoAsync);
+  InstanceMethod("setParams", &SetParams),
+  InstanceMethod("train", &Train),
+  InstanceMethod("trainAuto", &TrainAuto),
+  InstanceMethod("predict", &Predict),
+  InstanceMethod("getSupportVectors", &GetSupportVectors),
+  InstanceMethod("getUncompressedSupportVectors", &GetUncompressedSupportVectors),
+  InstanceMethod("getDecisionFunction", &GetDecisionFunction),
+  InstanceMethod("calcError", &CalcError),
+  InstanceMethod("save", &Save),
+  InstanceMethod("load", &Load),
+
+  InstanceMethod("trainAsync", &TrainAsync),
+  InstanceMethod("trainAutoAsync", &TrainAutoAsync),
 
   target.Set("SVM", FF::getFunction(ctor));
 };
@@ -76,7 +76,7 @@ void SVM::New(const Napi::CallbackInfo& info) {
     if (!info[0].IsObject()) {
       return tryCatch.throwError("expected arg 0 to be an object");
     }
-    Napi::Object args = Napi::Object::Cast(info[0]);
+    Napi::Object args = info[0].As<Napi::Object>();
 
     self->setParams(args);
     if (tryCatch.HasCaught()) {
@@ -84,7 +84,7 @@ void SVM::New(const Napi::CallbackInfo& info) {
     }
   }
   self->Wrap(info.Holder());
-  info.GetReturnValue().Set(info.Holder());
+  return info.Holder();
 };
 
 void SVM::SetParams(const Napi::CallbackInfo& info) {
@@ -98,7 +98,7 @@ void SVM::SetParams(const Napi::CallbackInfo& info) {
   if (tryCatch.HasCaught()) {
     return tryCatch.reThrow();
   }
-  info.GetReturnValue().Set(info.This());
+  return info.This();
 };
 
 void SVM::Predict(const Napi::CallbackInfo& info) {
@@ -130,23 +130,23 @@ void SVM::Predict(const Napi::CallbackInfo& info) {
 
   Napi::Value jsResult;
   if (results.cols == 1 && results.rows == 1) {
-    jsResult = Nan::New((double)results.at<float>(0, 0));
+    jsResult = Napi::New(env, (double)results.at<float>(0, 0));
   } else {
     std::vector<float> resultsVec;
     results.col(0).copyTo(resultsVec);
     jsResult = FF::FloatArrayConverter::wrap(resultsVec);
   }
-  info.GetReturnValue().Set(jsResult);
+  return jsResult;
 }
 
 void SVM::GetSupportVectors(const Napi::CallbackInfo& info) {
-  info.GetReturnValue().Set(Mat::Converter::wrap(SVM::unwrapSelf(info)->getSupportVectors()));
+  return Mat::Converter::wrap(SVM::unwrapSelf(info)->getSupportVectors());
 }
 
 void SVM::GetUncompressedSupportVectors(const Napi::CallbackInfo& info) {
   FF::TryCatch tryCatch(env, "SVM::GetUncompressedSupportVectors");
 #if CV_VERSION_GREATER_EQUAL(3, 2, 0)
-  info.GetReturnValue().Set(Mat::Converter::wrap(SVM::unwrapSelf(info)->getUncompressedSupportVectors()));
+  return Mat::Converter::wrap(SVM::unwrapSelf(info)->getUncompressedSupportVectors());
 #else
   return tryCatch.throwError("getUncompressedSupportVectors not implemented for v3.0, v3.1");
 #endif
@@ -169,10 +169,10 @@ void SVM::GetDecisionFunction(const Napi::CallbackInfo& info) {
   double rho = SVM::unwrapSelf(info)->getDecisionFunction(i, alpha, svidx);
 
   Napi::Object ret = Napi::Object::New(env);
-  Nan::Set(ret, FF::newString(env, "rho"), Nan::New((double)rho));
-  Nan::Set(ret, FF::newString(env, "alpha"), Mat::Converter::wrap(alpha));
-  Nan::Set(ret, FF::newString(env, "svidx"), Mat::Converter::wrap(svidx));
-  info.GetReturnValue().Set(ret);
+  (ret).Set("rho", Napi::New(env, (double)rho));
+  (ret).Set("alpha", Mat::Converter::wrap(alpha));
+  (ret).Set("svidx", Mat::Converter::wrap(svidx));
+  return ret;
 }
 
 void SVM::CalcError(const Napi::CallbackInfo& info) {
@@ -185,13 +185,13 @@ void SVM::CalcError(const Napi::CallbackInfo& info) {
     return tryCatch.reThrow();
   }
 
-  Napi::Object jsResponses = FF::newInstance(Nan::New(Mat::constructor));
+  Napi::Object jsResponses = FF::newInstance(Napi::New(env, Mat::constructor));
   float error = SVM::unwrapSelf(info)->calcError(trainData, test, Mat::Converter::unwrapUnchecked(jsResponses));
 
   Napi::Object ret = Napi::Object::New(env);
-  Nan::Set(ret, FF::newString(env, "error"), Nan::New((double)error));
-  Nan::Set(ret, FF::newString(env, "responses"), jsResponses);
-  info.GetReturnValue().Set(ret);
+  (ret).Set("error", Napi::New(env, (double)error));
+  (ret).Set("responses", jsResponses);
+  return ret;
 }
 
 void SVM::Save(const Napi::CallbackInfo& info) {

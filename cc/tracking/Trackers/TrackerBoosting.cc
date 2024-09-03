@@ -16,9 +16,9 @@ Napi::Object TrackerBoosting(Napi::Env env, Napi::Object exports) {
 
   constructor.Reset(ctor);
   ctor->SetClassName(FF::newString(env, "TrackerBoosting"));
-  instanceTemplate->SetInternalFieldCount(1);
 
-  Nan::Set(target, FF::newString(env, "TrackerBoosting"), FF::getFunction(ctor));
+
+  (target).Set("TrackerBoosting", FF::getFunction(ctor));
 };
 
 void TrackerBoosting::New(const Napi::CallbackInfo& info) {
@@ -44,7 +44,7 @@ void TrackerBoosting::New(const Napi::CallbackInfo& info) {
   self->tracker = cv::TrackerBoosting::createTracker(params);
 #endif
   self->Wrap(info.Holder());
-  info.GetReturnValue().Set(info.Holder());
+  return info.Holder();
 };
 
 #endif

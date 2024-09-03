@@ -12,15 +12,15 @@ Napi::Object TrackerBoostingParams(Napi::Env env, Napi::Object exports) {
 
   constructor.Reset(ctor);
   ctor->SetClassName(FF::newString(env, "TrackerBoostingParams"));
-  instanceTemplate->SetInternalFieldCount(1);
 
-  Nan::SetAccessor(instanceTemplate, FF::newString(env, "numClassifiers"), numClassifiers_getter, numClassifiers_setter);
-  Nan::SetAccessor(instanceTemplate, FF::newString(env, "samplerOverlap"), samplerOverlap_getter, samplerOverlap_setter);
-  Nan::SetAccessor(instanceTemplate, FF::newString(env, "samplerSearchFactor"), samplerSearchFactor_getter, samplerSearchFactor_setter);
-  Nan::SetAccessor(instanceTemplate, FF::newString(env, "iterationInit"), iterationInit_getter, iterationInit_setter);
-  Nan::SetAccessor(instanceTemplate, FF::newString(env, "featureSetNumFeatures"), featureSetNumFeatures_getter, featureSetNumFeatures_setter);
 
-  Nan::Set(target, FF::newString(env, "TrackerBoostingParams"), FF::getFunction(ctor));
+  Napi::SetAccessor(instanceTemplate, FF::newString(env, "numClassifiers"), numClassifiers_getter, numClassifiers_setter);
+  Napi::SetAccessor(instanceTemplate, FF::newString(env, "samplerOverlap"), samplerOverlap_getter, samplerOverlap_setter);
+  Napi::SetAccessor(instanceTemplate, FF::newString(env, "samplerSearchFactor"), samplerSearchFactor_getter, samplerSearchFactor_setter);
+  Napi::SetAccessor(instanceTemplate, FF::newString(env, "iterationInit"), iterationInit_getter, iterationInit_setter);
+  Napi::SetAccessor(instanceTemplate, FF::newString(env, "featureSetNumFeatures"), featureSetNumFeatures_getter, featureSetNumFeatures_setter);
+
+  (target).Set("TrackerBoostingParams", FF::getFunction(ctor));
 };
 
 void TrackerBoostingParams::New(const Napi::CallbackInfo& info) {
@@ -34,7 +34,7 @@ void TrackerBoostingParams::New(const Napi::CallbackInfo& info) {
   self->self = cv::TrackerBoosting::Params();
 #endif
   self->Wrap(info.Holder());
-  info.GetReturnValue().Set(info.Holder());
+  return info.Holder();
 };
 
 #endif

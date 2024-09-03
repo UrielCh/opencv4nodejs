@@ -12,12 +12,12 @@ Napi::Object BRISKDetector(Napi::Env env, Napi::Object exports) {
 
   FeatureDetector::Init(ctor);
   constructor.Reset(ctor);
-  ctor->SetClassName(Nan::New("BRISKDetector").ToLocalChecked());
-  instanceTemplate->SetInternalFieldCount(1);
+  ctor->SetClassName(Napi::String::New(env, "BRISKDetector"));
 
-  Nan::SetAccessor(instanceTemplate, Nan::New("thresh").ToLocalChecked(), thresh_getter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("octaves").ToLocalChecked(), octaves_getter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("patternScale").ToLocalChecked(), patternScale_getter);
+
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "thresh"), thresh_getter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "octaves"), octaves_getter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "patternScale"), patternScale_getter);
 
   target.Set("BRISKDetector", FF::getFunction(ctor));
 };
@@ -38,7 +38,7 @@ void BRISKDetector::New(const Napi::CallbackInfo& info) {
   self->patternScale = worker.patternScale;
   self->self = cv::BRISK::create(self->thresh, self->octaves, (float)self->patternScale);
   self->Wrap(info.Holder());
-  info.GetReturnValue().Set(info.Holder());
+  return info.Holder();
 }
 
 #endif

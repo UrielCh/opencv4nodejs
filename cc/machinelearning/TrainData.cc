@@ -10,17 +10,17 @@ Napi::FunctionReference TrainData::constructor;
 Napi::Object TrainData(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, TrainData::New));
   constructor.Reset(ctor);
-  ctor->InstanceTemplate()->SetInternalFieldCount(1);
+
   ctor->SetClassName(FF::newString(env, "TrainData"));
 
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "layout"), layout_getter);
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "samples"), samples_getter);
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "responses"), responses_getter);
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "varIdx"), varIdx_getter);
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "sampleWeights"), sampleWeights_getter);
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "varType"), varType_getter);
+  Napi::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "layout"), layout_getter);
+  Napi::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "samples"), samples_getter);
+  Napi::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "responses"), responses_getter);
+  Napi::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "varIdx"), varIdx_getter);
+  Napi::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "sampleWeights"), sampleWeights_getter);
+  Napi::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "varType"), varType_getter);
 
-  Nan::Set(target, FF::newString(env, "TrainData"), FF::getFunction(ctor));
+  (target).Set("TrainData", FF::getFunction(ctor));
 };
 
 void TrainData::New(const Napi::CallbackInfo& info) {
@@ -42,7 +42,7 @@ void TrainData::New(const Napi::CallbackInfo& info) {
   self->self = cv::ml::TrainData::create(
       worker.samples, worker.layout, worker.responses, worker.varIdx, worker.sampleIdx, worker.sampleWeights, varType);
   self->Wrap(info.Holder());
-  info.GetReturnValue().Set(info.Holder());
+  return info.Holder();
 };
 
 #endif

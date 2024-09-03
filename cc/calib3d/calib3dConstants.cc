@@ -7,7 +7,7 @@
 using namespace cv;
 
 void Calib3dConstants::Init(Napi::Env env, Napi::Object exports) {
-  FF_SET_JS_PROP(target, REGULAR, Nan::New<v8::Integer>(0));
+  FF_SET_JS_PROP(target, REGULAR, Napi::Number::New(env, 0));
   FF_SET_CV_CONSTANT(target, LMEDS);
   FF_SET_CV_CONSTANT(target, RANSAC);
   FF_SET_CV_CONSTANT(target, RHO);

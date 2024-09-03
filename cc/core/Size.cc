@@ -5,10 +5,10 @@ Napi::FunctionReference Size::constructor;
 Napi::Object Size(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, Size::New));
   Size::constructor.Reset(ctor);
-  ctor->InstanceTemplate()->SetInternalFieldCount(1);
-  ctor->SetClassName(Nan::New("Size").ToLocalChecked());
-  Nan::SetAccessor(ctor->InstanceTemplate(), Nan::New("width").ToLocalChecked(), Size::width_getter);
-  Nan::SetAccessor(ctor->InstanceTemplate(), Nan::New("height").ToLocalChecked(), Size::height_getter);
+
+  ctor->SetClassName(Napi::String::New(env, "Size"));
+  Napi::SetAccessor(ctor->InstanceTemplate(), Napi::String::New(env, "width"), Size::width_getter);
+  Napi::SetAccessor(ctor->InstanceTemplate(), Napi::String::New(env, "height"), Size::height_getter);
 
   target.Set("Size", FF::getFunction(ctor));
 };
@@ -22,10 +22,10 @@ void Size::New(const Napi::CallbackInfo& info) {
     if (info.Length() < 2) {
       return tryCatch.throwError("expected arguments width, height");
     }
-    double width = info[0]->ToNumber(Nan::GetCurrentContext()).ToLocalChecked()->Value();
-    double height = info[1]->ToNumber(Nan::GetCurrentContext()).ToLocalChecked()->Value();
+    double width = info[0].ToNumber(Napi::GetCurrentContext())->Value();
+    double height = info[1].ToNumber(Napi::GetCurrentContext())->Value();
     self->setNativeObject(cv::Size2d(width, height));
   }
   self->Wrap(info.Holder());
-  info.GetReturnValue().Set(info.Holder());
+  return info.Holder();
 }

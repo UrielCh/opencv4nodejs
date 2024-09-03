@@ -11,16 +11,16 @@ Napi::Object KeyPoint(Napi::Env env, Napi::Object exports) {
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
   constructor.Reset(ctor);
-  instanceTemplate->SetInternalFieldCount(1);
-  ctor->SetClassName(Nan::New("KeyPoint").ToLocalChecked());
 
-  Nan::SetAccessor(instanceTemplate, Nan::New("localId").ToLocalChecked(), localId_getter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("pt").ToLocalChecked(), pt_getter, pt_setter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("angle").ToLocalChecked(), angle_getter, angle_setter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("class_id").ToLocalChecked(), class_id_getter, class_id_setter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("response").ToLocalChecked(), response_getter, response_setter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("size").ToLocalChecked(), size_getter, size_setter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("octave").ToLocalChecked(), octave_getter, octave_setter);
+  ctor->SetClassName(Napi::String::New(env, "KeyPoint"));
+
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "localId"), localId_getter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "pt"), pt_getter, pt_setter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "angle"), angle_getter, angle_setter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "class_id"), class_id_getter, class_id_setter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "response"), response_getter, response_setter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "size"), size_getter, size_setter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "octave"), octave_getter, octave_setter);
 
   target.Set("KeyPoint", FF::getFunction(ctor));
 };
@@ -43,7 +43,7 @@ void KeyPoint::New(const Napi::CallbackInfo& info) {
   }
 
   self->Wrap(info.Holder());
-  info.GetReturnValue().Set(info.Holder());
+  return info.Holder();
 }
 
 #endif

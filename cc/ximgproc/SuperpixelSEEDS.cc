@@ -10,20 +10,20 @@ Napi::Object SuperpixelSEEDS(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, SuperpixelSEEDS::New));
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
   constructor.Reset(ctor);
-  instanceTemplate->SetInternalFieldCount(1);
-  ctor->SetClassName(Nan::New("SuperpixelSEEDS").ToLocalChecked());
 
-  Nan::SetAccessor(instanceTemplate, Nan::New("image").ToLocalChecked(), image_getter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("labels").ToLocalChecked(), labels_getter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("labelContourMask").ToLocalChecked(), labelContourMask_getter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("num_superpixels").ToLocalChecked(), num_superpixels_getter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("num_levels").ToLocalChecked(), num_levels_getter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("prior").ToLocalChecked(), prior_getter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("histogram_bins").ToLocalChecked(), histogram_bins_getter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("double_step").ToLocalChecked(), double_step_getter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("numCalculatedSuperpixels").ToLocalChecked(), numCalculatedSuperpixels_getter);
+  ctor->SetClassName(Napi::String::New(env, "SuperpixelSEEDS"));
 
-  Nan::SetPrototypeMethod(ctor, "iterate", SuperpixelSEEDS::Iterate);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "image"), image_getter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "labels"), labels_getter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "labelContourMask"), labelContourMask_getter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "num_superpixels"), num_superpixels_getter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "num_levels"), num_levels_getter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "prior"), prior_getter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "histogram_bins"), histogram_bins_getter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "double_step"), double_step_getter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "numCalculatedSuperpixels"), numCalculatedSuperpixels_getter);
+
+  Napi::SetPrototypeMethod(ctor, "iterate", SuperpixelSEEDS::Iterate);
 
   target.Set("SuperpixelSEEDS", FF::getFunction(ctor));
 };
@@ -56,7 +56,7 @@ void SuperpixelSEEDS::New(const Napi::CallbackInfo& info) {
       worker.histogram_bins,
       worker.double_step);
   self->Wrap(info.Holder());
-  info.GetReturnValue().Set(info.Holder());
+  return info.Holder();
 }
 
 void SuperpixelSEEDS::Iterate(const Napi::CallbackInfo& info) {
@@ -68,7 +68,7 @@ void SuperpixelSEEDS::Iterate(const Napi::CallbackInfo& info) {
     return tryCatch.reThrow();
   }
 
-  SuperpixelSEEDS* self = Nan::ObjectWrap::Unwrap<SuperpixelSEEDS>(info.This());
+  SuperpixelSEEDS* self = this;
   self->self->iterate(self->image, (int)iterations);
   self->self->getLabels(self->labels);
   self->numCalculatedSuperpixels = self->self->getNumberOfSuperpixels();

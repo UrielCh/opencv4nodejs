@@ -15,10 +15,10 @@ public:
     return "Vec2";
   }
 
-  static NAN_METHOD(New) {
+  static Napi::Value New(const Napi::CallbackInfo& info) {
     Vec2* self = new Vec2();
     self->Wrap(info.Holder());
-    info.GetReturnValue().Set(info.Holder());
+    return info.Holder();
   }
 
   static void Init(Napi::FunctionReference ctor) {
@@ -30,20 +30,20 @@ public:
 
   FF_INIT_VEC2_OPERATIONS();
 
-  static NAN_METHOD(Dot) {
+  static Napi::Value Dot(const Napi::CallbackInfo& info) {
     FF_OPERATOR_RET_SCALAR(&cv::Vec2d::dot, FF_APPLY_CLASS_FUNC, Vec2, "Dot");
   }
 
-  static NAN_METHOD(Norm) {
-    info.GetReturnValue().Set(Nan::New(cv::norm(Vec2::unwrapSelf(info))));
+  static Napi::Value Norm(const Napi::CallbackInfo& info) {
+    return Napi::New(env, cv::norm(Vec2::unwrapSelf(info)));
   }
 
-  static NAN_METHOD(At) {
+  static Napi::Value At(const Napi::CallbackInfo& info) {
     Napi::Env env = info.Env();
     FF::TryCatch tryCatch(env, "Vec2::At");
-    FF_ASSERT_INDEX_RANGE(info[0]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value(), 1, "Vec2");
+    FF_ASSERT_INDEX_RANGE(info[0].ToInt32(Napi::GetCurrentContext())->Value(), 1, "Vec2");
     cv::Vec2d vecSelf = Vec2::unwrapSelf(info);
-    info.GetReturnValue().Set(vecSelf[info[0]->ToUint32(Nan::GetCurrentContext()).ToLocalChecked()->Value()]);
+    return vecSelf[info[0].ToUint32(Napi::GetCurrentContext())->Value()];
   }
 };
 

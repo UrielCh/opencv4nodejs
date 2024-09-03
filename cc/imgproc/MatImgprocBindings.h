@@ -85,7 +85,7 @@ public:
   }
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
-    Napi::Object opts = info[getOptArgIndex(info)]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    Napi::Object opts = info[getOptArgIndex(info)]->ToObject(Napi::GetCurrentContext());
     return (
         FF::DoubleConverter::optProp(&fx, "fx", opts) || FF::DoubleConverter::optProp(&fy, "fy", opts) || FF::IntConverter::optProp(&interpolation, "interpolation", opts));
   }
@@ -328,7 +328,7 @@ public:
   }
 
   bool hasOptArgsObject(const Napi::CallbackInfo& info) {
-    return FF::isArgObject(info, 1) && !Size::hasInstance(info[1]->ToObject(Nan::GetCurrentContext()).ToLocalChecked());
+    return FF::isArgObject(info, 1) && !Size::hasInstance(info[1].ToObject(Napi::GetCurrentContext()));
   }
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
@@ -399,12 +399,12 @@ public:
 
   bool hasOptArgsObject(const Napi::CallbackInfo& info) {
     int optArgN = (withOp ? 2 : 1);
-    return FF::isArgObject(info, optArgN) && !Point2::hasInstance(info[optArgN]->ToObject(Nan::GetCurrentContext()).ToLocalChecked());
+    return FF::isArgObject(info, optArgN) && !Point2::hasInstance(info[optArgN].ToObject(Napi::GetCurrentContext()));
   }
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
     int optArgN = (withOp ? 2 : 1);
-    Napi::Object opts = info[optArgN]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    Napi::Object opts = info[optArgN].ToObject(Napi::GetCurrentContext());
     return (
         Point2::Converter::optProp(&anchor, "anchor", opts) || FF::IntConverter::optProp(&iterations, "iterations", opts) || FF::IntConverter::optProp(&borderType, "borderType", opts));
   }
@@ -702,13 +702,13 @@ public:
   }
 
   Napi::Value getReturnValue(const Napi::Env& env) {
-    v8::Local<v8::Array> ret = Nan::New<v8::Array>(contours.size());
+    Napi::Array ret = Napi::Array::New(env, contours.size());
     for (uint i = 0; i < ret->Length(); i++) {
-      Napi::Object jsContour = FF::newInstance(Nan::New(Contour::constructor));
+      Napi::Object jsContour = FF::newInstance(Napi::New(env, Contour::constructor));
       Contour* pContour = Contour::unwrapClassPtrUnchecked(jsContour);
       pContour->setNativeObject(contours.at(i));
       pContour->hierarchy = hierarchy.at(i);
-      Nan::Set(ret, i, jsContour);
+      (ret).Set(i, jsContour);
     }
     return ret;
   }
@@ -762,7 +762,7 @@ public:
   }
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
-    Napi::Object opts = info[getDrawParamsIndex()]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    Napi::Object opts = info[getDrawParamsIndex()]->ToObject(Napi::GetCurrentContext());
     return (
         Vec3::Converter::optProp(&color, "color", opts) || (hasThickness && FF::IntConverter::optProp(&thickness, "thickness", opts)) || FF::IntConverter::optProp(&lineType, "lineType", opts) || FF::IntConverter::optProp(&shift, "shift", opts));
   }
@@ -823,7 +823,7 @@ struct DrawArrowedLineWorker : public DrawWorker {
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
     return (
-        DrawWorker::unwrapOptionalArgsFromOpts(info) || FF::DoubleConverter::optProp(&tipLength, "tipLength", info[getDrawParamsIndex()]->ToObject(Nan::GetCurrentContext()).ToLocalChecked()));
+        DrawWorker::unwrapOptionalArgsFromOpts(info) || FF::DoubleConverter::optProp(&tipLength, "tipLength", info[getDrawParamsIndex()]->ToObject(Napi::GetCurrentContext())));
   }
 
   int getDrawParamsIndex() {
@@ -989,7 +989,7 @@ struct DrawFillPolyWorker : public DrawWorker {
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
     return (
-        DrawWorker::unwrapOptionalArgsFromOpts(info) || Point2::Converter::optProp(&offset, "offset", info[getDrawParamsIndex()]->ToObject(Nan::GetCurrentContext()).ToLocalChecked()));
+        DrawWorker::unwrapOptionalArgsFromOpts(info) || Point2::Converter::optProp(&offset, "offset", info[getDrawParamsIndex()]->ToObject(Napi::GetCurrentContext())));
   }
 
   int getDrawParamsIndex() {
@@ -1056,7 +1056,7 @@ struct PutTextWorker : public DrawWorker {
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
     return (
-        DrawWorker::unwrapOptionalArgsFromOpts(info) || FF::BoolConverter::optProp(&bottomLeftOrigin, "bottomLeftOrigin", info[getDrawParamsIndex()]->ToObject(Nan::GetCurrentContext()).ToLocalChecked()));
+        DrawWorker::unwrapOptionalArgsFromOpts(info) || FF::BoolConverter::optProp(&bottomLeftOrigin, "bottomLeftOrigin", info[getDrawParamsIndex()]->ToObject(Napi::GetCurrentContext())));
   }
 
   int getDrawParamsIndex() {

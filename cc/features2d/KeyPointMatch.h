@@ -7,15 +7,15 @@
 
 class KeyPointMatch : public Napi::ObjectWrap<KeyPointMatch> {
 public:
-  Nan::Persistent<v8::Object> kpFrom;
-  Nan::Persistent<v8::Object> kpTo;
+  Napi::Persistent<v8::Object> kpFrom;
+  Napi::Persistent<v8::Object> kpTo;
   float distance;
 
   static Napi::Object Init(Napi::Env env, Napi::Object exports);
   static void New(const Napi::CallbackInfo& info);
-  static NAN_GETTER(GetKpFrom);
-  static NAN_GETTER(GetKpTo);
-  static NAN_GETTER(GetDistance);
+  Napi::Value GetKpFrom(const Napi::CallbackInfo& info);
+  Napi::Value GetKpTo(const Napi::CallbackInfo& info);
+  Napi::Value GetDistance(const Napi::CallbackInfo& info);
 
   static Napi::FunctionReference constructor;
   ;
@@ -23,11 +23,11 @@ public:
   void setNativeProps(KeyPoint* kpFrom, KeyPoint* kpTo, float distance);
 
   KeyPoint* getKpFrom() {
-    return Nan::ObjectWrap::Unwrap<KeyPoint>(Nan::New(this->kpFrom));
+    return Napi::New(env, this->kpFrom).Unwrap<KeyPoint>();
   }
 
   KeyPoint* getKpTo() {
-    return Nan::ObjectWrap::Unwrap<KeyPoint>(Nan::New(this->kpTo));
+    return Napi::New(env, this->kpTo).Unwrap<KeyPoint>();
   }
 };
 

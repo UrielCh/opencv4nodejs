@@ -13,8 +13,8 @@ Napi::Object LBPHFaceRecognizer(Napi::Env env, Napi::Object exports) {
 
   FaceRecognizer::Init(ctor);
   constructor.Reset(ctor);
-  ctor->SetClassName(Nan::New("LBPHFaceRecognizer").ToLocalChecked());
-  instanceTemplate->SetInternalFieldCount(1);
+  ctor->SetClassName(Napi::String::New(env, "LBPHFaceRecognizer"));
+
 
   target.Set("LBPHFaceRecognizer", FF::getFunction(ctor));
 };
@@ -60,7 +60,7 @@ void LBPHFaceRecognizer::New(const Napi::CallbackInfo& info) {
 #else
   self->faceRecognizer = cv::face::createLBPHFaceRecognizer(worker.radius, worker.neighbors, worker.grid_x, worker.grid_y, worker.threshold);
 #endif
-  info.GetReturnValue().Set(info.Holder());
+  return info.Holder();
 };
 
 #endif // HAVE_OPENCV_FACE

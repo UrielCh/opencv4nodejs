@@ -10,6 +10,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "node-addon-api": "8.1.0",
     "@types/lodash.samplesize": "^4.2.9",
     "@u4/opencv4nodejs": "link:..",
     "axios": "^1.6.8",

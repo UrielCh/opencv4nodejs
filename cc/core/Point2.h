@@ -19,10 +19,10 @@ public:
     FF_PROTO_SET_ARITHMETIC_OPERATIONS(ctor);
   }
 
-  static NAN_METHOD(New) {
+  static Napi::Value New(const Napi::CallbackInfo& info) {
     Point2* self = new Point2();
     self->Wrap(info.Holder());
-    info.GetReturnValue().Set(info.Holder());
+    return info.Holder();
   };
 
   FF_ACCESSORS(x, FF::DoubleConverter);
@@ -30,17 +30,17 @@ public:
 
   FF_INIT_ARITHMETIC_OPERATIONS(Point2);
 
-  static NAN_METHOD(Norm) {
-    info.GetReturnValue().Set(Nan::New(cv::norm(Point2::unwrapSelf(info))));
+  static Napi::Value Norm(const Napi::CallbackInfo& info) {
+    return Napi::New(env, cv::norm(Point2::unwrapSelf(info)));
   }
 
-  static NAN_METHOD(At) {
+  static Napi::Value At(const Napi::CallbackInfo& info) {
     Napi::Env env = info.Env();
     FF::TryCatch tryCatch(env, "Point2::At");
-    FF_ASSERT_INDEX_RANGE(info[0]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value(), 1, "Point2");
+    FF_ASSERT_INDEX_RANGE(info[0].ToInt32(Napi::GetCurrentContext())->Value(), 1, "Point2");
     cv::Point2d ptSelf = Point2::unwrapSelf(info);
     const double coords[] = {ptSelf.x, ptSelf.y};
-    info.GetReturnValue().Set(coords[info[0]->ToUint32(Nan::GetCurrentContext()).ToLocalChecked()->Value()]);
+    return coords[info[0].ToUint32(Napi::GetCurrentContext())->Value()];
   }
 };
 

@@ -23,8 +23,8 @@ public:
   FF_ACCESSORS(center, Point2::Converter);
   FF_ACCESSORS(size, Size::Converter);
 
-  static NAN_METHOD(BoundingRect) {
-    info.GetReturnValue().Set(Rect::Converter::wrap(unwrapSelf(info).boundingRect()));
+  static Napi::Value BoundingRect(const Napi::CallbackInfo& info) {
+    return Rect::Converter::wrap(unwrapSelf(info).boundingRect());
   }
 };
 

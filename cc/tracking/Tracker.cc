@@ -5,10 +5,10 @@
 #include "Tracker.h"
 
 void Tracker::Init(Napi::FunctionReference ctor) {
-  Nan::SetPrototypeMethod(ctor, "clear", Tracker::Clear);
-  Nan::SetPrototypeMethod(ctor, "init", Tracker::Init);
-  Nan::SetPrototypeMethod(ctor, "update", Tracker::Update);
-  Nan::SetPrototypeMethod(ctor, "getModel", Tracker::GetModel);
+  Napi::SetPrototypeMethod(ctor, "clear", Tracker::Clear);
+  Napi::SetPrototypeMethod(ctor, "init", Tracker::Init);
+  Napi::SetPrototypeMethod(ctor, "update", Tracker::Update);
+  Napi::SetPrototypeMethod(ctor, "getModel", Tracker::GetModel);
 };
 
 void Tracker::Clear(const Napi::CallbackInfo& info) {
@@ -26,7 +26,7 @@ Napi : Value Tracker::Init(const Napi::CallbackInfo& info) {
   }
 
   bool ret = Tracker::unwrapThis(info)->getTracker()->init(image, boundingBox);
-  return Nan::New(ret);
+  return Napi::New(env, ret);
 }
 
 Napi : Value Tracker::Update(const Napi::CallbackInfo& info) {
@@ -49,7 +49,7 @@ Napi : Value Tracker::Update(const Napi::CallbackInfo& info) {
   if (ret) {
     return Rect::Converter::wrap(rect);
   } else {
-    return Nan::Null();
+    return env.Null();
   }
 }
 

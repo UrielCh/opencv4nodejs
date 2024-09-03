@@ -27,7 +27,7 @@ public:
   }
 
   Napi::Value getReturnValue(const Napi::Env& env) {
-    return Nan::New(ret);
+    return Napi::New(env, ret);
   }
 
   bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
@@ -62,7 +62,7 @@ public:
   }
 
   Napi::Value getReturnValue(const Napi::Env& env) {
-    return Nan::New(ret);
+    return Napi::New(env, ret);
   }
 
   bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
@@ -100,7 +100,7 @@ public:
   }
 
   Napi::Value getReturnValue(const Napi::Env& env) {
-    return Nan::New(ret);
+    return Napi::New(env, ret);
   }
 
   bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {

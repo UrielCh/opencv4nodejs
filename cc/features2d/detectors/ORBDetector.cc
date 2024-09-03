@@ -12,18 +12,18 @@ Napi::Object ORBDetector(Napi::Env env, Napi::Object exports) {
 
   FeatureDetector::Init(ctor);
   constructor.Reset(ctor);
-  instanceTemplate->SetInternalFieldCount(1);
-  ctor->SetClassName(Nan::New("ORBDetector").ToLocalChecked());
 
-  Nan::SetAccessor(instanceTemplate, Nan::New("maxFeatures").ToLocalChecked(), maxFeatures_getter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("scaleFactor").ToLocalChecked(), scaleFactor_getter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("nLevels").ToLocalChecked(), nLevels_getter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("edgeThreshold").ToLocalChecked(), edgeThreshold_getter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("firstLevel").ToLocalChecked(), firstLevel_getter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("WTA_K").ToLocalChecked(), WTA_K_getter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("scoreType").ToLocalChecked(), scoreType_getter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("patchSize").ToLocalChecked(), patchSize_getter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("fastThreshold").ToLocalChecked(), fastThreshold_getter);
+  ctor->SetClassName(Napi::String::New(env, "ORBDetector"));
+
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "maxFeatures"), maxFeatures_getter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "scaleFactor"), scaleFactor_getter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "nLevels"), nLevels_getter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "edgeThreshold"), edgeThreshold_getter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "firstLevel"), firstLevel_getter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "WTA_K"), WTA_K_getter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "scoreType"), scoreType_getter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "patchSize"), patchSize_getter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "fastThreshold"), fastThreshold_getter);
 
   target.Set("ORBDetector", FF::getFunction(ctor));
 #if CV_VERSION_GREATER_EQUAL(4, 0, 0)

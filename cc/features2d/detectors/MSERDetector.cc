@@ -14,21 +14,21 @@ Napi::Object MSERDetector(Napi::Env env, Napi::Object exports) {
 
   FeatureDetector::Init(ctor);
   constructor.Reset(ctor);
-  ctor->SetClassName(Nan::New("MSERDetector").ToLocalChecked());
-  instanceTemplate->SetInternalFieldCount(1);
+  ctor->SetClassName(Napi::String::New(env, "MSERDetector"));
 
-  Nan::SetPrototypeMethod(ctor, "detectRegions", MSERDetector::DetectRegions);
-  Nan::SetPrototypeMethod(ctor, "detectRegionsAsync", MSERDetector::DetectRegionsAsync);
 
-  Nan::SetAccessor(instanceTemplate, Nan::New("delta").ToLocalChecked(), delta_getter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("minArea").ToLocalChecked(), minArea_getter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("maxArea").ToLocalChecked(), maxArea_getter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("maxVariation").ToLocalChecked(), maxVariation_getter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("minDiversity").ToLocalChecked(), minDiversity_getter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("maxEvolution").ToLocalChecked(), maxEvolution_getter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("areaThreshold").ToLocalChecked(), areaThreshold_getter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("minMargin").ToLocalChecked(), minMargin_getter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("edgeBlurSize").ToLocalChecked(), edgeBlurSize_getter);
+  Napi::SetPrototypeMethod(ctor, "detectRegions", MSERDetector::DetectRegions);
+  Napi::SetPrototypeMethod(ctor, "detectRegionsAsync", MSERDetector::DetectRegionsAsync);
+
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "delta"), delta_getter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "minArea"), minArea_getter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "maxArea"), maxArea_getter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "maxVariation"), maxVariation_getter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "minDiversity"), minDiversity_getter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "maxEvolution"), maxEvolution_getter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "areaThreshold"), areaThreshold_getter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "minMargin"), minMargin_getter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "edgeBlurSize"), edgeBlurSize_getter);
 
   target.Set("MSERDetector", FF::getFunction(ctor));
 };
@@ -56,7 +56,7 @@ void MSERDetector::New(const Napi::CallbackInfo& info) {
   self->edgeBlurSize = worker.edgeBlurSize;
   self->self = cv::MSER::create(worker.delta, worker.minArea, worker.maxArea, worker.maxVariation,
                                 worker.minDiversity, worker.maxEvolution, worker.areaThreshold, worker.minMargin, worker.edgeBlurSize);
-  info.GetReturnValue().Set(info.Holder());
+  return info.Holder();
 }
 
 struct DetectRegionsWorker : public CatchCvExceptionWorker {
@@ -86,8 +86,8 @@ public:
 
   Napi::Value getReturnValue(const Napi::Env& env) {
     Napi::Object ret = Napi::Object::New(env);
-    Nan::Set(ret, FF::newString(env, "msers"), Point2::ArrayOfArraysWithCastConverter<cv::Point2i>::wrap(regions));
-    Nan::Set(ret, FF::newString(env, "bboxes"), Rect::ArrayWithCastConverter<cv::Rect>::wrap(mser_bbox));
+    (ret).Set("msers", Point2::ArrayOfArraysWithCastConverter<cv::Point2i>::wrap(regions));
+    (ret).Set("bboxes", Rect::ArrayWithCastConverter<cv::Rect>::wrap(mser_bbox));
     return ret;
   }
 };

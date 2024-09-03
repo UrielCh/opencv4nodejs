@@ -89,7 +89,7 @@ public:
   }
 
   Napi::Value getReturnValue(const Napi::Env& env) {
-    Napi::Value dataCopy = Nan::CopyBuffer(data, dataSize).ToLocalChecked();
+    Napi::Value dataCopy = Napi::Buffer::Copy(env, data, dataSize);
     free(data);
     return dataCopy;
   }

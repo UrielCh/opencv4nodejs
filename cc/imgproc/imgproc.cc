@@ -62,7 +62,7 @@ void Imgproc::GetStructuringElement(const Napi::CallbackInfo& info) {
     return tryCatch.reThrow();
   }
 
-  info.GetReturnValue().Set(Mat::Converter::wrap(cv::getStructuringElement(shape, size, anchor)));
+  return Mat::Converter::wrap(cv::getStructuringElement(shape, size, anchor));
 }
 
 void Imgproc::GetRotationMatrix2D(const Napi::CallbackInfo& info) {
@@ -76,7 +76,7 @@ void Imgproc::GetRotationMatrix2D(const Napi::CallbackInfo& info) {
     return tryCatch.reThrow();
   }
 
-  info.GetReturnValue().Set(Mat::Converter::wrap(cv::getRotationMatrix2D(center, angle, scale)));
+  return Mat::Converter::wrap(cv::getRotationMatrix2D(center, angle, scale));
 }
 
 void Imgproc::GetAffineTransform(const Napi::CallbackInfo& info) {
@@ -89,7 +89,7 @@ void Imgproc::GetAffineTransform(const Napi::CallbackInfo& info) {
     return tryCatch.reThrow();
   }
 
-  info.GetReturnValue().Set(Mat::Converter::wrap(cv::getAffineTransform(srcPoints, dstPoints)));
+  return Mat::Converter::wrap(cv::getAffineTransform(srcPoints, dstPoints));
 }
 
 void Imgproc::GetPerspectiveTransform(const Napi::CallbackInfo& info) {
@@ -102,7 +102,7 @@ void Imgproc::GetPerspectiveTransform(const Napi::CallbackInfo& info) {
     return tryCatch.reThrow();
   }
 
-  info.GetReturnValue().Set(Mat::Converter::wrap(cv::getPerspectiveTransform(srcPoints, dstPoints)));
+  return Mat::Converter::wrap(cv::getPerspectiveTransform(srcPoints, dstPoints));
 }
 
 void Imgproc::Plot1DHist(const Napi::CallbackInfo& info) {
@@ -115,7 +115,7 @@ void Imgproc::Plot1DHist(const Napi::CallbackInfo& info) {
   int thickness = 2;
   int shift = 0;
 
-  Napi::Object opts = FF::isArgObject(info, 3) ? info[3]->ToObject(Nan::GetCurrentContext()).ToLocalChecked() : Napi::Object::New(env);
+  Napi::Object opts = FF::isArgObject(info, 3) ? info[3].ToObject(Napi::GetCurrentContext()) : Napi::Object::New(env);
 
   if (Mat::Converter::arg(0, &hist, info) || Mat::Converter::arg(1, &plot, info) || Vec3::Converter::arg(2, &color, info) || ((FF::isArgObject(info, 3) && (FF::IntConverter::optProp(&lineType, "lineType", opts) || FF::IntConverter::optProp(&thickness, "thickness", opts) || FF::IntConverter::optProp(&shift, "shift", opts))) || (FF::IntConverter::optArg(3, &lineType, info) || FF::IntConverter::optArg(4, &thickness, info) || FF::IntConverter::optArg(5, &shift, info)))) {
     return tryCatch.reThrow();
@@ -148,7 +148,7 @@ void Imgproc::Plot1DHist(const Napi::CallbackInfo& info) {
         shift);
   }
 
-  info.GetReturnValue().Set(Mat::Converter::wrap(plot));
+  return Mat::Converter::wrap(plot);
 }
 
 void Imgproc::FitLine(const Napi::CallbackInfo& info) {
@@ -158,12 +158,12 @@ void Imgproc::FitLine(const Napi::CallbackInfo& info) {
   if (!info[0].IsArray()) {
     return tryCatch.throwError("expected arg 0 to be an array");
   }
-  v8::Local<v8::Array> jsPoints = v8::Local<v8::Array>::Cast(info[0]);
+  Napi::Array jsPoints = info[0].As<Napi::Array>();
 
   if (jsPoints->Length() < 2) {
     return tryCatch.throwError("expected arg0 to be an Array with atleast 2 Points");
   }
-  Napi::Value jsPt1 = Nan::Get(jsPoints, 0).ToLocalChecked();
+  Napi::Value jsPt1 = (jsPoints).Get(0);
   bool isPoint2 = Point2::hasInstance(jsPt1);
   bool isPoint3 = Point3::hasInstance(jsPt1);
   if (!isPoint2 && !isPoint3) {
@@ -183,15 +183,15 @@ void Imgproc::FitLine(const Napi::CallbackInfo& info) {
   if (isPoint2) {
     cv::Vec4f lineParams;
     cv::fitLine(pts2d, lineParams, (int)distType, param, reps, aeps);
-    info.GetReturnValue().Set(Vec4::Converter::wrap(lineParams));
+    return Vec4::Converter::wrap(lineParams);
   } else {
     cv::Vec6f lineParams;
     cv::fitLine(pts3d, lineParams, (int)distType, param, reps, aeps);
-    v8::Local<v8::Array> jsLineParams = Nan::New<v8::Array>(6);
+    Napi::Array jsLineParams = Napi::Array::New(env, 6);
     for (int i = 0; i < 6; i++) {
-      Nan::Set(jsLineParams, i, Nan::New(lineParams[i]));
+      (jsLineParams).Set(i, Napi::New(env, lineParams[i]));
     }
-    info.GetReturnValue().Set(jsLineParams);
+    return jsLineParams;
   }
 }
 

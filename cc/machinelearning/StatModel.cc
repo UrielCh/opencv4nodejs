@@ -10,8 +10,8 @@ Napi::FunctionReference StatModel::constructor;
 Napi::Object StatModel(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, StatModel::New));
   constructor.Reset(ctor);
-  ctor->InstanceTemplate()->SetInternalFieldCount(1);
-  ctor->SetClassName(Nan::New("StatModel").ToLocalChecked());
+
+  ctor->SetClassName(Napi::String::New(env, "StatModel"));
 
   target.Set("StatModel", FF::getFunction(ctor));
 };
@@ -23,7 +23,7 @@ void StatModel::New(const Napi::CallbackInfo& info) {
   StatModel* self = new StatModel();
 
   self->Wrap(info.Holder());
-  info.GetReturnValue().Set(info.Holder());
+  return info.Holder();
 };
 
 #endif

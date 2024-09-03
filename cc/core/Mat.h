@@ -31,26 +31,26 @@ public:
   FF_GETTER_CUSTOM(depth, FF::IntConverter, self.depth());
   FF_GETTER_CUSTOM(empty, FF::IntConverter, self.empty());
 
-  static NAN_GETTER(GetElemSize) {
-    info.GetReturnValue().Set((int)Mat::unwrapSelf(info).elemSize());
+  Napi::Value GetElemSize(const Napi::CallbackInfo& info) {
+    return (int)Mat::unwrapSelf(info).elemSize();
   };
 
-  static NAN_GETTER(GetStep) {
-    info.GetReturnValue().Set((int)Mat::unwrapSelf(info).step.operator size_t());
+  Napi::Value GetStep(const Napi::CallbackInfo& info) {
+    return (int)Mat::unwrapSelf(info).step.operator size_t();
   };
 
-  static NAN_GETTER(GetSizes) {
+  Napi::Value GetSizes(const Napi::CallbackInfo& info) {
     cv::Mat m = Mat::unwrapSelf(info);
     std::vector<int> sizes;
     for (int s = 0; s < m.dims; s++) {
       sizes.push_back(m.size[s]);
     }
-    info.GetReturnValue().Set(FF::IntArrayConverter::wrap(sizes));
+    return FF::IntArrayConverter::wrap(sizes);
   };
 
   FF_INIT_MAT_OPERATIONS();
 
-  static NAN_METHOD(Dot) {
+  static Napi::Value Dot(const Napi::CallbackInfo& info) {
     FF_OPERATOR_RET_SCALAR(&cv::Mat::dot, FF_APPLY_CLASS_FUNC, Mat, "Dot");
   }
 

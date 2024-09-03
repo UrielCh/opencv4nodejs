@@ -22,6 +22,7 @@
   "author": "justadudewhohacks",
   "license": "MIT",
   "dependencies": {
+    "node-addon-api": "8.1.0",
     "@u4/opencv4nodejs": "link:..",
     "chai": "^5.1.0",
     "istanbul": "^0.4.5",

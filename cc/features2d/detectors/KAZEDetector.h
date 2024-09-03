@@ -80,7 +80,7 @@ static Napi::Object Init(Napi::Env env, Napi::Object exports);
           nOctaveLayers->ref(),
           diffusivity->ref()));
       self->Wrap(info.Holder());
-      info.GetReturnValue().Set(info.Holder());
+      return info.Holder();
     };
   };
 };

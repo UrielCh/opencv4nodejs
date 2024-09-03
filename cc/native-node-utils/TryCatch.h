@@ -28,6 +28,7 @@ public:
   }
 
   Napi::Value throwError(Napi::Value message) {
+    Napi::Env env = message.Env();
     // Napi::Error::New(env, message.ToString()).ThrowAsJavaScriptException();
     Napi::Maybe<Napi::String> maybeString = message.ToString();
     if (maybeString.IsNothing()) {

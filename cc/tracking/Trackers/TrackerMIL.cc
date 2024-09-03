@@ -16,9 +16,9 @@ Napi::Object TrackerMIL(Napi::Env env, Napi::Object exports) {
 
   constructor.Reset(ctor);
   ctor->SetClassName(FF::newString(env, "TrackerMIL"));
-  instanceTemplate->SetInternalFieldCount(1);
 
-  Nan::Set(target, FF::newString(env, "TrackerMIL"), FF::getFunction(ctor));
+
+  (target).Set("TrackerMIL", FF::getFunction(ctor));
 };
 
 void TrackerMIL::New(const Napi::CallbackInfo& info) {
@@ -44,7 +44,7 @@ void TrackerMIL::New(const Napi::CallbackInfo& info) {
   self->tracker = cv::TrackerMIL::createTracker(params);
 #endif
   self->Wrap(info.Holder());
-  info.GetReturnValue().Set(info.Holder());
+  return info.Holder();
 };
 
 #endif

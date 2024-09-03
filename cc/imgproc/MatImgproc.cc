@@ -7,120 +7,120 @@
 #include "imgprocBindings.h"
 
 void MatImgproc::Init(Napi::FunctionReference ctor) {
-  Nan::SetPrototypeMethod(ctor, "rescale", Rescale);
-  Nan::SetPrototypeMethod(ctor, "rescaleAsync", RescaleAsync);
-  Nan::SetPrototypeMethod(ctor, "resize", Resize);
-  Nan::SetPrototypeMethod(ctor, "resizeAsync", ResizeAsync);
-  Nan::SetPrototypeMethod(ctor, "resizeToMax", ResizeToMax);
-  Nan::SetPrototypeMethod(ctor, "resizeToMaxAsync", ResizeToMaxAsync);
-  Nan::SetPrototypeMethod(ctor, "cvtColor", CvtColor);
-  Nan::SetPrototypeMethod(ctor, "cvtColorAsync", CvtColorAsync);
-  Nan::SetPrototypeMethod(ctor, "bgrToGray", BgrToGray);
-  Nan::SetPrototypeMethod(ctor, "bgrToGrayAsync", BgrToGrayAsync);
-  Nan::SetPrototypeMethod(ctor, "threshold", Threshold);
-  Nan::SetPrototypeMethod(ctor, "thresholdAsync", ThresholdAsync);
-  Nan::SetPrototypeMethod(ctor, "adaptiveThreshold", AdaptiveThreshold);
-  Nan::SetPrototypeMethod(ctor, "adaptiveThresholdAsync", AdaptiveThresholdAsync);
-  Nan::SetPrototypeMethod(ctor, "inRange", InRange);
-  Nan::SetPrototypeMethod(ctor, "inRangeAsync", InRangeAsync);
-  Nan::SetPrototypeMethod(ctor, "warpAffine", WarpAffine);
-  Nan::SetPrototypeMethod(ctor, "warpAffineAsync", WarpAffineAsync);
-  Nan::SetPrototypeMethod(ctor, "warpPerspective", WarpPerspective);
-  Nan::SetPrototypeMethod(ctor, "warpPerspectiveAsync", WarpPerspectiveAsync);
-  Nan::SetPrototypeMethod(ctor, "dilate", Dilate);
-  Nan::SetPrototypeMethod(ctor, "dilateAsync", DilateAsync);
-  Nan::SetPrototypeMethod(ctor, "erode", Erode);
-  Nan::SetPrototypeMethod(ctor, "erodeAsync", ErodeAsync);
-  Nan::SetPrototypeMethod(ctor, "morphologyEx", MorphologyEx);
-  Nan::SetPrototypeMethod(ctor, "morphologyExAsync", MorphologyExAsync);
-  Nan::SetPrototypeMethod(ctor, "distanceTransform", DistanceTransform);
-  Nan::SetPrototypeMethod(ctor, "distanceTransformAsync", DistanceTransformAsync);
-  Nan::SetPrototypeMethod(ctor, "distanceTransformWithLabels", DistanceTransformWithLabels);
-  Nan::SetPrototypeMethod(ctor, "distanceTransformWithLabelsAsync", DistanceTransformWithLabelsAsync);
-  Nan::SetPrototypeMethod(ctor, "connectedComponents", ConnectedComponents);
-  Nan::SetPrototypeMethod(ctor, "connectedComponentsAsync", ConnectedComponentsAsync);
-  Nan::SetPrototypeMethod(ctor, "connectedComponentsWithStats", ConnectedComponentsWithStats);
-  Nan::SetPrototypeMethod(ctor, "connectedComponentsWithStatsAsync", ConnectedComponentsWithStatsAsync);
-  Nan::SetPrototypeMethod(ctor, "grabCut", GrabCut);
-  Nan::SetPrototypeMethod(ctor, "grabCutAsync", GrabCutAsync);
-  Nan::SetPrototypeMethod(ctor, "watershed", Watershed);
-  Nan::SetPrototypeMethod(ctor, "watershedAsync", WatershedAsync);
-  Nan::SetPrototypeMethod(ctor, "moments", _Moments);
-  Nan::SetPrototypeMethod(ctor, "momentsAsync", _MomentsAsync);
-  Nan::SetPrototypeMethod(ctor, "findContours", FindContours);
-  Nan::SetPrototypeMethod(ctor, "findContoursAsync", FindContoursAsync);
-  Nan::SetPrototypeMethod(ctor, "drawContours", DrawContours);
-  Nan::SetPrototypeMethod(ctor, "drawContoursAsync", DrawContoursAsync);
-  Nan::SetPrototypeMethod(ctor, "drawLine", DrawLine);
-  Nan::SetPrototypeMethod(ctor, "drawArrowedLine", DrawArrowedLine);
-  Nan::SetPrototypeMethod(ctor, "drawCircle", DrawCircle);
-  Nan::SetPrototypeMethod(ctor, "drawRectangle", DrawRectangle);
-  Nan::SetPrototypeMethod(ctor, "drawEllipse", DrawEllipse);
-  Nan::SetPrototypeMethod(ctor, "drawPolylines", DrawPolylines);
-  Nan::SetPrototypeMethod(ctor, "drawFillPoly", DrawFillPoly);
-  Nan::SetPrototypeMethod(ctor, "drawFillConvexPoly", DrawFillConvexPoly);
-  Nan::SetPrototypeMethod(ctor, "putText", PutText);
-  Nan::SetPrototypeMethod(ctor, "putTextAsync", PutTextAsync);
-  Nan::SetPrototypeMethod(ctor, "matchTemplate", MatchTemplate);
-  Nan::SetPrototypeMethod(ctor, "matchTemplateAsync", MatchTemplateAsync);
-  Nan::SetPrototypeMethod(ctor, "canny", Canny);
-  Nan::SetPrototypeMethod(ctor, "cannyAsync", CannyAsync);
-  Nan::SetPrototypeMethod(ctor, "sobel", Sobel);
-  Nan::SetPrototypeMethod(ctor, "sobelAsync", SobelAsync);
-  Nan::SetPrototypeMethod(ctor, "scharr", Scharr);
-  Nan::SetPrototypeMethod(ctor, "scharrAsync", ScharrAsync);
-  Nan::SetPrototypeMethod(ctor, "laplacian", Laplacian);
-  Nan::SetPrototypeMethod(ctor, "laplacianAsync", LaplacianAsync);
-  Nan::SetPrototypeMethod(ctor, "pyrDown", PyrDown);
-  Nan::SetPrototypeMethod(ctor, "pyrDownAsync", PyrDownAsync);
-  Nan::SetPrototypeMethod(ctor, "pyrUp", PyrUp);
-  Nan::SetPrototypeMethod(ctor, "pyrUpAsync", PyrUpAsync);
-  Nan::SetPrototypeMethod(ctor, "buildPyramid", BuildPyramid);
-  Nan::SetPrototypeMethod(ctor, "buildPyramidAsync", BuildPyramidAsync);
-  Nan::SetPrototypeMethod(ctor, "houghLines", HoughLines);
-  Nan::SetPrototypeMethod(ctor, "houghLinesAsync", HoughLinesAsync);
-  Nan::SetPrototypeMethod(ctor, "houghLinesP", HoughLinesP);
-  Nan::SetPrototypeMethod(ctor, "houghLinesPAsync", HoughLinesPAsync);
-  Nan::SetPrototypeMethod(ctor, "houghCircles", HoughCircles);
-  Nan::SetPrototypeMethod(ctor, "houghCirclesAsync", HoughCirclesAsync);
-  Nan::SetPrototypeMethod(ctor, "equalizeHist", EqualizeHist);
-  Nan::SetPrototypeMethod(ctor, "equalizeHistAsync", EqualizeHistAsync);
-  Nan::SetPrototypeMethod(ctor, "compareHist", CompareHist);
-  Nan::SetPrototypeMethod(ctor, "compareHistAsync", CompareHistAsync);
-  Nan::SetPrototypeMethod(ctor, "floodFill", FloodFill);
-  Nan::SetPrototypeMethod(ctor, "floodFillAsync", FloodFillAsync);
-  Nan::SetPrototypeMethod(ctor, "bilateralFilter", BilateralFilter);
-  Nan::SetPrototypeMethod(ctor, "bilateralFilterAsync", BilateralFilterAsync);
-  Nan::SetPrototypeMethod(ctor, "boxFilter", BoxFilter);
-  Nan::SetPrototypeMethod(ctor, "boxFilterAsync", BoxFilterAsync);
-  Nan::SetPrototypeMethod(ctor, "sqrBoxFilter", SqrBoxFilter);
-  Nan::SetPrototypeMethod(ctor, "sqrBoxFilterAsync", SqrBoxFilterAsync);
-  Nan::SetPrototypeMethod(ctor, "filter2D", Filter2D);
-  Nan::SetPrototypeMethod(ctor, "filter2DAsync", Filter2DAsync);
-  Nan::SetPrototypeMethod(ctor, "sepFilter2D", SepFilter2D);
-  Nan::SetPrototypeMethod(ctor, "sepFilter2DAsync", SepFilter2DAsync);
-  Nan::SetPrototypeMethod(ctor, "cornerHarris", CornerHarris);
-  Nan::SetPrototypeMethod(ctor, "cornerHarrisAsync", CornerHarrisAsync);
-  Nan::SetPrototypeMethod(ctor, "cornerSubPix", CornerSubPix);
-  Nan::SetPrototypeMethod(ctor, "cornerSubPixAsync", CornerSubPixAsync);
-  Nan::SetPrototypeMethod(ctor, "cornerMinEigenVal", CornerMinEigenVal);
-  Nan::SetPrototypeMethod(ctor, "cornerMinEigenValAsync", CornerMinEigenValAsync);
-  Nan::SetPrototypeMethod(ctor, "cornerEigenValsAndVecs", CornerEigenValsAndVecs);
-  Nan::SetPrototypeMethod(ctor, "cornerEigenValsAndVecsAsync", CornerEigenValsAndVecsAsync);
-  Nan::SetPrototypeMethod(ctor, "integral", Integral);
-  Nan::SetPrototypeMethod(ctor, "integralAsync", IntegralAsync);
+  InstanceMethod("rescale", &Rescale),
+  InstanceMethod("rescaleAsync", &RescaleAsync),
+  InstanceMethod("resize", &Resize),
+  InstanceMethod("resizeAsync", &ResizeAsync),
+  InstanceMethod("resizeToMax", &ResizeToMax),
+  InstanceMethod("resizeToMaxAsync", &ResizeToMaxAsync),
+  InstanceMethod("cvtColor", &CvtColor),
+  InstanceMethod("cvtColorAsync", &CvtColorAsync),
+  InstanceMethod("bgrToGray", &BgrToGray),
+  InstanceMethod("bgrToGrayAsync", &BgrToGrayAsync),
+  InstanceMethod("threshold", &Threshold),
+  InstanceMethod("thresholdAsync", &ThresholdAsync),
+  InstanceMethod("adaptiveThreshold", &AdaptiveThreshold),
+  InstanceMethod("adaptiveThresholdAsync", &AdaptiveThresholdAsync),
+  InstanceMethod("inRange", &InRange),
+  InstanceMethod("inRangeAsync", &InRangeAsync),
+  InstanceMethod("warpAffine", &WarpAffine),
+  InstanceMethod("warpAffineAsync", &WarpAffineAsync),
+  InstanceMethod("warpPerspective", &WarpPerspective),
+  InstanceMethod("warpPerspectiveAsync", &WarpPerspectiveAsync),
+  InstanceMethod("dilate", &Dilate),
+  InstanceMethod("dilateAsync", &DilateAsync),
+  InstanceMethod("erode", &Erode),
+  InstanceMethod("erodeAsync", &ErodeAsync),
+  InstanceMethod("morphologyEx", &MorphologyEx),
+  InstanceMethod("morphologyExAsync", &MorphologyExAsync),
+  InstanceMethod("distanceTransform", &DistanceTransform),
+  InstanceMethod("distanceTransformAsync", &DistanceTransformAsync),
+  InstanceMethod("distanceTransformWithLabels", &DistanceTransformWithLabels),
+  InstanceMethod("distanceTransformWithLabelsAsync", &DistanceTransformWithLabelsAsync),
+  InstanceMethod("connectedComponents", &ConnectedComponents),
+  InstanceMethod("connectedComponentsAsync", &ConnectedComponentsAsync),
+  InstanceMethod("connectedComponentsWithStats", &ConnectedComponentsWithStats),
+  InstanceMethod("connectedComponentsWithStatsAsync", &ConnectedComponentsWithStatsAsync),
+  InstanceMethod("grabCut", &GrabCut),
+  InstanceMethod("grabCutAsync", &GrabCutAsync),
+  InstanceMethod("watershed", &Watershed),
+  InstanceMethod("watershedAsync", &WatershedAsync),
+  InstanceMethod("moments", &_Moments),
+  InstanceMethod("momentsAsync", &_MomentsAsync),
+  InstanceMethod("findContours", &FindContours),
+  InstanceMethod("findContoursAsync", &FindContoursAsync),
+  InstanceMethod("drawContours", &DrawContours),
+  InstanceMethod("drawContoursAsync", &DrawContoursAsync),
+  InstanceMethod("drawLine", &DrawLine),
+  InstanceMethod("drawArrowedLine", &DrawArrowedLine),
+  InstanceMethod("drawCircle", &DrawCircle),
+  InstanceMethod("drawRectangle", &DrawRectangle),
+  InstanceMethod("drawEllipse", &DrawEllipse),
+  InstanceMethod("drawPolylines", &DrawPolylines),
+  InstanceMethod("drawFillPoly", &DrawFillPoly),
+  InstanceMethod("drawFillConvexPoly", &DrawFillConvexPoly),
+  InstanceMethod("putText", &PutText),
+  InstanceMethod("putTextAsync", &PutTextAsync),
+  InstanceMethod("matchTemplate", &MatchTemplate),
+  InstanceMethod("matchTemplateAsync", &MatchTemplateAsync),
+  InstanceMethod("canny", &Canny),
+  InstanceMethod("cannyAsync", &CannyAsync),
+  InstanceMethod("sobel", &Sobel),
+  InstanceMethod("sobelAsync", &SobelAsync),
+  InstanceMethod("scharr", &Scharr),
+  InstanceMethod("scharrAsync", &ScharrAsync),
+  InstanceMethod("laplacian", &Laplacian),
+  InstanceMethod("laplacianAsync", &LaplacianAsync),
+  InstanceMethod("pyrDown", &PyrDown),
+  InstanceMethod("pyrDownAsync", &PyrDownAsync),
+  InstanceMethod("pyrUp", &PyrUp),
+  InstanceMethod("pyrUpAsync", &PyrUpAsync),
+  InstanceMethod("buildPyramid", &BuildPyramid),
+  InstanceMethod("buildPyramidAsync", &BuildPyramidAsync),
+  InstanceMethod("houghLines", &HoughLines),
+  InstanceMethod("houghLinesAsync", &HoughLinesAsync),
+  InstanceMethod("houghLinesP", &HoughLinesP),
+  InstanceMethod("houghLinesPAsync", &HoughLinesPAsync),
+  InstanceMethod("houghCircles", &HoughCircles),
+  InstanceMethod("houghCirclesAsync", &HoughCirclesAsync),
+  InstanceMethod("equalizeHist", &EqualizeHist),
+  InstanceMethod("equalizeHistAsync", &EqualizeHistAsync),
+  InstanceMethod("compareHist", &CompareHist),
+  InstanceMethod("compareHistAsync", &CompareHistAsync),
+  InstanceMethod("floodFill", &FloodFill),
+  InstanceMethod("floodFillAsync", &FloodFillAsync),
+  InstanceMethod("bilateralFilter", &BilateralFilter),
+  InstanceMethod("bilateralFilterAsync", &BilateralFilterAsync),
+  InstanceMethod("boxFilter", &BoxFilter),
+  InstanceMethod("boxFilterAsync", &BoxFilterAsync),
+  InstanceMethod("sqrBoxFilter", &SqrBoxFilter),
+  InstanceMethod("sqrBoxFilterAsync", &SqrBoxFilterAsync),
+  InstanceMethod("filter2D", &Filter2D),
+  InstanceMethod("filter2DAsync", &Filter2DAsync),
+  InstanceMethod("sepFilter2D", &SepFilter2D),
+  InstanceMethod("sepFilter2DAsync", &SepFilter2DAsync),
+  InstanceMethod("cornerHarris", &CornerHarris),
+  InstanceMethod("cornerHarrisAsync", &CornerHarrisAsync),
+  InstanceMethod("cornerSubPix", &CornerSubPix),
+  InstanceMethod("cornerSubPixAsync", &CornerSubPixAsync),
+  InstanceMethod("cornerMinEigenVal", &CornerMinEigenVal),
+  InstanceMethod("cornerMinEigenValAsync", &CornerMinEigenValAsync),
+  InstanceMethod("cornerEigenValsAndVecs", &CornerEigenValsAndVecs),
+  InstanceMethod("cornerEigenValsAndVecsAsync", &CornerEigenValsAndVecsAsync),
+  InstanceMethod("integral", &Integral),
+  InstanceMethod("integralAsync", &IntegralAsync),
 #if CV_VERSION_LOWER_THAN(4, 0, 0)
-  Nan::SetPrototypeMethod(ctor, "undistort", Undistort);
-  Nan::SetPrototypeMethod(ctor, "undistortAsync", UndistortAsync);
+  InstanceMethod("undistort", &Undistort),
+  InstanceMethod("undistortAsync", &UndistortAsync),
 #endif
-  Nan::SetPrototypeMethod(ctor, "goodFeaturesToTrack", GoodFeaturesToTrack);
-  Nan::SetPrototypeMethod(ctor, "goodFeaturesToTrackAsync", GoodFeaturesToTrackAsync);
-  Nan::SetPrototypeMethod(ctor, "blur", Blur);
-  Nan::SetPrototypeMethod(ctor, "blurAsync", BlurAsync);
-  Nan::SetPrototypeMethod(ctor, "gaussianBlur", GaussianBlur);
-  Nan::SetPrototypeMethod(ctor, "gaussianBlurAsync", GaussianBlurAsync);
-  Nan::SetPrototypeMethod(ctor, "medianBlur", MedianBlur);
-  Nan::SetPrototypeMethod(ctor, "medianBlurAsync", MedianBlurAsync);
+  InstanceMethod("goodFeaturesToTrack", &GoodFeaturesToTrack),
+  InstanceMethod("goodFeaturesToTrackAsync", &GoodFeaturesToTrackAsync),
+  InstanceMethod("blur", &Blur),
+  InstanceMethod("blurAsync", &BlurAsync),
+  InstanceMethod("gaussianBlur", &GaussianBlur),
+  InstanceMethod("gaussianBlurAsync", &GaussianBlurAsync),
+  InstanceMethod("medianBlur", &MedianBlur),
+  InstanceMethod("medianBlurAsync", &MedianBlurAsync),
 };
 
 void MatImgproc::DrawContours(const Napi::CallbackInfo& info) {
@@ -403,14 +403,14 @@ void MatImgproc::WatershedAsync(const Napi::CallbackInfo& info) {
       info);
 }
 
-NAN_METHOD(MatImgproc::_Moments) {
+Napi::Value MatImgproc::_Moments(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<MatImgprocBindings::MomentsWorker>(Mat::unwrapSelf(info)),
       "Mat::Moments",
       info);
 }
 
-NAN_METHOD(MatImgproc::_MomentsAsync) {
+Napi::Value MatImgproc::_MomentsAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<MatImgprocBindings::MomentsWorker>(Mat::unwrapSelf(info)),
       "Mat::MomentsAsync",

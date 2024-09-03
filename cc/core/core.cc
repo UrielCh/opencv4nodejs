@@ -91,8 +91,8 @@ static std::function<bool(TNativeObject, TNativeObject)> predicateFactory(Napi::
     Napi::Value cbArgs[2];
     cbArgs[0] = TClass::Converter::wrap(pt1);
     cbArgs[1] = TClass::Converter::wrap(pt2);
-    Nan::AsyncResource resource("opencv4nodejs:Predicate::Constructor");
-    return FF::BoolConverter::unwrapUnchecked(resource.runInAsyncScope(Nan::GetCurrentContext()->Global(), cb, 2, cbArgs).ToLocalChecked());
+    Napi::AsyncResource resource("opencv4nodejs:Predicate::Constructor");
+    return FF::BoolConverter::unwrapUnchecked(resource.runInAsyncScope(Napi::GetCurrentContext()->Global(), cb, 2, cbArgs));
   };
 }
 
@@ -113,7 +113,7 @@ Napi::Value Core::Partition(const Napi::CallbackInfo& info) {
     return tryCatch.throwError("expected data to contain atleast 2 elements");
   }
 
-  Napi::Function cb = Napi::Function::Cast(info[1]);
+  Napi::Function cb = info[1].As<Napi::Function>();
   Napi::Value data0 = jsData.Get(uint32_t(0));
 
   int numLabels = 0;
@@ -166,7 +166,7 @@ Napi::Value Core::Partition(const Napi::CallbackInfo& info) {
 
   Napi::Object ret = Napi::Object::New(env);
   ret.Set("labels", FF::IntArrayConverter::wrap(labels));
-  ret.Set("numLabels", Nan::New(numLabels));
+  ret.Set("numLabels", Napi::Number::New(env, numLabels));
   return ret;
 }
 
@@ -179,13 +179,13 @@ Napi::Value Core::Kmeans(const Napi::CallbackInfo& info) {
   if (!info[0].IsArray()) {
     return tryCatch.throwError("expected arg 0 to be an array");
   }
-  v8::Local<v8::Array> jsData = v8::Local<v8::Array>::Cast(info[0]);
+  Napi::Array jsData = info[0].As<Napi::Array>();
 
   if (jsData->Length() < 1) {
     return tryCatch.throwError("expected data to contain at least 1 element");
   }
 
-  Napi::Value data0 = Nan::Get(jsData, 0).ToLocalChecked();
+  Napi::Value data0 = (jsData).Get(0);
   bool isPoint2 = Point2::hasInstance(data0);
 
   std::vector<cv::Point2f> pts2d;
@@ -209,20 +209,20 @@ Napi::Value Core::Kmeans(const Napi::CallbackInfo& info) {
   }
 
   Napi::Object ret = Napi::Object::New(env);
-  Nan::Set(ret, FF::newString(env, "labels"), FF::IntArrayConverter::wrap(labels));
+  (ret).Set("labels", FF::IntArrayConverter::wrap(labels));
 
   if (Point2::hasInstance(data0)) {
     std::vector<cv::Point2f> centers;
     for (int i = 0; i < centersMat.rows; i++) {
       centers.push_back(cv::Point2f(centersMat.at<float>(i, 0), centersMat.at<float>(i, 1)));
     }
-    Nan::Set(ret, FF::newString(env, "centers"), Point2::ArrayWithCastConverter<cv::Point2f>::wrap(centers));
+    (ret).Set("centers", Point2::ArrayWithCastConverter<cv::Point2f>::wrap(centers));
   } else if (Point3::hasInstance(data0)) {
     std::vector<cv::Point3f> centers;
     for (int i = 0; i < centersMat.rows; i++) {
       centers.push_back(cv::Point3f(centersMat.at<float>(i, 0), centersMat.at<float>(i, 1), centersMat.at<float>(i, 2)));
     }
-    Nan::Set(ret, FF::newString(env, "centers"), Point3::ArrayWithCastConverter<cv::Point3f>::wrap(centers));
+    (ret).Set("centers", Point3::ArrayWithCastConverter<cv::Point3f>::wrap(centers));
   }
   return ret;
 }
@@ -414,23 +414,23 @@ void Core::MagnitudeAsync(const Napi::CallbackInfo& info) {
 }
 
 void Core::GetTickFrequency(const Napi::CallbackInfo& info) {
-  info.GetReturnValue().Set(FF::IntConverter::wrap(cv::getTickFrequency()));
+  return FF::IntConverter::wrap(cv::getTickFrequency());
 }
 
 void Core::GetTickCount(const Napi::CallbackInfo& info) {
-  info.GetReturnValue().Set(FF::IntConverter::wrap(cv::getTickCount()));
+  return FF::IntConverter::wrap(cv::getTickCount());
 }
 
 #if CV_VERSION_GREATER_EQUAL(3, 4, 2)
 void Core::GetVersionMajor(const Napi::CallbackInfo& info) {
-  info.GetReturnValue().Set(FF::IntConverter::wrap(cv::getVersionMajor()));
+  return FF::IntConverter::wrap(cv::getVersionMajor());
 }
 
 void Core::GetVersionMinor(const Napi::CallbackInfo& info) {
-  info.GetReturnValue().Set(FF::IntConverter::wrap(cv::getVersionMinor()));
+  return FF::IntConverter::wrap(cv::getVersionMinor());
 }
 
 void Core::GetVersionRevision(const Napi::CallbackInfo& info) {
-  info.GetReturnValue().Set(FF::IntConverter::wrap(cv::getVersionRevision()));
+  return FF::IntConverter::wrap(cv::getVersionRevision());
 }
 #endif

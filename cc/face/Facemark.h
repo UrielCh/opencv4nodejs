@@ -11,7 +11,7 @@
 #ifndef __FF_FACEMARK_H__
 #define __FF_FACEMARK_H__
 
-class Facemark : public FF::ObjectWrapBase<Facemark>, public Nan::ObjectWrap {
+class Facemark : public FF::ObjectWrapBase<Facemark>, public Napi::ObjectWrap {
 public:
   virtual cv::Ptr<cv::face::Facemark> getFacemark() = 0;
   virtual void save(std::string) = 0;
@@ -36,7 +36,7 @@ public:
   static void Load(const Napi::CallbackInfo& info);
 
   static bool detector(cv::InputArray image, cv::OutputArray faces,
-                       Nan::Callback* callback);
+                       Napi::FunctionReference* callback);
 };
 
 #endif

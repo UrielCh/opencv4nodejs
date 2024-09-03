@@ -62,6 +62,7 @@ static inline TClass* unwrapNanObjectWrap(Napi::Object jsObj) {
 
 template <class TClass>
 static inline TClass* unwrapNanObjectWrap(Napi::Value jsVal) {
+  Napi::Env env = jsVal.Env();
   return unwrapNanObjectWrap<TClass>(jsVal.As<Napi::Object>());
 }
 

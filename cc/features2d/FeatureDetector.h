@@ -9,7 +9,7 @@
 #ifndef FF_FEATUREDETECTOR_H_
 #define FF_FEATUREDETECTOR_H_
 
-class FeatureDetector : public FF::ObjectWrapBase<FeatureDetector>, public Nan::ObjectWrap {
+class FeatureDetector : public FF::ObjectWrapBase<FeatureDetector>, public Napi::ObjectWrap {
 public:
   virtual cv::Ptr<cv::FeatureDetector> getDetector() = 0;
 

@@ -13,12 +13,12 @@ Napi::Object OCRHMMClassifier(Napi::Env env, Napi::Object exports) {
 
   constructor.Reset(ctor);
   ctor->SetClassName(FF::newString(env, "OCRHMMClassifier"));
-  instanceTemplate->SetInternalFieldCount(1);
 
-  Nan::SetPrototypeMethod(ctor, "eval", Eval);
-  Nan::SetPrototypeMethod(ctor, "evalAsync", EvalAsync);
 
-  Nan::Set(target, FF::newString(env, "OCRHMMClassifier"), FF::getFunction(ctor));
+  InstanceMethod("eval", &Eval),
+  InstanceMethod("evalAsync", &EvalAsync),
+
+  (target).Set("OCRHMMClassifier", FF::getFunction(ctor));
 };
 
 void OCRHMMClassifier::Eval(const Napi::CallbackInfo& info) {

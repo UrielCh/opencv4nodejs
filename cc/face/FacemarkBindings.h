@@ -80,7 +80,7 @@ public:
   }
 
   Napi::Value getReturnValue(const Napi::Env& env) {
-    Napi::Value ret = Nan::New<v8::Boolean>(results);
+    Napi::Value ret = Napi::Boolean::New(env, results);
     return ret;
   }
 

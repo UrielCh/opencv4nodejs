@@ -13,30 +13,30 @@ Napi::FunctionReference Net::constructor;
 Napi::Object Net(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, Net::New));
   Net::constructor.Reset(ctor);
-  ctor->InstanceTemplate()->SetInternalFieldCount(1);
-  ctor->SetClassName(Nan::New("Net").ToLocalChecked());
+
+  ctor->SetClassName(Napi::String::New(env, "Net"));
 
   // setInput(blob: Mat, name?: string, scalefactor?: number, mean?: number): void;
   // setInput(blob: Mat, inputName?: string): void;
-  Nan::SetPrototypeMethod(ctor, "setInput", SetInput);
-  Nan::SetPrototypeMethod(ctor, "setInputAsync", SetInputAsync);
+  InstanceMethod("setInput", &SetInput),
+  InstanceMethod("setInputAsync", &SetInputAsync),
   // forward(inputName?: string): Mat;
-  Nan::SetPrototypeMethod(ctor, "forward", Forward);
-  Nan::SetPrototypeMethod(ctor, "forwardAsync", ForwardAsync);
+  InstanceMethod("forward", &Forward),
+  InstanceMethod("forwardAsync", &ForwardAsync),
   // getLayerNames(): string[];
-  Nan::SetPrototypeMethod(ctor, "getLayerNames", GetLayerNames);
-  Nan::SetPrototypeMethod(ctor, "getLayerNamesAsync", GetLayerNamesAsync);
+  InstanceMethod("getLayerNames", &GetLayerNames),
+  InstanceMethod("getLayerNamesAsync", &GetLayerNamesAsync),
   // getUnconnectedOutLayers(): number[];
-  Nan::SetPrototypeMethod(ctor, "getUnconnectedOutLayers", GetUnconnectedOutLayers);
-  Nan::SetPrototypeMethod(ctor, "getUnconnectedOutLayersAsync", GetUnconnectedOutLayersAsync);
+  InstanceMethod("getUnconnectedOutLayers", &GetUnconnectedOutLayers),
+  InstanceMethod("getUnconnectedOutLayersAsync", &GetUnconnectedOutLayersAsync),
   // dump(): string;
-  Nan::SetPrototypeMethod(ctor, "dump", Dump);
+  InstanceMethod("dump", &Dump),
   // setPreferableBackend(backendId: number): void;
-  Nan::SetPrototypeMethod(ctor, "setPreferableBackend", SetPreferableBackend);
+  InstanceMethod("setPreferableBackend", &SetPreferableBackend),
   // setPreferableTarget(targetId: number): void;
-  Nan::SetPrototypeMethod(ctor, "setPreferableTarget", SetPreferableTarget);
+  InstanceMethod("setPreferableTarget", &SetPreferableTarget),
   // getPerfProfile(): {	retval: number, timings: number[] };
-  Nan::SetPrototypeMethod(ctor, "getPerfProfile", GetPerfProfile);
+  InstanceMethod("getPerfProfile", &GetPerfProfile),
 
   target.Set("Net", FF::getFunction(ctor));
 };
@@ -47,7 +47,7 @@ void Net::New(const Napi::CallbackInfo& info) {
   FF_ASSERT_CONSTRUCT_CALL();
   Net* self = new Net();
   self->Wrap(info.Holder());
-  info.GetReturnValue().Set(info.Holder());
+  return info.Holder();
 }
 
 void Net::SetInput(const Napi::CallbackInfo& info) {
@@ -110,7 +110,7 @@ void Net::Dump(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "Core::Dump");
   cv::dnn::Net self = Net::unwrapSelf(info);
-  info.GetReturnValue().Set(FF::newString(self.dump()));
+  return FF::newString(self.dump());
 }
 
 void Net::SetPreferableBackend(const Napi::CallbackInfo& info) {
@@ -151,7 +151,7 @@ void Net::GetPerfProfile(const Napi::CallbackInfo& info) {
   obj.Set("retval", FF::DoubleConverter::wrap(time));
   obj.Set("timings", FF::DoubleArrayConverter::wrap(layersTimes));
 
-  info.GetReturnValue().Set(obj);
+  return obj;
 }
 
 #endif

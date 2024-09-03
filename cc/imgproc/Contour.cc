@@ -15,30 +15,30 @@ Napi::FunctionReference Contour::constructor;
 Napi::Object Contour(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, Contour::New));
   constructor.Reset(ctor);
-  ctor->InstanceTemplate()->SetInternalFieldCount(1);
-  ctor->SetClassName(Nan::New("Contour").ToLocalChecked());
 
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "isConvex"), GetIsConvex);
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "area"), GetArea);
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "numPoints"), GetNumPoints);
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "hierarchy"), GetHierarchy);
+  ctor->SetClassName(Napi::String::New(env, "Contour"));
 
-  Nan::SetPrototypeMethod(ctor, "getPoints", GetPoints);
-  Nan::SetPrototypeMethod(ctor, "approxPolyDP", ApproxPolyDP);
-  Nan::SetPrototypeMethod(ctor, "approxPolyDPAsync", ApproxPolyDPAsync);
-  Nan::SetPrototypeMethod(ctor, "approxPolyDPContour", ApproxPolyDPContour);
-  Nan::SetPrototypeMethod(ctor, "arcLength", ArcLength);
-  Nan::SetPrototypeMethod(ctor, "boundingRect", BoundingRect);
-  Nan::SetPrototypeMethod(ctor, "convexHull", ConvexHull);
-  Nan::SetPrototypeMethod(ctor, "convexHullIndices", ConvexHullIndices);
-  Nan::SetPrototypeMethod(ctor, "convexityDefects", ConvexityDefects);
-  Nan::SetPrototypeMethod(ctor, "minAreaRect", MinAreaRect);
-  Nan::SetPrototypeMethod(ctor, "minEnclosingCircle", MinEnclosingCircle);
-  Nan::SetPrototypeMethod(ctor, "minEnclosingTriangle", MinEnclosingTriangle);
-  Nan::SetPrototypeMethod(ctor, "pointPolygonTest", PointPolygonTest);
-  Nan::SetPrototypeMethod(ctor, "matchShapes", MatchShapes);
-  Nan::SetPrototypeMethod(ctor, "fitEllipse", FitEllipse);
-  Nan::SetPrototypeMethod(ctor, "moments", _Moments);
+  Napi::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "isConvex"), GetIsConvex);
+  Napi::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "area"), GetArea);
+  Napi::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "numPoints"), GetNumPoints);
+  Napi::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "hierarchy"), GetHierarchy);
+
+  InstanceMethod("getPoints", &GetPoints),
+  InstanceMethod("approxPolyDP", &ApproxPolyDP),
+  InstanceMethod("approxPolyDPAsync", &ApproxPolyDPAsync),
+  InstanceMethod("approxPolyDPContour", &ApproxPolyDPContour),
+  InstanceMethod("arcLength", &ArcLength),
+  InstanceMethod("boundingRect", &BoundingRect),
+  InstanceMethod("convexHull", &ConvexHull),
+  InstanceMethod("convexHullIndices", &ConvexHullIndices),
+  InstanceMethod("convexityDefects", &ConvexityDefects),
+  InstanceMethod("minAreaRect", &MinAreaRect),
+  InstanceMethod("minEnclosingCircle", &MinEnclosingCircle),
+  InstanceMethod("minEnclosingTriangle", &MinEnclosingTriangle),
+  InstanceMethod("pointPolygonTest", &PointPolygonTest),
+  InstanceMethod("matchShapes", &MatchShapes),
+  InstanceMethod("fitEllipse", &FitEllipse),
+  InstanceMethod("moments", &_Moments),
 
   target.Set("Contour", FF::getFunction(ctor));
 };
@@ -56,17 +56,17 @@ void Contour::New(const Napi::CallbackInfo& info) {
 
   Contour* self = new Contour();
   if (info.Length() == 1) {
-    v8::Local<v8::Array> jsPts = v8::Local<v8::Array>::Cast(info[0]);
+    Napi::Array jsPts = info[0].As<Napi::Array>();
     self->self.reserve(jsPts->Length());
     for (uint i = 0; i < jsPts->Length(); i++) {
       cv::Point2d cv_pt;
-      auto jsPt = Nan::Get(jsPts, i).ToLocalChecked();
+      auto jsPt = (jsPts).Get(i);
       if (jsPt->IsArray()) {
-        v8::Local<v8::Array> jsObj = v8::Local<v8::Array>::Cast(jsPt);
+        Napi::Array jsObj = jsPt.As<Napi::Array>();
         if (jsObj->Length() != 2)
           return tryCatch.throwError("expected arg0 to consist of only Point2 or array of length 2");
-        double x = FF::DoubleConverter::unwrapUnchecked(Nan::Get(jsObj, 0).ToLocalChecked());
-        double y = FF::DoubleConverter::unwrapUnchecked(Nan::Get(jsObj, 1).ToLocalChecked());
+        double x = FF::DoubleConverter::unwrapUnchecked((jsObj).Get(0));
+        double y = FF::DoubleConverter::unwrapUnchecked((jsObj).Get(1));
         cv_pt = cv::Point2d(x, y);
       } else if (Point2::hasInstance(jsPt)) {
         cv_pt = Point2::Converter::unwrapUnchecked(jsPt);
@@ -78,11 +78,11 @@ void Contour::New(const Napi::CallbackInfo& info) {
   }
   self->hierarchy = cv::Vec4i(-1, -1, -1, -1);
   self->Wrap(info.Holder());
-  info.GetReturnValue().Set(info.Holder());
+  return info.Holder();
 }
 
 void Contour::GetPoints(const Napi::CallbackInfo& info) {
-  info.GetReturnValue().Set(Point2::ArrayWithCastConverter<cv::Point2i>::wrap(Contour::unwrapSelf(info)));
+  return Point2::ArrayWithCastConverter<cv::Point2i>::wrap(Contour::unwrapSelf(info));
 }
 
 void Contour::ApproxPolyDP(const Napi::CallbackInfo& info) {
@@ -112,11 +112,11 @@ void Contour::ApproxPolyDPContour(const Napi::CallbackInfo& info) {
   std::vector<cv::Point> curve;
   cv::approxPolyDP(Contour::unwrapSelf(info), curve, epsilon, closed);
 
-  Napi::Object jsApprox = FF::newInstance(Nan::New(Contour::constructor));
+  Napi::Object jsApprox = FF::newInstance(Napi::New(env, Contour::constructor));
   Contour* pContour = Contour::unwrapClassPtrUnchecked(jsApprox);
   pContour->setNativeObject(curve);
   pContour->hierarchy = cv::Vec4i(-1, -1, -1, -1);
-  info.GetReturnValue().Set(jsApprox);
+  return jsApprox;
 }
 
 void Contour::ArcLength(const Napi::CallbackInfo& info) {
@@ -128,11 +128,11 @@ void Contour::ArcLength(const Napi::CallbackInfo& info) {
   }
 
   double arcLength = cv::arcLength(Contour::unwrapSelf(info), closed);
-  info.GetReturnValue().Set(Nan::New(arcLength));
+  return Napi::New(env, arcLength);
 }
 
 void Contour::BoundingRect(const Napi::CallbackInfo& info) {
-  info.GetReturnValue().Set(Rect::Converter::wrap(cv::boundingRect(Contour::unwrapSelf(info))));
+  return Rect::Converter::wrap(cv::boundingRect(Contour::unwrapSelf(info)));
 }
 
 void Contour::ConvexHull(const Napi::CallbackInfo& info) {
@@ -149,11 +149,11 @@ void Contour::ConvexHull(const Napi::CallbackInfo& info) {
       hullPoints,
       clockwise,
       true);
-  Napi::Object jsHull = FF::newInstance(Nan::New(Contour::constructor));
+  Napi::Object jsHull = FF::newInstance(Napi::New(env, Contour::constructor));
   Contour* pContour = Contour::unwrapClassPtrUnchecked(jsHull);
   pContour->setNativeObject(hullPoints);
   pContour->hierarchy = cv::Vec4i(-1, -1, -1, -1);
-  info.GetReturnValue().Set(jsHull);
+  return jsHull;
 }
 
 void Contour::ConvexHullIndices(const Napi::CallbackInfo& info) {
@@ -170,7 +170,7 @@ void Contour::ConvexHullIndices(const Napi::CallbackInfo& info) {
       hullIndices,
       clockwise,
       false);
-  info.GetReturnValue().Set(FF::IntArrayConverter::wrap(hullIndices));
+  return FF::IntArrayConverter::wrap(hullIndices);
 }
 
 void Contour::ConvexityDefects(const Napi::CallbackInfo& info) {
@@ -187,7 +187,7 @@ void Contour::ConvexityDefects(const Napi::CallbackInfo& info) {
       hull,
       defects);
 
-  info.GetReturnValue().Set(Vec4::ArrayConverter::wrap(defects));
+  return Vec4::ArrayConverter::wrap(defects);
 }
 
 void Contour::MinEnclosingCircle(const Napi::CallbackInfo& info) {
@@ -196,9 +196,9 @@ void Contour::MinEnclosingCircle(const Napi::CallbackInfo& info) {
   cv::minEnclosingCircle(Contour::unwrapSelf(info), center, radius);
 
   Napi::Object jsCircle = Napi::Object::New(env);
-  Nan::Set(jsCircle, FF::newString(env, "center"), Point2::Converter::wrap(center));
-  Nan::Set(jsCircle, FF::newString(env, "radius"), Nan::New((double)radius));
-  info.GetReturnValue().Set(jsCircle);
+  (jsCircle).Set("center", Point2::Converter::wrap(center));
+  (jsCircle).Set("radius", Napi::New(env, (double)radius));
+  return jsCircle;
 }
 
 void Contour::MinEnclosingTriangle(const Napi::CallbackInfo& info) {
@@ -206,7 +206,7 @@ void Contour::MinEnclosingTriangle(const Napi::CallbackInfo& info) {
   cv::minEnclosingTriangle(
       Contour::unwrapSelf(info),
       triangle);
-  info.GetReturnValue().Set(Point2::ArrayWithCastConverter<cv::Point2f>::wrap(triangle));
+  return Point2::ArrayWithCastConverter<cv::Point2f>::wrap(triangle);
 }
 
 void Contour::PointPolygonTest(const Napi::CallbackInfo& info) {
@@ -221,7 +221,7 @@ void Contour::PointPolygonTest(const Napi::CallbackInfo& info) {
       Contour::unwrapSelf(info),
       point,
       true);
-  info.GetReturnValue().Set(Nan::New(dist));
+  return Napi::New(env, dist);
 }
 
 void Contour::MatchShapes(const Napi::CallbackInfo& info) {
@@ -241,19 +241,19 @@ void Contour::MatchShapes(const Napi::CallbackInfo& info) {
       contour2,
       (int)method,
       parameter);
-  info.GetReturnValue().Set(Nan::New(cmp));
+  return Napi::New(env, cmp);
 }
 
 void Contour::MinAreaRect(const Napi::CallbackInfo& info) {
-  info.GetReturnValue().Set(RotatedRect::Converter::wrap(cv::minAreaRect(Contour::unwrapSelf(info))));
+  return RotatedRect::Converter::wrap(cv::minAreaRect(Contour::unwrapSelf(info)));
 }
 
 void Contour::FitEllipse(const Napi::CallbackInfo& info) {
-  info.GetReturnValue().Set(RotatedRect::Converter::wrap(cv::fitEllipse(Contour::unwrapSelf(info))));
+  return RotatedRect::Converter::wrap(cv::fitEllipse(Contour::unwrapSelf(info)));
 }
 
-NAN_METHOD(Contour::_Moments) {
-  info.GetReturnValue().Set(Moments::Converter::wrap(cv::moments(Contour::unwrapSelf(info))));
+Napi::Value Contour::_Moments(const Napi::CallbackInfo& info) {
+  return Moments::Converter::wrap(cv::moments(Contour::unwrapSelf(info)));
 }
 
 #endif

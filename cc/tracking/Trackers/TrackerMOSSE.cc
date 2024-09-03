@@ -16,9 +16,9 @@ Napi::Object TrackerMOSSE(Napi::Env env, Napi::Object exports) {
 
   constructor.Reset(ctor);
   ctor->SetClassName(FF::newString(env, "TrackerMOSSE"));
-  instanceTemplate->SetInternalFieldCount(1);
 
-  Nan::Set(target, FF::newString(env, "TrackerMOSSE"), FF::getFunction(ctor));
+
+  (target).Set("TrackerMOSSE", FF::getFunction(ctor));
 };
 
 void TrackerMOSSE::New(const Napi::CallbackInfo& info) {
@@ -33,7 +33,7 @@ void TrackerMOSSE::New(const Napi::CallbackInfo& info) {
   self->tracker = cv::TrackerMOSSE::create();
 #endif
   self->Wrap(info.Holder());
-  info.GetReturnValue().Set(info.Holder());
+  return info.Holder();
 };
 
 #endif

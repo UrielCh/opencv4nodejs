@@ -12,13 +12,13 @@ Napi::Object DetectionROI(Napi::Env env, Napi::Object exports) {
 
   constructor.Reset(ctor);
   ctor->SetClassName(FF::newString(env, "DetectionROI"));
-  instanceTemplate->SetInternalFieldCount(1);
 
-  Nan::SetAccessor(instanceTemplate, FF::newString(env, "scale"), scale_getter, scale_setter);
-  Nan::SetAccessor(instanceTemplate, FF::newString(env, "locations"), locations_getter, locations_setter);
-  Nan::SetAccessor(instanceTemplate, FF::newString(env, "confidences"), confidences_getter, confidences_setter);
 
-  Nan::Set(target, FF::newString(env, "DetectionROI"), FF::getFunction(ctor));
+  Napi::SetAccessor(instanceTemplate, FF::newString(env, "scale"), scale_getter, scale_setter);
+  Napi::SetAccessor(instanceTemplate, FF::newString(env, "locations"), locations_getter, locations_setter);
+  Napi::SetAccessor(instanceTemplate, FF::newString(env, "confidences"), confidences_getter, confidences_setter);
+
+  (target).Set("DetectionROI", FF::getFunction(ctor));
 };
 
 void DetectionROI::New(const Napi::CallbackInfo& info) {
@@ -27,7 +27,7 @@ void DetectionROI::New(const Napi::CallbackInfo& info) {
   FF_ASSERT_CONSTRUCT_CALL();
   DetectionROI* self = new DetectionROI();
   self->Wrap(info.Holder());
-  info.GetReturnValue().Set(info.Holder());
+  return info.Holder();
 };
 
 #endif

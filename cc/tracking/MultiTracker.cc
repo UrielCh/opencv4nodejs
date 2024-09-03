@@ -14,25 +14,25 @@ Napi::Object MultiTracker(Napi::Env env, Napi::Object exports) {
 
   constructor.Reset(ctor);
   ctor->SetClassName(FF::newString(env, "MultiTracker"));
-  instanceTemplate->SetInternalFieldCount(1);
 
-  Nan::SetPrototypeMethod(ctor, "addMIL", MultiTracker::AddMIL);
-  Nan::SetPrototypeMethod(ctor, "addBOOSTING", MultiTracker::AddBOOSTING);
-  Nan::SetPrototypeMethod(ctor, "addMEDIANFLOW", MultiTracker::AddMEDIANFLOW);
-  Nan::SetPrototypeMethod(ctor, "addTLD", MultiTracker::AddTLD);
-  Nan::SetPrototypeMethod(ctor, "addKCF", MultiTracker::AddKCF);
+
+  Napi::SetPrototypeMethod(ctor, "addMIL", MultiTracker::AddMIL);
+  Napi::SetPrototypeMethod(ctor, "addBOOSTING", MultiTracker::AddBOOSTING);
+  Napi::SetPrototypeMethod(ctor, "addMEDIANFLOW", MultiTracker::AddMEDIANFLOW);
+  Napi::SetPrototypeMethod(ctor, "addTLD", MultiTracker::AddTLD);
+  Napi::SetPrototypeMethod(ctor, "addKCF", MultiTracker::AddKCF);
 #if CV_VERSION_GREATER_EQUAL(3, 4, 0)
-  Nan::SetPrototypeMethod(ctor, "addMOSSE", MultiTracker::AddTLD);
+  Napi::SetPrototypeMethod(ctor, "addMOSSE", MultiTracker::AddTLD);
 #endif
 #if CV_VERSION_GREATER_EQUAL(3, 4, 1)
-  Nan::SetPrototypeMethod(ctor, "addCSRT", MultiTracker::AddKCF);
+  Napi::SetPrototypeMethod(ctor, "addCSRT", MultiTracker::AddKCF);
 #endif
-  Nan::SetPrototypeMethod(ctor, "update", MultiTracker::Update);
+  Napi::SetPrototypeMethod(ctor, "update", MultiTracker::Update);
 
-  Nan::Set(target, FF::newString(env, "MultiTracker"), FF::getFunction(ctor));
+  (target).Set("MultiTracker", FF::getFunction(ctor));
 };
 
-void MultiTracker::New(const Napi::CallbackInfo& info) {
+Napi::Value MultiTracker::New(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "MultiTracker::New");
   FF_ASSERT_CONSTRUCT_CALL();
@@ -43,10 +43,10 @@ void MultiTracker::New(const Napi::CallbackInfo& info) {
   self->setNativeObject(cv::makePtr<cv::MultiTracker>());
 #endif
   self->Wrap(info.Holder());
-  info.GetReturnValue().Set(info.Holder());
+  return info.Holder();
 };
 
-void MultiTracker::AddMIL(const Napi::CallbackInfo& info) {
+Napi::Value MultiTracker::AddMIL(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "MultiTracker::AddMIL");
   cv::Mat image;
@@ -63,10 +63,10 @@ void MultiTracker::AddMIL(const Napi::CallbackInfo& info) {
   const std::string type("MIL");
 #endif
   bool ret = MultiTracker::unwrapSelf(info)->add(type, image, boundingBox);
-  info.GetReturnValue().Set(Nan::New(ret));
+  return Napi::Boolean::New(env, ret);
 }
 
-void MultiTracker::AddBOOSTING(const Napi::CallbackInfo& info) {
+Napi::Value MultiTracker::AddBOOSTING(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "MultiTracker::AddBOOSTING");
   cv::Mat image;
@@ -83,10 +83,10 @@ void MultiTracker::AddBOOSTING(const Napi::CallbackInfo& info) {
   const std::string type("BOOSTING");
 #endif
   bool ret = MultiTracker::unwrapSelf(info)->add(type, image, boundingBox);
-  info.GetReturnValue().Set(Nan::New(ret));
+  return Napi::Boolean::New(env, ret);
 }
 
-void MultiTracker::AddMEDIANFLOW(const Napi::CallbackInfo& info) {
+Napi::Value MultiTracker::AddMEDIANFLOW(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "MultiTracker::AddMEDIANFLOW");
   cv::Mat image;
@@ -103,10 +103,10 @@ void MultiTracker::AddMEDIANFLOW(const Napi::CallbackInfo& info) {
   const std::string type("MEDIANFLOW");
 #endif
   bool ret = MultiTracker::unwrapSelf(info)->add(type, image, boundingBox);
-  info.GetReturnValue().Set(Nan::New(ret));
+  return Napi::Boolean::New(env, ret);
 }
 
-void MultiTracker::AddTLD(const Napi::CallbackInfo& info) {
+Napi::Value MultiTracker::AddTLD(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "MultiTracker::AddTLD");
   cv::Mat image;
@@ -123,10 +123,10 @@ void MultiTracker::AddTLD(const Napi::CallbackInfo& info) {
   const std::string type("TLD");
 #endif
   bool ret = MultiTracker::unwrapSelf(info)->add(type, image, boundingBox);
-  info.GetReturnValue().Set(Nan::New(ret));
+  return Napi::Boolean::New(env, ret);
 }
 
-void MultiTracker::AddKCF(const Napi::CallbackInfo& info) {
+Napi::Value MultiTracker::AddKCF(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "MultiTracker::AddKCF");
   cv::Mat image;
@@ -143,10 +143,10 @@ void MultiTracker::AddKCF(const Napi::CallbackInfo& info) {
   const std::string type("KCF");
 #endif
   bool ret = MultiTracker::unwrapSelf(info)->add(type, image, boundingBox);
-  info.GetReturnValue().Set(Nan::New(ret));
+  return Napi::Boolean::New(env, ret);
 }
 
-void MultiTracker::Update(const Napi::CallbackInfo& info) {
+Napi::Value MultiTracker::Update(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "MultiTracker::Update");
   cv::Mat image;
@@ -156,11 +156,11 @@ void MultiTracker::Update(const Napi::CallbackInfo& info) {
 
   std::vector<cv::Rect2d> rects;
   MultiTracker::unwrapSelf(info)->update(image, rects);
-  info.GetReturnValue().Set(Rect::ArrayConverter::wrap(rects));
+  return Rect::ArrayConverter::wrap(rects);
 }
 #if CV_VERSION_GREATER_EQUAL(3, 4, 0)
 
-void MultiTracker::AddMOSSE(const Napi::CallbackInfo& info) {
+Napi::Value MultiTracker::AddMOSSE(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "MultiTracker::AddMOSSE");
   cv::Mat image;
@@ -175,13 +175,13 @@ void MultiTracker::AddMOSSE(const Napi::CallbackInfo& info) {
   cv::Ptr<cv::Tracker> type = cv::TrackerMOSSE::create();
 #endif
   bool ret = MultiTracker::unwrapSelf(info)->add(type, image, boundingBox);
-  info.GetReturnValue().Set(Nan::New(ret));
+  return Napi::Boolean::New(env, ret);
 }
 
 #endif
 #if CV_VERSION_GREATER_EQUAL(3, 4, 1)
 
-void MultiTracker::AddCSRT(const Napi::CallbackInfo& info) {
+Napi::Value MultiTracker::AddCSRT(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "MultiTracker::AddCSRT");
   cv::Mat image;
@@ -196,7 +196,7 @@ void MultiTracker::AddCSRT(const Napi::CallbackInfo& info) {
   cv::Ptr<cv::Tracker> type = cv::TrackerCSRT::create();
 #endif
   bool ret = MultiTracker::unwrapSelf(info)->add(type, image, boundingBox);
-  info.GetReturnValue().Set(Nan::New(ret));
+  return Napi::Boolean::New(env, ret);
 }
 #endif
 

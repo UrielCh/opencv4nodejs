@@ -37,40 +37,40 @@ Napi::Object Features2d(Napi::Env env, Napi::Object exports) {
   SimpleBlobDetector::Init(env, exports);
 
   Napi::Object agastTypes = Napi::Object::New(env);
-  FF_SET_JS_PROP(agastTypes, AGAST_5_8, Nan::New<v8::Integer>(cv::AgastFeatureDetector::AGAST_5_8));
-  FF_SET_JS_PROP(agastTypes, AGAST_7_12d, Nan::New<v8::Integer>(cv::AgastFeatureDetector::AGAST_7_12d));
-  FF_SET_JS_PROP(agastTypes, AGAST_7_12s, Nan::New<v8::Integer>(cv::AgastFeatureDetector::AGAST_7_12s));
-  FF_SET_JS_PROP(agastTypes, OAST_9_16, Nan::New<v8::Integer>(cv::AgastFeatureDetector::OAST_9_16));
-  FF_SET_JS_PROP(agastTypes, THRESHOLD, Nan::New<v8::Integer>(cv::AgastFeatureDetector::THRESHOLD));
-  FF_SET_JS_PROP(agastTypes, NONMAX_SUPPRESSION, Nan::New<v8::Integer>(cv::AgastFeatureDetector::NONMAX_SUPPRESSION));
+  FF_SET_JS_PROP(agastTypes, AGAST_5_8, Napi::Number::New(env, cv::AgastFeatureDetector::AGAST_5_8));
+  FF_SET_JS_PROP(agastTypes, AGAST_7_12d, Napi::Number::New(env, cv::AgastFeatureDetector::AGAST_7_12d));
+  FF_SET_JS_PROP(agastTypes, AGAST_7_12s, Napi::Number::New(env, cv::AgastFeatureDetector::AGAST_7_12s));
+  FF_SET_JS_PROP(agastTypes, OAST_9_16, Napi::Number::New(env, cv::AgastFeatureDetector::OAST_9_16));
+  FF_SET_JS_PROP(agastTypes, THRESHOLD, Napi::Number::New(env, cv::AgastFeatureDetector::THRESHOLD));
+  FF_SET_JS_PROP(agastTypes, NONMAX_SUPPRESSION, Napi::Number::New(env, cv::AgastFeatureDetector::NONMAX_SUPPRESSION));
   FF_SET_JS_PROP(target, "AGAST", agastTypes);
 
   Napi::Object akazeTypes = Napi::Object::New(env);
-  FF_SET_JS_PROP(akazeTypes, DESCRIPTOR_KAZE, Nan::New<v8::Integer>(cv::AKAZE::DESCRIPTOR_KAZE));
-  FF_SET_JS_PROP(akazeTypes, DESCRIPTOR_KAZE, Nan::New<v8::Integer>(cv::AKAZE::DESCRIPTOR_KAZE));
-  FF_SET_JS_PROP(akazeTypes, DESCRIPTOR_MLDB_UPRIGHT, Nan::New<v8::Integer>(cv::AKAZE::DESCRIPTOR_MLDB_UPRIGHT));
-  FF_SET_JS_PROP(akazeTypes, DESCRIPTOR_MLDB, Nan::New<v8::Integer>(cv::AKAZE::DESCRIPTOR_MLDB));
+  FF_SET_JS_PROP(akazeTypes, DESCRIPTOR_KAZE, Napi::Number::New(env, cv::AKAZE::DESCRIPTOR_KAZE));
+  FF_SET_JS_PROP(akazeTypes, DESCRIPTOR_KAZE, Napi::Number::New(env, cv::AKAZE::DESCRIPTOR_KAZE));
+  FF_SET_JS_PROP(akazeTypes, DESCRIPTOR_MLDB_UPRIGHT, Napi::Number::New(env, cv::AKAZE::DESCRIPTOR_MLDB_UPRIGHT));
+  FF_SET_JS_PROP(akazeTypes, DESCRIPTOR_MLDB, Napi::Number::New(env, cv::AKAZE::DESCRIPTOR_MLDB));
   FF_SET_JS_PROP(target, "AKAZE", akazeTypes);
 
   Napi::Object kazeTypes = Napi::Object::New(env);
-  FF_SET_JS_PROP(kazeTypes, DIFF_PM_G1, Nan::New<v8::Integer>(cv::KAZE::DIFF_PM_G1));
-  FF_SET_JS_PROP(kazeTypes, DIFF_PM_G2, Nan::New<v8::Integer>(cv::KAZE::DIFF_PM_G2));
-  FF_SET_JS_PROP(kazeTypes, DIFF_WEICKERT, Nan::New<v8::Integer>(cv::KAZE::DIFF_WEICKERT));
-  FF_SET_JS_PROP(kazeTypes, DIFF_CHARBONNIER, Nan::New<v8::Integer>(cv::KAZE::DIFF_CHARBONNIER));
+  FF_SET_JS_PROP(kazeTypes, DIFF_PM_G1, Napi::Number::New(env, cv::KAZE::DIFF_PM_G1));
+  FF_SET_JS_PROP(kazeTypes, DIFF_PM_G2, Napi::Number::New(env, cv::KAZE::DIFF_PM_G2));
+  FF_SET_JS_PROP(kazeTypes, DIFF_WEICKERT, Napi::Number::New(env, cv::KAZE::DIFF_WEICKERT));
+  FF_SET_JS_PROP(kazeTypes, DIFF_CHARBONNIER, Napi::Number::New(env, cv::KAZE::DIFF_CHARBONNIER));
   FF_SET_JS_PROP(target, "KAZE", kazeTypes);
 
   Napi::Object fastTypes = Napi::Object::New(env);
-  FF_SET_JS_PROP(fastTypes, TYPE_5_8, Nan::New<v8::Integer>(cv::FastFeatureDetector::TYPE_5_8));
-  FF_SET_JS_PROP(fastTypes, TYPE_7_12, Nan::New<v8::Integer>(cv::FastFeatureDetector::TYPE_7_12));
-  FF_SET_JS_PROP(fastTypes, TYPE_9_16, Nan::New<v8::Integer>(cv::FastFeatureDetector::TYPE_9_16));
-  FF_SET_JS_PROP(fastTypes, THRESHOLD, Nan::New<v8::Integer>(cv::FastFeatureDetector::THRESHOLD));
-  FF_SET_JS_PROP(fastTypes, NONMAX_SUPPRESSION, Nan::New<v8::Integer>(cv::FastFeatureDetector::NONMAX_SUPPRESSION));
+  FF_SET_JS_PROP(fastTypes, TYPE_5_8, Napi::Number::New(env, cv::FastFeatureDetector::TYPE_5_8));
+  FF_SET_JS_PROP(fastTypes, TYPE_7_12, Napi::Number::New(env, cv::FastFeatureDetector::TYPE_7_12));
+  FF_SET_JS_PROP(fastTypes, TYPE_9_16, Napi::Number::New(env, cv::FastFeatureDetector::TYPE_9_16));
+  FF_SET_JS_PROP(fastTypes, THRESHOLD, Napi::Number::New(env, cv::FastFeatureDetector::THRESHOLD));
+  FF_SET_JS_PROP(fastTypes, NONMAX_SUPPRESSION, Napi::Number::New(env, cv::FastFeatureDetector::NONMAX_SUPPRESSION));
   FF_SET_JS_PROP(target, "FAST", fastTypes);
 
   Napi::Object orbTypes = Napi::Object::New(env);
-  FF_SET_JS_PROP(orbTypes, HARRIS_SCORE, Nan::New<v8::Integer>(cv::ORB::HARRIS_SCORE));
-  FF_SET_JS_PROP(orbTypes, FAST_SCORE, Nan::New<v8::Integer>(cv::ORB::FAST_SCORE));
-  FF_SET_JS_PROP(orbTypes, kBytes, Nan::New<v8::Integer>(cv::ORB::kBytes));
+  FF_SET_JS_PROP(orbTypes, HARRIS_SCORE, Napi::Number::New(env, cv::ORB::HARRIS_SCORE));
+  FF_SET_JS_PROP(orbTypes, FAST_SCORE, Napi::Number::New(env, cv::ORB::FAST_SCORE));
+  FF_SET_JS_PROP(orbTypes, kBytes, Napi::Number::New(env, cv::ORB::kBytes));
   FF_SET_JS_PROP(target, "ORB", orbTypes);
 
   exports.Set("drawKeyPoints", Napi::Function::New(env, Features2d::DrawKeyPoints));
@@ -90,7 +90,7 @@ void Features2d::DrawKeyPoints(const Napi::CallbackInfo& info) {
 
   cv::Mat drawMat;
   cv::drawKeypoints(img, kps, drawMat);
-  info.GetReturnValue().Set(Mat::Converter::wrap(drawMat));
+  return Mat::Converter::wrap(drawMat);
 }
 
 void Features2d::DrawMatches(const Napi::CallbackInfo& info) {
@@ -107,7 +107,7 @@ void Features2d::DrawMatches(const Napi::CallbackInfo& info) {
 
   cv::Mat drawMat;
   cv::drawMatches(img1, kps1, img2, kps2, dMatches, drawMat);
-  info.GetReturnValue().Set(Mat::Converter::wrap(drawMat));
+  return Mat::Converter::wrap(drawMat);
 }
 
 #endif

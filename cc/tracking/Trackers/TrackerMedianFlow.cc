@@ -14,9 +14,9 @@ Napi::Object TrackerMedianFlow(Napi::Env env, Napi::Object exports) {
 
   constructor.Reset(ctor);
   ctor->SetClassName(FF::newString(env, "TrackerMedianFlow"));
-  instanceTemplate->SetInternalFieldCount(1);
 
-  Nan::Set(target, FF::newString(env, "TrackerMedianFlow"), FF::getFunction(ctor));
+
+  (target).Set("TrackerMedianFlow", FF::getFunction(ctor));
 };
 
 void TrackerMedianFlow::New(const Napi::CallbackInfo& info) {
@@ -31,7 +31,7 @@ void TrackerMedianFlow::New(const Napi::CallbackInfo& info) {
   cv::TrackerMedianFlow::Params params;
 #endif
   if (FF::hasArg(info, 0) && FF::IntConverterImpl::assertType(info[0])) {
-    params.pointsInGrid = info[0]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value();
+    params.pointsInGrid = info[0].ToInt32(Napi::GetCurrentContext())->Value();
   }
 
 #if CV_VERSION_GREATER_EQUAL(4, 5, 2)
@@ -43,7 +43,7 @@ void TrackerMedianFlow::New(const Napi::CallbackInfo& info) {
 #endif
 
   self->Wrap(info.Holder());
-  info.GetReturnValue().Set(info.Holder());
+  return info.Holder();
 };
 
 #endif

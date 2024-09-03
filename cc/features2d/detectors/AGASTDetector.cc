@@ -12,12 +12,12 @@ Napi::Object AGASTDetector(Napi::Env env, Napi::Object exports) {
 
   FeatureDetector::Init(ctor);
   constructor.Reset(ctor);
-  ctor->SetClassName(Nan::New("AGASTDetector").ToLocalChecked());
-  instanceTemplate->SetInternalFieldCount(1);
+  ctor->SetClassName(Napi::String::New(env, "AGASTDetector"));
 
-  Nan::SetAccessor(instanceTemplate, Nan::New("threshold").ToLocalChecked(), threshold_getter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("nonmaxSuppression").ToLocalChecked(), nonmaxSuppression_getter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("type").ToLocalChecked(), type_getter);
+
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "threshold"), threshold_getter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "nonmaxSuppression"), nonmaxSuppression_getter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "type"), type_getter);
 
   target.Set("AGASTDetector", FF::getFunction(ctor));
 #if CV_VERSION_GREATER_EQUAL(4, 0, 0)

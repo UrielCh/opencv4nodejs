@@ -9,7 +9,7 @@
 #ifndef __FF_TRACKER_H__
 #define __FF_TRACKER_H__
 
-class Tracker : public FF::ObjectWrapBase<Tracker>, public Nan::ObjectWrap {
+class Tracker : public FF::ObjectWrapBase<Tracker>, public Napi::ObjectWrap {
 public:
 #if CV_VERSION_GREATER_EQUAL(4, 5, 2)
   virtual cv::Ptr<cv::legacy::Tracker> getTracker() = 0;

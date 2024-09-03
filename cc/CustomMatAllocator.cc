@@ -103,7 +103,7 @@ void CustomMatAllocator::FixupJSMem() const {
 
     if (adjust) {
       // printf("will call Nan ajust by %d\n", (int)adjust);
-      Nan::AdjustExternalMemory(adjust);
+      Napi::AdjustExternalMemory(adjust);
       // printf("done ajust by %d\n", (int)adjust);
     }
   } else {

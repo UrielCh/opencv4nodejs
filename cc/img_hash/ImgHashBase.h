@@ -9,7 +9,7 @@
 #ifndef __FF_IMGHASHBASE_H__
 #define __FF_IMGHASHBASE_H__
 
-class ImgHashBase : public FF::ObjectWrapBase<ImgHashBase>, public Nan::ObjectWrap {
+class ImgHashBase : public FF::ObjectWrapBase<ImgHashBase>, public Napi::ObjectWrap {
 public:
   virtual cv::Ptr<cv::img_hash::ImgHashBase> getImgHashBase() = 0;
 

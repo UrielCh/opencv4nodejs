@@ -12,16 +12,16 @@ Napi::Object AKAZEDetector(Napi::Env env, Napi::Object exports) {
 
   FeatureDetector::Init(ctor);
   constructor.Reset(ctor);
-  ctor->SetClassName(Nan::New("AKAZEDetector").ToLocalChecked());
-  instanceTemplate->SetInternalFieldCount(1);
+  ctor->SetClassName(Napi::String::New(env, "AKAZEDetector"));
 
-  Nan::SetAccessor(instanceTemplate, Nan::New("descriptorType").ToLocalChecked(), descriptorType_getter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("descriptorSize").ToLocalChecked(), descriptorSize_getter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("descriptorChannels").ToLocalChecked(), descriptorChannels_getter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("threshold").ToLocalChecked(), threshold_getter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("nOctaves").ToLocalChecked(), nOctaves_getter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("nOctaveLayers").ToLocalChecked(), nOctaveLayers_getter);
-  Nan::SetAccessor(instanceTemplate, Nan::New("diffusivity").ToLocalChecked(), diffusivity_getter);
+
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "descriptorType"), descriptorType_getter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "descriptorSize"), descriptorSize_getter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "descriptorChannels"), descriptorChannels_getter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "threshold"), threshold_getter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "nOctaves"), nOctaves_getter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "nOctaveLayers"), nOctaveLayers_getter);
+  Napi::SetAccessor(instanceTemplate, Napi::String::New(env, "diffusivity"), diffusivity_getter);
 
   target.Set("AKAZEDetector", FF::getFunction(ctor));
 #if CV_VERSION_GREATER_EQUAL(4, 0, 0)

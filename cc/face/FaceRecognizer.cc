@@ -6,12 +6,12 @@
 #include "FaceRecognizerBindings.h"
 
 void FaceRecognizer::Init(Napi::FunctionReference ctor) {
-  Nan::SetPrototypeMethod(ctor, "train", Train);
-  Nan::SetPrototypeMethod(ctor, "trainAsync", TrainAsync);
-  Nan::SetPrototypeMethod(ctor, "predict", Predict);
-  Nan::SetPrototypeMethod(ctor, "predictAsync", PredictAsync);
-  Nan::SetPrototypeMethod(ctor, "save", Save);
-  Nan::SetPrototypeMethod(ctor, "load", Load);
+  InstanceMethod("train", &Train),
+  InstanceMethod("trainAsync", &TrainAsync),
+  InstanceMethod("predict", &Predict),
+  InstanceMethod("predictAsync", &PredictAsync),
+  InstanceMethod("save", &Save),
+  InstanceMethod("load", &Load),
 };
 
 void FaceRecognizer::Save(const Napi::CallbackInfo& info) {
@@ -21,7 +21,7 @@ void FaceRecognizer::Save(const Napi::CallbackInfo& info) {
   if (FF::StringConverter::arg(0, &path, info)) {
     return tryCatch.reThrow();
   }
-  Nan::ObjectWrap::Unwrap<FaceRecognizer>(info.This())->save(path);
+  info.This())->save(path.Unwrap<FaceRecognizer>();
 }
 
 void FaceRecognizer::Load(const Napi::CallbackInfo& info) {
@@ -32,7 +32,7 @@ void FaceRecognizer::Load(const Napi::CallbackInfo& info) {
   if (FF::StringConverter::arg(0, &path, info)) {
     return tryCatch.reThrow();
   }
-  Nan::ObjectWrap::Unwrap<FaceRecognizer>(info.This())->load(path);
+  info.This())->load(path.Unwrap<FaceRecognizer>();
 }
 
 void FaceRecognizer::Train(const Napi::CallbackInfo& info) {

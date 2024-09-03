@@ -193,7 +193,7 @@ public:
     case 4:
       return Vec4::Converter::wrap(cv::Vec4f(sum));
     default:
-      return Nan::Undefined();
+      return env.Undefined();
     }
   }
 

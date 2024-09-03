@@ -18,10 +18,10 @@ void CoreConstants::Init(Napi::Env env, Napi::Object exports) {
   FF_SET_CV_CONSTANT(target, KMEANS_USE_INITIAL_LABELS);
 
   Napi::Object termCriteriaTypes = Napi::Object::New(env);
-  FF_SET_JS_PROP(termCriteriaTypes, COUNT, Nan::New<v8::Integer>(cv::TermCriteria::COUNT));
-  FF_SET_JS_PROP(termCriteriaTypes, MAX_ITER, Nan::New<v8::Integer>(cv::TermCriteria::MAX_ITER));
-  FF_SET_JS_PROP(termCriteriaTypes, EPS, Nan::New<v8::Integer>(cv::TermCriteria::EPS));
-  Nan::Set(target, FF::newString(env, "termCriteria"), termCriteriaTypes);
+  FF_SET_JS_PROP(termCriteriaTypes, COUNT, Napi::Number::New(env, cv::TermCriteria::COUNT));
+  FF_SET_JS_PROP(termCriteriaTypes, MAX_ITER, Napi::Number::New(env, cv::TermCriteria::MAX_ITER));
+  FF_SET_JS_PROP(termCriteriaTypes, EPS, Napi::Number::New(env, cv::TermCriteria::EPS));
+  (target).Set("termCriteria", termCriteriaTypes);
 
   Napi::Object haarCascades = Napi::Object::New(env);
   FF_SET_CONST_WITH_VALUE(haarCascades, HAAR_EYE, FF::newString(env, "./haarcascade_eye.xml"));
@@ -41,7 +41,7 @@ void CoreConstants::Init(Napi::Env env, Napi::Object exports) {
   FF_SET_CONST_WITH_VALUE(haarCascades, HAAR_RUSSIAN_PLATE_NUMBER, FF::newString(env, "./haarcascade_russian_plate_number.xml"));
   FF_SET_CONST_WITH_VALUE(haarCascades, HAAR_SMILE, FF::newString(env, "./haarcascade_smile.xml"));
   FF_SET_CONST_WITH_VALUE(haarCascades, HAAR_UPPERBODY, FF::newString(env, "./haarcascade_upperbody.xml"));
-  Nan::Set(target, FF::newString(env, "haarCascades"), haarCascades);
+  (target).Set("haarCascades", haarCascades);
 
   Napi::Object lbpCascades = Napi::Object::New(env);
   FF_SET_CONST_WITH_VALUE(lbpCascades, LBP_FRONTALCATFACE, FF::newString(env, "./lbpcascade_frontalcatface.xml"));
@@ -49,7 +49,7 @@ void CoreConstants::Init(Napi::Env env, Napi::Object exports) {
   FF_SET_CONST_WITH_VALUE(lbpCascades, LBP_FRONTALFACE_IMPROVED, FF::newString(env, "./lbpcascade_frontalface_improved.xml"));
   FF_SET_CONST_WITH_VALUE(lbpCascades, LBP_PROFILEFACE, FF::newString(env, "./lbpcascade_profileface.xml"));
   FF_SET_CONST_WITH_VALUE(lbpCascades, LBP_SILVERWARE, FF::newString(env, "./lbpcascade_silverware.xml"));
-  Nan::Set(target, FF::newString(env, "lbpCascades"), lbpCascades);
+  (target).Set("lbpCascades", lbpCascades);
 
   FF_SET_CV_CONSTANT(target, REDUCE_SUM);
   FF_SET_CV_CONSTANT(target, REDUCE_AVG);

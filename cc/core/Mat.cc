@@ -25,7 +25,7 @@ namespace FF {
  */
 template <typename type, int n>
 static inline void matPutVal(cv::Mat mat, Napi::Value value, const cv::Vec<int, n>& idx) {
-  mat.at<type>(idx) = (type)value->ToNumber(Nan::GetCurrentContext()).ToLocalChecked()->Value();
+  mat.at<type>(idx) = (type)value->ToNumber(Napi::GetCurrentContext())->Value();
 }
 
 /**
@@ -34,10 +34,10 @@ static inline void matPutVal(cv::Mat mat, Napi::Value value, const cv::Vec<int, 
 
 template <typename type, int n>
 static inline void matPutVec2(cv::Mat mat, Napi::Value vector, const cv::Vec<int, n>& idx) {
-  v8::Local<v8::Array> vec = v8::Local<v8::Array>::Cast(vector);
+  Napi::Array vec = vector.As<Napi::Array>();
   mat.at<cv::Vec<type, 2>>(idx) = cv::Vec<type, 2>(
-      (type)FF::DoubleConverter::unwrapUnchecked(Nan::Get(vec, 0).ToLocalChecked()),
-      (type)FF::DoubleConverter::unwrapUnchecked(Nan::Get(vec, 1).ToLocalChecked()));
+      (type)FF::DoubleConverter::unwrapUnchecked((vec).Get(0)),
+      (type)FF::DoubleConverter::unwrapUnchecked((vec).Get(1)));
 }
 
 /**
@@ -46,11 +46,11 @@ static inline void matPutVec2(cv::Mat mat, Napi::Value vector, const cv::Vec<int
 
 template <typename type, int n>
 static inline void matPutVec3(cv::Mat mat, Napi::Value vector, const cv::Vec<int, n>& idx) {
-  v8::Local<v8::Array> vec = v8::Local<v8::Array>::Cast(vector);
+  Napi::Array vec = vector.As<Napi::Array>();
   mat.at<cv::Vec<type, 3>>(idx) = cv::Vec<type, 3>(
-      (type)FF::DoubleConverter::unwrapUnchecked(Nan::Get(vec, 0).ToLocalChecked()),
-      (type)FF::DoubleConverter::unwrapUnchecked(Nan::Get(vec, 1).ToLocalChecked()),
-      (type)FF::DoubleConverter::unwrapUnchecked(Nan::Get(vec, 2).ToLocalChecked()));
+      (type)FF::DoubleConverter::unwrapUnchecked((vec).Get(0)),
+      (type)FF::DoubleConverter::unwrapUnchecked((vec).Get(1)),
+      (type)FF::DoubleConverter::unwrapUnchecked((vec).Get(2)));
 }
 
 /**
@@ -59,43 +59,43 @@ static inline void matPutVec3(cv::Mat mat, Napi::Value vector, const cv::Vec<int
 
 template <typename type, int n>
 static inline void matPutVec4(cv::Mat mat, Napi::Value vector, const cv::Vec<int, n>& idx) {
-  v8::Local<v8::Array> vec = v8::Local<v8::Array>::Cast(vector);
+  Napi::Array vec = vector.As<Napi::Array>();
   mat.at<cv::Vec<type, 4>>(idx) = cv::Vec<type, 4>(
-      (type)FF::DoubleConverter::unwrapUnchecked(Nan::Get(vec, 0).ToLocalChecked()),
-      (type)FF::DoubleConverter::unwrapUnchecked(Nan::Get(vec, 1).ToLocalChecked()),
-      (type)FF::DoubleConverter::unwrapUnchecked(Nan::Get(vec, 2).ToLocalChecked()),
-      (type)FF::DoubleConverter::unwrapUnchecked(Nan::Get(vec, 3).ToLocalChecked()));
+      (type)FF::DoubleConverter::unwrapUnchecked((vec).Get(0)),
+      (type)FF::DoubleConverter::unwrapUnchecked((vec).Get(1)),
+      (type)FF::DoubleConverter::unwrapUnchecked((vec).Get(2)),
+      (type)FF::DoubleConverter::unwrapUnchecked((vec).Get(3)));
 }
 
 template <typename type, int n>
 static inline Napi::Value matGetVal(cv::Mat mat, cv::Vec<int, n>& idx) {
-  return Nan::New(mat.at<type>(idx));
+  return Napi::Number::New(env, mat.at<type>(idx));
 }
 
 template <typename type, int n>
 static inline Napi::Value matGetVec2(cv::Mat mat, const cv::Vec<int, n>& idx) {
-  v8::Local<v8::Array> vec = Nan::New<v8::Array>(2);
-  Nan::Set(vec, 0, Nan::New(mat.at<cv::Vec<type, 2>>(idx)[0]));
-  Nan::Set(vec, 1, Nan::New(mat.at<cv::Vec<type, 2>>(idx)[1]));
+  Napi::Array vec = Napi::Array::New(env, 2);
+  (vec).Set(0, Napi::Number::New(env, mat.at<cv::Vec<type, 2>>(idx)[0]));
+  (vec).Set(1, Napi::Number::New(env, mat.at<cv::Vec<type, 2>>(idx)[1]));
   return vec;
 }
 
 template <typename type, int n>
 static inline Napi::Value matGetVec3(cv::Mat mat, const cv::Vec<int, n>& idx) {
-  v8::Local<v8::Array> vec = Nan::New<v8::Array>(3);
-  Nan::Set(vec, 0, Nan::New(mat.at<cv::Vec<type, 3>>(idx)[0]));
-  Nan::Set(vec, 1, Nan::New(mat.at<cv::Vec<type, 3>>(idx)[1]));
-  Nan::Set(vec, 2, Nan::New(mat.at<cv::Vec<type, 3>>(idx)[2]));
+  Napi::Array vec = Napi::Array::New(env, 3);
+  (vec).Set(0, Napi::Number::New(env, mat.at<cv::Vec<type, 3>>(idx)[0]));
+  (vec).Set(1, Napi::Number::New(env, mat.at<cv::Vec<type, 3>>(idx)[1]));
+  (vec).Set(2, Napi::Number::New(env, mat.at<cv::Vec<type, 3>>(idx)[2]));
   return vec;
 }
 
 template <typename type, int n>
 static inline Napi::Value matGetVec4(cv::Mat mat, const cv::Vec<int, n>& idx) {
-  v8::Local<v8::Array> vec = Nan::New<v8::Array>(4);
-  Nan::Set(vec, 0, Nan::New(mat.at<cv::Vec<type, 4>>(idx)[0]));
-  Nan::Set(vec, 1, Nan::New(mat.at<cv::Vec<type, 4>>(idx)[1]));
-  Nan::Set(vec, 2, Nan::New(mat.at<cv::Vec<type, 4>>(idx)[2]));
-  Nan::Set(vec, 3, Nan::New(mat.at<cv::Vec<type, 4>>(idx)[3]));
+  Napi::Array vec = Napi::Array::New(env, 4);
+  (vec).Set(0, Napi::Number::New(env, mat.at<cv::Vec<type, 4>>(idx)[0]));
+  (vec).Set(1, Napi::Number::New(env, mat.at<cv::Vec<type, 4>>(idx)[1]));
+  (vec).Set(2, Napi::Number::New(env, mat.at<cv::Vec<type, 4>>(idx)[2]));
+  (vec).Set(3, Napi::Number::New(env, mat.at<cv::Vec<type, 4>>(idx)[3]));
   return vec;
 }
 
@@ -105,109 +105,109 @@ Napi::Object Mat(Napi::Env env, Napi::Object exports) {
 
   Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, Mat::New));
   constructor.Reset(ctor);
-  ctor->InstanceTemplate()->SetInternalFieldCount(1);
-  ctor->SetClassName(Nan::New("Mat").ToLocalChecked());
-  Nan::SetAccessor(ctor->InstanceTemplate(), Nan::New("rows").ToLocalChecked(), Mat::rows_getter);
-  Nan::SetAccessor(ctor->InstanceTemplate(), Nan::New("cols").ToLocalChecked(), Mat::cols_getter);
-  Nan::SetAccessor(ctor->InstanceTemplate(), Nan::New("type").ToLocalChecked(), Mat::type_getter);
-  Nan::SetAccessor(ctor->InstanceTemplate(), Nan::New("channels").ToLocalChecked(), Mat::channels_getter);
-  Nan::SetAccessor(ctor->InstanceTemplate(), Nan::New("dims").ToLocalChecked(), Mat::dims_getter);
-  Nan::SetAccessor(ctor->InstanceTemplate(), Nan::New("depth").ToLocalChecked(), Mat::depth_getter);
-  Nan::SetAccessor(ctor->InstanceTemplate(), Nan::New("empty").ToLocalChecked(), Mat::empty_getter);
-  Nan::SetAccessor(ctor->InstanceTemplate(), Nan::New("sizes").ToLocalChecked(), Mat::GetSizes);
-  Nan::SetAccessor(ctor->InstanceTemplate(), Nan::New("elemSize").ToLocalChecked(), Mat::GetElemSize);
-  Nan::SetAccessor(ctor->InstanceTemplate(), Nan::New("step").ToLocalChecked(), Mat::GetStep);
-  // Mat static metodas
-  Nan::SetMethod(ctor, "eye", Eye);
-  Nan::SetMethod(ctor, "ones", Ones);
-  Nan::SetMethod(ctor, "zeros", Zeros);
-  Nan::SetPrototypeMethod(ctor, "flattenFloat", FlattenFloat);
 
-  Nan::SetPrototypeMethod(ctor, "at", At);
-  Nan::SetPrototypeMethod(ctor, "atRaw", AtRaw);
-  Nan::SetPrototypeMethod(ctor, "set", Set);
-  Nan::SetPrototypeMethod(ctor, "setTo", SetTo);
-  Nan::SetPrototypeMethod(ctor, "setToAsync", SetToAsync);
-  Nan::SetPrototypeMethod(ctor, "push_back", PushBack);
-  Nan::SetPrototypeMethod(ctor, "push_backAsync", PushBackAsync);
-  Nan::SetPrototypeMethod(ctor, "pushBack", PushBack);
-  Nan::SetPrototypeMethod(ctor, "pushBackAsync", PushBackAsync);
-  Nan::SetPrototypeMethod(ctor, "pop_back", PopBack);
-  Nan::SetPrototypeMethod(ctor, "pop_backAsync", PopBackAsync);
-  Nan::SetPrototypeMethod(ctor, "popBack", PopBack);
-  Nan::SetPrototypeMethod(ctor, "popBackAsync", PopBackAsync);
-  Nan::SetPrototypeMethod(ctor, "getData", GetData);
-  Nan::SetPrototypeMethod(ctor, "getDataAsync", GetDataAsync);
-  Nan::SetPrototypeMethod(ctor, "getDataAsArray", GetDataAsArray);
-  Nan::SetPrototypeMethod(ctor, "setData", SetData);
-  Nan::SetPrototypeMethod(ctor, "getRegion", GetRegion);
-  Nan::SetPrototypeMethod(ctor, "row", Row);
-  Nan::SetPrototypeMethod(ctor, "rowRange", RowRange);
-  Nan::SetPrototypeMethod(ctor, "col", Col);
-  Nan::SetPrototypeMethod(ctor, "colRange", ColRange);
-  Nan::SetPrototypeMethod(ctor, "copy", Copy);
-  Nan::SetPrototypeMethod(ctor, "copyAsync", CopyAsync);
-  Nan::SetPrototypeMethod(ctor, "copyTo", CopyTo);
-  Nan::SetPrototypeMethod(ctor, "copyToAsync", CopyToAsync);
-  Nan::SetPrototypeMethod(ctor, "convertTo", ConvertTo);
-  Nan::SetPrototypeMethod(ctor, "convertToAsync", ConvertToAsync);
-  Nan::SetPrototypeMethod(ctor, "norm", Norm);
-  Nan::SetPrototypeMethod(ctor, "padToSquare", PadToSquare);
-  Nan::SetPrototypeMethod(ctor, "padToSquareAsync", PadToSquareAsync);
-  Nan::SetPrototypeMethod(ctor, "dct", Dct);
-  Nan::SetPrototypeMethod(ctor, "dctAsync", DctAsync);
-  Nan::SetPrototypeMethod(ctor, "idct", Idct);
-  Nan::SetPrototypeMethod(ctor, "idctAsync", IdctAsync);
-  Nan::SetPrototypeMethod(ctor, "dft", Dft);
-  Nan::SetPrototypeMethod(ctor, "dftAsync", DftAsync);
-  Nan::SetPrototypeMethod(ctor, "idft", Idft);
-  Nan::SetPrototypeMethod(ctor, "idftAsync", IdftAsync);
-  Nan::SetPrototypeMethod(ctor, "normalize", Normalize);
-  Nan::SetPrototypeMethod(ctor, "normalizeAsync", NormalizeAsync);
-  Nan::SetPrototypeMethod(ctor, "flip", Flip);
-  Nan::SetPrototypeMethod(ctor, "flipAsync", FlipAsync);
-  Nan::SetPrototypeMethod(ctor, "copyMakeBorder", CopyMakeBorder);
-  Nan::SetPrototypeMethod(ctor, "copyMakeBorderAsync", CopyMakeBorderAsync);
-  Nan::SetPrototypeMethod(ctor, "splitChannels", Split);
-  Nan::SetPrototypeMethod(ctor, "splitChannelsAsync", SplitAsync);
+  ctor->SetClassName(Napi::String::New(env, "Mat"));
+  Napi::SetAccessor(ctor->InstanceTemplate(), Napi::String::New(env, "rows"), Mat::rows_getter);
+  Napi::SetAccessor(ctor->InstanceTemplate(), Napi::String::New(env, "cols"), Mat::cols_getter);
+  Napi::SetAccessor(ctor->InstanceTemplate(), Napi::String::New(env, "type"), Mat::type_getter);
+  Napi::SetAccessor(ctor->InstanceTemplate(), Napi::String::New(env, "channels"), Mat::channels_getter);
+  Napi::SetAccessor(ctor->InstanceTemplate(), Napi::String::New(env, "dims"), Mat::dims_getter);
+  Napi::SetAccessor(ctor->InstanceTemplate(), Napi::String::New(env, "depth"), Mat::depth_getter);
+  Napi::SetAccessor(ctor->InstanceTemplate(), Napi::String::New(env, "empty"), Mat::empty_getter);
+  Napi::SetAccessor(ctor->InstanceTemplate(), Napi::String::New(env, "sizes"), Mat::GetSizes);
+  Napi::SetAccessor(ctor->InstanceTemplate(), Napi::String::New(env, "elemSize"), Mat::GetElemSize);
+  Napi::SetAccessor(ctor->InstanceTemplate(), Napi::String::New(env, "step"), Mat::GetStep);
+  // Mat static metodas
+  Napi::SetMethod(ctor, "eye", Eye);
+  Napi::SetMethod(ctor, "ones", Ones);
+  Napi::SetMethod(ctor, "zeros", Zeros);
+  InstanceMethod("flattenFloat", &FlattenFloat),
+
+  InstanceMethod("at", &At),
+  InstanceMethod("atRaw", &AtRaw),
+  InstanceMethod("set", &Set),
+  InstanceMethod("setTo", &SetTo),
+  InstanceMethod("setToAsync", &SetToAsync),
+  InstanceMethod("push_back", &PushBack),
+  InstanceMethod("push_backAsync", &PushBackAsync),
+  InstanceMethod("pushBack", &PushBack),
+  InstanceMethod("pushBackAsync", &PushBackAsync),
+  InstanceMethod("pop_back", &PopBack),
+  InstanceMethod("pop_backAsync", &PopBackAsync),
+  InstanceMethod("popBack", &PopBack),
+  InstanceMethod("popBackAsync", &PopBackAsync),
+  InstanceMethod("getData", &GetData),
+  InstanceMethod("getDataAsync", &GetDataAsync),
+  InstanceMethod("getDataAsArray", &GetDataAsArray),
+  InstanceMethod("setData", &SetData),
+  InstanceMethod("getRegion", &GetRegion),
+  InstanceMethod("row", &Row),
+  InstanceMethod("rowRange", &RowRange),
+  InstanceMethod("col", &Col),
+  InstanceMethod("colRange", &ColRange),
+  InstanceMethod("copy", &Copy),
+  InstanceMethod("copyAsync", &CopyAsync),
+  InstanceMethod("copyTo", &CopyTo),
+  InstanceMethod("copyToAsync", &CopyToAsync),
+  InstanceMethod("convertTo", &ConvertTo),
+  InstanceMethod("convertToAsync", &ConvertToAsync),
+  InstanceMethod("norm", &Norm),
+  InstanceMethod("padToSquare", &PadToSquare),
+  InstanceMethod("padToSquareAsync", &PadToSquareAsync),
+  InstanceMethod("dct", &Dct),
+  InstanceMethod("dctAsync", &DctAsync),
+  InstanceMethod("idct", &Idct),
+  InstanceMethod("idctAsync", &IdctAsync),
+  InstanceMethod("dft", &Dft),
+  InstanceMethod("dftAsync", &DftAsync),
+  InstanceMethod("idft", &Idft),
+  InstanceMethod("idftAsync", &IdftAsync),
+  InstanceMethod("normalize", &Normalize),
+  InstanceMethod("normalizeAsync", &NormalizeAsync),
+  InstanceMethod("flip", &Flip),
+  InstanceMethod("flipAsync", &FlipAsync),
+  InstanceMethod("copyMakeBorder", &CopyMakeBorder),
+  InstanceMethod("copyMakeBorderAsync", &CopyMakeBorderAsync),
+  InstanceMethod("splitChannels", &Split),
+  InstanceMethod("splitChannelsAsync", &SplitAsync),
 
 #if CV_VERSION_GREATER_EQUAL(3, 2, 0)
-  Nan::SetPrototypeMethod(ctor, "rotate", Rotate);
-  Nan::SetPrototypeMethod(ctor, "rotateAsync", RotateAsync);
+  InstanceMethod("rotate", &Rotate),
+  InstanceMethod("rotateAsync", &RotateAsync),
 #endif
 
-  Nan::SetPrototypeMethod(ctor, "release", Release);
+  InstanceMethod("release", &Release),
 
-  Nan::SetPrototypeMethod(ctor, "addWeighted", AddWeighted);
-  Nan::SetPrototypeMethod(ctor, "addWeightedAsync", AddWeightedAsync);
-  Nan::SetPrototypeMethod(ctor, "minMaxLoc", MinMaxLoc);
-  Nan::SetPrototypeMethod(ctor, "minMaxLocAsync", MinMaxLocAsync);
-  Nan::SetPrototypeMethod(ctor, "findNonZero", FindNonZero);
-  Nan::SetPrototypeMethod(ctor, "findNonZeroAsync", FindNonZeroAsync);
-  Nan::SetPrototypeMethod(ctor, "countNonZero", CountNonZero);
-  Nan::SetPrototypeMethod(ctor, "countNonZeroAsync", CountNonZeroAsync);
-  Nan::SetPrototypeMethod(ctor, "split", Split);
-  Nan::SetPrototypeMethod(ctor, "splitAsync", SplitAsync);
-  Nan::SetPrototypeMethod(ctor, "mulSpectrums", MulSpectrums);
-  Nan::SetPrototypeMethod(ctor, "mulSpectrumsAsync", MulSpectrumsAsync);
-  Nan::SetPrototypeMethod(ctor, "transform", Transform);
-  Nan::SetPrototypeMethod(ctor, "transformAsync", TransformAsync);
-  Nan::SetPrototypeMethod(ctor, "perspectiveTransform", PerspectiveTransform);
-  Nan::SetPrototypeMethod(ctor, "perspectiveTransformAsync", PerspectiveTransformAsync);
-  Nan::SetPrototypeMethod(ctor, "convertScaleAbs", ConvertScaleAbs);
-  Nan::SetPrototypeMethod(ctor, "convertScaleAbsAsync", ConvertScaleAbsAsync);
-  Nan::SetPrototypeMethod(ctor, "sum", Sum);
-  Nan::SetPrototypeMethod(ctor, "sumAsync", SumAsync);
-  Nan::SetPrototypeMethod(ctor, "mean", Mean);
-  Nan::SetPrototypeMethod(ctor, "meanAsync", MeanAsync);
-  Nan::SetPrototypeMethod(ctor, "meanStdDev", MeanStdDev);
-  Nan::SetPrototypeMethod(ctor, "meanStdDevAsync", MeanStdDevAsync);
-  Nan::SetPrototypeMethod(ctor, "reduce", Reduce);
-  Nan::SetPrototypeMethod(ctor, "reduceAsync", ReduceAsync);
-  Nan::SetPrototypeMethod(ctor, "eigen", Eigen);
-  Nan::SetPrototypeMethod(ctor, "eigenAsync", EigenAsync);
-  Nan::SetPrototypeMethod(ctor, "solve", Solve);
-  Nan::SetPrototypeMethod(ctor, "solveAsync", SolveAsync);
+  InstanceMethod("addWeighted", &AddWeighted),
+  InstanceMethod("addWeightedAsync", &AddWeightedAsync),
+  InstanceMethod("minMaxLoc", &MinMaxLoc),
+  InstanceMethod("minMaxLocAsync", &MinMaxLocAsync),
+  InstanceMethod("findNonZero", &FindNonZero),
+  InstanceMethod("findNonZeroAsync", &FindNonZeroAsync),
+  InstanceMethod("countNonZero", &CountNonZero),
+  InstanceMethod("countNonZeroAsync", &CountNonZeroAsync),
+  InstanceMethod("split", &Split),
+  InstanceMethod("splitAsync", &SplitAsync),
+  InstanceMethod("mulSpectrums", &MulSpectrums),
+  InstanceMethod("mulSpectrumsAsync", &MulSpectrumsAsync),
+  InstanceMethod("transform", &Transform),
+  InstanceMethod("transformAsync", &TransformAsync),
+  InstanceMethod("perspectiveTransform", &PerspectiveTransform),
+  InstanceMethod("perspectiveTransformAsync", &PerspectiveTransformAsync),
+  InstanceMethod("convertScaleAbs", &ConvertScaleAbs),
+  InstanceMethod("convertScaleAbsAsync", &ConvertScaleAbsAsync),
+  InstanceMethod("sum", &Sum),
+  InstanceMethod("sumAsync", &SumAsync),
+  InstanceMethod("mean", &Mean),
+  InstanceMethod("meanAsync", &MeanAsync),
+  InstanceMethod("meanStdDev", &MeanStdDev),
+  InstanceMethod("meanStdDevAsync", &MeanStdDevAsync),
+  InstanceMethod("reduce", &Reduce),
+  InstanceMethod("reduceAsync", &ReduceAsync),
+  InstanceMethod("eigen", &Eigen),
+  InstanceMethod("eigenAsync", &EigenAsync),
+  InstanceMethod("solve", &Solve),
+  InstanceMethod("solveAsync", &SolveAsync),
 
   FF_PROTO_SET_MAT_OPERATIONS(ctor);
 
@@ -230,9 +230,9 @@ Napi::Object Mat(Napi::Env env, Napi::Object exports) {
 // only used in Mat::At and Mat::AtRaw
 #define FF_MAT_AT(mat, val, get)                                                                                                                                                                                                      \
   if (mat.dims > 2)                                                                                                                                                                                                                   \
-    val = get(mat, info[0]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value(), info[1]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value(), info[2]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value()); \
+    val = get(mat, info[0].ToInt32(Napi::GetCurrentContext())->Value(), info[1].ToInt32(Napi::GetCurrentContext())->Value(), info[2].ToInt32(Napi::GetCurrentContext())->Value()); \
   else                                                                                                                                                                                                                                \
-    val = get(mat, info[0]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value(), info[1]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value());
+    val = get(mat, info[0].ToInt32(Napi::GetCurrentContext())->Value(), info[1].ToInt32(Napi::GetCurrentContext())->Value());
 
 // only used in Mat::At
 #define FF_MAT_AT_ARRAY(mat, val, get)               \
@@ -248,9 +248,9 @@ Napi::Object Mat(Napi::Env env, Napi::Object exports) {
 // only used in Mat::Set
 #define FF_MAT_SET(mat, val, put)                                                                                                                                                                                                    \
   if (mat.dims > 2)                                                                                                                                                                                                                  \
-    put(mat, val, info[0]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value(), info[1]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value(), info[2]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value()); \
+    put(mat, val, info[0].ToInt32(Napi::GetCurrentContext())->Value(), info[1].ToInt32(Napi::GetCurrentContext())->Value(), info[2].ToInt32(Napi::GetCurrentContext())->Value()); \
   else                                                                                                                                                                                                                               \
-    put(mat, val, info[0]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value(), info[1]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value());
+    put(mat, val, info[0].ToInt32(Napi::GetCurrentContext())->Value(), info[1].ToInt32(Napi::GetCurrentContext())->Value());
 
 // only used in Mat::New
 #define FF_MAT_FILL(mat, vec, put)       \
@@ -363,9 +363,9 @@ Napi::Object Mat(Napi::Env env, Napi::Object exports) {
 // only used in Mat::New
 #define FF_MAT_FROM_JS_ARRAY_2D(mat, rowArray, put)                                                     \
   for (int r = 0; r < mat.rows; r++) {                                                                  \
-    v8::Local<v8::Array> colArray = v8::Local<v8::Array>::Cast(Nan::Get(rowArray, r).ToLocalChecked()); \
+    Napi::Array colArray = (rowArray).Get(r.As<Napi::Array>()); \
     for (int c = 0; c < mat.cols; c++) {                                                                \
-      put(mat, Nan::Get(colArray, c).ToLocalChecked(), r, c);                                           \
+      put(mat, (colArray).Get(c), r, c);                                           \
     }                                                                                                   \
   }
 
@@ -374,11 +374,11 @@ Napi::Object Mat(Napi::Env env, Napi::Object exports) {
     cv::MatSize sizes = mat.size;                                                                                  \
     cv::Vec3i cur = cv::Vec3b(0, 0, 0);                                                                            \
     for (cur[0] = 0; cur[0] < sizes[0]; cur[0]++) {                                                                \
-      v8::Local<v8::Array> colArray1 = v8::Local<v8::Array>::Cast(Nan::Get(rowArray, cur[0]).ToLocalChecked());    \
+      Napi::Array colArray1 = (rowArray).Get(cur[0].As<Napi::Array>());    \
       for (cur[1] = 0; cur[1] < sizes[1]; cur[1]++) {                                                              \
-        v8::Local<v8::Array> colArray2 = v8::Local<v8::Array>::Cast(Nan::Get(colArray1, cur[1]).ToLocalChecked()); \
+        Napi::Array colArray2 = (colArray1).Get(cur[1].As<Napi::Array>()); \
         for (cur[2] = 0; cur[2] < sizes[2]; cur[2]++) {                                                            \
-          put(mat, Nan::Get(colArray2, cur[2]).ToLocalChecked(), cur);                                             \
+          put(mat, (colArray2).Get(cur[2]), cur);                                             \
         }                                                                                                          \
       }                                                                                                            \
     }                                                                                                              \
@@ -394,13 +394,13 @@ Napi::Object Mat(Napi::Env env, Napi::Object exports) {
     cv::MatSize sizes = mat.size;                                                                                    \
     cv::Vec4i cur = cv::Vec4i(0, 0, 0, 0);                                                                           \
     for (cur[0] = 0; cur[0] < sizes[0]; cur[0]++) {                                                                  \
-      v8::Local<v8::Array> colArray1 = v8::Local<v8::Array>::Cast(Nan::Get(rowArray, cur[0]).ToLocalChecked());      \
+      Napi::Array colArray1 = (rowArray).Get(cur[0].As<Napi::Array>());      \
       for (cur[1] = 0; cur[1] < sizes[1]; cur[1]++) {                                                                \
-        v8::Local<v8::Array> colArray2 = v8::Local<v8::Array>::Cast(Nan::Get(colArray1, cur[1]).ToLocalChecked());   \
+        Napi::Array colArray2 = (colArray1).Get(cur[1].As<Napi::Array>());   \
         for (cur[2] = 0; cur[2] < sizes[2]; cur[2]++) {                                                              \
-          v8::Local<v8::Array> colArray3 = v8::Local<v8::Array>::Cast(Nan::Get(colArray2, cur[2]).ToLocalChecked()); \
+          Napi::Array colArray3 = (colArray2).Get(cur[2].As<Napi::Array>()); \
           for (cur[3] = 0; cur[3] < sizes[3]; cur[3]++) {                                                            \
-            put(mat, Nan::Get(colArray3, cur[3]).ToLocalChecked(), cur);                                             \
+            put(mat, (colArray3).Get(cur[3]), cur);                                             \
           }                                                                                                          \
         }                                                                                                            \
       }                                                                                                              \
@@ -412,15 +412,15 @@ Napi::Object Mat(Napi::Env env, Napi::Object exports) {
     cv::MatSize sizes = mat.size;                                                                                      \
     cv::Vec4i cur = cv::Vec5b(0, 0, 0, 0, 0);                                                                          \
     for (cur[0] = 0; cur[0] < sizes[0]; cur[0]++) {                                                                    \
-      v8::Local<v8::Array> colArray1 = v8::Local<v8::Array>::Cast(Nan::Get(rowArray, cur[0]).ToLocalChecked());        \
+      Napi::Array colArray1 = (rowArray).Get(cur[0].As<Napi::Array>());        \
       for (cur[1] = 0; cur[1] < sizes[1]; cur[1]++) {                                                                  \
-        v8::Local<v8::Array> colArray2 = v8::Local<v8::Array>::Cast(Nan::Get(colArray1, cur[1]).ToLocalChecked());     \
+        Napi::Array colArray2 = (colArray1).Get(cur[1].As<Napi::Array>());     \
         for (cur[2] = 0; cur[2] < sizes[2]; cur[2]++) {                                                                \
-          v8::Local<v8::Array> colArray3 = v8::Local<v8::Array>::Cast(Nan::Get(colArray2, cur[2]).ToLocalChecked());   \
+          Napi::Array colArray3 = (colArray2).Get(cur[2].As<Napi::Array>());   \
           for (cur[3] = 0; cur[3] < sizes[3]; cur[3]++) {                                                              \
-            v8::Local<v8::Array> colArray4 = v8::Local<v8::Array>::Cast(Nan::Get(colArray3, cur[3]).ToLocalChecked()); \
+            Napi::Array colArray4 = (colArray3).Get(cur[3].As<Napi::Array>()); \
             for (cur[4] = 0; cur[4] < sizes[4]; cur[4]++) {                                                            \
-              put(mat, Nan::Get(colArray4, cur[4]).ToLocalChecked(), cur);                                             \
+              put(mat, (colArray4).Get(cur[4]), cur);                                             \
             }                                                                                                          \
           }                                                                                                            \
         }                                                                                                              \
@@ -439,11 +439,11 @@ void Mat::New(const Napi::CallbackInfo& info) {
   // prepare debug for next big release
   //  std::cout << "New Mat: args: " << info.Length() << std::endl;
   if (info.Length() == 1 && info[0].IsArray()) {
-    v8::Local<v8::Array> jsChannelMats = v8::Local<v8::Array>::Cast(info[0]);
+    Napi::Array jsChannelMats = info[0].As<Napi::Array>();
     std::vector<cv::Mat> channels;
     for (uint i = 0; i < jsChannelMats->Length(); i++) {
-      Napi::Object jsChannelMat = Nan::To<v8::Object>(Nan::Get(jsChannelMats, i).ToLocalChecked()).ToLocalChecked();
-      if (!Nan::New(Mat::constructor)->HasInstance(jsChannelMat)) {
+      Napi::Object jsChannelMat = (jsChannelMats).Get(i.To<Napi::Object>());
+      if (!Napi::New(env, Mat::constructor)->HasInstance(jsChannelMat)) {
         return tryCatch.throwError("expected channel " + std::to_string(i) + " to be an instance of Mat");
       }
       cv::Mat channelMat = Mat::Converter::unwrapUnchecked(jsChannelMat);
@@ -465,18 +465,18 @@ void Mat::New(const Napi::CallbackInfo& info) {
    * constructor(dataArray: number[][], type: number);
    * constructor(dataArray: number[][][], type: number);
    */
-  else if (info.Length() == 2 && info[0].IsArray() && info[1].IsInt32()) {
+  else if (info.Length() == 2 && info[0].IsArray() && info[1].IsNumber()) {
     // get Type
-    int type = info[1]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value();
+    int type = info[1].ToInt32(Napi::GetCurrentContext())->Value();
     // get channel count
     int channel = (type >> CV_CN_SHIFT) + 1;
 
     // check data concistency
-    v8::Local<v8::Array> rowArray0 = v8::Local<v8::Array>::Cast(info[0]);
+    Napi::Array rowArray0 = info[0].As<Napi::Array>();
     int dim = 1;
-    while (Nan::Get(rowArray0, 0).ToLocalChecked()->IsArray()) {
+    while ((rowArray0).Get(0)->IsArray()) {
       dim = dim + 1;
-      rowArray0 = v8::Local<v8::Array>::Cast(Nan::Get(rowArray0, 0).ToLocalChecked());
+      rowArray0 = (rowArray0).Get(0.As<Napi::Array>());
     }
     // if multishanel drop one dimmention
     if (channel > 1)
@@ -484,12 +484,12 @@ void Mat::New(const Napi::CallbackInfo& info) {
     // std::cout << "Create a Mat of " << dim << " dimentions eatch item has " << channel << " channel(s)." << std::endl;
 
     // reset row0
-    rowArray0 = v8::Local<v8::Array>::Cast(info[0]);
+    rowArray0 = info[0].As<Napi::Array>();
     if (dim == 1) {
       // tak first argument as dim array;
       std::vector<int> sizes(rowArray0->Length());
       for (int i = 0; i < (int)rowArray0->Length(); i++) {
-        sizes[i] = (int)FF::DoubleConverter::unwrapUnchecked(Nan::Get(rowArray0, i).ToLocalChecked());
+        sizes[i] = (int)FF::DoubleConverter::unwrapUnchecked((rowArray0).Get(i));
       }
       cv::Mat mat = cv::Mat(sizes, type);
       self->setNativeObject(mat);
@@ -498,9 +498,9 @@ void Mat::New(const Napi::CallbackInfo& info) {
       long rows = rowArray0->Length();
       long numCols = -1;
       for (long i = 0; i < rows; i++) {
-        if (!Nan::Get(rowArray0, i).ToLocalChecked()->IsArray())
+        if (!(rowArray0).Get(i)->IsArray())
           return tryCatch.throwError("Column should be an array, at column: " + std::to_string(i));
-        v8::Local<v8::Array> colArray = v8::Local<v8::Array>::Cast(Nan::Get(rowArray0, i).ToLocalChecked());
+        Napi::Array colArray = (rowArray0).Get(i.As<Napi::Array>());
         if (numCols == -1)
           numCols = colArray->Length();
         else if (numCols != colArray->Length())
@@ -513,17 +513,17 @@ void Mat::New(const Napi::CallbackInfo& info) {
     } else if (dim == 3) {
       std::vector<int> sizes = {(int)rowArray0->Length(), -1, -1};
       for (int i = 0; i < sizes[0]; i++) {
-        if (!Nan::Get(rowArray0, i).ToLocalChecked()->IsArray())
+        if (!(rowArray0).Get(i)->IsArray())
           return tryCatch.throwError("Column should be an array, at column: " + std::to_string(i));
-        v8::Local<v8::Array> rowArray1 = v8::Local<v8::Array>::Cast(Nan::Get(rowArray0, i).ToLocalChecked());
+        Napi::Array rowArray1 = (rowArray0).Get(i.As<Napi::Array>());
         if (sizes[1] == -1)
           sizes[1] = rowArray1->Length();
         else if (sizes[1] != (int)rowArray1->Length())
           return tryCatch.throwError("Mat cols must be of uniform length, at column: " + std::to_string(i));
         for (int j = 0; j < sizes[1]; j++) {
-          if (!Nan::Get(rowArray1, j).ToLocalChecked()->IsArray())
+          if (!(rowArray1).Get(j)->IsArray())
             return tryCatch.throwError("Column should be an array, at column: " + std::to_string(i) + ", " + std::to_string(j));
-          v8::Local<v8::Array> rowArray2 = v8::Local<v8::Array>::Cast(Nan::Get(rowArray1, j).ToLocalChecked());
+          Napi::Array rowArray2 = (rowArray1).Get(j.As<Napi::Array>());
           if (sizes[2] == -1)
             sizes[2] = rowArray2->Length();
           else if (sizes[2] != (int)rowArray2->Length())
@@ -536,30 +536,30 @@ void Mat::New(const Napi::CallbackInfo& info) {
       self->setNativeObject(mat);
     } else if (dim == 4) {
       std::vector<int> sizes = {(int)rowArray0->Length(), -1, -1, -1};
-      std::vector<v8::Local<v8::Array>> arrs(4);
+      std::vector<Napi::Array> arrs(4);
       cv::Vec3i cur = cv::Vec3i(0, 0, 0);
 
       arrs[0] = rowArray0;
       for (cur[0] = 0; cur[0] < sizes[0]; cur[0]++) {
-        if (!Nan::Get(arrs[0], cur[0]).ToLocalChecked()->IsArray())
+        if (!(arrs[0]).Get(cur[0])->IsArray())
           return tryCatch.throwError("All array in dimension 1 should be array, at position: " + std::to_string(cur[0]));
-        arrs[1] = v8::Local<v8::Array>::Cast(Nan::Get(arrs[0], cur[0]).ToLocalChecked());
+        arrs[1] = (arrs[0]).Get(cur[0].As<Napi::Array>());
         if (sizes[1] == -1)
           sizes[1] = arrs[1]->Length();
         else if (sizes[1] != (int)arrs[1]->Length())
           return tryCatch.throwError("Mat cols must be of uniform length, at column: " + std::to_string(cur[0]) + " find " + std::to_string(arrs[1]->Length()) + " expecting " + std::to_string(sizes[1]));
         for (cur[1] = 0; cur[1] < sizes[1]; cur[1]++) {
-          if (!Nan::Get(arrs[1], cur[1]).ToLocalChecked()->IsArray())
+          if (!(arrs[1]).Get(cur[1])->IsArray())
             return tryCatch.throwError("All array in dimension 2 should be array, at position:" + std::to_string(cur[0]) + ", " + std::to_string(cur[1]));
-          arrs[2] = v8::Local<v8::Array>::Cast(Nan::Get(arrs[1], cur[1]).ToLocalChecked());
+          arrs[2] = (arrs[1]).Get(cur[1].As<Napi::Array>());
           if (sizes[2] == -1)
             sizes[2] = arrs[2]->Length();
           else if (sizes[2] != (int)arrs[2]->Length())
             return tryCatch.throwError("Mat cols must be of uniform length, at column: " + std::to_string(cur[0]) + ", " + std::to_string(cur[1]) + " find " + std::to_string(arrs[2]->Length()) + " expecting " + std::to_string(sizes[2]));
           for (cur[2] = 0; cur[2] < sizes[2]; cur[2]++) {
-            if (!Nan::Get(arrs[2], cur[2]).ToLocalChecked()->IsArray())
+            if (!(arrs[2]).Get(cur[2])->IsArray())
               return tryCatch.throwError("All array in dimension 3 should be array, at position: " + std::to_string(cur[0]) + ", " + std::to_string(cur[1]) + "," + std::to_string(cur[2]));
-            arrs[3] = v8::Local<v8::Array>::Cast(Nan::Get(arrs[2], cur[2]).ToLocalChecked());
+            arrs[3] = (arrs[2]).Get(cur[2].As<Napi::Array>());
             if (sizes[3] == -1)
               sizes[3] = arrs[3]->Length();
             else if (sizes[3] != (int)arrs[3]->Length())
@@ -579,16 +579,16 @@ void Mat::New(const Napi::CallbackInfo& info) {
    * constructor(rows: number, cols: number, type: number, fillValue?: number | number[]);
    * constructor(rows: number, cols: number, type: number, data: Buffer, step?: number);
    */
-  else if (info[0].IsNumber() && info[1].IsNumber() && info[2].IsInt32()) {
-    int type = info[2]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value();
+  else if (info[0].IsNumber() && info[1].IsNumber() && info[2].IsNumber()) {
+    int type = info[2].ToInt32(Napi::GetCurrentContext())->Value();
     if (info.Length() == 3 || info[3].IsArray() || info[3].IsNumber()) {
 
-      cv::Mat mat(info[0]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value(), info[1]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value(), type);
+      cv::Mat mat(info[0].ToInt32(Napi::GetCurrentContext())->Value(), info[1].ToInt32(Napi::GetCurrentContext())->Value(), type);
 
       /* fill vector */
       // TODO by Vec
       if (info[3].IsArray()) {
-        v8::Local<v8::Array> vec = v8::Local<v8::Array>::Cast(info[3]);
+        Napi::Array vec = info[3].As<Napi::Array>();
         if (mat.channels() != (long)vec->Length()) {
           return tryCatch.throwError(
               std::string("Mat::New - number of channels (") + std::to_string(mat.channels())
@@ -601,20 +601,20 @@ void Mat::New(const Napi::CallbackInfo& info) {
       }
       self->setNativeObject(mat);
     } else if (info[3].IsObject()) {
-      char* data = static_cast<char*>(node::Buffer::Data(info[3]->ToObject(Nan::GetCurrentContext()).ToLocalChecked()));
+      char* data = static_cast<char*>(info[3].ToObject(Napi::GetCurrentContext(.As<Napi::Buffer<char>>().Data())));
       if (info[4].IsNumber()) {
-        int step = info[4]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value();
+        int step = info[4].ToInt32(Napi::GetCurrentContext())->Value();
         cv::Mat mat(
-            info[0]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value(),
-            info[1]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value(),
+            info[0].ToInt32(Napi::GetCurrentContext())->Value(),
+            info[1].ToInt32(Napi::GetCurrentContext())->Value(),
             type,
             data,
             step);
         self->setNativeObject(mat);
       } else {
         cv::Mat mat(
-            info[0]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value(),
-            info[1]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value(),
+            info[0].ToInt32(Napi::GetCurrentContext())->Value(),
+            info[1].ToInt32(Napi::GetCurrentContext())->Value(),
             type,
             data);
         self->setNativeObject(mat);
@@ -624,10 +624,10 @@ void Mat::New(const Napi::CallbackInfo& info) {
   /* raw data, row, col, type
    * constructor(data: Buffer, rows: number, cols: number, type?: number);
    */
-  else if (info.Length() == 4 && info[1].IsNumber() && info[2].IsNumber() && info[3].IsInt32()) {
-    int type = info[3]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value();
-    char* data = static_cast<char*>(node::Buffer::Data(info[0]->ToObject(Nan::GetCurrentContext()).ToLocalChecked()));
-    cv::Mat mat(info[1]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value(), info[2]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value(), type);
+  else if (info.Length() == 4 && info[1].IsNumber() && info[2].IsNumber() && info[3].IsNumber()) {
+    int type = info[3].ToInt32(Napi::GetCurrentContext())->Value();
+    char* data = static_cast<char*>(info[0].ToObject(Napi::GetCurrentContext(.As<Napi::Buffer<char>>().Data())));
+    cv::Mat mat(info[1].ToInt32(Napi::GetCurrentContext())->Value(), info[2].ToInt32(Napi::GetCurrentContext())->Value(), type);
     size_t size = mat.rows * mat.cols * mat.elemSize();
     memcpy(mat.data, data, size);
     self->setNativeObject(mat);
@@ -639,7 +639,7 @@ void Mat::New(const Napi::CallbackInfo& info) {
   // so a good place to rationalise memory
   ExternalMemTracking::onMatAllocated();
 
-  info.GetReturnValue().Set(info.Holder());
+  return info.Holder();
 }
 
 void Mat::Eye(const Napi::CallbackInfo& info) {
@@ -650,7 +650,7 @@ void Mat::Eye(const Napi::CallbackInfo& info) {
       FF::IntConverter::arg(0, &rows, info) || FF::IntConverter::arg(1, &cols, info) || FF::IntConverter::arg(2, &type, info)) {
     return tryCatch.reThrow();
   }
-  info.GetReturnValue().Set(Mat::Converter::wrap(cv::Mat::eye(cv::Size(cols, rows), type)));
+  return Mat::Converter::wrap(cv::Mat::eye(cv::Size(cols, rows), type));
 }
 
 void Mat::Ones(const Napi::CallbackInfo& info) {
@@ -661,7 +661,7 @@ void Mat::Ones(const Napi::CallbackInfo& info) {
       FF::IntConverter::arg(0, &rows, info) || FF::IntConverter::arg(1, &cols, info) || FF::IntConverter::arg(2, &type, info)) {
     return tryCatch.reThrow();
   }
-  info.GetReturnValue().Set(Mat::Converter::wrap(cv::Mat::ones(cv::Size(cols, rows), type)));
+  return Mat::Converter::wrap(cv::Mat::ones(cv::Size(cols, rows), type));
 }
 
 void Mat::Zeros(const Napi::CallbackInfo& info) {
@@ -672,7 +672,7 @@ void Mat::Zeros(const Napi::CallbackInfo& info) {
       FF::IntConverter::arg(0, &rows, info) || FF::IntConverter::arg(1, &cols, info) || FF::IntConverter::arg(2, &type, info)) {
     return tryCatch.reThrow();
   }
-  info.GetReturnValue().Set(Mat::Converter::wrap(cv::Mat::zeros(cv::Size(cols, rows), type)));
+  return Mat::Converter::wrap(cv::Mat::zeros(cv::Size(cols, rows), type));
 }
 
 void Mat::FlattenFloat(const Napi::CallbackInfo& info) {
@@ -686,7 +686,7 @@ void Mat::FlattenFloat(const Napi::CallbackInfo& info) {
 
   cv::Mat matSelf = Mat::unwrapSelf(info);
   cv::Mat mat2D(rows, cols, CV_32F, matSelf.ptr<float>());
-  info.GetReturnValue().Set(Mat::Converter::wrap(mat2D));
+  return Mat::Converter::wrap(mat2D);
 }
 
 void Mat::At(const Napi::CallbackInfo& info) {
@@ -697,32 +697,32 @@ void Mat::At(const Napi::CallbackInfo& info) {
   Napi::Value val;
   Napi::Value jsVal;
   if (info[0].IsArray()) {
-    if ((long)v8::Local<v8::Array>::Cast(info[0])->Length() != matSelf.dims) {
-      tryCatch.throwError("expected array length to be equal to the dims, get " + std::to_string((long)v8::Local<v8::Array>::Cast(info[0])->Length()) + " expecting " + std::to_string(matSelf.dims));
+    if ((long)info[0].As<Napi::Array>()->Length() != matSelf.dims) {
+      tryCatch.throwError("expected array length to be equal to the dims, get " + std::to_string((long)info[0].As<Napi::Array>()->Length()) + " expecting " + std::to_string(matSelf.dims));
     }
     FF_MAT_APPLY_TYPED_OPERATOR(matSelf, val, matSelf.type(), FF_MAT_AT_ARRAY, FF::matGet);
   } else {
-    FF_ASSERT_INDEX_RANGE(info[0]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value(), matSelf.size[0] - 1, "Mat::At row");
-    FF_ASSERT_INDEX_RANGE(info[1]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value(), matSelf.size[1] - 1, "Mat::At col");
+    FF_ASSERT_INDEX_RANGE(info[0].ToInt32(Napi::GetCurrentContext())->Value(), matSelf.size[0] - 1, "Mat::At row");
+    FF_ASSERT_INDEX_RANGE(info[1].ToInt32(Napi::GetCurrentContext())->Value(), matSelf.size[1] - 1, "Mat::At col");
     FF_MAT_APPLY_TYPED_OPERATOR(matSelf, val, matSelf.type(), FF_MAT_AT, FF::matGet);
   }
 
   if (val->IsArray()) {
-    v8::Local<v8::Array> vec = v8::Local<v8::Array>::Cast(val);
+    Napi::Array vec = val.As<Napi::Array>();
     Napi::Value jsVec;
     if (vec->Length() == 2) {
-      jsVec = Vec2::Converter::wrap(cv::Vec2d(FF::DoubleConverter::unwrapUnchecked(Nan::Get(vec, 0).ToLocalChecked()), FF::DoubleConverter::unwrapUnchecked(Nan::Get(vec, 1).ToLocalChecked())));
+      jsVec = Vec2::Converter::wrap(cv::Vec2d(FF::DoubleConverter::unwrapUnchecked((vec).Get(0)), FF::DoubleConverter::unwrapUnchecked((vec).Get(1))));
     } else if (vec->Length() == 3) {
-      jsVec = Vec3::Converter::wrap(cv::Vec3d(FF::DoubleConverter::unwrapUnchecked(Nan::Get(vec, 0).ToLocalChecked()), FF::DoubleConverter::unwrapUnchecked(Nan::Get(vec, 1).ToLocalChecked()), FF::DoubleConverter::unwrapUnchecked(Nan::Get(vec, 2).ToLocalChecked())));
+      jsVec = Vec3::Converter::wrap(cv::Vec3d(FF::DoubleConverter::unwrapUnchecked((vec).Get(0)), FF::DoubleConverter::unwrapUnchecked((vec).Get(1)), FF::DoubleConverter::unwrapUnchecked((vec).Get(2))));
     } else {
-      jsVec = Vec4::Converter::wrap(cv::Vec4d(FF::DoubleConverter::unwrapUnchecked(Nan::Get(vec, 0).ToLocalChecked()), FF::DoubleConverter::unwrapUnchecked(Nan::Get(vec, 1).ToLocalChecked()), FF::DoubleConverter::unwrapUnchecked(Nan::Get(vec, 2).ToLocalChecked()), FF::DoubleConverter::unwrapUnchecked(Nan::Get(vec, 3).ToLocalChecked())));
+      jsVec = Vec4::Converter::wrap(cv::Vec4d(FF::DoubleConverter::unwrapUnchecked((vec).Get(0)), FF::DoubleConverter::unwrapUnchecked((vec).Get(1)), FF::DoubleConverter::unwrapUnchecked((vec).Get(2)), FF::DoubleConverter::unwrapUnchecked((vec).Get(3))));
     }
     jsVal = jsVec;
   } else {
     //  std::string str;
     //  if (matSelf.dims == 4) {
     //    auto sizes = matSelf.size;
-    //    std::vector<v8::Local<v8::Array>> arrs(4);
+    //    std::vector<Napi::Array> arrs(4);
     //    // cv::Vec4i
     //    // cv::Vec<int, 4> cur = cv::Vec4i(0, 0, 0, 0);
     //    std::vector<int> cur(4);
@@ -737,7 +737,7 @@ void Mat::At(const Napi::CallbackInfo& info) {
     //            int* ptr = (int*)cur.data();
     //            //cv::Vec4i a;
     //            // Point b;
-    //         		// , 0, Nan::New(mat.at< cv::Vec<type, 4> >(idx)[0]));
+    //         		// , 0, Napi::New(env, mat.at< cv::Vec<type, 4> >(idx)[0]));
     //            auto value = matSelf.at< cv::Vec<double, 4> >(ptr);
     //            str += std::to_string(value[0]);
     //            str += ", ";
@@ -749,32 +749,32 @@ void Mat::At(const Napi::CallbackInfo& info) {
     //    }
     //  }
     // tryCatch.throwError(str);
-    jsVal = Napi::Value::Cast(val);
+    jsVal = val.As<Napi::Value>();
   }
-  info.GetReturnValue().Set(jsVal);
+  return jsVal;
 }
 
 void Mat::AtRaw(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "Mat::AtRaw");
   cv::Mat matSelf = Mat::unwrapSelf(info);
-  FF_ASSERT_INDEX_RANGE(info[0]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value(), matSelf.size[0] - 1, "Mat::At row");
-  FF_ASSERT_INDEX_RANGE(info[1]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value(), matSelf.size[1] - 1, "Mat::At col");
+  FF_ASSERT_INDEX_RANGE(info[0].ToInt32(Napi::GetCurrentContext())->Value(), matSelf.size[0] - 1, "Mat::At row");
+  FF_ASSERT_INDEX_RANGE(info[1].ToInt32(Napi::GetCurrentContext())->Value(), matSelf.size[1] - 1, "Mat::At col");
   Napi::Value val;
   FF_MAT_APPLY_TYPED_OPERATOR(matSelf, val, matSelf.type(), FF_MAT_AT, FF::matGet);
-  info.GetReturnValue().Set(val);
+  return val;
 }
 
 void Mat::Set(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "Mat::Set");
   cv::Mat matSelf = Mat::unwrapSelf(info);
-  FF_ASSERT_INDEX_RANGE(info[0]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value(), matSelf.size[0] - 1, "Mat::At row");
-  FF_ASSERT_INDEX_RANGE(info[1]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value(), matSelf.size[1] - 1, "Mat::At col");
+  FF_ASSERT_INDEX_RANGE(info[0].ToInt32(Napi::GetCurrentContext())->Value(), matSelf.size[0] - 1, "Mat::At row");
+  FF_ASSERT_INDEX_RANGE(info[1].ToInt32(Napi::GetCurrentContext())->Value(), matSelf.size[1] - 1, "Mat::At col");
 
   int cn = matSelf.channels();
   if (info[2].IsArray()) {
-    v8::Local<v8::Array> vec = v8::Local<v8::Array>::Cast(info[2]);
+    Napi::Array vec = info[2].As<Napi::Array>();
     FF_ASSERT_CHANNELS(cn, (long)vec->Length(), "Mat::Set");
     FF_MAT_APPLY_TYPED_OPERATOR(matSelf, vec, matSelf.type(), FF_MAT_SET, FF::matPut);
   } else if (Vec2::hasInstance(info[2])) {
@@ -809,24 +809,24 @@ void Mat::SetToAsync(const Napi::CallbackInfo& info) {
 
 #define FF_JS_ARRAY_FROM_MAT_2D(mat, rowArray, get)                \
   for (int r = 0; r < mat.rows; r++) {                             \
-    v8::Local<v8::Array> colArray = Nan::New<v8::Array>(mat.cols); \
+    Napi::Array colArray = Napi::Array::New(env, mat.cols); \
     for (int c = 0; c < mat.cols; c++) {                           \
-      Nan::Set(colArray, c, get(mat, r, c));                       \
+      (colArray).Set(c, get(mat, r, c));                       \
     }                                                              \
-    Nan::Set(rowArray, r, colArray);                               \
+    (rowArray).Set(r, colArray);                               \
   }
 
 #define FF_JS_ARRAY_FROM_MAT_3D(mat, rowArray, get)                       \
   for (int r = 0; r < mat.size[0]; r++) {                                 \
-    v8::Local<v8::Array> colArray = Nan::New<v8::Array>(mat.size[1]);     \
+    Napi::Array colArray = Napi::Array::New(env, mat.size[1]);     \
     for (int c = 0; c < mat.size[1]; c++) {                               \
-      v8::Local<v8::Array> depthArray = Nan::New<v8::Array>(mat.size[2]); \
+      Napi::Array depthArray = Napi::Array::New(env, mat.size[2]); \
       for (int z = 0; z < mat.size[2]; z++) {                             \
-        Nan::Set(depthArray, z, get(mat, r, c, z));                       \
+        (depthArray).Set(z, get(mat, r, c, z));                       \
       }                                                                   \
-      Nan::Set(colArray, c, depthArray);                                  \
+      (colArray).Set(c, depthArray);                                  \
     }                                                                     \
-    Nan::Set(rowArray, r, colArray);                                      \
+    (rowArray).Set(r, colArray);                                      \
   }
 
 #define FF_JS_ARRAY_FROM_MAT_4D(mat, rowArray, get)                    \
@@ -834,19 +834,19 @@ void Mat::SetToAsync(const Napi::CallbackInfo& info) {
     cv::MatSize sizes = mat.size;                                      \
     cv::Vec4i cur = cv::Vec4i(0, 0, 0, 0);                             \
     for (cur[0] = 0; cur[0] < sizes[0]; cur[0]++) {                    \
-      v8::Local<v8::Array> array1 = Nan::New<v8::Array>(sizes[1]);     \
+      Napi::Array array1 = Napi::Array::New(env, sizes[1]);     \
       for (cur[1] = 0; cur[1] < sizes[1]; cur[1]++) {                  \
-        v8::Local<v8::Array> array2 = Nan::New<v8::Array>(sizes[2]);   \
+        Napi::Array array2 = Napi::Array::New(env, sizes[2]);   \
         for (cur[2] = 0; cur[2] < sizes[2]; cur[2]++) {                \
-          v8::Local<v8::Array> array3 = Nan::New<v8::Array>(sizes[3]); \
+          Napi::Array array3 = Napi::Array::New(env, sizes[3]); \
           for (cur[3] = 0; cur[3] < sizes[3]; cur[3]++) {              \
-            Nan::Set(array3, cur[3], get(mat, cur));                   \
+            (array3).Set(cur[3], get(mat, cur));                   \
           }                                                            \
-          Nan::Set(array2, cur[2], array3);                            \
+          (array2).Set(cur[2], array3);                            \
         }                                                              \
-        Nan::Set(array1, cur[1], array2);                              \
+        (array1).Set(cur[1], array2);                              \
       }                                                                \
-      Nan::Set(rowArray, cur[0], array1);                              \
+      (rowArray).Set(cur[0], array1);                              \
     }                                                                  \
   }
 
@@ -855,23 +855,23 @@ void Mat::SetToAsync(const Napi::CallbackInfo& info) {
     cv::MatSize sizes = mat.size;                                        \
     cv::Vec4i cur = cv::Vec5i(0, 0, 0, 0, 0);                            \
     for (cur[0] = 0; cur[0] < sizes[0]; cur[0]++) {                      \
-      v8::Local<v8::Array> array1 = Nan::New<v8::Array>(sizes[1]);       \
+      Napi::Array array1 = Napi::Array::New(env, sizes[1]);       \
       for (cur[1] = 0; cur[1] < sizes[1]; cur[1]++) {                    \
-        v8::Local<v8::Array> array2 = Nan::New<v8::Array>(sizes[2]);     \
+        Napi::Array array2 = Napi::Array::New(env, sizes[2]);     \
         for (cur[2] = 0; cur[2] < sizes[2]; cur[2]++) {                  \
-          v8::Local<v8::Array> array3 = Nan::New<v8::Array>(sizes[3]);   \
+          Napi::Array array3 = Napi::Array::New(env, sizes[3]);   \
           for (cur[3] = 0; cur[3] < sizes[3]; cur[3]++) {                \
-            v8::Local<v8::Array> array4 = Nan::New<v8::Array>(sizes[4]); \
+            Napi::Array array4 = Napi::Array::New(env, sizes[4]); \
             for (cur[4] = 0; cur[4] < sizes[4]; cur[4]++) {              \
-              Nan::Set(array4, cur[4], get(mat, cur));                   \
+              (array4).Set(cur[4], get(mat, cur));                   \
             }                                                            \
-            Nan::Set(array3, cur[3], array3);                            \
+            (array3).Set(cur[3], array3);                            \
           }                                                              \
-          Nan::Set(array2, cur[2], array3);                              \
+          (array2).Set(cur[2], array3);                              \
         }                                                                \
-        Nan::Set(array1, cur[1], array2);                                \
+        (array1).Set(cur[1], array2);                                \
       }                                                                  \
-      Nan::Set(rowArray, cur[0], array1);                                \
+      (rowArray).Set(cur[0], array1);                                \
     }                                                                    \
   }
 
@@ -879,7 +879,7 @@ void Mat::GetDataAsArray(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "Mat::GetDataAsArray");
   cv::Mat mat = Mat::unwrapSelf(info);
-  v8::Local<v8::Array> rowArray = Nan::New<v8::Array>(mat.size[0]);
+  Napi::Array rowArray = Napi::Array::New(env, mat.size[0]);
 
   switch (mat.dims) {
   case 2:
@@ -895,17 +895,17 @@ void Mat::GetDataAsArray(const Napi::CallbackInfo& info) {
   default:
     return tryCatch.throwError("not implemented yet - mat dims:" + std::to_string(mat.dims));
   }
-  info.GetReturnValue().Set(rowArray);
+  return rowArray;
 }
 
 void Mat::SetData(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "Mat::SetData");
   cv::Mat mat = Mat::unwrapSelf(info);
-  char* data = static_cast<char*>(node::Buffer::Data(info[0]->ToObject(Nan::GetCurrentContext()).ToLocalChecked()));
+  char* data = static_cast<char*>(info[0].ToObject(Napi::GetCurrentContext(.As<Napi::Buffer<char>>().Data())));
   size_t size = mat.rows * mat.cols * mat.elemSize();
   memcpy(mat.data, data, size);
-  info.GetReturnValue().Set(Mat::Converter::wrap(mat));
+  return Mat::Converter::wrap(mat);
 }
 
 void Mat::GetRegion(const Napi::CallbackInfo& info) {
@@ -917,7 +917,7 @@ void Mat::GetRegion(const Napi::CallbackInfo& info) {
   }
   // FF::TryCatch tryCatch do not work here
   try {
-    info.GetReturnValue().Set(Mat::Converter::wrap(Mat::unwrapSelf(info)(rect)));
+    return Mat::Converter::wrap(Mat::unwrapSelf(info)(rect));
   } catch (const std::exception& e) {
     return tryCatch.throwError(e.what());
   }
@@ -932,7 +932,7 @@ void Mat::Norm(const Napi::CallbackInfo& info) {
 
   // optional args
   bool hasOptArgsObj = FF::isArgObject(info, i);
-  Napi::Object optArgs = hasOptArgsObj ? info[i]->ToObject(Nan::GetCurrentContext()).ToLocalChecked() : Napi::Object::New(env);
+  Napi::Object optArgs = hasOptArgsObj ? info[i].ToObject(Napi::GetCurrentContext()) : Napi::Object::New(env);
 
   uint normType = cv::NORM_L2;
   cv::Mat mask = cv::noArray().getMat();
@@ -951,7 +951,7 @@ void Mat::Norm(const Napi::CallbackInfo& info) {
   } else {
     norm = cv::norm(Mat::unwrapSelf(info), (int)normType, mask);
   }
-  info.GetReturnValue().Set(norm);
+  return norm;
 }
 
 // The method makes a new header for the specified matrix row and returns it. This is an O(1)
@@ -964,7 +964,7 @@ void Mat::Row(const Napi::CallbackInfo& info) {
   if (FF::IntConverter::arg(0, &row, info)) {
     return tryCatch.reThrow();
   }
-  info.GetReturnValue().Set(Mat::Converter::wrap(Mat::unwrapSelf(info).row(row)));
+  return Mat::Converter::wrap(Mat::unwrapSelf(info).row(row));
 }
 
 // The method makes a new header for the specified matrix column and returns it. This is an O(1)
@@ -977,7 +977,7 @@ void Mat::Col(const Napi::CallbackInfo& info) {
   if (FF::IntConverter::arg(0, &col, info)) {
     return tryCatch.reThrow();
   }
-  info.GetReturnValue().Set(Mat::Converter::wrap(Mat::unwrapSelf(info).col(col)));
+  return Mat::Converter::wrap(Mat::unwrapSelf(info).col(col));
 }
 
 // The method makes a new header for the specified row span of the matrix. Similarly to Mat::row and
@@ -989,7 +989,7 @@ void Mat::RowRange(const Napi::CallbackInfo& info) {
   if (FF::IntConverter::arg(0, &start, info) || FF::IntConverter::arg(1, &end, info)) {
     return tryCatch.reThrow();
   }
-  info.GetReturnValue().Set(Mat::Converter::wrap(Mat::unwrapSelf(info).rowRange(start, end)));
+  return Mat::Converter::wrap(Mat::unwrapSelf(info).rowRange(start, end));
 }
 
 // The method makes a new header for the specified column span of the matrix. Similarly to Mat::row and
@@ -1001,7 +1001,7 @@ void Mat::ColRange(const Napi::CallbackInfo& info) {
   if (FF::IntConverter::arg(0, &start, info) || FF::IntConverter::arg(1, &end, info)) {
     return tryCatch.reThrow();
   }
-  info.GetReturnValue().Set(Mat::Converter::wrap(Mat::unwrapSelf(info).colRange(start, end)));
+  return Mat::Converter::wrap(Mat::unwrapSelf(info).colRange(start, end));
 }
 
 void Mat::Release(const Napi::CallbackInfo& info) {

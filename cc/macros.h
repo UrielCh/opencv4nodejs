@@ -40,10 +40,10 @@
 #define FF_ACCESSORS_PTR(ff_property_name, ff_property_converter) \
   FF_ACCESSORS_CUSTOM(ff_property_name, ff_property_converter, self->ff_property_name)
 
-#define FF_SET_JS_PROP(obj, prop, val) Nan::Set(obj, FF::newString(#prop), val)
+#define FF_SET_JS_PROP(obj, prop, val) (obj).Set(FF::newString(#prop), val)
 
 #define FF_SET_CV_CONSTANT(obj, cvConstant) \
-  FF_SET_JS_PROP(obj, cvConstant, Nan::New<v8::Integer>(cvConstant));
+  FF_SET_JS_PROP(obj, cvConstant, Napi::Number::New(env, cvConstant));
 
 #define FF_ASSERT_CONSTRUCT_CALL()                                                   \
   if (!info.IsConstructCall()) {                                                     \
@@ -70,10 +70,12 @@ public:
   }
 
   static bool assertType(Napi::Value jsVal) {
+    Napi::Env env = jsVal.Env();
     return getMappingIndex(jsVal) != -1;
   }
 
   static Type unwrapUnchecked(Napi::Value jsVal) {
+    Napi::Env env = jsVal.Env();
     int idx = getMappingIndex(jsVal);
     if (idx == -1) {
       idx = 0;
@@ -88,6 +90,7 @@ public:
 
 private:
   static int getMappingIndex(Napi::Value jsVal) {
+    Napi::Env env = jsVal.Env();
     std::string val;
     std::vector<const char*> mappings = TEnum::getEnumMappings();
     if (!StringConverter::unwrapTo(&val, jsVal)) {
@@ -116,12 +119,12 @@ class EnumWrap {
 public:
   typedef AbstractConverter<EnumConverterImpl<TEnum>> Converter;
 
-  static void init(Nan::ADDON_REGISTER_FUNCTION_ARGS_TYPE target) {
+  static void init(Napi::Env& env, Napi::Object& target) {
     Napi::Object scoreTypes = Napi::Object::New(env);
     for (const char* e : TEnum::getEnumMappings()) {
-      Nan::Set(scoreTypes, newString(e), newString(e));
+      (scoreTypes).Set(newString(e), newString(e));
     }
-    Nan::Set(target, newString(TEnum::getClassName()), scoreTypes);
+    (target).Set(newString(TEnum::getClassName()), scoreTypes);
   }
 };
 } // namespace FF

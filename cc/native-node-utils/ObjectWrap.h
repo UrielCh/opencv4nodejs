@@ -14,6 +14,7 @@ template <class TClass>
 class ObjectWrapBase {
 public:
   static TClass* unwrapClassPtrUnchecked(Napi::Value jsVal) {
+    Napi::Env env = jsVal.Env();
     return unwrapNanObjectWrap<TClass>(jsVal);
   }
 
@@ -77,6 +78,7 @@ public:
   }
 
   static bool hasInstance(Napi::Value jsVal) {
+    Napi::Env env = jsVal.Env();
     return TClass::ConverterImpl::assertType(jsVal);
   }
 
@@ -131,7 +133,8 @@ protected:
   public:
     bool applyUnwrappers(const Napi::CallbackInfo& info) {
       if (!info.IsConstructCall()) {
-        Nan::ThrowError("constructor has to be called with \"new\" keyword");
+        Napi::Error::New(env, "constructor has to be called with \"new\" keyword").ThrowAsJavaScriptException();
+
         return true;
       }
       return BindingBase::applyUnwrappers(info);
@@ -170,7 +173,7 @@ template <class TClass, class T>
 class ObjectWrap : public ObjectWrapTemplate<TClass, T>, public Napi::ObjectWrap<ObjectWrap> {
 public:
   void Wrap(Napi::Object object) {
-    Nan::ObjectWrap::Wrap(object);
+    Napi::ObjectWrap::Wrap(object);
   }
 };
 

@@ -10,16 +10,16 @@ Napi::FunctionReference FacemarkAAMData::constructor;
 
 Napi::Object FacemarkAAMData(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor =
-      Nan::New<v8::FunctionTemplate>(FacemarkAAMData::New);
+      Napi::Function::New(env, FacemarkAAMData::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
   constructor.Reset(ctor);
   ctor->SetClassName(FF::newString(env, "FacemarkAAMData"));
-  instanceTemplate->SetInternalFieldCount(1);
 
-  Nan::SetAccessor(instanceTemplate, FF::newString(env, "s0"), s0_getter, s0_setter);
 
-  Nan::Set(target, FF::newString(env, "FacemarkAAMData"), FF::getFunction(ctor));
+  Napi::SetAccessor(instanceTemplate, FF::newString(env, "s0"), s0_getter, s0_setter);
+
+  (target).Set("FacemarkAAMData", FF::getFunction(ctor));
 };
 
 void FacemarkAAMData::New(const Napi::CallbackInfo& info) {
@@ -29,7 +29,7 @@ void FacemarkAAMData::New(const Napi::CallbackInfo& info) {
   FacemarkAAMData* self = new FacemarkAAMData();
   self->self = cv::face::FacemarkAAM::Data();
   self->Wrap(info.Holder());
-  info.GetReturnValue().Set(info.Holder());
+  return info.Holder();
 };
 
 #endif

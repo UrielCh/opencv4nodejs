@@ -1,62 +1,62 @@
 #include "Vec.h"
 
-Nan::Persistent<v8::FunctionTemplate> Vec2::constructor;
-Nan::Persistent<v8::FunctionTemplate> Vec3::constructor;
-Nan::Persistent<v8::FunctionTemplate> Vec4::constructor;
-Nan::Persistent<v8::FunctionTemplate> Vec6::constructor;
+Napi::FunctionReference Vec2::constructor;
+Napi::FunctionReference Vec3::constructor;
+Napi::FunctionReference Vec4::constructor;
+Napi::FunctionReference Vec6::constructor;
 
 Napi::Object Vec(Napi::Env env, Napi::Object exports) {
-  Napi::FunctionReference vec2Ctor = Nan::New<v8::FunctionTemplate>(Vec2::New);
+  Napi::FunctionReference vec2Ctor = Napi::Function::New(env, Vec2::New);
   Vec2::constructor.Reset(vec2Ctor);
-  vec2Ctor->InstanceTemplate()->SetInternalFieldCount(1);
-  vec2Ctor->SetClassName(Nan::New("Vec2").ToLocalChecked());
-  Nan::SetAccessor(vec2Ctor->InstanceTemplate(), Nan::New("x").ToLocalChecked(), Vec2::x_getter);
-  Nan::SetAccessor(vec2Ctor->InstanceTemplate(), Nan::New("y").ToLocalChecked(), Vec2::y_getter);
-  Nan::SetPrototypeMethod(vec2Ctor, "at", Vec2::At);
-  Nan::SetPrototypeMethod(vec2Ctor, "norm", Vec2::Norm);
+
+  vec2Ctor->SetClassName(Napi::String::New(env, "Vec2"));
+  Napi::SetAccessor(vec2Ctor->InstanceTemplate(), Napi::String::New(env, "x"), Vec2::x_getter);
+  Napi::SetAccessor(vec2Ctor->InstanceTemplate(), Napi::String::New(env, "y"), Vec2::y_getter);
+  Napi::SetPrototypeMethod(vec2Ctor, "at", Vec2::At);
+  Napi::SetPrototypeMethod(vec2Ctor, "norm", Vec2::Norm);
   Vec2::Init(vec2Ctor);
 
-  Napi::FunctionReference vec3Ctor = Nan::New<v8::FunctionTemplate>(Vec3::New);
+  Napi::FunctionReference vec3Ctor = Napi::Function::New(env, Vec3::New);
   Vec3::constructor.Reset(vec3Ctor);
-  vec3Ctor->InstanceTemplate()->SetInternalFieldCount(1);
-  vec3Ctor->SetClassName(Nan::New("Vec3").ToLocalChecked());
-  Nan::SetAccessor(vec3Ctor->InstanceTemplate(), Nan::New("x").ToLocalChecked(), Vec3::x_getter);
-  Nan::SetAccessor(vec3Ctor->InstanceTemplate(), Nan::New("y").ToLocalChecked(), Vec3::y_getter);
-  Nan::SetAccessor(vec3Ctor->InstanceTemplate(), Nan::New("z").ToLocalChecked(), Vec3::z_getter);
-  Nan::SetPrototypeMethod(vec3Ctor, "at", Vec3::At);
-  Nan::SetPrototypeMethod(vec3Ctor, "cross", Vec3::Cross);
-  Nan::SetPrototypeMethod(vec3Ctor, "norm", Vec3::Norm);
+
+  vec3Ctor->SetClassName(Napi::String::New(env, "Vec3"));
+  Napi::SetAccessor(vec3Ctor->InstanceTemplate(), Napi::String::New(env, "x"), Vec3::x_getter);
+  Napi::SetAccessor(vec3Ctor->InstanceTemplate(), Napi::String::New(env, "y"), Vec3::y_getter);
+  Napi::SetAccessor(vec3Ctor->InstanceTemplate(), Napi::String::New(env, "z"), Vec3::z_getter);
+  Napi::SetPrototypeMethod(vec3Ctor, "at", Vec3::At);
+  Napi::SetPrototypeMethod(vec3Ctor, "cross", Vec3::Cross);
+  Napi::SetPrototypeMethod(vec3Ctor, "norm", Vec3::Norm);
   Vec3::Init(vec3Ctor);
 
-  Napi::FunctionReference vec4Ctor = Nan::New<v8::FunctionTemplate>(Vec4::New);
+  Napi::FunctionReference vec4Ctor = Napi::Function::New(env, Vec4::New);
   Vec4::constructor.Reset(vec4Ctor);
-  vec4Ctor->InstanceTemplate()->SetInternalFieldCount(1);
-  vec4Ctor->SetClassName(Nan::New("Vec4").ToLocalChecked());
-  Nan::SetAccessor(vec4Ctor->InstanceTemplate(), Nan::New("w").ToLocalChecked(), Vec4::w_getter);
-  Nan::SetAccessor(vec4Ctor->InstanceTemplate(), Nan::New("x").ToLocalChecked(), Vec4::x_getter);
-  Nan::SetAccessor(vec4Ctor->InstanceTemplate(), Nan::New("y").ToLocalChecked(), Vec4::y_getter);
-  Nan::SetAccessor(vec4Ctor->InstanceTemplate(), Nan::New("z").ToLocalChecked(), Vec4::z_getter);
-  Nan::SetPrototypeMethod(vec4Ctor, "at", Vec4::At);
-  Nan::SetPrototypeMethod(vec4Ctor, "norm", Vec4::Norm);
+
+  vec4Ctor->SetClassName(Napi::String::New(env, "Vec4"));
+  Napi::SetAccessor(vec4Ctor->InstanceTemplate(), Napi::String::New(env, "w"), Vec4::w_getter);
+  Napi::SetAccessor(vec4Ctor->InstanceTemplate(), Napi::String::New(env, "x"), Vec4::x_getter);
+  Napi::SetAccessor(vec4Ctor->InstanceTemplate(), Napi::String::New(env, "y"), Vec4::y_getter);
+  Napi::SetAccessor(vec4Ctor->InstanceTemplate(), Napi::String::New(env, "z"), Vec4::z_getter);
+  Napi::SetPrototypeMethod(vec4Ctor, "at", Vec4::At);
+  Napi::SetPrototypeMethod(vec4Ctor, "norm", Vec4::Norm);
   Vec4::Init(vec4Ctor);
 
-  Napi::FunctionReference vec6Ctor = Nan::New<v8::FunctionTemplate>(Vec6::New);
+  Napi::FunctionReference vec6Ctor = Napi::Function::New(env, Vec6::New);
   Vec6::constructor.Reset(vec6Ctor);
-  vec6Ctor->InstanceTemplate()->SetInternalFieldCount(1);
-  vec6Ctor->SetClassName(Nan::New("Vec6").ToLocalChecked());
-  Nan::SetAccessor(vec6Ctor->InstanceTemplate(), Nan::New("u").ToLocalChecked(), Vec6::u_getter);
-  Nan::SetAccessor(vec6Ctor->InstanceTemplate(), Nan::New("v").ToLocalChecked(), Vec6::v_getter);
-  Nan::SetAccessor(vec6Ctor->InstanceTemplate(), Nan::New("w").ToLocalChecked(), Vec6::w_getter);
-  Nan::SetAccessor(vec6Ctor->InstanceTemplate(), Nan::New("x").ToLocalChecked(), Vec6::x_getter);
-  Nan::SetAccessor(vec6Ctor->InstanceTemplate(), Nan::New("y").ToLocalChecked(), Vec6::y_getter);
-  Nan::SetAccessor(vec6Ctor->InstanceTemplate(), Nan::New("z").ToLocalChecked(), Vec6::z_getter);
-  Nan::SetPrototypeMethod(vec6Ctor, "at", Vec6::At);
-  Nan::SetPrototypeMethod(vec6Ctor, "norm", Vec6::Norm);
+
+  vec6Ctor->SetClassName(Napi::String::New(env, "Vec6"));
+  Napi::SetAccessor(vec6Ctor->InstanceTemplate(), Napi::String::New(env, "u"), Vec6::u_getter);
+  Napi::SetAccessor(vec6Ctor->InstanceTemplate(), Napi::String::New(env, "v"), Vec6::v_getter);
+  Napi::SetAccessor(vec6Ctor->InstanceTemplate(), Napi::String::New(env, "w"), Vec6::w_getter);
+  Napi::SetAccessor(vec6Ctor->InstanceTemplate(), Napi::String::New(env, "x"), Vec6::x_getter);
+  Napi::SetAccessor(vec6Ctor->InstanceTemplate(), Napi::String::New(env, "y"), Vec6::y_getter);
+  Napi::SetAccessor(vec6Ctor->InstanceTemplate(), Napi::String::New(env, "z"), Vec6::z_getter);
+  Napi::SetPrototypeMethod(vec6Ctor, "at", Vec6::At);
+  Napi::SetPrototypeMethod(vec6Ctor, "norm", Vec6::Norm);
   Vec6::Init(vec6Ctor);
 
   Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, Vec::New));
-  ctor->InstanceTemplate()->SetInternalFieldCount(1);
-  ctor->SetClassName(Nan::New("Vec").ToLocalChecked());
+
+  ctor->SetClassName(Napi::String::New(env, "Vec"));
   target.Set("Vec", FF::getFunction(ctor));
   target.Set("Vec2", FF::getFunction(ctor));
   target.Set("Vec3", FF::getFunction(ctor));
@@ -75,36 +75,36 @@ void Vec::New(const Napi::CallbackInfo& info) {
 
   switch (info.Length()) {
   case 2:
-    jsVec = FF::newInstance(Nan::New(Vec2::constructor));
-    Nan::ObjectWrap::Unwrap<Vec2>(jsVec)->self = cv::Vec2d(
-        info[0]->ToNumber(Nan::GetCurrentContext()).ToLocalChecked()->Value(),
-        info[1]->ToNumber(Nan::GetCurrentContext()).ToLocalChecked()->Value());
+    jsVec = FF::newInstance(Napi::New(env, Vec2::constructor));
+    Napi::ObjectWrap::Unwrap<Vec2>(jsVec)->self = cv::Vec2d(
+        info[0].ToNumber(Napi::GetCurrentContext())->Value(),
+        info[1].ToNumber(Napi::GetCurrentContext())->Value());
     break;
   case 3:
-    jsVec = FF::newInstance(Nan::New(Vec3::constructor));
-    Nan::ObjectWrap::Unwrap<Vec3>(jsVec)->self = cv::Vec3d(
-        info[0]->ToNumber(Nan::GetCurrentContext()).ToLocalChecked()->Value(),
-        info[1]->ToNumber(Nan::GetCurrentContext()).ToLocalChecked()->Value(),
-        info[2]->ToNumber(Nan::GetCurrentContext()).ToLocalChecked()->Value());
+    jsVec = FF::newInstance(Napi::New(env, Vec3::constructor));
+    Napi::ObjectWrap::Unwrap<Vec3>(jsVec)->self = cv::Vec3d(
+        info[0].ToNumber(Napi::GetCurrentContext())->Value(),
+        info[1].ToNumber(Napi::GetCurrentContext())->Value(),
+        info[2].ToNumber(Napi::GetCurrentContext())->Value());
     break;
   case 4:
-    jsVec = FF::newInstance(Nan::New(Vec4::constructor));
-    Nan::ObjectWrap::Unwrap<Vec4>(jsVec)->self = cv::Vec4d(
-        info[0]->ToNumber(Nan::GetCurrentContext()).ToLocalChecked()->Value(),
-        info[1]->ToNumber(Nan::GetCurrentContext()).ToLocalChecked()->Value(),
-        info[2]->ToNumber(Nan::GetCurrentContext()).ToLocalChecked()->Value(),
-        info[3]->ToNumber(Nan::GetCurrentContext()).ToLocalChecked()->Value());
+    jsVec = FF::newInstance(Napi::New(env, Vec4::constructor));
+    Napi::ObjectWrap::Unwrap<Vec4>(jsVec)->self = cv::Vec4d(
+        info[0].ToNumber(Napi::GetCurrentContext())->Value(),
+        info[1].ToNumber(Napi::GetCurrentContext())->Value(),
+        info[2].ToNumber(Napi::GetCurrentContext())->Value(),
+        info[3].ToNumber(Napi::GetCurrentContext())->Value());
     break;
   case 6:
-    jsVec = FF::newInstance(Nan::New(Vec6::constructor));
-    Nan::ObjectWrap::Unwrap<Vec6>(jsVec)->self = cv::Vec6d(
-        info[0]->ToNumber(Nan::GetCurrentContext()).ToLocalChecked()->Value(),
-        info[1]->ToNumber(Nan::GetCurrentContext()).ToLocalChecked()->Value(),
-        info[2]->ToNumber(Nan::GetCurrentContext()).ToLocalChecked()->Value(),
-        info[3]->ToNumber(Nan::GetCurrentContext()).ToLocalChecked()->Value(),
-        info[4]->ToNumber(Nan::GetCurrentContext()).ToLocalChecked()->Value(),
-        info[5]->ToNumber(Nan::GetCurrentContext()).ToLocalChecked()->Value());
+    jsVec = FF::newInstance(Napi::New(env, Vec6::constructor));
+    Napi::ObjectWrap::Unwrap<Vec6>(jsVec)->self = cv::Vec6d(
+        info[0].ToNumber(Napi::GetCurrentContext())->Value(),
+        info[1].ToNumber(Napi::GetCurrentContext())->Value(),
+        info[2].ToNumber(Napi::GetCurrentContext())->Value(),
+        info[3].ToNumber(Napi::GetCurrentContext())->Value(),
+        info[4].ToNumber(Napi::GetCurrentContext())->Value(),
+        info[5].ToNumber(Napi::GetCurrentContext())->Value());
     break;
   }
-  info.GetReturnValue().Set(jsVec);
+  return jsVec;
 }

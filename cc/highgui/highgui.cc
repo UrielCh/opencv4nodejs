@@ -94,7 +94,7 @@ void Highgui::getWindowProperty(const Napi::CallbackInfo& info) {
     return tryCatch.throwError("expected arg1 (prop_id) to be a number");
   }
   FF::IntConverter::arg(1, &prop_id, info);
-  info.GetReturnValue().Set(Nan::New(cv::getWindowProperty(FF::StringConverter::unwrapUnchecked(info[0]), prop_id)));
+  return Napi::New(env, cv::getWindowProperty(FF::StringConverter::unwrapUnchecked(info[0]), prop_id));
 }
 
 void Highgui::namedWindow(const Napi::CallbackInfo& info) {
@@ -139,7 +139,7 @@ void Highgui::startWindowThread(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "Highgui::startWindowThread");
   int retval = cv::startWindowThread();
-  info.GetReturnValue().Set(Nan::New(retval));
+  return Napi::New(env, retval);
 }
 
 #endif

@@ -8,7 +8,7 @@
 #include "opencv2/core.hpp"
 
 #define FF_CONST_TYPE(CONST, VALUE) \
-  Nan::Set(target, Nan::New<v8::String>(#CONST).ToLocalChecked(), Nan::New<v8::Integer>(VALUE));
+  (target).Set(Napi::String::New(env, #CONST), Napi::Number::New(env, VALUE));
 
 Napi::Object Dnn(Napi::Env env, Napi::Object exports) {
 

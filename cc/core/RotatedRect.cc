@@ -5,13 +5,13 @@ Napi::FunctionReference RotatedRect::constructor;
 Napi::Object RotatedRect(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, RotatedRect::New));
   RotatedRect::constructor.Reset(ctor);
-  ctor->InstanceTemplate()->SetInternalFieldCount(1);
-  ctor->SetClassName(Nan::New("RotatedRect").ToLocalChecked());
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "angle"), RotatedRect::angle_getter);
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "center"), RotatedRect::center_getter);
-  Nan::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "size"), RotatedRect::size_getter);
 
-  Nan::SetPrototypeMethod(ctor, "boundingRect", RotatedRect::BoundingRect);
+  ctor->SetClassName(Napi::String::New(env, "RotatedRect"));
+  Napi::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "angle"), RotatedRect::angle_getter);
+  Napi::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "center"), RotatedRect::center_getter);
+  Napi::SetAccessor(ctor->InstanceTemplate(), FF::newString(env, "size"), RotatedRect::size_getter);
+
+  Napi::SetPrototypeMethod(ctor, "boundingRect", RotatedRect::BoundingRect);
 
   target.Set("RotatedRect", FF::getFunction(ctor));
 };
@@ -33,7 +33,7 @@ void RotatedRect::New(const Napi::CallbackInfo& info) {
     if (!Size::hasInstance(info[1])) {
       return tryCatch.throwError("expected arg1 to be an instance of Size");
     }
-    double angle = info[2]->ToNumber(Nan::GetCurrentContext()).ToLocalChecked()->Value();
+    double angle = info[2].ToNumber(Napi::GetCurrentContext())->Value();
 
     self->self = cv::RotatedRect(
         Point2::Converter::unwrapUnchecked(info[0]),
@@ -41,5 +41,5 @@ void RotatedRect::New(const Napi::CallbackInfo& info) {
         angle);
   }
   self->Wrap(info.Holder());
-  info.GetReturnValue().Set(info.Holder());
+  return info.Holder();
 }

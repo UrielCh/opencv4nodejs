@@ -13,44 +13,44 @@ Napi::Object HOGDescriptor(Napi::Env env, Napi::Object exports) {
 
   constructor.Reset(ctor);
   ctor->SetClassName(FF::newString(env, "HOGDescriptor"));
-  instanceTemplate->SetInternalFieldCount(1);
 
-  Nan::SetAccessor(instanceTemplate, FF::newString(env, "winSize"), winSize_getter, winSize_setter);
-  Nan::SetAccessor(instanceTemplate, FF::newString(env, "blockSize"), blockSize_getter, blockSize_setter);
-  Nan::SetAccessor(instanceTemplate, FF::newString(env, "blockStride"), blockStride_getter, blockStride_setter);
-  Nan::SetAccessor(instanceTemplate, FF::newString(env, "cellSize"), cellSize_getter, cellSize_setter);
-  Nan::SetAccessor(instanceTemplate, FF::newString(env, "nbins"), nbins_getter, nbins_setter);
-  Nan::SetAccessor(instanceTemplate, FF::newString(env, "derivAperture"), derivAperture_getter, derivAperture_setter);
-  Nan::SetAccessor(instanceTemplate, FF::newString(env, "histogramNormType"), histogramNormType_getter, histogramNormType_setter);
-  Nan::SetAccessor(instanceTemplate, FF::newString(env, "nlevels"), nlevels_getter, nlevels_setter);
-  Nan::SetAccessor(instanceTemplate, FF::newString(env, "winSigma"), winSigma_getter, winSigma_setter);
-  Nan::SetAccessor(instanceTemplate, FF::newString(env, "L2HysThreshold"), L2HysThreshold_getter, L2HysThreshold_setter);
-  Nan::SetAccessor(instanceTemplate, FF::newString(env, "gammaCorrection"), gammaCorrection_getter, gammaCorrection_setter);
-  Nan::SetAccessor(instanceTemplate, FF::newString(env, "signedGradient"), signedGradient_getter, signedGradient_setter);
 
-  Nan::SetMethod(ctor, "getDaimlerPeopleDetector", GetDaimlerPeopleDetector);
-  Nan::SetMethod(ctor, "getDefaultPeopleDetector", GetDefaultPeopleDetector);
+  Napi::SetAccessor(instanceTemplate, FF::newString(env, "winSize"), winSize_getter, winSize_setter);
+  Napi::SetAccessor(instanceTemplate, FF::newString(env, "blockSize"), blockSize_getter, blockSize_setter);
+  Napi::SetAccessor(instanceTemplate, FF::newString(env, "blockStride"), blockStride_getter, blockStride_setter);
+  Napi::SetAccessor(instanceTemplate, FF::newString(env, "cellSize"), cellSize_getter, cellSize_setter);
+  Napi::SetAccessor(instanceTemplate, FF::newString(env, "nbins"), nbins_getter, nbins_setter);
+  Napi::SetAccessor(instanceTemplate, FF::newString(env, "derivAperture"), derivAperture_getter, derivAperture_setter);
+  Napi::SetAccessor(instanceTemplate, FF::newString(env, "histogramNormType"), histogramNormType_getter, histogramNormType_setter);
+  Napi::SetAccessor(instanceTemplate, FF::newString(env, "nlevels"), nlevels_getter, nlevels_setter);
+  Napi::SetAccessor(instanceTemplate, FF::newString(env, "winSigma"), winSigma_getter, winSigma_setter);
+  Napi::SetAccessor(instanceTemplate, FF::newString(env, "L2HysThreshold"), L2HysThreshold_getter, L2HysThreshold_setter);
+  Napi::SetAccessor(instanceTemplate, FF::newString(env, "gammaCorrection"), gammaCorrection_getter, gammaCorrection_setter);
+  Napi::SetAccessor(instanceTemplate, FF::newString(env, "signedGradient"), signedGradient_getter, signedGradient_setter);
 
-  Nan::SetPrototypeMethod(ctor, "compute", Compute);
-  Nan::SetPrototypeMethod(ctor, "computeAsync", ComputeAsync);
-  Nan::SetPrototypeMethod(ctor, "computeGradient", ComputeGradient);
-  Nan::SetPrototypeMethod(ctor, "computeGradientAsync", ComputeGradientAsync);
-  Nan::SetPrototypeMethod(ctor, "detect", Detect);
-  Nan::SetPrototypeMethod(ctor, "detectAsync", DetectAsync);
-  Nan::SetPrototypeMethod(ctor, "detectROI", DetectROI);
-  Nan::SetPrototypeMethod(ctor, "detectROIAsync", DetectROIAsync);
-  Nan::SetPrototypeMethod(ctor, "detectMultiScale", DetectMultiScale);
-  Nan::SetPrototypeMethod(ctor, "detectMultiScaleAsync", DetectMultiScaleAsync);
-  Nan::SetPrototypeMethod(ctor, "detectMultiScaleROI", DetectMultiScaleROI);
-  Nan::SetPrototypeMethod(ctor, "detectMultiScaleROIAsync", DetectMultiScaleROIAsync);
-  Nan::SetPrototypeMethod(ctor, "groupRectangles", GroupRectangles);
-  Nan::SetPrototypeMethod(ctor, "groupRectanglesAsync", GroupRectanglesAsync);
-  Nan::SetPrototypeMethod(ctor, "checkDetectorSize", CheckDetectorSize);
-  Nan::SetPrototypeMethod(ctor, "setSVMDetector", SetSVMDetector);
-  Nan::SetPrototypeMethod(ctor, "save", Save);
-  Nan::SetPrototypeMethod(ctor, "load", Load);
+  Napi::SetMethod(ctor, "getDaimlerPeopleDetector", GetDaimlerPeopleDetector);
+  Napi::SetMethod(ctor, "getDefaultPeopleDetector", GetDefaultPeopleDetector);
 
-  Nan::Set(target, FF::newString(env, "HOGDescriptor"), FF::getFunction(ctor));
+  InstanceMethod("compute", &Compute),
+  InstanceMethod("computeAsync", &ComputeAsync),
+  InstanceMethod("computeGradient", &ComputeGradient),
+  InstanceMethod("computeGradientAsync", &ComputeGradientAsync),
+  InstanceMethod("detect", &Detect),
+  InstanceMethod("detectAsync", &DetectAsync),
+  InstanceMethod("detectROI", &DetectROI),
+  InstanceMethod("detectROIAsync", &DetectROIAsync),
+  InstanceMethod("detectMultiScale", &DetectMultiScale),
+  InstanceMethod("detectMultiScaleAsync", &DetectMultiScaleAsync),
+  InstanceMethod("detectMultiScaleROI", &DetectMultiScaleROI),
+  InstanceMethod("detectMultiScaleROIAsync", &DetectMultiScaleROIAsync),
+  InstanceMethod("groupRectangles", &GroupRectangles),
+  InstanceMethod("groupRectanglesAsync", &GroupRectanglesAsync),
+  InstanceMethod("checkDetectorSize", &CheckDetectorSize),
+  InstanceMethod("setSVMDetector", &SetSVMDetector),
+  InstanceMethod("save", &Save),
+  InstanceMethod("load", &Load),
+
+  (target).Set("HOGDescriptor", FF::getFunction(ctor));
 #if CV_VERSION_GREATER_EQUAL(4, 0, 0)
   HistogramNormType::Init(env, exports);
 #endif
@@ -62,16 +62,16 @@ void HOGDescriptor::New(const Napi::CallbackInfo& info) {
 
 void HOGDescriptor::GetDaimlerPeopleDetector(const Napi::CallbackInfo& info) {
   std::vector<float> detector = cv::HOGDescriptor::getDaimlerPeopleDetector();
-  info.GetReturnValue().Set(FF::FloatArrayConverter::wrap(detector));
+  return FF::FloatArrayConverter::wrap(detector);
 }
 
 void HOGDescriptor::GetDefaultPeopleDetector(const Napi::CallbackInfo& info) {
   std::vector<float> detector = cv::HOGDescriptor::getDefaultPeopleDetector();
-  info.GetReturnValue().Set(FF::FloatArrayConverter::wrap(detector));
+  return FF::FloatArrayConverter::wrap(detector);
 }
 
 void HOGDescriptor::CheckDetectorSize(const Napi::CallbackInfo& info) {
-  info.GetReturnValue().Set(Nan::New(HOGDescriptor::unwrapSelf(info)->checkDetectorSize()));
+  return Napi::New(env, HOGDescriptor::unwrapSelf(info)->checkDetectorSize());
 }
 
 void HOGDescriptor::SetSVMDetector(const Napi::CallbackInfo& info) {
