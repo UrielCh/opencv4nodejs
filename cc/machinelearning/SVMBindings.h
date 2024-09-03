@@ -117,7 +117,7 @@ public:
   }
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
-    Napi::Object opts = info[1]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    Napi::Object opts = info[1].As<Napi::Object>();
     return (
         FF::UintConverter::optProp(&kFold, "kFold", opts) || ParamGrid::Converter::optProp(&cGrid, "cGrid", opts) || ParamGrid::Converter::optProp(&gammaGrid, "gammaGrid", opts) || ParamGrid::Converter::optProp(&pGrid, "pGrid", opts) || ParamGrid::Converter::optProp(&nuGrid, "nuGrid", opts) || ParamGrid::Converter::optProp(&coeffGrid, "coeffGrid", opts) || ParamGrid::Converter::optProp(&degreeGrid, "degreeGrid", opts) || FF::BoolConverter::optProp(&balanced, "balanced", opts));
   }

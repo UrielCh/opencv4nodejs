@@ -282,7 +282,7 @@ struct DFTWorker : public DTWorker {
   }
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
-    Napi::Object opts = info[0]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    Napi::Object opts = info[0].As<Napi::Object>();
     return (
         FF::IntConverter::optProp(&flags, "flags", opts) || FF::IntConverter::optProp(&nonzeroRows, "nonzeroRows", opts));
   }
@@ -380,7 +380,7 @@ public:
   }
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
-    Napi::Object opts = info[4]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    Napi::Object opts = info[4].As<Napi::Object>();
     return (
         FF::IntConverter::optProp(&borderType, "borderType", opts) || ((self.channels() == 1 && FF::DoubleConverter::optProp(&v1, "value", opts)) || (self.channels() == 2 && Vec2::Converter::optProp(&v2, "value", opts)) || (self.channels() == 3 && Vec3::Converter::optProp(&v3, "value", opts)) || (self.channels() == 4 && Vec4::Converter::optProp(&v4, "value", opts))));
   }

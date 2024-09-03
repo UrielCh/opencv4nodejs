@@ -53,7 +53,7 @@ public:
     }
 
     bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
-      Napi::Object opts = info[3]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+      Napi::Object opts = info[3].As<Napi::Object>();
       return (
           FF::IntArrayConverter::optProp(&varIdx, "varIdx", opts) || FF::IntArrayConverter::optProp(&sampleIdx, "sampleIdx", opts) || FF::FloatArrayConverter::optProp(&sampleWeights, "sampleWeights", opts) || FF::UintArrayConverter::optProp(&varType, "varType", opts));
     }

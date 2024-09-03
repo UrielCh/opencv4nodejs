@@ -43,7 +43,7 @@ static Napi::Object Init(Napi::Env env, Napi::Object exports);
     }
 
     bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
-      Napi::Object opts = info[0]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+      Napi::Object opts = info[0].As<Napi::Object>();
       return (
           FF::IntConverter::optProp(&thresh, "thresh", opts) || FF::IntConverter::optProp(&octaves, "octaves", opts) || FF::DoubleConverter::optProp(&patternScale, "patternScale", opts));
     }

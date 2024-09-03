@@ -43,7 +43,7 @@ public:
   }
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
-    Napi::Object opts = info[1]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    Napi::Object opts = info[1].As<Napi::Object>();
     return (
         FF::FloatConverter::optProp(&h, "h", opts) || FF::FloatConverter::optProp(&hColor, "hColor", opts) || FF::IntConverter::optProp(&templateWindowSize, "templateWindowSize", opts) || FF::IntConverter::optProp(&searchWindowSize, "searchWindowSize", opts));
   }

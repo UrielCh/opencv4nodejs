@@ -53,7 +53,7 @@ public:
   }
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
-    Napi::Object opts = info[2]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    Napi::Object opts = info[2].As<Napi::Object>();
     return (
         FF::UintConverter::optProp(&method, "method", opts) || FF::DoubleConverter::optProp(&ransacReprojThreshold, "ransacReprojThreshold", opts) || FF::UintConverter::optProp(&maxIters, "maxIters", opts) || FF::DoubleConverter::optProp(&confidence, "confidence", opts));
   }
@@ -154,7 +154,7 @@ public:
   }
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
-    Napi::Object opts = info[4]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    Napi::Object opts = info[4].As<Napi::Object>();
     return (
         FF::BoolConverter::optProp(&useExtrinsicGuess, "useExtrinsicGuess", opts) || FF::IntConverter::optProp(&flags, "flags", opts) || Vec3::Converter::optProp(&rvec, "rvec", opts) || Vec3::Converter::optProp(&tvec, "tvec", opts));
   }
@@ -193,7 +193,7 @@ public:
   }
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
-    Napi::Object opts = info[4]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    Napi::Object opts = info[4].As<Napi::Object>();
     return (
         Vec3::Converter::optProp(&rvec, "rvec", opts) || Vec3::Converter::optProp(&tvec, "tvec", opts) || FF::BoolConverter::optProp(&useExtrinsicGuess, "useExtrinsicGuess", opts) || FF::IntConverter::optProp(&iterationsCount, "iterationsCount", opts) || FF::FloatConverter::optProp(&reprojectionError, "reprojectionError", opts) || FF::DoubleConverter::optProp(&confidence, "confidence", opts) || FF::IntConverter::optProp(&flags, "flags", opts));
   }
@@ -322,7 +322,7 @@ public:
   }
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
-    Napi::Object opts = info[8]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    Napi::Object opts = info[8].As<Napi::Object>();
     return (
         FF::IntConverter::optProp(&flags, "flags", opts) || TermCriteria::Converter::optProp(&criteria, "criteria", opts));
   }
@@ -408,7 +408,7 @@ public:
   }
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
-    Napi::Object opts = info[2]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    Napi::Object opts = info[2].As<Napi::Object>();
     return (
         FF::IntConverter::optProp(&method, "method", opts) || FF::DoubleConverter::optProp(&param1, "param1", opts) || FF::DoubleConverter::optProp(&param2, "param2", opts));
   }
@@ -457,7 +457,7 @@ public:
   }
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
-    Napi::Object opts = info[2]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    Napi::Object opts = info[2].As<Napi::Object>();
     return (
         FF::DoubleConverter::optProp(&focal, "focal", opts) || Point2::Converter::optProp(&pp, "pp", opts) || FF::IntConverter::optProp(&method, "method", opts) || FF::DoubleConverter::optProp(&prob, "prob", opts) || FF::DoubleConverter::optProp(&threshold, "threshold", opts));
   }
@@ -485,12 +485,13 @@ public:
   }
 
   Napi::Value getReturnValue(const Napi::Env& env) {
-      Napi::Object ret = Napi::Object::New(env);
-      ret.Set("returnValue", FF::IntConverter::wrap(returnValue));
-      ret.Set("R", Mat::Converter::wrap(R));
-      ret.Set("T", Vec3::Converter::wrap(T));
-      return ret;
+    Napi::Object ret = Napi::Object::New(env);
+    ret.Set("returnValue", FF::IntConverter::wrap(returnValue));
+    ret.Set("R", Mat::Converter::wrap(R));
+    ret.Set("T", Vec3::Converter::wrap(T));
+    return ret;
   }
+
   bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return (
         Mat::Converter::arg(0, &E, info) || Point2::ArrayConverter::arg(1, &points1, info) || Point2::ArrayConverter::arg(2, &points2, info));
@@ -506,7 +507,7 @@ public:
   }
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
-    Napi::Object opts = info[3]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    Napi::Object opts = info[3].As<Napi::Object>();
     return (
         FF::DoubleConverter::optProp(&focal, "focal", opts) || Point2::Converter::optProp(&pp, "pp", opts) || Mat::Converter::optProp(&mask, "mask", opts));
   }
@@ -586,12 +587,13 @@ public:
   }
 
   Napi::Value getReturnValue(const Napi::Env& env) {
-      Napi::Object ret = Napi::Object::New(env);
-      ret.Set("returnValue", FF::IntConverter::wrap(returnValue));
-      ret.Set("out", Mat::Converter::wrap(out));
-      ret.Set("inliers", Mat::Converter::wrap(inliers));
-      return ret;
+    Napi::Object ret = Napi::Object::New(env);
+    ret.Set("returnValue", FF::IntConverter::wrap(returnValue));
+    ret.Set("out", Mat::Converter::wrap(out));
+    ret.Set("inliers", Mat::Converter::wrap(inliers));
+    return ret;
   }
+
   bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return (
         Point3::ArrayConverter::arg(0, &src, info) || Point3::ArrayConverter::arg(1, &dst, info));
@@ -607,7 +609,7 @@ public:
   }
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
-    Napi::Object opts = info[2]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    Napi::Object opts = info[2].As<Napi::Object>();
     return (
         FF::DoubleConverter::optProp(&ransacThreshold, "ransacThreshold", opts) || FF::DoubleConverter::optProp(&confidence, "confidence", opts));
   }
@@ -666,13 +668,14 @@ public:
   }
 
   Napi::Value getReturnValue(const Napi::Env& env) {
-      Napi::Object ret = Napi::Object::New(env);
-      ret.Set("returnValue", FF::DoubleConverter::wrap(returnValue));
-      ret.Set("rvecs", Vec3::ArrayConverter::wrap(rvecs));
-      ret.Set("tvecs", Vec3::ArrayConverter::wrap(tvecs));
-      ret.Set("distCoeffs", FF::DoubleArrayConverter::wrap(distCoeffs));
-      return ret;
+    Napi::Object ret = Napi::Object::New(env);
+    ret.Set("returnValue", FF::DoubleConverter::wrap(returnValue));
+    ret.Set("rvecs", Vec3::ArrayConverter::wrap(rvecs));
+    ret.Set("tvecs", Vec3::ArrayConverter::wrap(tvecs));
+    ret.Set("distCoeffs", FF::DoubleArrayConverter::wrap(distCoeffs));
+    return ret;
   }
+
   bool unwrapRequiredArgs(const Napi::CallbackInfo& info) {
     return (
         Point3::ArrayOfArraysWithCastConverter<cv::Point3f>::arg(0, &objectPoints, info) || Point2::ArrayOfArraysWithCastConverter<cv::Point2f>::arg(1, &imagePoints, info) || Size::Converter::arg(2, &imageSize, info) || Mat::Converter::arg(3, &cameraMatrix, info) || FF::DoubleArrayConverter::arg(4, &distCoeffs, info));
@@ -688,7 +691,7 @@ public:
   }
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
-    Napi::Object opts = info[5]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    Napi::Object opts = info[5].As<Napi::Object>();
     return (
         FF::IntConverter::optProp(&flags, "flags", opts) || TermCriteria::Converter::optProp(&criteria, "criteria", opts));
   }

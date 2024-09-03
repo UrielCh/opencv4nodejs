@@ -19,7 +19,7 @@ public:
   }
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
-    Napi::Object opts = info[0]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    Napi::Object opts = info[0].As<Napi::Object>();
     return (
         FF::IntConverter::optProp(&num_components, "num_components", opts) || FF::DoubleConverter::optProp(&threshold, "threshold", opts));
   }

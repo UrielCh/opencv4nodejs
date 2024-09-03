@@ -332,7 +332,7 @@ public:
   }
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
-    Napi::Object opts = info[1]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    Napi::Object opts = info[1].As<Napi::Object>();
     return (
         Size::Converter::optProp(&size, "size", opts) || FF::IntConverter::optProp(&flags, "flags", opts) || FF::IntConverter::optProp(&borderMode, "borderMode", opts) || Vec3::Converter::optProp(&borderValue, "borderValue", opts));
   }
@@ -554,7 +554,7 @@ public:
   }
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
-    Napi::Object opts = info[0]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    Napi::Object opts = info[0].As<Napi::Object>();
     return (
         FF::IntConverter::optProp(&connectivity, "connectivity", opts) || FF::IntConverter::optProp(&ltype, "ltype", opts));
   }
@@ -1142,7 +1142,7 @@ public:
   }
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
-    Napi::Object opts = info[2]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    Napi::Object opts = info[2].As<Napi::Object>();
     return (
         FF::IntConverter::optProp(&apertureSize, "apertureSize", opts) || FF::BoolConverter::optProp(&L2gradient, "L2gradient", opts));
   }
@@ -1191,7 +1191,7 @@ public:
   }
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
-    Napi::Object opts = info[3]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    Napi::Object opts = info[3].As<Napi::Object>();
     return (
         (hasKsize && FF::IntConverter::optProp(&ksize, "ksize", opts)) || FF::DoubleConverter::optProp(&scale, "scale", opts) || FF::DoubleConverter::optProp(&delta, "delta", opts) || FF::IntConverter::optProp(&borderType, "borderType", opts));
   }
@@ -1267,7 +1267,7 @@ public:
   }
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
-    Napi::Object opts = info[1]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    Napi::Object opts = info[1].As<Napi::Object>();
     return (
         FF::IntConverter::optProp(&ksize, "ksize", opts) || FF::DoubleConverter::optProp(&scale, "scale", opts) || FF::DoubleConverter::optProp(&delta, "delta", opts) || FF::IntConverter::optProp(&borderType, "borderType", opts));
   }
@@ -1318,7 +1318,7 @@ public:
   }
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
-    Napi::Object opts = info[0]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    Napi::Object opts = info[0].As<Napi::Object>();
     return (
         Size::Converter::optProp(&size, "size", opts) || FF::IntConverter::optProp(&borderType, "borderType", opts));
   }
@@ -1403,7 +1403,7 @@ public:
   }
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
-    Napi::Object opts = info[3]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    Napi::Object opts = info[3].As<Napi::Object>();
     return (
         FF::DoubleConverter::optProp(&srn, "srn", opts) || FF::DoubleConverter::optProp(&stn, "stn", opts) || FF::DoubleConverter::optProp(&min_theta, "min_theta", opts) || FF::DoubleConverter::optProp(&max_theta, "max_theta", opts));
   }
@@ -1442,7 +1442,7 @@ public:
   }
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
-    Napi::Object opts = info[3]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    Napi::Object opts = info[3].As<Napi::Object>();
     return (
         FF::DoubleConverter::optProp(&minLineLength, "minLineLength", opts) || FF::DoubleConverter::optProp(&maxLineGap, "maxLineGap", opts));
   }
@@ -1493,7 +1493,7 @@ public:
   }
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
-    Napi::Object opts = info[3]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    Napi::Object opts = info[3].As<Napi::Object>();
     return (
         FF::DoubleConverter::optProp(&param1, "param1", opts) || FF::DoubleConverter::optProp(&param2, "param2", opts) || FF::IntConverter::optProp(&minRadius, "minRadius", opts) || FF::IntConverter::optProp(&maxRadius, "maxRadius", opts));
   }
@@ -1616,7 +1616,7 @@ public:
   }
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
-    Napi::Object opts = info[2]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    Napi::Object opts = info[2].As<Napi::Object>();
     return (
         Mat::Converter::optProp(&mask, "mask", opts) || (self.channels() == 1 && FF::DoubleConverter::optProp(&loDiff1, "loDiff", opts)) || (self.channels() == 3 && Vec3::Converter::optProp(&loDiff3, "loDiff", opts)) || (self.channels() == 1 && FF::DoubleConverter::optProp(&upDiff1, "upDiff", opts)) || (self.channels() == 3 && Vec3::Converter::optProp(&upDiff3, "upDiff", opts)) || FF::IntConverter::optProp(&flags, "flags", opts));
   }
@@ -1703,7 +1703,7 @@ public:
   }
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
-    Napi::Object opts = info[2]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    Napi::Object opts = info[2].As<Napi::Object>();
     return (
         Point2::Converter::optProp(&anchor, "anchor", opts) || FF::BoolConverter::optProp(&normalize, "normalize", opts) || FF::IntConverter::optProp(&borderType, "borderType", opts));
   }
@@ -1767,7 +1767,7 @@ public:
   }
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
-    Napi::Object opts = info[2]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    Napi::Object opts = info[2].As<Napi::Object>();
     return (
         Point2::Converter::optProp(&anchor, "anchor", opts) || FF::DoubleConverter::optProp(&delta, "delta", opts) || FF::IntConverter::optProp(&borderType, "borderType", opts));
   }
@@ -1817,7 +1817,7 @@ public:
   }
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
-    Napi::Object opts = info[3]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    Napi::Object opts = info[3].As<Napi::Object>();
     return (
         Point2::Converter::optProp(&anchor, "anchor", opts) || FF::DoubleConverter::optProp(&delta, "delta", opts) || FF::IntConverter::optProp(&borderType, "borderType", opts));
   }
@@ -1928,7 +1928,7 @@ public:
   }
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
-    Napi::Object opts = info[1]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    Napi::Object opts = info[1].As<Napi::Object>();
     return (
         FF::IntConverter::optProp(&ksize, "ksize", opts) || FF::IntConverter::optProp(&borderType, "borderType", opts));
   }
@@ -2005,7 +2005,7 @@ public:
   }
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
-    Napi::Object opts = info[0]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    Napi::Object opts = info[0].As<Napi::Object>();
     return (
         FF::IntConverter::optProp(&sdepth, "sdepth", opts) || FF::IntConverter::optProp(&sqdepth, "sqdepth", opts));
   }
@@ -2056,7 +2056,7 @@ public:
   }
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
-    Napi::Object opts = info[3]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    Napi::Object opts = info[3].As<Napi::Object>();
     return (
         FF::IntConverter::optProp(&thickness, "thickness", opts) || FF::IntConverter::optProp(&lineType, "lineType", opts) || Vec4::ArrayWithCastConverter<cv::Vec4i>::optProp(&hierarchy, "hierarchy", opts) || FF::IntConverter::optProp(&maxLevel, "maxLevel", opts) || Point2::Converter::optProp(&offset, "offset", opts));
   }

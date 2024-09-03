@@ -68,7 +68,7 @@ static Napi::Object Init(Napi::Env env, Napi::Object exports);
     }
 
     bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
-      Napi::Object opts = info[0]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+      Napi::Object opts = info[0].As<Napi::Object>();
       return (
           FF::IntConverter::optProp(&delta, "delta", opts) || FF::IntConverter::optProp(&minArea, "minArea", opts) || FF::IntConverter::optProp(&maxArea, "maxArea", opts) || FF::DoubleConverter::optProp(&maxVariation, "maxVariation", opts) || FF::DoubleConverter::optProp(&minDiversity, "minDiversity", opts) || FF::IntConverter::optProp(&maxEvolution, "maxEvolution", opts) || FF::DoubleConverter::optProp(&areaThreshold, "areaThreshold", opts) || FF::DoubleConverter::optProp(&minMargin, "minMargin", opts) || FF::IntConverter::optProp(&edgeBlurSize, "edgeBlurSize", opts));
     }

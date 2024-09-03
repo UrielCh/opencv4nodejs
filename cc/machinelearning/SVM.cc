@@ -90,7 +90,7 @@ void SVM::SetParams(const Napi::CallbackInfo& info) {
   if (!info[0]->IsObject()) {
     return tryCatch.throwError("SVM::SetParams - args object required");
   }
-  Napi::Object args = info[0]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+  Napi::Object args = info[0].As<Napi::Object>();
 
   SVM::unwrapThis(info)->setParams(args);
   if (tryCatch.HasCaught()) {

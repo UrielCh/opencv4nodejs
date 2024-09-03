@@ -4,7 +4,7 @@
 #include "matTypes.h"
 
 Napi::Object Core(Napi::Env env, Napi::Object exports) {
-  initMatTypes(target);
+  initMatTypes(env, exports);
   CoreConstants::Init(env, exports);
   Mat::Init(env, exports);
   Point::Init(env, exports);
@@ -77,8 +77,12 @@ Napi::Object Core(Napi::Env env, Napi::Object exports) {
 #endif
 };
 
-void Core::GetBuildInformation(const Napi::CallbackInfo& info) {
-  info.GetReturnValue().Set(FF::newString(cv::getBuildInformation()));
+/**
+ * export function getBuildInformation(): string;
+ */
+Napi::Value Core::GetBuildInformation(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+  return Napi::String::New(env, cv::getBuildInformation());
 }
 
 template <class TClass, class TNativeObject>
@@ -233,8 +237,8 @@ void Core::PolarToCartAsync(const Napi::CallbackInfo& info) {
   FF::asyncBinding<CoreBindings::PolarToCart>("Core", "PolarToCart", info);
 }
 
-void Core::GetNumThreads(const Napi::CallbackInfo& info) {
-  info.GetReturnValue().Set(FF::IntConverter::wrap(cv::getNumThreads()));
+Napi::Value Core::GetNumThreads(const Napi::CallbackInfo& info) {
+  return FF::IntConverter::wrap(cv::getNumThreads());
 }
 
 void Core::SetNumThreads(const Napi::CallbackInfo& info) {
@@ -246,8 +250,8 @@ void Core::SetNumThreads(const Napi::CallbackInfo& info) {
   cv::setNumThreads(num);
 }
 
-void Core::GetThreadNum(const Napi::CallbackInfo& info) {
-  info.GetReturnValue().Set(FF::IntConverter::wrap(cv::getThreadNum()));
+Napi::Value Core::GetThreadNum(const Napi::CallbackInfo& info) {
+  return FF::IntConverter::wrap(cv::getThreadNum());
 }
 
 void Core::AddWeighted(const Napi::CallbackInfo& info) {

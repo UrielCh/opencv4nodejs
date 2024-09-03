@@ -338,7 +338,7 @@ public:
   }
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
-    Napi::Object opts = info[6]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    Napi::Object opts = info[6].As<Napi::Object>();
     return (
         FF::IntConverter::optProp(&flags, "flags", opts) || FF::DoubleConverter::optProp(&alpha, "alpha", opts) || Size::Converter::optProp(&newImageSize, "newImageSize", opts));
   }
@@ -455,7 +455,7 @@ public:
   }
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
-    Napi::Object opts = info[3]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    Napi::Object opts = info[3].As<Napi::Object>();
     return (
         Size::Converter::optProp(&newImgSize, "newImgSize", opts) || FF::BoolConverter::optProp(&centerPrincipalPoint, "centerPrincipalPoint", opts));
   }
@@ -548,8 +548,8 @@ public:
 
   Napi::Value getReturnValue(const Napi::Env& env) {
     Napi::Object ret = Napi::Object::New(env);
-    Nan::Set(ret, Nan::New("newPoints1").ToLocalChecked(), Point2::ArrayWithCastConverter<cv::Point2f>::wrap(newPoints1));
-    Nan::Set(ret, Nan::New("newPoints2").ToLocalChecked(), Point2::ArrayWithCastConverter<cv::Point2f>::wrap(newPoints2));
+    ret.Set("newPoints1", Point2::ArrayWithCastConverter<cv::Point2f>::wrap(newPoints1));
+    ret.Set("newPoints2", Point2::ArrayWithCastConverter<cv::Point2f>::wrap(newPoints2));
     return ret;
   }
 
@@ -668,7 +668,7 @@ public:
   }
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
-    Napi::Object opts = info[1]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    Napi::Object opts = info[1].As<Napi::Object>();
     return (
         FF::BoolConverter::optProp(&handleMissingValues, "handleMissingValues", opts) || FF::IntConverter::optProp(&ddepth, "ddepth", opts));
   }
@@ -760,7 +760,7 @@ public:
   }
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
-    Napi::Object opts = info[2]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    Napi::Object opts = info[2].As<Napi::Object>();
     return (
         FF::IntConverter::optProp(&method, "method", opts) || FF::DoubleConverter::optProp(&prob, "prob", opts) || FF::DoubleConverter::optProp(&threshold, "threshold", opts));
   }

@@ -76,7 +76,7 @@ public:
   }
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
-    Napi::Object opts = info[1]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    Napi::Object opts = info[1].As<Napi::Object>();
     return (
         FF::StringConverter::optProp(&config, "config", opts) || FF::StringConverter::optProp(&framework, "framework", opts));
   }
@@ -236,7 +236,7 @@ public:
   }
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
-    Napi::Object opts = info[1]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    Napi::Object opts = info[1].As<Napi::Object>();
     return (
         FF::DoubleConverter::optProp(&scalefactor, "scalefactor", opts) || FF::BoolConverter::optProp(&swapRB, "swapRB", opts) || Size::Converter::optProp(&size, "size", opts) || Vec3::Converter::optProp(&mean, "mean", opts) || FF::BoolConverter::optProp(&crop, "crop", opts) || FF::IntConverter::optProp(&ddepth, "ddepth", opts));
   }
@@ -279,7 +279,7 @@ public:
   }
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
-    Napi::Object opts = info[4]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    Napi::Object opts = info[4].As<Napi::Object>();
     return (
         FF::FloatConverter::optProp(&eta, "eta", opts) || FF::IntConverter::optProp(&top_k, "topK", opts));
   }

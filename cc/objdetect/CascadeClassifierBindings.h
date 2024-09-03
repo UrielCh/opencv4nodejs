@@ -76,7 +76,7 @@ public:
   }
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
-    Napi::Object opts = info[1]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    Napi::Object opts = info[1].As<Napi::Object>();
     return (
         FF::DoubleConverter::optProp(&scaleFactor, "scaleFactor", opts) || FF::UintConverter::optProp(&minNeighbors, "minNeighbors", opts) || FF::UintConverter::optProp(&flags, "flags", opts) || Size::Converter::optProp(&minSize, "minSize", opts) || Size::Converter::optProp(&maxSize, "maxSize", opts));
   }

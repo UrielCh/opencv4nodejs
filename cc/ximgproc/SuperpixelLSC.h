@@ -58,7 +58,7 @@ public:
     }
 
     bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
-      Napi::Object opts = info[1]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+      Napi::Object opts = info[1].As<Napi::Object>();
       return (
           FF::IntConverter::optProp(&region_size, "region_size", opts) || FF::FloatConverter::optProp(&ratio, "ratio", opts));
     }

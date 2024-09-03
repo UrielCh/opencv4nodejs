@@ -37,7 +37,7 @@ public:
   }
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
-    Napi::Object opts = info[0]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    Napi::Object opts = info[0].As<Napi::Object>();
     return (
         FF::IntConverter::optProp(&radius, "radius", opts) || FF::IntConverter::optProp(&neighbors, "neighbors", opts) || FF::IntConverter::optProp(&grid_x, "grid_x", opts) || FF::IntConverter::optProp(&grid_y, "grid_y", opts) || FF::DoubleConverter::optProp(&threshold, "threshold", opts));
   }

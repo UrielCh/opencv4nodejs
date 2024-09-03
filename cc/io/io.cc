@@ -176,7 +176,7 @@ void Io::ImdecodeAsync(const Napi::CallbackInfo& info) {
     worker->flags = cv::IMREAD_ANYCOLOR;
   }
 
-  Napi::Object jsBuf = info[0]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+  Napi::Object jsBuf = info[0].As<Napi::Object>();
   worker->data = static_cast<char*>(node::Buffer::Data(jsBuf));
   worker->dataSize = node::Buffer::Length(jsBuf);
 

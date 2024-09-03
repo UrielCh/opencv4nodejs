@@ -47,7 +47,7 @@ public:
   }
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
-    Napi::Object opts = info[3]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    Napi::Object opts = info[3].As<Napi::Object>();
     return (
         FF::IntConverter::optProp(&ddepth, "ddepth", opts));
   }

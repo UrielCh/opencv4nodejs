@@ -46,7 +46,7 @@ public:
   }
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
-    Napi::Object opts = info[1]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    Napi::Object opts = info[1].As<Napi::Object>();
     return (
         Size::Converter::optProp(&winStride, "winStride", opts) || Size::Converter::optProp(&padding, "padding", opts) || Point2::ArrayWithCastConverter<cv::Point2i>::optProp(&locations, "locations", opts));
   }
@@ -97,7 +97,7 @@ public:
   }
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
-    Napi::Object opts = info[1]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    Napi::Object opts = info[1].As<Napi::Object>();
     return (
         Size::Converter::optProp(&paddingTL, "paddingTL", opts) || Size::Converter::optProp(&paddingBR, "paddingBR", opts));
   }
@@ -130,7 +130,7 @@ public:
 
   Napi::Value getReturnValue(const Napi::Env& env) {
     Napi::Object ret = Napi::Object::New(env);
-    Nan::Set(ret, Nan::New("foundLocations").ToLocalChecked(), Point2::ArrayWithCastConverter<cv::Point2i>::wrap(foundLocations));
+    ret.Set("foundLocations", Point2::ArrayWithCastConverter<cv::Point2i>::wrap(foundLocations));
     ret.Set("weights", FF::DoubleArrayConverter::wrap(weights));
     return ret;
   }
@@ -150,7 +150,7 @@ public:
   }
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
-    Napi::Object opts = info[1]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    Napi::Object opts = info[1].As<Napi::Object>();
     return (
         FF::DoubleConverter::optProp(&hitThreshold, "hitThreshold", opts) || Size::Converter::optProp(&winStride, "winStride", opts) || Size::Converter::optProp(&padding, "padding", opts) || Point2::ArrayWithCastConverter<cv::Point2i>::optProp(&searchLocations, "searchLocations", opts));
   }
@@ -183,7 +183,7 @@ public:
 
   Napi::Value getReturnValue(const Napi::Env& env) {
     Napi::Object ret = Napi::Object::New(env);
-    Nan::Set(ret, Nan::New("foundLocations").ToLocalChecked(), Point2::ArrayWithCastConverter<cv::Point2i>::wrap(foundLocations));
+    ret.Set("foundLocations", Point2::ArrayWithCastConverter<cv::Point2i>::wrap(foundLocations));
     ret.Set("confidences", FF::DoubleArrayConverter::wrap(confidences));
     return ret;
   }
@@ -203,7 +203,7 @@ public:
   }
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
-    Napi::Object opts = info[2]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    Napi::Object opts = info[2].As<Napi::Object>();
     return (
         FF::DoubleConverter::optProp(&hitThreshold, "hitThreshold", opts) || Size::Converter::optProp(&winStride, "winStride", opts) || Size::Converter::optProp(&padding, "padding", opts));
   }
@@ -238,7 +238,7 @@ public:
 
   Napi::Value getReturnValue(const Napi::Env& env) {
     Napi::Object ret = Napi::Object::New(env);
-    Nan::Set(ret, Nan::New("foundLocations").ToLocalChecked(), Rect::ArrayWithCastConverter<cv::Rect>::wrap(foundLocations));
+    ret.Set("foundLocations", Rect::ArrayWithCastConverter<cv::Rect>::wrap(foundLocations));
     ret.Set("foundWeights", FF::DoubleArrayConverter::wrap(foundWeights));
     return ret;
   }
@@ -258,7 +258,7 @@ public:
   }
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
-    Napi::Object opts = info[1]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    Napi::Object opts = info[1].As<Napi::Object>();
     return (
         FF::DoubleConverter::optProp(&hitThreshold, "hitThreshold", opts) || Size::Converter::optProp(&winStride, "winStride", opts) || Size::Converter::optProp(&padding, "padding", opts) || FF::DoubleConverter::optProp(&scale, "scale", opts) || FF::DoubleConverter::optProp(&finalThreshold, "finalThreshold", opts) || FF::BoolConverter::optProp(&useMeanshiftGrouping, "useMeanshiftGrouping", opts));
   }
@@ -306,7 +306,7 @@ public:
   }
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
-    Napi::Object opts = info[2]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    Napi::Object opts = info[2].As<Napi::Object>();
     return (
         FF::DoubleConverter::optProp(&hitThreshold, "hitThreshold", opts) || FF::IntConverter::optProp(&groupThreshold, "groupThreshold", opts));
   }

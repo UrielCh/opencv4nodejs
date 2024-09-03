@@ -41,7 +41,7 @@ public:
   }
 
   bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
-    Napi::Object opts = info[0]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    Napi::Object opts = info[0].As<Napi::Object>();
     return (
         FF::IntConverter::optProp(&threshold, "threshold", opts) || FF::BoolConverter::optProp(&nonmaxSuppression, "nonmaxSuppression", opts) || FF::IntConverter::optProp(&type, "type", opts));
   }

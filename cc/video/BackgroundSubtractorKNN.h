@@ -40,7 +40,7 @@ public:
     }
 
     bool unwrapOptionalArgsFromOpts(const Napi::CallbackInfo& info) {
-      Napi::Object opts = info[0]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+      Napi::Object opts = info[0].As<Napi::Object>();
       return (
           FF::UintConverter::optProp(&history, "history", opts) || FF::DoubleConverter::optProp(&dist2Threshold, "dist2Threshold", opts) || FF::BoolConverter::optProp(&detectShadows, "detectShadows", opts));
     }

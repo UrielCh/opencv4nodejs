@@ -16,16 +16,16 @@ class Core : public Napi::ObjectWrap<Core> {
 public:
   static Napi::Object Init(Napi::Env env, Napi::Object exports);
 
-  static void GetBuildInformation(const Napi::CallbackInfo& info);
+  static Napi::Value GetBuildInformation(const Napi::CallbackInfo& info);
   static void Partition(const Napi::CallbackInfo& info);
   static void Kmeans(const Napi::CallbackInfo& info);
   static void CartToPolar(const Napi::CallbackInfo& info);
   static void CartToPolarAsync(const Napi::CallbackInfo& info);
   static void PolarToCart(const Napi::CallbackInfo& info);
   static void PolarToCartAsync(const Napi::CallbackInfo& info);
-  static void GetNumThreads(const Napi::CallbackInfo& info);
+  static Napi::Value GetNumThreads(const Napi::CallbackInfo& info);
   static void SetNumThreads(const Napi::CallbackInfo& info);
-  static void GetThreadNum(const Napi::CallbackInfo& info);
+  static Napi::Value GetThreadNum(const Napi::CallbackInfo& info);
 
   static void AddWeighted(const Napi::CallbackInfo& info);
   static void AddWeightedAsync(const Napi::CallbackInfo& info);
