@@ -212,16 +212,16 @@ Napi::Object Mat(Napi::Env env, Napi::Object exports) {
       FF_PROTO_SET_MAT_OPERATIONS(ctor);
 
 #ifdef HAVE_OPENCV_CALIB3D
-  MatCalib3d::Init(ctor);
+  MatCalib3d::Init(env, exports);
 #endif
 #ifdef HAVE_OPENCV_IMGPROC
-  MatImgproc::Init(ctor);
+  MatImgproc::Init(env, exports);
 #endif
 #ifdef HAVE_OPENCV_PHOTO
-  MatPhoto::Init(ctor);
+  MatPhoto::Init(env, exports);
 #endif
 #ifdef HAVE_OPENCV_XIMGPROC
-  MatXimgproc::Init(ctor);
+  MatXimgproc::Init(env, exports);
 #endif
 
   target.Set("Mat", FF::getFunction(ctor));

@@ -12,7 +12,7 @@ Napi::Object SimpleBlobDetector(Napi::Env env, Napi::Object exports) {
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
   SimpleBlobDetectorParams::Init(env, exports);
-  FeatureDetector::Init(ctor);
+  FeatureDetector::Init(env, exports);
   constructor.Reset(ctor);
   ctor->SetClassName(Napi::String::New(env, "SimpleBlobDetector"));
 

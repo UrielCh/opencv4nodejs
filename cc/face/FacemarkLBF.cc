@@ -14,7 +14,7 @@ Napi::Object FacemarkLBF(Napi::Env env, Napi::Object exports) {
       Napi::Function::New(env, FacemarkLBF::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
-  Facemark::Init(ctor);
+  Facemark::Init(env, exports);
   constructor.Reset(ctor);
   ctor->SetClassName(Napi::String::New(env, "FacemarkLBF"));
 

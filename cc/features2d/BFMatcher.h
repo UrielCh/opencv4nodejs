@@ -25,11 +25,11 @@ public:
 
   static Napi::Object Init(Napi::Env env, Napi::Object exports);
 
-  static void New(const Napi::CallbackInfo& info);
-  static void match(const Napi::CallbackInfo& info);
-  static void matchAsync(const Napi::CallbackInfo& info);
-  static void knnMatch(const Napi::CallbackInfo& info);
-  static void knnMatchAsync(const Napi::CallbackInfo& info);
+  static Napi::Value New(const Napi::CallbackInfo& info);
+  static Napi::Value match(const Napi::CallbackInfo& info);
+  static Napi::Value matchAsync(const Napi::CallbackInfo& info);
+  static Napi::Value knnMatch(const Napi::CallbackInfo& info);
+  static Napi::Value knnMatchAsync(const Napi::CallbackInfo& info);
 
   struct NewWorker : CatchCvExceptionWorker {
   public:

@@ -26,7 +26,7 @@ Napi::Object BFMatcher(Napi::Env env, Napi::Object exports) {
       target.Set("BFMatcher", FF::getFunction(ctor));
 };
 
-void BFMatcher::New(const Napi::CallbackInfo& info) {
+Napi::Value BFMatcher::New(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "BFMatcher::New");
   FF_ASSERT_CONSTRUCT_CALL();
@@ -46,29 +46,29 @@ void BFMatcher::New(const Napi::CallbackInfo& info) {
   return info.Holder();
 }
 
-void BFMatcher::match(const Napi::CallbackInfo& info) {
-  FF::executeSyncBinding(
+Napi::Value BFMatcher::match(const Napi::CallbackInfo& info) {
+  return FF::executeSyncBinding(
       std::make_shared<BFMatcherBindings::MatchWorker>(BFMatcher::unwrapSelf(info)),
       "BFMatcher::match",
       info);
 }
 
-void BFMatcher::matchAsync(const Napi::CallbackInfo& info) {
-  FF::executeAsyncBinding(
+Napi::Value BFMatcher::matchAsync(const Napi::CallbackInfo& info) {
+  return FF::executeAsyncBinding(
       std::make_shared<BFMatcherBindings::MatchWorker>(BFMatcher::unwrapSelf(info)),
       "BFMatcher::matchAsync",
       info);
 }
 
-void BFMatcher::knnMatch(const Napi::CallbackInfo& info) {
-  FF::executeSyncBinding(
+Napi::Value BFMatcher::knnMatch(const Napi::CallbackInfo& info) {
+  return FF::executeSyncBinding(
       std::make_shared<BFMatcherBindings::MatchKnnWorker>(BFMatcher::unwrapSelf(info)),
       "BFMatcher::knnMatch",
       info);
 }
 
-void BFMatcher::knnMatchAsync(const Napi::CallbackInfo& info) {
-  FF::executeAsyncBinding(
+Napi::Value BFMatcher::knnMatchAsync(const Napi::CallbackInfo& info) {
+  return FF::executeAsyncBinding(
       std::make_shared<BFMatcherBindings::MatchKnnWorker>(BFMatcher::unwrapSelf(info)),
       "BFMatcher::knnMatchAsync",
       info);

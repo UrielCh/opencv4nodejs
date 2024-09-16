@@ -7,7 +7,7 @@
 
 #if CV_VERSION_GREATER_EQUAL(3, 4, 0)
 
-void Facemark::Save(const Napi::CallbackInfo& info) {
+Napi::Value Facemark::Save(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "Facemark::Save");
 
@@ -15,10 +15,12 @@ void Facemark::Save(const Napi::CallbackInfo& info) {
   if (FF::StringConverter::arg(0, &path, info)) {
     return tryCatch.reThrow();
   }
-  info.This())->save(path.Unwrap<Facemark>();
+  //info.This()->save(path.Unwrap<Facemark>());
+  info.This().As<Napi::Object>().Save(path.Unwrap<Facemark>());
+  //this->value_;
 }
 
-void Facemark::Load(const Napi::CallbackInfo& info) {
+Napi::Value Facemark::Load(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "Facemark::Load");
 
@@ -26,51 +28,56 @@ void Facemark::Load(const Napi::CallbackInfo& info) {
   if (FF::StringConverter::arg(0, &path, info)) {
     return tryCatch.reThrow();
   }
-  info.This())->load(path.Unwrap<Facemark>();
+  info.This()->load(path.Unwrap<Facemark>());
 }
 
-void Facemark::Init(Napi::FunctionReference ctor) {
-  InstanceMethod("loadModel", &LoadModel),
-  InstanceMethod("loadModelAsync", &LoadModelAsync),
-  InstanceMethod("fit", &Fit),
-  InstanceMethod("fitAsync", &FitAsync),
-  InstanceMethod("save", &Save),
-  InstanceMethod("load", &Load),
-#if CV_VERSION_MAJOR <= 3 && CV_VERSION_MINOR < 2
-  InstanceMethod("addTrainingSample", &AddTrainingSample),
-  InstanceMethod("addTrainingSampleAsync", &AddTrainingSampleAsync),
-  InstanceMethod("getData", &GetData),
-  InstanceMethod("getDataAsync", &GetDataAsync),
-  InstanceMethod("getFaces", &GetFaces),
-  InstanceMethod("getFacesAsync", &GetFacesAsync),
-  InstanceMethod("setFaceDetector", &SetFaceDetector),
-  InstanceMethod("training", &Training),
-  InstanceMethod("trainingAsync", &TrainingAsync),
-#endif
-};
+Napi::Object Facemark::Init(Napi::Env env, Napi::Object exports) {
 
-void Facemark::LoadModel(const Napi::CallbackInfo& info) {
+  Napi::Function func = DefineClass(
+      env,
+      "Facemark",
+      {
+  InstanceMethod("loadModel", &Facemark::LoadModel),
+  InstanceMethod("loadModelAsync", &Facemark::LoadModelAsync),
+  InstanceMethod("fit", &Facemark::Fit),
+  InstanceMethod("fitAsync", &Facemark::FitAsync),
+  InstanceMethod("save", &Facemark::Save),
+  InstanceMethod("load", &Facemark::Load),
+#if CV_VERSION_MAJOR <= 3 && CV_VERSION_MINOR < 2
+  InstanceMethod("addTrainingSample", &Facemark::AddTrainingSample),
+  InstanceMethod("addTrainingSampleAsync", &Facemark::AddTrainingSampleAsync),
+  InstanceMethod("getData", &Facemark::GetData),
+  InstanceMethod("getDataAsync", &Facemark::GetDataAsync),
+  InstanceMethod("getFaces", &Facemark::GetFaces),
+  InstanceMethod("getFacesAsync", &Facemark::GetFacesAsync),
+  InstanceMethod("setFaceDetector", &Facemark::SetFaceDetector),
+  InstanceMethod("training", &Facemark::Training),
+  InstanceMethod("trainingAsync", &Facemark::TrainingAsync),
+#endif
+});
+
+Napi::Value Facemark::LoadModel(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<FacemarkBindings::LoadModelWorker>(Facemark::unwrapThis(info)->getFacemark()),
       "Facemark::LoadModel",
       info);
 }
 
-void Facemark::LoadModelAsync(const Napi::CallbackInfo& info) {
+Napi::Value Facemark::LoadModelAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<FacemarkBindings::LoadModelWorker>(Facemark::unwrapThis(info)->getFacemark()),
       "Facemark::LoadModelAsync",
       info);
 }
 
-void Facemark::Fit(const Napi::CallbackInfo& info) {
+Napi::Value Facemark::Fit(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<FacemarkBindings::FitWorker>(Facemark::unwrapThis(info)->getFacemark()),
       "Facemark::Fit",
       info);
 }
 
-void Facemark::FitAsync(const Napi::CallbackInfo& info) {
+Napi::Value Facemark::FitAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<FacemarkBindings::FitWorker>(Facemark::unwrapThis(info)->getFacemark()),
       "Facemark::FitAsync",
@@ -79,49 +86,49 @@ void Facemark::FitAsync(const Napi::CallbackInfo& info) {
 
 #if CV_VERSION_MAJOR <= 3 && CV_VERSION_MINOR < 2
 
-void Facemark::AddTrainingSample(const Napi::CallbackInfo& info) {
+Napi::Value Facemark::AddTrainingSample(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<FacemarkBindings::AddTrainingSampleWorker>(Facemark::unwrapThis(info)->getFacemark()),
       "Facemark::AddTrainingSample",
       info);
 }
 
-void Facemark::AddTrainingSampleAsync(const Napi::CallbackInfo& info) {
+Napi::Value Facemark::AddTrainingSampleAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<FacemarkBindings::AddTrainingSampleWorker>(Facemark::unwrapThis(info)->getFacemark()),
       "Facemark::AddTrainingSampleAsync",
       info);
 }
 
-void Facemark::GetData(const Napi::CallbackInfo& info) {
+Napi::Value Facemark::GetData(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<FacemarkBindings::GetDataWorker>(Facemark::unwrapThis(info)->getFacemark()),
       "Facemark::GetData",
       info);
 }
 
-void Facemark::GetDataAsync(const Napi::CallbackInfo& info) {
+Napi::Value Facemark::GetDataAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<FacemarkBindings::GetDataWorker>(Facemark::unwrapThis(info)->getFacemark()),
       "Facemark::GetDataAsync",
       info);
 }
 
-void Facemark::GetFaces(const Napi::CallbackInfo& info) {
+Napi::Value Facemark::GetFaces(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<FacemarkBindings::GetFacesWorker>(Facemark::unwrapThis(info)->getFacemark()),
       "Facemark::GetFaces",
       info);
 }
 
-void Facemark::GetFacesAsync(const Napi::CallbackInfo& info) {
+Napi::Value Facemark::GetFacesAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<FacemarkBindings::GetFacesWorker>(Facemark::unwrapThis(info)->getFacemark()),
       "Facemark::GetFacesAsync",
       info);
 }
 
-void Facemark::SetFaceDetector(const Napi::CallbackInfo& info) {
+Napi::Value Facemark::SetFaceDetector(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
   FF::TryCatch tryCatch(env, "Facemark::SetFaceDetector");
   if (!info[0].IsFunction()) {
@@ -137,14 +144,14 @@ void Facemark::SetFaceDetector(const Napi::CallbackInfo& info) {
   return Napi::Boolean::New(env, results);
 }
 
-void Facemark::Training(const Napi::CallbackInfo& info) {
+Napi::Value Facemark::Training(const Napi::CallbackInfo& info) {
   FF::executeSyncBinding(
       std::make_shared<FacemarkBindings::TrainingWorker>(Facemark::unwrapThis(info)->getFacemark()),
       "Facemark::Train",
       info);
 }
 
-void Facemark::TrainingAsync(const Napi::CallbackInfo& info) {
+Napi::Value Facemark::TrainingAsync(const Napi::CallbackInfo& info) {
   FF::executeAsyncBinding(
       std::make_shared<FacemarkBindings::TrainingWorker>(Facemark::unwrapThis(info)->getFacemark()),
       "Facemark::TrainAsync",

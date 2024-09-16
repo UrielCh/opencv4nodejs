@@ -10,7 +10,7 @@ Napi::Object SIFTDetector(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, SIFTDetector::New));
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
-  FeatureDetector::Init(ctor);
+  FeatureDetector::Init(env, exports);
   constructor.Reset(ctor);
 
   ctor->SetClassName(Napi::String::New(env, "SIFTDetector"));

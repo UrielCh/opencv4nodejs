@@ -87,71 +87,71 @@ Napi::Object init(Napi::Env env, Napi::Object exports) {
   exports.Set("modules", modules);
   exports.Set("xmodules", modules);
 
-  (modules).Set("core", Napi::Boolean::New(env, true));
+  modules.Set("core", Napi::Boolean::New(env, true));
   Core::Init(env, exports);
 
 #ifdef HAVE_OPENCV_HIGHGUI
-  (modules).Set("highgui", Napi::Boolean::New(env, true));
+  modules.Set("highgui", Napi::Boolean::New(env, true));
   Highgui::Init(env, exports);
 #endif
 #ifdef HAVE_OPENCV_CALIB3D
-  (modules).Set(FF::newString(env, "calib3d"), Napi::Boolean::New(env, true));
+  modules.Set(FF::newString(env, "calib3d"), Napi::Boolean::New(env, true));
   Calib3d::Init(env, exports);
 #endif
 #ifdef HAVE_OPENCV_DNN
-  (modules).Set("dnn", Napi::Boolean::New(env, true));
+  modules.Set("dnn", Napi::Boolean::New(env, true));
   Dnn::Init(env, exports);
 #endif
 #ifdef HAVE_OPENCV_FACE
-  (modules).Set("face", Napi::Boolean::New(env, true));
+  modules.Set("face", Napi::Boolean::New(env, true));
   Face::Init(env, exports);
 #endif
 #ifdef HAVE_OPENCV_FEATURES2D
-  (modules).Set(FF::newString(env, "features2d"), Napi::Boolean::New(env, true));
+  modules.Set(FF::newString(env, "features2d"), Napi::Boolean::New(env, true));
   Features2d::Init(env, exports);
 #endif
 #ifdef HAVE_OPENCV_IMGPROC
-  (modules).Set("imgproc", Napi::Boolean::New(env, true));
+  modules.Set("imgproc", Napi::Boolean::New(env, true));
   Imgproc::Init(env, exports);
 #endif
 #ifdef HAVE_IO
-  (modules).Set("io", Napi::Boolean::New(env, true));
+  modules.Set("io", Napi::Boolean::New(env, true));
   Io::Init(env, exports);
 #endif
 #ifdef HAVE_OPENCV_ML
-  (modules).Set("ml", Napi::Boolean::New(env, true));
+  modules.Set("ml", Napi::Boolean::New(env, true));
   MachineLearning::Init(env, exports);
 #endif
 #ifdef HAVE_OPENCV_OBJDETECT
-  (modules).Set("objdetect", Napi::Boolean::New(env, true));
+  modules.Set("objdetect", Napi::Boolean::New(env, true));
   Objdetect::Init(env, exports);
 #endif
 #ifdef HAVE_OPENCV_PHOTO
-  (modules).Set("photo", Napi::Boolean::New(env, true));
+  modules.Set("photo", Napi::Boolean::New(env, true));
   Photo::Init(env, exports);
 #endif
 #ifdef HAVE_OPENCV_TEXT
-  (modules).Set("text", Napi::Boolean::New(env, true));
+  modules.Set("text", Napi::Boolean::New(env, true));
   Text::Init(env, exports);
 #endif
 #ifdef HAVE_OPENCV_TRACKING
-  (modules).Set("tracking", Napi::Boolean::New(env, true));
+  modules.Set("tracking", Napi::Boolean::New(env, true));
   Tracking::Init(env, exports);
 #endif
 #ifdef HAVE_OPENCV_VIDEO
-  (modules).Set("video", Napi::Boolean::New(env, true));
+  modules.Set("video", Napi::Boolean::New(env, true));
   Video::Init(env, exports);
 #endif
 #ifdef HAVE_OPENCV_XFEATURES2D
-  (modules).Set(FF::newString(env, "xfeatures2d"), Napi::Boolean::New(env, true));
+  modules.Set(FF::newString(env, "xfeatures2d"), Napi::Boolean::New(env, true));
   XFeatures2d::Init(env, exports);
 #endif
 #ifdef HAVE_OPENCV_XIMGPROC
-  (modules).Set("ximgproc", Napi::Boolean::New(env, true));
+  modules.Set("ximgproc", Napi::Boolean::New(env, true));
   XImgproc::Init(env, exports);
 #endif
 #ifdef HAVE_OPENCV_IMG_HASH
-  (modules).Set(FF::newString(env, "img_hash"), Napi::Boolean::New(env, true));
+  modules.Set(FF::newString(env, "img_hash"), Napi::Boolean::New(env, true));
   ImgHash::Init(env, exports);
 #endif
 };

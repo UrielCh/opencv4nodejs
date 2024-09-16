@@ -5,7 +5,7 @@
 #include "BackgroundSubtractor.h"
 #include "Mat.h"
 
-void BackgroundSubtractor::Init(Napi::FunctionReference ctor) {
+void BackgroundSubtractor::Init(Napi::Env env, Napi::Object exports) {
   Napi::SetPrototypeMethod(ctor, "apply", BackgroundSubtractor::Apply);
 };
 

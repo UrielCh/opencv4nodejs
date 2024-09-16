@@ -9,11 +9,11 @@
 #ifndef __FF_IMGHASHBASE_H__
 #define __FF_IMGHASHBASE_H__
 
-class ImgHashBase : public FF::ObjectWrapBase<ImgHashBase>, public Napi::ObjectWrap {
+class ImgHashBase : public FF::ObjectWrapBase<ImgHashBase>, public Napi::ObjectWrap<ImgHashBase> {
 public:
   virtual cv::Ptr<cv::img_hash::ImgHashBase> getImgHashBase() = 0;
 
-  static void Init(Napi::FunctionReference);
+  static Napi::Object Init(Napi::Env env, Napi::Object exports);
 
   static void Compare(const Napi::CallbackInfo& info);
   static void CompareAsync(const Napi::CallbackInfo& info);

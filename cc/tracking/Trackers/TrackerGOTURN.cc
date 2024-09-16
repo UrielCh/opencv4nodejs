@@ -66,7 +66,7 @@ Napi::Object TrackerGOTURN(Napi::Env env, Napi::Object exports) {
   Napi::SetPrototypeMethod(ctor, "update", TrackerGOTURN::Update);
   Napi::SetPrototypeMethod(ctor, "getModel", TrackerGOTURN::GetModel);
 #else
-  Tracker::Init(ctor);
+  Tracker::Init(env, exports);
 #endif
   constructor.Reset(ctor);
   ctor->SetClassName(FF::newString(env, "TrackerGOTURN"));

@@ -8,6 +8,7 @@ using namespace cv;
 
 void MachineLearningConstants::Init(Napi::Env env, Napi::Object exports) {
   Napi::Object svmConstants = Napi::Object::New(env);
+
   FF_SET_JS_PROP(svmConstants, CUSTOM, Napi::Number::New(env, ml::SVM::KernelTypes::CUSTOM));
   FF_SET_JS_PROP(svmConstants, LINEAR, Napi::Number::New(env, ml::SVM::KernelTypes::LINEAR));
   FF_SET_JS_PROP(svmConstants, POLY, Napi::Number::New(env, ml::SVM::KernelTypes::POLY));
@@ -30,15 +31,15 @@ void MachineLearningConstants::Init(Napi::Env env, Napi::Object exports) {
   FF_SET_JS_PROP(mlConstants, VAR_CATEGORICAL, Napi::Number::New(env, ml::VariableTypes::VAR_CATEGORICAL));
   FF_SET_JS_PROP(mlConstants, VAR_NUMERICAL, Napi::Number::New(env, ml::VariableTypes::VAR_NUMERICAL));
   FF_SET_JS_PROP(mlConstants, VAR_ORDERED, Napi::Number::New(env, ml::VariableTypes::VAR_ORDERED));
-  (mlConstants).Set("SVM", svmConstants);
-  (target).Set("ml", mlConstants);
+  mlConstants.Set("SVM", svmConstants);
+  exports.Set("ml", mlConstants);
 
   Napi::Object statModelCostants = Napi::Object::New(env);
   FF_SET_JS_PROP(statModelCostants, COMPRESSED_INPUT, Napi::Number::New(env, ml::StatModel::Flags::COMPRESSED_INPUT));
   FF_SET_JS_PROP(statModelCostants, PREPROCESSED_INPUT, Napi::Number::New(env, ml::StatModel::Flags::PREPROCESSED_INPUT));
   FF_SET_JS_PROP(statModelCostants, RAW_OUTPUT, Napi::Number::New(env, ml::StatModel::Flags::RAW_OUTPUT));
   FF_SET_JS_PROP(statModelCostants, UPDATE_MODEL, Napi::Number::New(env, ml::StatModel::Flags::UPDATE_MODEL));
-  (target).Set("statModel", statModelCostants);
+  exports.Set("statModel", statModelCostants);
 }
 
 #endif

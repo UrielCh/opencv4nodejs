@@ -40,7 +40,12 @@
 #define FF_ACCESSORS_PTR(ff_property_name, ff_property_converter) \
   FF_ACCESSORS_CUSTOM(ff_property_name, ff_property_converter, self->ff_property_name)
 
-#define FF_SET_JS_PROP(obj, prop, val) (obj).Set(FF::newString(#prop), val)
+//#define FF_SET_JS_PROP(obj, prop, val) (obj).Set(FF::newString(#prop), val)
+#define FF_SET_JS_PROP(obj, prop, val) (obj).Set(#prop, val)
+
+// (svmConstants).Set(FF::newString("CUSTOM"), Napi::Number::New(env, ml::SVM::KernelTypes::CUSTOM))
+// svmConstants.Set("CUSTOM", Napi::Number::New(env, ml::SVM::KernelTypes::CUSTOM));
+
 
 #define FF_SET_CV_CONSTANT(obj, cvConstant) \
   FF_SET_JS_PROP(obj, cvConstant, Napi::Number::New(env, cvConstant));

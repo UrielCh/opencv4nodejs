@@ -9,7 +9,7 @@
 #ifndef __FF_TRACKER_H__
 #define __FF_TRACKER_H__
 
-class Tracker : public FF::ObjectWrapBase<Tracker>, public Napi::ObjectWrap {
+class Tracker : public FF::ObjectWrapBase<Tracker>, public Napi::ObjectWrap<Tracker> {
 public:
 #if CV_VERSION_GREATER_EQUAL(4, 5, 2)
   virtual cv::Ptr<cv::legacy::Tracker> getTracker() = 0;
@@ -17,7 +17,7 @@ public:
   virtual cv::Ptr<cv::Tracker> getTracker() = 0;
 #endif
 
-  static void Init(Napi::FunctionReference);
+  static Napi::Object Init(Napi::Env env, Napi::Object exports);
 
   static void Clear(const Napi::CallbackInfo& info);
   static void Init(const Napi::CallbackInfo& info);

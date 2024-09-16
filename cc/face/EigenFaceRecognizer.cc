@@ -11,7 +11,7 @@ Napi::Object EigenFaceRecognizer(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, EigenFaceRecognizer::New));
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
-  FaceRecognizer::Init(ctor);
+  FaceRecognizer::Init(env, exports);
   constructor.Reset(ctor);
   ctor->SetClassName(Napi::String::New(env, "EigenFaceRecognizer"));
 

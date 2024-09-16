@@ -13,28 +13,28 @@ class DescriptorMatching : public Napi::ObjectWrap<DescriptorMatching> {
 public:
   static Napi::Object Init(Napi::Env env, Napi::Object exports);
 
-  static void MatchFlannBased(const Napi::CallbackInfo& info);
-  static void MatchBruteForce(const Napi::CallbackInfo& info);
-  static void MatchBruteForceL1(const Napi::CallbackInfo& info);
-  static void MatchBruteForceHamming(const Napi::CallbackInfo& info);
-  static void MatchBruteForceHammingLut(const Napi::CallbackInfo& info);
-  static void MatchBruteForceSL2(const Napi::CallbackInfo& info);
-  static void MatchFlannBasedAsync(const Napi::CallbackInfo& info);
-  static void MatchBruteForceAsync(const Napi::CallbackInfo& info);
-  static void MatchBruteForceL1Async(const Napi::CallbackInfo& info);
-  static void MatchBruteForceHammingAsync(const Napi::CallbackInfo& info);
-  static void MatchBruteForceHammingLutAsync(const Napi::CallbackInfo& info);
-  static void MatchBruteForceSL2Async(const Napi::CallbackInfo& info);
+  static Napi::Value MatchFlannBased(const Napi::CallbackInfo& info);
+  static Napi::Value MatchBruteForce(const Napi::CallbackInfo& info);
+  static Napi::Value MatchBruteForceL1(const Napi::CallbackInfo& info);
+  static Napi::Value MatchBruteForceHamming(const Napi::CallbackInfo& info);
+  static Napi::Value MatchBruteForceHammingLut(const Napi::CallbackInfo& info);
+  static Napi::Value MatchBruteForceSL2(const Napi::CallbackInfo& info);
+  static Napi::Value MatchFlannBasedAsync(const Napi::CallbackInfo& info);
+  static Napi::Value MatchBruteForceAsync(const Napi::CallbackInfo& info);
+  static Napi::Value MatchBruteForceL1Async(const Napi::CallbackInfo& info);
+  static Napi::Value MatchBruteForceHammingAsync(const Napi::CallbackInfo& info);
+  static Napi::Value MatchBruteForceHammingLutAsync(const Napi::CallbackInfo& info);
+  static Napi::Value MatchBruteForceSL2Async(const Napi::CallbackInfo& info);
 
 #if CV_VERSION_GREATER_EQUAL(4, 0, 0)
-  static void match(const Napi::CallbackInfo& info, cv::DescriptorMatcher::MatcherType matcherType);
-  static void matchAsync(const Napi::CallbackInfo& info, cv::DescriptorMatcher::MatcherType matcherType);
+  static Napi::Value match(const Napi::CallbackInfo& info, cv::DescriptorMatcher::MatcherType matcherType);
+  static Napi::Value matchAsync(const Napi::CallbackInfo& info, cv::DescriptorMatcher::MatcherType matcherType);
 #elif CV_VERSION_GREATER_EQUAL(3, 2, 0)
-  static void match(const Napi::CallbackInfo& info, int matcherType);
-  static void matchAsync(const Napi::CallbackInfo& info, int matcherType);
+  static Napi::Value match(const Napi::CallbackInfo& info, int matcherType);
+  static Napi::Value matchAsync(const Napi::CallbackInfo& info, int matcherType);
 #else
-  static void match(const Napi::CallbackInfo& info, std::string matcherType);
-  static void matchAsync(const Napi::CallbackInfo& info, std::string matcherType);
+  static Napi::Value match(const Napi::CallbackInfo& info, std::string matcherType);
+  static Napi::Value matchAsync(const Napi::CallbackInfo& info, std::string matcherType);
 #endif
 
   struct MatchWorker;

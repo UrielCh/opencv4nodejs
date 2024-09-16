@@ -23,86 +23,86 @@ Napi::Object DescriptorMatchingKnn(Napi::Env env, Napi::Object exports) {
 
 #if CV_VERSION_GREATER_EQUAL(3, 2, 0)
 
-void DescriptorMatchingKnn::MatchKnnFlannBased(const Napi::CallbackInfo& info) {
-  matchKnn(info, cv::DescriptorMatcher::FLANNBASED);
+Napi::Value DescriptorMatchingKnn::MatchKnnFlannBased(const Napi::CallbackInfo& info) {
+  return matchKnn(info, cv::DescriptorMatcher::FLANNBASED);
 }
 
-void DescriptorMatchingKnn::MatchKnnBruteForce(const Napi::CallbackInfo& info) {
-  matchKnn(info, cv::DescriptorMatcher::BRUTEFORCE);
+Napi::Value DescriptorMatchingKnn::MatchKnnBruteForce(const Napi::CallbackInfo& info) {
+  return matchKnn(info, cv::DescriptorMatcher::BRUTEFORCE);
 }
 
-void DescriptorMatchingKnn::MatchKnnBruteForceL1(const Napi::CallbackInfo& info) {
-  matchKnn(info, cv::DescriptorMatcher::BRUTEFORCE_L1);
+Napi::Value DescriptorMatchingKnn::MatchKnnBruteForceL1(const Napi::CallbackInfo& info) {
+  return matchKnn(info, cv::DescriptorMatcher::BRUTEFORCE_L1);
 }
 
-void DescriptorMatchingKnn::MatchKnnBruteForceHamming(const Napi::CallbackInfo& info) {
-  matchKnn(info, cv::DescriptorMatcher::BRUTEFORCE_HAMMING);
+Napi::Value DescriptorMatchingKnn::MatchKnnBruteForceHamming(const Napi::CallbackInfo& info) {
+  return matchKnn(info, cv::DescriptorMatcher::BRUTEFORCE_HAMMING);
 }
 
-void DescriptorMatchingKnn::MatchKnnBruteForceHammingLut(const Napi::CallbackInfo& info) {
-  matchKnn(info, cv::DescriptorMatcher::BRUTEFORCE_HAMMINGLUT);
+Napi::Value DescriptorMatchingKnn::MatchKnnBruteForceHammingLut(const Napi::CallbackInfo& info) {
+  return matchKnn(info, cv::DescriptorMatcher::BRUTEFORCE_HAMMINGLUT);
 }
 
-void DescriptorMatchingKnn::MatchKnnBruteForceSL2(const Napi::CallbackInfo& info) {
-  matchKnn(info, cv::DescriptorMatcher::BRUTEFORCE_SL2);
+Napi::Value DescriptorMatchingKnn::MatchKnnBruteForceSL2(const Napi::CallbackInfo& info) {
+  return matchKnn(info, cv::DescriptorMatcher::BRUTEFORCE_SL2);
 }
 
-void DescriptorMatchingKnn::MatchKnnFlannBasedAsync(const Napi::CallbackInfo& info) {
-  matchKnnAsync(info, cv::DescriptorMatcher::FLANNBASED);
+Napi::Value DescriptorMatchingKnn::MatchKnnFlannBasedAsync(const Napi::CallbackInfo& info) {
+  return matchKnnAsync(info, cv::DescriptorMatcher::FLANNBASED);
 }
 
-void DescriptorMatchingKnn::MatchKnnBruteForceAsync(const Napi::CallbackInfo& info) {
-  matchKnnAsync(info, cv::DescriptorMatcher::BRUTEFORCE);
+Napi::Value DescriptorMatchingKnn::MatchKnnBruteForceAsync(const Napi::CallbackInfo& info) {
+  return matchKnnAsync(info, cv::DescriptorMatcher::BRUTEFORCE);
 }
 
-void DescriptorMatchingKnn::MatchKnnBruteForceL1Async(const Napi::CallbackInfo& info) {
-  matchKnnAsync(info, cv::DescriptorMatcher::BRUTEFORCE_L1);
+Napi::Value DescriptorMatchingKnn::MatchKnnBruteForceL1Async(const Napi::CallbackInfo& info) {
+  return matchKnnAsync(info, cv::DescriptorMatcher::BRUTEFORCE_L1);
 }
 
-void DescriptorMatchingKnn::MatchKnnBruteForceHammingAsync(const Napi::CallbackInfo& info) {
-  matchKnnAsync(info, cv::DescriptorMatcher::BRUTEFORCE_HAMMING);
+Napi::Value DescriptorMatchingKnn::MatchKnnBruteForceHammingAsync(const Napi::CallbackInfo& info) {
+  return matchKnnAsync(info, cv::DescriptorMatcher::BRUTEFORCE_HAMMING);
 }
 
-void DescriptorMatchingKnn::MatchKnnBruteForceHammingLutAsync(const Napi::CallbackInfo& info) {
-  matchKnnAsync(info, cv::DescriptorMatcher::BRUTEFORCE_HAMMINGLUT);
+Napi::Value DescriptorMatchingKnn::MatchKnnBruteForceHammingLutAsync(const Napi::CallbackInfo& info) {
+  return matchKnnAsync(info, cv::DescriptorMatcher::BRUTEFORCE_HAMMINGLUT);
 }
 
-void DescriptorMatchingKnn::MatchKnnBruteForceSL2Async(const Napi::CallbackInfo& info) {
-  matchKnnAsync(info, cv::DescriptorMatcher::BRUTEFORCE_SL2);
+Napi::Value DescriptorMatchingKnn::MatchKnnBruteForceSL2Async(const Napi::CallbackInfo& info) {
+  return matchKnnAsync(info, cv::DescriptorMatcher::BRUTEFORCE_SL2);
 }
 
 #else
 
-void DescriptorMatchingKnn::MatchKnnFlannBased(const Napi::CallbackInfo& info) {
-  matchKnn(info, "FlannBased");
+Napi::Value DescriptorMatchingKnn::MatchKnnFlannBased(const Napi::CallbackInfo& info) {
+  return matchKnn(info, "FlannBased");
 }
 
-void DescriptorMatchingKnn::MatchKnnBruteForce(const Napi::CallbackInfo& info) {
-  matchKnn(info, "BruteForce");
+Napi::Value DescriptorMatchingKnn::MatchKnnBruteForce(const Napi::CallbackInfo& info) {
+  return matchKnn(info, "BruteForce");
 }
 
-void DescriptorMatchingKnn::MatchKnnBruteForceL1(const Napi::CallbackInfo& info) {
-  matchKnn(info, "BruteForce-L1");
+Napi::Value DescriptorMatchingKnn::MatchKnnBruteForceL1(const Napi::CallbackInfo& info) {
+  return matchKnn(info, "BruteForce-L1");
 }
 
-void DescriptorMatchingKnn::MatchKnnBruteForceHamming(const Napi::CallbackInfo& info) {
-  matchKnn(info, "BruteForce-Hamming");
+Napi::Value DescriptorMatchingKnn::MatchKnnBruteForceHamming(const Napi::CallbackInfo& info) {
+  return matchKnn(info, "BruteForce-Hamming");
 }
 
-void DescriptorMatchingKnn::MatchKnnFlannBasedAsync(const Napi::CallbackInfo& info) {
-  matchKnnAsync(info, "FlannBased");
+Napi::Value DescriptorMatchingKnn::MatchKnnFlannBasedAsync(const Napi::CallbackInfo& info) {
+  return matchKnnAsync(info, "FlannBased");
 }
 
-void DescriptorMatchingKnn::MatchKnnBruteForceAsync(const Napi::CallbackInfo& info) {
-  matchKnnAsync(info, "BruteForce");
+Napi::Value DescriptorMatchingKnn::MatchKnnBruteForceAsync(const Napi::CallbackInfo& info) {
+  return matchKnnAsync(info, "BruteForce");
 }
 
-void DescriptorMatchingKnn::MatchKnnBruteForceL1Async(const Napi::CallbackInfo& info) {
-  matchKnnAsync(info, "BruteForce-L1");
+Napi::Value DescriptorMatchingKnn::MatchKnnBruteForceL1Async(const Napi::CallbackInfo& info) {
+  return matchKnnAsync(info, "BruteForce-L1");
 }
 
-void DescriptorMatchingKnn::MatchKnnBruteForceHammingAsync(const Napi::CallbackInfo& info) {
-  matchKnnAsync(info, "BruteForce-Hamming");
+Napi::Value DescriptorMatchingKnn::MatchKnnBruteForceHammingAsync(const Napi::CallbackInfo& info) {
+  return matchKnnAsync(info, "BruteForce-Hamming");
 }
 
 #endif
@@ -140,26 +140,26 @@ public:
 };
 
 #if CV_VERSION_GREATER_EQUAL(4, 0, 0)
-void DescriptorMatchingKnn::matchKnn(const Napi::CallbackInfo& info, cv::DescriptorMatcher::MatcherType matcherType) {
+Napi::Value DescriptorMatchingKnn::matchKnn(const Napi::CallbackInfo& info, cv::DescriptorMatcher::MatcherType matcherType) {
 #elif CV_VERSION_GREATER_EQUAL(3, 2, 0)
-void DescriptorMatchingKnn::matchKnn(const Napi::CallbackInfo& info, int matcherType) {
+Napi::Value DescriptorMatchingKnn::matchKnn(const Napi::CallbackInfo& info, int matcherType) {
 #else
-void DescriptorMatchingKnn::matchKnn(const Napi::CallbackInfo& info, std::string matcherType) {
+Napi::Value DescriptorMatchingKnn::matchKnn(const Napi::CallbackInfo& info, std::string matcherType) {
 #endif
-  FF::executeSyncBinding(
+  return FF::executeSyncBinding(
       std::make_shared<MatchKnnWorker>(cv::DescriptorMatcher::create(matcherType)),
       "MSERDetector::MatchKnn",
       info);
 }
 
 #if CV_VERSION_GREATER_EQUAL(4, 0, 0)
-void DescriptorMatchingKnn::matchKnnAsync(const Napi::CallbackInfo& info, cv::DescriptorMatcher::MatcherType matcherType) {
+Napi::Value DescriptorMatchingKnn::matchKnnAsync(const Napi::CallbackInfo& info, cv::DescriptorMatcher::MatcherType matcherType) {
 #elif CV_VERSION_GREATER_EQUAL(3, 2, 0)
-void DescriptorMatchingKnn::matchKnnAsync(const Napi::CallbackInfo& info, int matcherType) {
+Napi::Value DescriptorMatchingKnn::matchKnnAsync(const Napi::CallbackInfo& info, int matcherType) {
 #else
-void DescriptorMatchingKnn::matchKnnAsync(const Napi::CallbackInfo& info, std::string matcherType) {
+Napi::Value DescriptorMatchingKnn::matchKnnAsync(const Napi::CallbackInfo& info, std::string matcherType) {
 #endif
-  FF::executeAsyncBinding(
+  return FF::executeAsyncBinding(
       std::make_shared<MatchKnnWorker>(cv::DescriptorMatcher::create(matcherType)),
       "MSERDetector::MatchKnnAsync",
       info);

@@ -6,7 +6,7 @@
 #define __FF_TRACKERGOTURN_H__
 
 #if CV_VERSION_GREATER_EQUAL(4, 5, 2)
-class TrackerGOTURN : public FF::ObjectWrapBase<TrackerGOTURN>, public Napi::ObjectWrap {
+class TrackerGOTURN : public FF::ObjectWrapBase<TrackerGOTURN>, public Napi::ObjectWrap<TrackerGOTURN> {
 #else
 class TrackerGOTURN : public Tracker {
 #endif

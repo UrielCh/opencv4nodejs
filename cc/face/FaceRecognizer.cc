@@ -5,7 +5,7 @@
 #include "FaceRecognizer.h"
 #include "FaceRecognizerBindings.h"
 
-void FaceRecognizer::Init(Napi::FunctionReference ctor) {
+void FaceRecognizer::Init(Napi::Env env, Napi::Object exports) {
   InstanceMethod("train", &Train),
   InstanceMethod("trainAsync", &TrainAsync),
   InstanceMethod("predict", &Predict),

@@ -5,7 +5,7 @@
 #include "ImgHashBase.h"
 #include "ImgHashBaseBindings.h"
 
-void ImgHashBase::Init(Napi::FunctionReference ctor) {
+void ImgHashBase::Init(Napi::Env env, Napi::Object exports) {
   InstanceMethod("compare", &Compare),
   InstanceMethod("compareAsync", &CompareAsync),
   InstanceMethod("compute", &Compute),

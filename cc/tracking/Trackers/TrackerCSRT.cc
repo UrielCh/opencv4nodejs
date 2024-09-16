@@ -13,7 +13,7 @@ Napi::Object TrackerCSRT(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, TrackerCSRT::New));
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
-  Tracker::Init(ctor);
+  Tracker::Init(env, exports);
   TrackerCSRTParams::Init(env, exports);
 
   constructor.Reset(ctor);

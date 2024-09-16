@@ -11,7 +11,7 @@ Napi::Object TrackerBoosting(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, TrackerBoosting::New));
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
-  Tracker::Init(ctor);
+  Tracker::Init(env, exports);
   TrackerBoostingParams::Init(env, exports);
 
   constructor.Reset(ctor);

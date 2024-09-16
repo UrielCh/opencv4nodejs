@@ -5,7 +5,7 @@
 #include "MatPhoto.h"
 #include "photoBindings.h"
 
-void MatPhoto::Init(Napi::FunctionReference ctor) {
+void MatPhoto::Init(Napi::Env env, Napi::Object exports) {
   InstanceMethod("seamlessClone", &SeamlessClone),
   InstanceMethod("seamlessCloneAsync", &SeamlessCloneAsync),
 };

@@ -1,3 +1,6 @@
+#ifndef MACHINELEARNING_H
+#define MACHINELEARNING_H
+
 #include "opencv_modules.h"
 
 #ifdef HAVE_OPENCV_ML
@@ -9,15 +12,18 @@
 #include "machinelearning.h"
 #include "machinelearningConstants.h"
 
-Napi::Object MachineLearning::Init(Napi::Env env, Napi::Object exports) {
+// Napi::Object MachineLearning::Init(Napi::Env env, Napi::Object exports)
+Napi::Object InitMachineLearning(Napi::Env env, Napi::Object exports) {
   MachineLearningConstants::Init(env, exports);
   TrainData::Init(env, exports);
   ParamGrid::Init(env, exports);
   StatModel::Init(env, exports);
   SVM::Init(env, exports);
   return exports;
-}
+};
 
-NODE_API_MODULE(machinelearning, MachineLearning::Init)
+NODE_API_MODULE(machinelearning, InitMachineLearning)
 
 #endif
+
+#endif // MACHINELEARNING_H

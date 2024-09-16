@@ -6,7 +6,7 @@
 #include "MatImgprocBindings.h"
 #include "imgprocBindings.h"
 
-void MatImgproc::Init(Napi::FunctionReference ctor) {
+void MatImgproc::Init(Napi::Env env, Napi::Object exports) {
   InstanceMethod("rescale", &Rescale),
   InstanceMethod("rescaleAsync", &RescaleAsync),
   InstanceMethod("resize", &Resize),

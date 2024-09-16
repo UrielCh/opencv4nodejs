@@ -7,13 +7,13 @@
 #ifndef __FF_FACERECOGNIZER_H__
 #define __FF_FACERECOGNIZER_H__
 
-class FaceRecognizer : public FF::ObjectWrapBase<FaceRecognizer>, public Napi::ObjectWrap {
+class FaceRecognizer : public FF::ObjectWrapBase<FaceRecognizer>, public Napi::ObjectWrap<FaceRecognizer> {
 public:
   virtual cv::Ptr<cv::face::FaceRecognizer> getFaceRecognizer() = 0;
   virtual void save(std::string) = 0;
   virtual void load(std::string) = 0;
 
-  static void Init(Napi::FunctionReference);
+  static Napi::Object Init(Napi::Env env, Napi::Object exports);
 
   static void Save(const Napi::CallbackInfo& info);
   static void Load(const Napi::CallbackInfo& info);

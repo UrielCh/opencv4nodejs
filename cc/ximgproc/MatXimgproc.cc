@@ -5,7 +5,7 @@
 #include "MatXimgproc.h"
 #include "MatXimgprocBindings.h"
 
-void MatXimgproc::Init(Napi::FunctionReference ctor) {
+void MatXimgproc::Init(Napi::Env env, Napi::Object exports) {
   InstanceMethod("guidedFilter", &GuidedFilter),
   InstanceMethod("guidedFilterAsync", &GuidedFilterAsync),
 };

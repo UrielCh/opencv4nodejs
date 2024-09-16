@@ -12,9 +12,9 @@ Napi::FunctionReference FacemarkAAM::constructor;
 Napi::Object FacemarkAAM(Napi::Env env, Napi::Object exports) {
   Napi::FunctionReference ctor =
       Napi::Function::New(env, FacemarkAAM::New);
-  v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
+  // v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
-  Facemark::Init(ctor);
+  Facemark::Init(env, exports);
   constructor.Reset(ctor);
   ctor->SetClassName(Napi::String::New(env, "FacemarkAAM"));
 

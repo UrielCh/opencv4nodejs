@@ -1,40 +1,40 @@
 #include "opencv_modules.h"
 
 #ifdef HAVE_OPENCV_FEATURES2D
-
 #include "FeatureDetector.h"
 #include "FeatureDetectorBindings.h"
 
-void FeatureDetector::Init(Napi::FunctionReference ctor) {
-  Napi::SetPrototypeMethod(ctor, "detect", FeatureDetector::Detect);
-  Napi::SetPrototypeMethod(ctor, "compute", FeatureDetector::Compute);
-  Napi::SetPrototypeMethod(ctor, "detectAsync", FeatureDetector::DetectAsync);
-  Napi::SetPrototypeMethod(ctor, "computeAsync", FeatureDetector::ComputeAsync);
-};
+Napi::Object FeatureDetector::Init(Napi::Env env, Napi::Object exports) {
+  Napi::Function ctor = DefineClass(env, "FeatureDetector", {// InstanceMethod("detect", &FeatureDetector::Detect),
+                                                             InstanceMethod<&FeatureDetector::Detect>("detect"), InstanceMethod("compute", &FeatureDetector::Compute), InstanceMethod("detectAsync", &FeatureDetector::DetectAsync), InstanceMethod("computeAsync", &FeatureDetector::ComputeAsync)});
 
-void FeatureDetector::Detect(const Napi::CallbackInfo& info) {
-  FF::executeSyncBinding(
+  exports.Set("FeatureDetector", ctor);
+  return exports;
+}
+
+Napi::Value FeatureDetector::Detect(const Napi::CallbackInfo& info) {
+  return FF::executeSyncBinding(
       std::make_shared<FeatureDetectorBindings::DetectWorker>(FeatureDetector::unwrapThis(info)->getDetector()),
       "FeatureDetector::Detect",
       info);
 }
 
-void FeatureDetector::DetectAsync(const Napi::CallbackInfo& info) {
-  FF::executeAsyncBinding(
+Napi::Value FeatureDetector::DetectAsync(const Napi::CallbackInfo& info) {
+  return FF::executeAsyncBinding(
       std::make_shared<FeatureDetectorBindings::DetectWorker>(FeatureDetector::unwrapThis(info)->getDetector()),
       "FeatureDetector::DetectAsync",
       info);
 }
 
-void FeatureDetector::Compute(const Napi::CallbackInfo& info) {
-  FF::executeSyncBinding(
+Napi::Value FeatureDetector::Compute(const Napi::CallbackInfo& info) {
+  return FF::executeSyncBinding(
       std::make_shared<FeatureDetectorBindings::ComputeWorker>(FeatureDetector::unwrapThis(info)->getDetector()),
       "FeatureDetector::Compute",
       info);
 }
 
-void FeatureDetector::ComputeAsync(const Napi::CallbackInfo& info) {
-  FF::executeAsyncBinding(
+Napi::Value FeatureDetector::ComputeAsync(const Napi::CallbackInfo& info) {
+  return FF::executeAsyncBinding(
       std::make_shared<FeatureDetectorBindings::ComputeWorker>(FeatureDetector::unwrapThis(info)->getDetector()),
       "FeatureDetector::ComputeAsync",
       info);

@@ -9,9 +9,9 @@ Napi::Object ExternalMemTracking(Napi::Env env, Napi::Object exports) {
 #ifdef OPENCV4NODEJS_ENABLE_EXTERNALMEMTRACKING
   try {
     char* env = std::getenv("OPENCV4NODEJS_DISABLE_EXTERNAL_MEM_TRACKING");
-    if (env == NULL && custommatallocator == NULL) {
-      custommatallocator = new CustomMatAllocator();
-      cv::Mat::setDefaultAllocator(custommatallocator);
+    if (env == NULL && ExternalMemTracking::custommatallocator == NULL) {
+      ExternalMemTracking::custommatallocator = new CustomMatAllocator();
+      cv::Mat::setDefaultAllocator(ExternalMemTracking::custommatallocator);
     }
   } catch (...) {
     printf("ExternalMemTracking::Init - fatal exception while trying to read env: OPENCV4NODEJS_DISABLE_EXTERNAL_MEM_TRACKING");
@@ -50,16 +50,18 @@ Napi::Object ExternalMemTracking(Napi::Env env, Napi::Object exports) {
 }
 
 Napi::Value ExternalMemTracking::IsCustomMatAllocatorEnabled(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
   bool allocatorOn = false;
 #ifdef OPENCV4NODEJS_ENABLE_EXTERNALMEMTRACKING
   if (ExternalMemTracking::custommatallocator != NULL) {
     allocatorOn = true;
   }
 #endif
-  return allocatorOn;
+  return Napi::Boolean::New(env, allocatorOn);
 }
 
 Napi::Value ExternalMemTracking::DangerousEnableCustomMatAllocator(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
   bool success = false;
 #ifdef OPENCV4NODEJS_ENABLE_EXTERNALMEMTRACKING
   if (ExternalMemTracking::custommatallocator == NULL) {
@@ -68,10 +70,11 @@ Napi::Value ExternalMemTracking::DangerousEnableCustomMatAllocator(const Napi::C
   }
   success = ExternalMemTracking::custommatallocator != NULL;
 #endif
-  return success;
+  return Napi::Boolean::New(env, success);
 }
 
 Napi::Value ExternalMemTracking::DangerousDisableCustomMatAllocator(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
   bool success = false;
 #ifdef OPENCV4NODEJS_ENABLE_EXTERNALMEMTRACKING
   if (ExternalMemTracking::custommatallocator != NULL) {
@@ -93,5 +96,5 @@ Napi::Value ExternalMemTracking::DangerousDisableCustomMatAllocator(const Napi::
   }
   success = ExternalMemTracking::custommatallocator == NULL;
 #endif
-  return success;
+  return Napi::Boolean::New(env, success);
 }

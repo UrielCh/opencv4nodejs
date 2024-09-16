@@ -4,7 +4,7 @@
 
 #include "Tracker.h"
 
-void Tracker::Init(Napi::FunctionReference ctor) {
+void Tracker::Init(Napi::Env env, Napi::Object exports) {
   Napi::SetPrototypeMethod(ctor, "clear", Tracker::Clear);
   Napi::SetPrototypeMethod(ctor, "init", Tracker::Init);
   Napi::SetPrototypeMethod(ctor, "update", Tracker::Update);
