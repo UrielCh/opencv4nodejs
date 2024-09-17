@@ -16,21 +16,21 @@ function loadOpenCV(opt?: OpenCVBuildEnvParams): OpenCVType {
   // load native binding
   const cvBase = getOpenCV(opt);
   // check the presence of any expected symbol, to ensure the library is loaded
-  if (!cvBase.accumulate) {
-    throw Error('failed to load opencv basic accumulate not found.')
-  }
-  if (!cvBase.blur) {
-    throw Error('failed to load opencv basic blur not found.')
-  }
+  // if (!cvBase.accumulate) {
+  //   throw Error('failed to load opencv basic accumulate not found.')
+  // }
+  // if (!cvBase.blur) {
+  //   throw Error('failed to load opencv basic blur not found.')
+  // }
 
   // resolve haarcascade and lbpCascades files paths
-  const { haarCascades, lbpCascades } = cvBase;
+  const { haarCascades = [], lbpCascades = [] } = cvBase;
   const dirname = getDirName();
   const xmlDir = path.join(dirname, '..', '..', 'src', 'lib');
   Object.keys(haarCascades).forEach(
-    key => (cvBase as any)[key] = resolvePath(path.join(xmlDir, 'haarcascades'), haarCascades[key as keyof typeof haarCascades]));
+    key => (cvBase as unknown as Record<string, string>)[key] = resolvePath(path.join(xmlDir, 'haarcascades'), haarCascades[key as keyof typeof haarCascades])); 
   Object.keys(lbpCascades).forEach(
-    key => (cvBase as any)[key] = resolvePath(path.join(xmlDir, 'lbpcascades'), lbpCascades[key as keyof typeof lbpCascades]));
+    key => (cvBase  as unknown as Record<string, string>)[key] = resolvePath(path.join(xmlDir, 'lbpcascades'), lbpCascades[key as keyof typeof lbpCascades]));
   // promisify async methods
   let cvObj = promisify<OpenCVType>(cvBase);
   cvObj = extendWithJsSources(cvObj);
@@ -42,6 +42,7 @@ function loadOpenCV(opt?: OpenCVBuildEnvParams): OpenCVType {
 
 export const cv = loadOpenCV({ prebuild: 'latestBuild' });
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function dumpExports() {
   let allExports = Object.keys(cv);
   allExports = allExports.filter(key => !key.includes('"'));

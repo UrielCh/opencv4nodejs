@@ -1,4 +1,4 @@
-#include "NativeNodeUtils.h"
+// #include "NativeNodeUtils.h"
 #include <opencv2/core.hpp>
 
 #ifndef __FF_MACROS_H__
@@ -56,79 +56,79 @@
   }
 
 /* TODO: move this to native-node-utils */
-namespace FF {
-template <class TEnum>
-class EnumConverterImpl : public FF::UnwrapperBase<EnumConverterImpl<TEnum>, typename TEnum::Type> {
-public:
-  typedef typename TEnum::Type Type;
-
-  static std::string getTypeName() {
-    std::vector<const char*> mappings = TEnum::getEnumMappings();
-    std::string typeName = "";
-    for (uint i = 0; i < mappings.size(); i++) {
-      typeName += mappings[i];
-      if (i < (mappings.size() - 1)) {
-        typeName += " | ";
-      }
-    }
-    return typeName;
-  }
-
-  static bool assertType(Napi::Value jsVal) {
-    return getMappingIndex(jsVal) != -1;
-  }
-
-  static Type unwrapUnchecked(Napi::Value jsVal) {
-    int idx = getMappingIndex(jsVal);
-    if (idx == -1) {
-      idx = 0;
-    }
-    return TEnum::getEnumValues()[idx];
-  }
-
-  static Napi::Value wrap(Type val) {
-    std::vector<const char*> mappings = TEnum::getEnumMappings();
-    return StringConverter::wrap(mappings[getValueIndex(val)]);
-  }
-
-private:
-  static int getMappingIndex(Napi::Value jsVal) {
-    std::string val;
-    std::vector<const char*> mappings = TEnum::getEnumMappings();
-    if (!StringConverter::unwrapTo(&val, jsVal)) {
-      for (uint idx = 0; idx < mappings.size(); idx++) {
-        if (val.compare(mappings[idx]) == 0) {
-          return (int)idx;
-        }
-      }
-    }
-    return -1;
-  }
-
-  static int getValueIndex(Type val) {
-    std::vector<Type> enumValues = TEnum::getEnumValues();
-    for (uint idx = 0; idx < enumValues.size(); idx++) {
-      if (enumValues[idx] == val) {
-        return (int)idx;
-      }
-    }
-    return -1;
-  }
-};
-
-template <class TEnum>
-class EnumWrap {
-public:
-  typedef AbstractConverter<EnumConverterImpl<TEnum>> Converter;
-
-  static void init(Napi::Env& env, Napi::Object& target) {
-    Napi::Object scoreTypes = Napi::Object::New(env);
-    for (const char* e : TEnum::getEnumMappings()) {
-      (scoreTypes).Set(newString(e), newString(e));
-    }
-    (target).Set(newString(TEnum::getClassName()), scoreTypes);
-  }
-};
-} // namespace FF
+// namespace FF {
+// template <class TEnum>
+// class EnumConverterImpl : public FF::UnwrapperBase<EnumConverterImpl<TEnum>, typename TEnum::Type> {
+// public:
+//   typedef typename TEnum::Type Type;
+// 
+//   static std::string getTypeName() {
+//     std::vector<const char*> mappings = TEnum::getEnumMappings();
+//     std::string typeName = "";
+//     for (uint i = 0; i < mappings.size(); i++) {
+//       typeName += mappings[i];
+//       if (i < (mappings.size() - 1)) {
+//         typeName += " | ";
+//       }
+//     }
+//     return typeName;
+//   }
+// 
+//   static bool assertType(Napi::Value jsVal) {
+//     return getMappingIndex(jsVal) != -1;
+//   }
+// 
+//   static Type unwrapUnchecked(Napi::Value jsVal) {
+//     int idx = getMappingIndex(jsVal);
+//     if (idx == -1) {
+//       idx = 0;
+//     }
+//     return TEnum::getEnumValues()[idx];
+//   }
+// 
+//   static Napi::Value wrap(Type val) {
+//     std::vector<const char*> mappings = TEnum::getEnumMappings();
+//     return StringConverter::wrap(mappings[getValueIndex(val)]);
+//   }
+// 
+// private:
+//   static int getMappingIndex(Napi::Value jsVal) {
+//     std::string val;
+//     std::vector<const char*> mappings = TEnum::getEnumMappings();
+//     if (!StringConverter::unwrapTo(&val, jsVal)) {
+//       for (uint idx = 0; idx < mappings.size(); idx++) {
+//         if (val.compare(mappings[idx]) == 0) {
+//           return (int)idx;
+//         }
+//       }
+//     }
+//     return -1;
+//   }
+// 
+//   static int getValueIndex(Type val) {
+//     std::vector<Type> enumValues = TEnum::getEnumValues();
+//     for (uint idx = 0; idx < enumValues.size(); idx++) {
+//       if (enumValues[idx] == val) {
+//         return (int)idx;
+//       }
+//     }
+//     return -1;
+//   }
+// };
+// 
+// template <class TEnum>
+// class EnumWrap {
+// public:
+//   typedef AbstractConverter<EnumConverterImpl<TEnum>> Converter;
+// 
+//   static void init(Napi::Env& env, Napi::Object& target) {
+//     Napi::Object scoreTypes = Napi::Object::New(env);
+//     for (const char* e : TEnum::getEnumMappings()) {
+//       (scoreTypes).Set(newString(e), newString(e));
+//     }
+//     (target).Set(newString(TEnum::getClassName()), scoreTypes);
+//   }
+// };
+// } // namespace FF
 
 #endif

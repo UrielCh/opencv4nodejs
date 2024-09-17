@@ -16,7 +16,7 @@ public:
     return TClass::getClassName();
   }
 
-  static bool assertType(Napi::Value& jsVal) {
+  static bool assertType(Napi::Env& env, Napi::Value& jsVal) {
     return !jsVal.IsNull() && !jsVal.IsUndefined() && Napi::Object::New(env, TClass::constructor)->HasInstance(jsVal);
   }
 
@@ -24,7 +24,7 @@ public:
     return unwrapNanObjectWrap<TClass>(jsVal)->self;
   }
 
-  static Napi::Value wrap(T val) {
+  static Napi::Value wrap(Napi::Env& env, T val) {
     Napi::Object jsObj = FF::newInstance(Napi::Object::New(env, TClass::constructor));
     unwrapNanObjectWrap<TClass>(jsObj)->setNativeObject(val);
     return jsObj;

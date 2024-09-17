@@ -1,7 +1,10 @@
 #include "ArrayConverter.h"
+#include "Converters.h"
 #include "ArrayOfArraysConverter.h"
 #include "InstanceConverter.h"
-#include "TryCatch.h"
+#include "IWorker.h"
+#include "Binding.h"
+// #include "TryCatch.h"
 #include "utils.h"
 #include <functional>
 
@@ -18,16 +21,20 @@ public:
   }
 
   static TClass* unwrapThis(const Napi::CallbackInfo& info) {
-    return unwrapClassPtrUnchecked(info.This());
+    return unwrapClassPtrUnchecked(info.This().As<Napi::Object>());
   }
 
-  static TClass* unwrapThis(const Napi::PropertyDescriptor::GetterCallback& info) {
-    return unwrapClassPtrUnchecked(info.This());
+  static TClass* unwrapThis(const Napi::CallbackInfo& info, const Napi::Value& value) {
+    return unwrapClassPtrUnchecked(info.This().As<Napi::Object>());
   }
 
-  static TClass* unwrapThis(const Napi::PropertyDescriptor::SetterCallback& info) {
-    return unwrapClassPtrUnchecked(info.This());
-  }
+  // static TClass* unwrapThis(const Napi::PropertyDescriptor::GetterCallback& info) {
+  //   return unwrapClassPtrUnchecked(info.This().As<Napi::Object>());
+  // }
+
+  // static TClass* unwrapThis(const Napi::PropertyDescriptor::SetterCallback& info) {
+  //   return unwrapClassPtrUnchecked(info.This().As<Napi::Object>());
+  // }
 };
 
 template <class TClass, class T>
@@ -44,8 +51,8 @@ public:
   typedef InstanceConverterImpl<TClass, T> ConverterImpl;
   typedef AbstractConverter<ConverterImpl> Converter;
 
-  template <class CastType>
-  class WithCastConverter : public AbstractConverter<InstanceConverterImpl<TClass, CastType>> {};
+  // template <class CastType>
+  // class WithCastConverter : public AbstractConverter<InstanceConverterImpl<TClass, CastType>> {};
 
   template <class ElementCastType>
   class ArrayWithCastConverter : public ArrayConverterTemplate<ConverterImpl, ElementCastType> {};
@@ -84,13 +91,13 @@ public:
     return unwrapSelf(info.This());
   }
 
-  static T unwrapSelf(const Napi::GetterCallback& info) {
-    return unwrapSelf(info.This().As<Napi::Object>());
-  }
-
-  static T unwrapSelf(const Napi::SetterCallback& info) {
-    return unwrapSelf(info.This().As<Napi::Object>());
-  }
+  // static T unwrapSelf(const Napi::GetterCallback& info) {
+  //   return unwrapSelf(info.This().As<Napi::Object>());
+  // }
+// 
+  // static T unwrapSelf(const Napi::SetterCallback& info) {
+  //   return unwrapSelf(info.This().As<Napi::Object>());
+  // }
 
 protected:
   typedef TClass ClassType;
@@ -101,10 +108,11 @@ protected:
       const Napi::CallbackInfo& info,
       Napi::Value value,
       void (*setProperty)(TClass*, typename TPropertyConverter::Type)) {
-    FF::TryCatch tryCatch(setterName);
+    // FF::TryCatch tryCatch(setterName);
     typename TPropertyConverter::Type val;
     if (TPropertyConverter::unwrapTo(&val, value)) {
-      return tryCatch.reThrow();
+      throw Napi::TypeError::New(info.Env(), std::string("setter ") + setterName + " unwrapTo failed");
+      // return tryCatch.reThrow();
     }
     setProperty(super::unwrapThis(info.This().As<Napi::Object>()), val);
   }
@@ -131,7 +139,7 @@ protected:
   public:
     bool applyUnwrappers(const Napi::CallbackInfo& info) {
       if (!info.IsConstructCall()) {
-        Napi::Error::New(env, "constructor has to be called with \"new\" keyword").ThrowAsJavaScriptException();
+        Napi::Error::New(info.Env(), "constructor has to be called with \"new\" keyword").ThrowAsJavaScriptException();
 
         return true;
       }

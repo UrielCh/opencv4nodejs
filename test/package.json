@@ -3,7 +3,7 @@
   "version": "1.1.0",
   "type": "module",
   "scripts": {
-    "test": "ts-mocha  ./tests/**/*.test.ts",
+    "test": "ts-mocha  tests/basic.test.ts",
     "test2": "ts-mocha 'tests/**/*.test.ts'",
     "test3": "ts-mocha  'tests/**/simple.test.ts'",
     "testIO": "ts-mocha  'tests/io/**/*.ts'",

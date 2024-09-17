@@ -1,5 +1,5 @@
 #include "IWorker.h"
-#include "TryCatch.h"
+// #include "TryCatch.h"
 #include "utils.h"
 
 #ifndef __FF_BINDING_H__
@@ -77,6 +77,7 @@ static inline Napi::Value executeAsyncBinding(std::shared_ptr<IAsyncWorker> work
   // Create and queue the worker
   AsyncWorker* asyncWorker = new AsyncWorker(callback, worker);
   asyncWorker->Queue();
+  return env.Undefined();
 }
 
 template <class WorkerImpl>

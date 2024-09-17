@@ -5,7 +5,8 @@
 #include "MatCalib3d.h"
 #include "MatCalib3dBindings.h"
 
-void MatCalib3d::Init(Napi::Env env, Napi::Object exports) {
+void MatCalib3d::Init(Napi::Object exports) {
+  Napi::Env env = exports.Env();
   InstanceMethod("rodrigues", &Rodrigues),
   InstanceMethod("rodriguesAsync", &RodriguesAsync),
   InstanceMethod("rqDecomp3x3", &RQDecomp3x3),

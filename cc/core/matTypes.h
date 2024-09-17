@@ -8,7 +8,8 @@
   exports.Set(#CONST, Napi::Number::New(env, CONST));
 
 // parameters was: Napi::Object module
-static void initMatTypes(Napi::Env env, Napi::Object exports) {
+static void initMatTypes(Napi::Object exports) {
+  Napi::Env env = exports.Env();
   FF_MAT_TYPE(CV_8U);
   FF_MAT_TYPE(CV_8S);
   FF_MAT_TYPE(CV_16U);
