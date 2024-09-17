@@ -168,7 +168,7 @@ void Io::ImdecodeAsync(const Napi::CallbackInfo& info) {
 
   Napi::Function cbFunc;
   if (FF::hasArg(info, 1) && FF::IntConverterImpl::assertType(info[1])) {
-    worker->flags = info[1].ToInt32(Napi::GetCurrentContext())->Value();
+    worker->flags = info[1].As<Napi::Number>().Int32Value();
     if (!info[2].IsFunction()) {
       return tryCatch.throwError("expected argument 2 to be of type Function");
     }

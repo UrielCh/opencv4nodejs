@@ -2,7 +2,7 @@
 // #include "coreBindings.h"
 #include "coreConstants.h"
 #include "matTypes.h"
-#include "mat.h"
+#include "Mat.h"
 
 void Core::Init(Napi::Object exports) {
    initMatTypes(exports);

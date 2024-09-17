@@ -1,13 +1,13 @@
-#include "CatchCvExceptionWorker.h"
-#include "ExternalMemTracking.h"
+// #include "CatchCvExceptionWorker.h"
+// #include "ExternalMemTracking.h"
 #include "NativeNodeUtils.h"
-#include "Point2.h"
-#include "Rect.h"
-#include "RotatedRect.h"
-#include "Vec.h"
-#include "coreUtils.h"
+// #include "Point2.h"
+// #include "Rect.h"
+// #include "RotatedRect.h"
+// #include "Vec.h"
+// #include "coreUtils.h"
 #include "macros.h"
-#include "matUtils.h"
+// #include "matUtils.h"
 
 #ifndef __FF_MAT_H__
 #define __FF_MAT_H__
@@ -23,9 +23,11 @@
 //   }
 // 
 //                 FF::ObjectWrap<Mat, cv::Mat>
-class Mat : public Napi::ObjectWrap<Mat> {
+class Mat: public Napi::ObjectWrap<Mat> {
 public:
   static Napi::FunctionReference constructor;
+  Mat(const Napi::CallbackInfo& info);
+  // static Napi::Value New(const Napi::CallbackInfo& info);
 
   static const char* getClassName() {
     return "Mat";
@@ -72,7 +74,6 @@ public:
   //   FF_OPERATOR_RET_SCALAR(&cv::Mat::dot, FF_APPLY_CLASS_FUNC, Mat, "Dot");
   // }
 
-  static Napi::Value New(const Napi::CallbackInfo& info);
   static Napi::Value Eye(const Napi::CallbackInfo& info);
   static Napi::Value Ones(const Napi::CallbackInfo& info);
   static Napi::Value Zeros(const Napi::CallbackInfo& info);

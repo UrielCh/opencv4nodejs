@@ -31,7 +31,7 @@ void TrackerMedianFlow::New(const Napi::CallbackInfo& info) {
   cv::TrackerMedianFlow::Params params;
 #endif
   if (FF::hasArg(info, 0) && FF::IntConverterImpl::assertType(info[0])) {
-    params.pointsInGrid = info[0].ToInt32(Napi::GetCurrentContext())->Value();
+    params.pointsInGrid = info[0].As<Napi::Number>().Int32Value();
   }
 
 #if CV_VERSION_GREATER_EQUAL(4, 5, 2)

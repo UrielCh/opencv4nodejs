@@ -14,8 +14,7 @@
 		"libraries": [
 			"<!@(node ./bin/install.js OPENCV4NODEJS_LIBRARIES)",
 		],
-		'defines': [ 'NAPI_DISABLE_CPP_EXCEPTIONS',
-                     'NODE_ADDON_API_ENABLE_MAYBE' ],
+		'defines': [ ],
 		"sources": [
 			"cc/opencv4nodejs.cc",
 			"cc/CustomMatAllocator.cc",

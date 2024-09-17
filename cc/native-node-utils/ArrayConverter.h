@@ -32,13 +32,16 @@ public:
     Napi::Array jsArr = jsVal.As<Napi::Array>();
     Napi::Env env = jsVal.Env();
     for (uint32_t i = 0; i < jsArr.Length(); i++) {
-      // Napi::Value element = jsArr.Get(i);
-      Napi::MaybeOrValue<Napi::Value> maybeElement = jsArr.Get(i);
-      if (maybeElement.IsNothing()) {
-        Napi::TypeError::New(env, "Failed to get element from array").ThrowAsJavaScriptException();
-        return true;
-      }
-      Napi::Value element = maybeElement.Unwrap();
+      #ifdef NODE_ADDON_API_ENABLE_MAYBE
+      // Napi::MaybeOrValue<Napi::Value> maybeElement = jsArr.Get(i);
+      // if (maybeElement.IsNothing()) {
+      //   Napi::TypeError::New(env, "Failed to get element from array").ThrowAsJavaScriptException();
+      //   return true;
+      // }
+      // Napi::Value element = maybeElement.Unwrap();
+      #else
+      Napi::Value element = jsArr.Get(i);
+      #endif
       if (!ElementConverterImpl::assertType(element)) {
         Napi::TypeError::New(env,
                              "expected array element at index " + std::to_string(i) + " to be of type " + ElementConverterImpl::getTypeName())

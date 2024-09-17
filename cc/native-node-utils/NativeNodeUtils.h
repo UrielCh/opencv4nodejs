@@ -9,7 +9,7 @@
 // #include "Converters.h"
 // #include "IWorker.h"
 // #include "InstanceConverter.h"
-#include "ObjectWrap.h"
+// #include "ObjectWrap.h"
 // #include "PrimitiveTypeConverters.h"
 // #include "TryCatch.h"
 // #include "utils.h"

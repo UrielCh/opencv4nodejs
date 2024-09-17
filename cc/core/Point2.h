@@ -1,4 +1,4 @@
-#include "NativeNodeUtils.h"
+// #include "NativeNodeUtils.h"
 #include "coreUtils.h"
 #include "macros.h"
 #include <opencv2/core.hpp>
@@ -37,7 +37,7 @@ public:
   static Napi::Value At(const Napi::CallbackInfo& info) {
     Napi::Env env = info.Env();
     FF::TryCatch tryCatch(env, "Point2::At");
-    FF_ASSERT_INDEX_RANGE(info[0].ToInt32(Napi::GetCurrentContext())->Value(), 1, "Point2");
+    FF_ASSERT_INDEX_RANGE(info[0].As<Napi::Number>().Int32Value(), 1, "Point2");
     cv::Point2d ptSelf = Point2::unwrapSelf(info);
     const double coords[] = {ptSelf.x, ptSelf.y};
     return coords[info[0].ToUint32(Napi::GetCurrentContext())->Value()];

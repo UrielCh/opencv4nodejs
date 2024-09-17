@@ -290,9 +290,9 @@ void Mat::Setcols(const Napi::CallbackInfo& info,
 // only used in Mat::At and Mat::AtRaw
 #define FF_MAT_AT(mat, val, get)                                                                                                                                                   \
   if (mat.dims > 2)                                                                                                                                                                \
-    val = get(mat, info[0].ToInt32(Napi::GetCurrentContext())->Value(), info[1].ToInt32(Napi::GetCurrentContext())->Value(), info[2].ToInt32(Napi::GetCurrentContext())->Value()); \
+    val = get(mat, info[0].As<Napi::Number>().Int32Value(), info[1].As<Napi::Number>().Int32Value(), info[2].As<Napi::Number>().Int32Value()); \
   else                                                                                                                                                                             \
-    val = get(mat, info[0].ToInt32(Napi::GetCurrentContext())->Value(), info[1].ToInt32(Napi::GetCurrentContext())->Value());
+    val = get(mat, info[0].As<Napi::Number>().Int32Value(), info[1].As<Napi::Number>().Int32Value());
 
 // only used in Mat::At
 #define FF_MAT_AT_ARRAY(mat, val, get)               \
@@ -308,9 +308,9 @@ void Mat::Setcols(const Napi::CallbackInfo& info,
 // only used in Mat::Set
 #define FF_MAT_SET(mat, val, put)                                                                                                                                                 \
   if (mat.dims > 2)                                                                                                                                                               \
-    put(mat, val, info[0].ToInt32(Napi::GetCurrentContext())->Value(), info[1].ToInt32(Napi::GetCurrentContext())->Value(), info[2].ToInt32(Napi::GetCurrentContext())->Value()); \
+    put(mat, val, info[0].As<Napi::Number>().Int32Value(), info[1].As<Napi::Number>().Int32Value(), info[2].As<Napi::Number>().Int32Value()); \
   else                                                                                                                                                                            \
-    put(mat, val, info[0].ToInt32(Napi::GetCurrentContext())->Value(), info[1].ToInt32(Napi::GetCurrentContext())->Value());
+    put(mat, val, info[0].As<Napi::Number>().Int32Value(), info[1].As<Napi::Number>().Int32Value());
 
 // only used in Mat::New
 #define FF_MAT_FILL(mat, vec, put)       \
@@ -489,210 +489,278 @@ void Mat::Setcols(const Napi::CallbackInfo& info,
   }
 
 
-Napi::Value Mat::New(const Napi::CallbackInfo& info) {
+Mat::Mat(const Napi::CallbackInfo& info): Napi::ObjectWrap<Mat>(info) {
   Napi::Env env = info.Env();
+
+  // int length = info.Length();
+  // if (length <= 0 || !info[0].IsNumber()) {
+  //   Napi::TypeError::New(env, "Number expected").ThrowAsJavaScriptException();
+  //   return;
+  // }
+  // Napi::Number value = info[0].As<Napi::Number>();
+  // this->value_ = value.DoubleValue();
+
   //FF::TryCatch tryCatch(env, "Mat::New");
-  //FF_ASSERT_CONSTRUCT_CALL();
-  //Mat* self = new Mat();
-  ///* from channels
-  // * constructor(channels: Mat[]);
-  // */
-  //// prepare debug for next big release
-  ////  std::cout << "New Mat: args: " << info.Length() << std::endl;
-  //if (info.Length() == 1 && info[0].IsArray()) {
-  //  Napi::Array jsChannelMats = info[0].As<Napi::Array>();
-  //  std::vector<cv::Mat> channels;
-  //  for (uint i = 0; i < jsChannelMats->Length(); i++) {
-  //    Napi::Object jsChannelMat = (jsChannelMats).Get(i.To<Napi::Object>());
-  //    if (!Napi::New(env, Mat::constructor)->HasInstance(jsChannelMat)) {
-  //      return tryCatch.throwError("expected channel " + std::to_string(i) + " to be an instance of Mat");
-  //    }
-  //    cv::Mat channelMat = Mat::Converter::unwrapUnchecked(jsChannelMat);
-  //    channels.push_back(channelMat);
-  //    if (i > 0) {
-  //      if (channels.at(i - 1).rows != channelMat.rows) {
-  //        return tryCatch.throwError("Mat::New - rows mismatch " + std::to_string(channels.at(i - 1).rows) + ", have " + std::to_string(channelMat.rows) + " at channel " + std::to_string(i));
-  //      }
-  //      if (channels.at(i - 1).cols != channelMat.cols) {
-  //        return tryCatch.throwError("Mat::New - cols mismatch " + std::to_string(channels.at(i - 1).cols) + ", have " + std::to_string(channelMat.rows) + " at channel " + std::to_string(i));
-  //      }
-  //    }
-  //  }
-  //  cv::Mat mat;
-  //  cv::merge(channels, mat);
-  //  self->setNativeObject(mat);
-  //}
-  ///* data array, type
-  // * constructor(dataArray: number[][], type: number);
-  // * constructor(dataArray: number[][][], type: number);
-  // */
-  //else if (info.Length() == 2 && info[0].IsArray() && info[1].IsNumber()) {
-  //  // get Type
-  //  int type = info[1].ToInt32(Napi::GetCurrentContext())->Value();
-  //  // get channel count
-  //  int channel = (type >> CV_CN_SHIFT) + 1;
-//
-  //  // check data concistency
-  //  Napi::Array rowArray0 = info[0].As<Napi::Array>();
-  //  int dim = 1;
-  //  while ((rowArray0).Get(0)->IsArray()) {
-  //    dim = dim + 1;
-  //    rowArray0 = (rowArray0).Get(0.As < Napi::Array > ());
-  //  }
-  //  // if multishanel drop one dimmention
-  //  if (channel > 1)
-  //    dim--;
-  //  // std::cout << "Create a Mat of " << dim << " dimentions eatch item has " << channel << " channel(s)." << std::endl;
-//
-  //  // reset row0
-  //  rowArray0 = info[0].As<Napi::Array>();
-  //  if (dim == 1) {
-  //    // tak first argument as dim array;
-  //    std::vector<int> sizes(rowArray0->Length());
-  //    for (int i = 0; i < (int)rowArray0->Length(); i++) {
-  //      sizes[i] = (int)FF::DoubleConverter::unwrapUnchecked((rowArray0).Get(i));
-  //    }
-  //    cv::Mat mat = cv::Mat(sizes, type);
-  //    self->setNativeObject(mat);
-  //    // return tryCatch.throwError("Mat::New - Mat must have at least 2 Dimentions");
-  //  } else if (dim == 2) {
-  //    long rows = rowArray0->Length();
-  //    long numCols = -1;
-  //    for (long i = 0; i < rows; i++) {
-  //      if (!(rowArray0).Get(i)->IsArray())
-  //        return tryCatch.throwError("Column should be an array, at column: " + std::to_string(i));
-  //      Napi::Array colArray = (rowArray0).Get(i.As<Napi::Array>());
-  //      if (numCols == -1)
-  //        numCols = colArray->Length();
-  //      else if (numCols != colArray->Length())
-  //        return tryCatch.throwError("Mat cols must be of uniform length, at column: " + std::to_string(i));
-  //    }
-  //    // 	Mat (int rows, int cols, int type)
-  //    cv::Mat mat = cv::Mat(rows, numCols, type);
-  //    FF_MAT_APPLY_TYPED_OPERATOR(mat, rowArray0, type, FF_MAT_FROM_JS_ARRAY_2D, FF::matPut);
-  //    self->setNativeObject(mat);
-  //  } else if (dim == 3) {
-  //    std::vector<int> sizes = {(int)rowArray0->Length(), -1, -1};
-  //    for (int i = 0; i < sizes[0]; i++) {
-  //      if (!(rowArray0).Get(i)->IsArray())
-  //        return tryCatch.throwError("Column should be an array, at column: " + std::to_string(i));
-  //      Napi::Array rowArray1 = (rowArray0).Get(i.As<Napi::Array>());
-  //      if (sizes[1] == -1)
-  //        sizes[1] = rowArray1->Length();
-  //      else if (sizes[1] != (int)rowArray1->Length())
-  //        return tryCatch.throwError("Mat cols must be of uniform length, at column: " + std::to_string(i));
-  //      for (int j = 0; j < sizes[1]; j++) {
-  //        if (!(rowArray1).Get(j)->IsArray())
-  //          return tryCatch.throwError("Column should be an array, at column: " + std::to_string(i) + ", " + std::to_string(j));
-  //        Napi::Array rowArray2 = (rowArray1).Get(j.As<Napi::Array>());
-  //        if (sizes[2] == -1)
-  //          sizes[2] = rowArray2->Length();
-  //        else if (sizes[2] != (int)rowArray2->Length())
-  //          return tryCatch.throwError("Mat cols must be of uniform length, at column: " + std::to_string(i) + ", " + std::to_string(j));
-  //      }
-  //    }
-  //    // Mat (const std::vector< int > &sizes, int type)
-  //    cv::Mat mat = cv::Mat(sizes, type);
-  //    FF_MAT_APPLY_TYPED_OPERATOR(mat, rowArray0, type, FF_MAT_FROM_JS_ARRAY_3D, FF::matPut);
-  //    self->setNativeObject(mat);
-  //  } else if (dim == 4) {
-  //    std::vector<int> sizes = {(int)rowArray0->Length(), -1, -1, -1};
-  //    std::vector<Napi::Array> arrs(4);
-  //    cv::Vec3i cur = cv::Vec3i(0, 0, 0);
-//
-  //    arrs[0] = rowArray0;
-  //    for (cur[0] = 0; cur[0] < sizes[0]; cur[0]++) {
-  //      if (!(arrs[0]).Get(cur[0])->IsArray())
-  //        return tryCatch.throwError("All array in dimension 1 should be array, at position: " + std::to_string(cur[0]));
-  //      arrs[1] = (arrs[0]).Get(cur[0].As<Napi::Array>());
-  //      if (sizes[1] == -1)
-  //        sizes[1] = arrs[1]->Length();
-  //      else if (sizes[1] != (int)arrs[1]->Length())
-  //        return tryCatch.throwError("Mat cols must be of uniform length, at column: " + std::to_string(cur[0]) + " find " + std::to_string(arrs[1]->Length()) + " expecting " + std::to_string(sizes[1]));
-  //      for (cur[1] = 0; cur[1] < sizes[1]; cur[1]++) {
-  //        if (!(arrs[1]).Get(cur[1])->IsArray())
-  //          return tryCatch.throwError("All array in dimension 2 should be array, at position:" + std::to_string(cur[0]) + ", " + std::to_string(cur[1]));
-  //        arrs[2] = (arrs[1]).Get(cur[1].As<Napi::Array>());
-  //        if (sizes[2] == -1)
-  //          sizes[2] = arrs[2]->Length();
-  //        else if (sizes[2] != (int)arrs[2]->Length())
-  //          return tryCatch.throwError("Mat cols must be of uniform length, at column: " + std::to_string(cur[0]) + ", " + std::to_string(cur[1]) + " find " + std::to_string(arrs[2]->Length()) + " expecting " + std::to_string(sizes[2]));
-  //        for (cur[2] = 0; cur[2] < sizes[2]; cur[2]++) {
-  //          if (!(arrs[2]).Get(cur[2])->IsArray())
-  //            return tryCatch.throwError("All array in dimension 3 should be array, at position: " + std::to_string(cur[0]) + ", " + std::to_string(cur[1]) + "," + std::to_string(cur[2]));
-  //          arrs[3] = (arrs[2]).Get(cur[2].As<Napi::Array>());
-  //          if (sizes[3] == -1)
-  //            sizes[3] = arrs[3]->Length();
-  //          else if (sizes[3] != (int)arrs[3]->Length())
-  //            return tryCatch.throwError("Mat cols must be of uniform length, at column: " + std::to_string(cur[0]) + ", " + std::to_string(cur[1]) + ", " + std::to_string(cur[2]) + " find " + std::to_string(arrs[3]->Length()) + " expecting " + std::to_string(sizes[3]));
-  //        }
-  //      }
-  //    }
-  //    // Mat (const std::vector< int > &sizes, int type)
-  //    cv::Mat mat = cv::Mat(sizes, type);
-  //    FF_MAT_APPLY_TYPED_OPERATOR(mat, rowArray0, type, FF_MAT_FROM_JS_ARRAY_4D, FF::matPut);
-  //    self->setNativeObject(mat);
-  //  } else {
-  //    return tryCatch.throwError("Mat::New - Support only 4 Dimmention provided payload contains " + std::to_string(dim));
-  //  }
-  //}
-  ///* row, col, type
-  // * constructor(rows: number, cols: number, type: number, fillValue?: number | number[]);
-  // * constructor(rows: number, cols: number, type: number, data: Buffer, step?: number);
-  // */
-  //else if (info[0].IsNumber() && info[1].IsNumber() && info[2].IsNumber()) {
-  //  int type = info[2].ToInt32(Napi::GetCurrentContext())->Value();
-  //  if (info.Length() == 3 || info[3].IsArray() || info[3].IsNumber()) {
-//
-  //    cv::Mat mat(info[0].ToInt32(Napi::GetCurrentContext())->Value(), info[1].ToInt32(Napi::GetCurrentContext())->Value(), type);
-//
-  //    /* fill vector */
-  //    // TODO by Vec
-  //    if (info[3].IsArray()) {
-  //      Napi::Array vec = info[3].As<Napi::Array>();
-  //      if (mat.channels() != (long)vec->Length()) {
-  //        return tryCatch.throwError(
-  //            std::string("Mat::New - number of channels (") + std::to_string(mat.channels())
-  //            + std::string(") do not match fill vector length ") + std::to_string(vec->Length()));
-  //      }
-  //      FF_MAT_APPLY_TYPED_OPERATOR(mat, vec, type, FF_MAT_FILL, FF::matPut);
-  //    }
-  //    if (info[3].IsNumber()) {
-  //      FF_MAT_APPLY_TYPED_OPERATOR(mat, info[3], type, FF_MAT_FILL, FF::matPut);
-  //    }
-  //    self->setNativeObject(mat);
-  //  } else if (info[3].IsObject()) {
-  //    char* data = static_cast<char*>(info[3].ToObject(Napi::GetCurrentContext(.As<Napi::Buffer<char>>().Data())));
-  //    if (info[4].IsNumber()) {
-  //      int step = info[4].ToInt32(Napi::GetCurrentContext())->Value();
-  //      cv::Mat mat(
-  //          info[0].ToInt32(Napi::GetCurrentContext())->Value(),
-  //          info[1].ToInt32(Napi::GetCurrentContext())->Value(),
-  //          type,
-  //          data,
-  //          step);
-  //      self->setNativeObject(mat);
-  //    } else {
-  //      cv::Mat mat(
-  //          info[0].ToInt32(Napi::GetCurrentContext())->Value(),
-  //          info[1].ToInt32(Napi::GetCurrentContext())->Value(),
-  //          type,
-  //          data);
-  //      self->setNativeObject(mat);
-  //    }
-  //  }
-  //}
-  ///* raw data, row, col, type
-  // * constructor(data: Buffer, rows: number, cols: number, type?: number);
-  // */
-  //else if (info.Length() == 4 && info[1].IsNumber() && info[2].IsNumber() && info[3].IsNumber()) {
-  //  int type = info[3].ToInt32(Napi::GetCurrentContext())->Value();
-  //  char* data = static_cast<char*>(info[0].ToObject(Napi::GetCurrentContext(.As<Napi::Buffer<char>>().Data())));
-  //  cv::Mat mat(info[1].ToInt32(Napi::GetCurrentContext())->Value(), info[2].ToInt32(Napi::GetCurrentContext())->Value(), type);
-  //  size_t size = mat.rows * mat.cols * mat.elemSize();
-  //  memcpy(mat.data, data, size);
-  //  self->setNativeObject(mat);
-  //}
+  // FF_ASSERT_CONSTRUCT_CALL();
+  if (!info.IsConstructCall()) {      
+    Napi::TypeError::New(env, "constructor has to be called with \"new\" keyword").ThrowAsJavaScriptException();
+    return;
+  }
+
+  // Mat* self = new Mat();
+  /* from channels
+   * constructor(channels: Mat[]);
+   */
+  // prepare debug for next big release
+  //  std::cout << "New Mat: args: " << info.Length() << std::endl;
+  if (info.Length() == 1 && info[0].IsArray()) {
+    Napi::Array jsChannelMats = info[0].As<Napi::Array>();
+    std::vector<cv::Mat> channels;
+    uint32_t len = jsChannelMats.Length();
+    for (uint i = 0; i < len; i++) {
+      // jsChannelMats.Get(i).UnwrapTo;
+      Napi::Value arrayItem = jsChannelMats[i];
+      Napi::TypeError::New(env, "constructor from Channel not implemented yet").ThrowAsJavaScriptException();
+      return;
+      // Napi::Object jsChannelMat = jsChannelMats.Get(i.To<Napi::Number>());
+      // Napi::Object jsChannelMat2 = jsChannelMats[i].Get(i.To<Napi::Object>());
+      // if (!Napi::New(env, Mat::constructor)->HasInstance(jsChannelMat)) {
+      //   return tryCatch.throwError("expected channel " + std::to_string(i) + " to be an instance of Mat");
+      // }
+      // cv::Mat channelMat = Mat::Converter::unwrapUnchecked(jsChannelMat);
+      // channels.push_back(channelMat);
+      // if (i > 0) {
+      //   if (channels.at(i - 1).rows != channelMat.rows) {
+      //     return tryCatch.throwError("Mat::New - rows mismatch " + std::to_string(channels.at(i - 1).rows) + ", have " + std::to_string(channelMat.rows) + " at channel " + std::to_string(i));
+      //   }
+      //   if (channels.at(i - 1).cols != channelMat.cols) {
+      //     return tryCatch.throwError("Mat::New - cols mismatch " + std::to_string(channels.at(i - 1).cols) + ", have " + std::to_string(channelMat.rows) + " at channel " + std::to_string(i));
+      //   }
+      // }
+    }
+    cv::Mat mat;
+    cv::merge(channels, mat);
+    this->self = mat;
+  }
+  /* data array, type
+   * constructor(dataArray: number[][], type: number);
+   * constructor(dataArray: number[][][], type: number);
+   */
+  else if (info.Length() == 2 && info[0].IsArray() && info[1].IsNumber()) {
+    // get Type
+    //  Napi::Number num = value.As<Napi::Number>();
+    int type = info[1].As<Napi::Number>().Int32Value();
+    // get channel count
+    int channel = (type >> CV_CN_SHIFT) + 1;
+
+    // check data concistency
+    Napi::Array rowArray0 = info[0].As<Napi::Array>();
+    int dim = 1;
+    while (true) {
+      Napi::Value arrayItem = rowArray0[(uint)0];
+      if (!arrayItem.IsArray())
+        break;
+      dim = dim + 1;
+      rowArray0 = arrayItem.As<Napi::Array>();
+    }
+    // if multishanel drop one dimmention
+    if (channel > 1)
+      dim--;
+    // std::cout << "Create a Mat of " << dim << " dimentions eatch item has " << channel << " channel(s)." << std::endl;
+
+    // reset row0
+    rowArray0 = info[0].As<Napi::Array>();
+    if (dim == 1) {
+      // tak first argument as dim array;
+      std::vector<int> sizes(rowArray0.Length());
+      for (int i = 0; i < (int)rowArray0.Length(); i++) {
+        // sizes[i] = (int)FF::DoubleConverter::unwrapUnchecked(rowArray0.Get(i));
+        sizes[i] = rowArray0.Get(i).As<Napi::Number>().Int32Value();
+      }
+      cv::Mat mat = cv::Mat(sizes, type);
+      this->self = mat;
+    } else if (dim == 2) {
+      long rows = rowArray0.Length();
+      long numCols = -1;
+      for (long i = 0; i < rows; i++) {
+        if (!rowArray0.Get(i).IsArray()){
+           Napi::TypeError::New(env, "Column should be an array, at column: " + std::to_string(i)).ThrowAsJavaScriptException();
+           return;
+        }
+        Napi::Array colArray = rowArray0.Get(i).As<Napi::Array>();
+        if (numCols == -1)
+          numCols = colArray.Length();
+        else if (numCols != colArray.Length())
+           Napi::TypeError::New(env, "Mat cols must be of uniform length, at column: " + std::to_string(i)).ThrowAsJavaScriptException();
+           return;
+      }
+      // 	Mat (int rows, int cols, int type)
+      cv::Mat mat = cv::Mat(rows, numCols, type);
+      // TODO
+      // FF_MAT_APPLY_TYPED_OPERATOR(mat, rowArray0, type, FF_MAT_FROM_JS_ARRAY_2D, FF::matPut);
+      this->self = mat;
+    } else if (dim == 3) {
+      std::vector<int> sizes = {(int)rowArray0.Length(), -1, -1};
+      for (int i = 0; i < sizes[0]; i++) {
+        if (!rowArray0.Get(i).IsArray()) {
+          Napi::TypeError::New(env, "Column should be an array, at column: " + std::to_string(i)).ThrowAsJavaScriptException();
+          return;
+        }
+        Napi::Array rowArray1 = (rowArray0).Get(i).As<Napi::Array>();
+        if (sizes[1] == -1)
+          sizes[1] = rowArray1.Length();
+        else if (sizes[1] != (int)rowArray1.Length()) {
+          Napi::TypeError::New(env, "Mat cols must be of uniform length, at column: " + std::to_string(i)).ThrowAsJavaScriptException();;
+          return;
+        }
+        for (int j = 0; j < sizes[1]; j++) {
+          if (!rowArray1.Get(j).IsArray()){
+          Napi::TypeError::New(env, "Column should be an array, at column: " + std::to_string(i) + ", " + std::to_string(j)).ThrowAsJavaScriptException();;
+          return;
+        }
+          Napi::Array rowArray2 = (rowArray1).Get(j).As<Napi::Array>();
+          if (sizes[2] == -1)
+            sizes[2] = rowArray2.Length();
+          else if (sizes[2] != (int)rowArray2.Length()) {
+          Napi::TypeError::New(env, "Mat cols must be of uniform length, at column: " + std::to_string(i) + ", " + std::to_string(j)).ThrowAsJavaScriptException();;
+          return;
+          }
+        }
+      }
+      // Mat (const std::vector< int > &sizes, int type)
+      cv::Mat mat = cv::Mat(sizes, type);
+      // TODO
+      // FF_MAT_APPLY_TYPED_OPERATOR(mat, rowArray0, type, FF_MAT_FROM_JS_ARRAY_3D, FF::matPut);
+      this->self = mat;
+    } else if (dim == 4) {
+      std::vector<int> sizes = {(int)rowArray0.Length(), -1, -1, -1};
+      std::vector<Napi::Array> arrs(4);
+      cv::Vec3i cur = cv::Vec3i(0, 0, 0);
+
+      arrs[0] = rowArray0;
+      for (cur[0] = 0; cur[0] < sizes[0]; cur[0]++) {
+        if (!arrs[0].Get(cur[0]).IsArray()){
+          auto msg = "All array in dimension 1 should be array, at position: " + std::to_string(cur[0]);
+              Napi::TypeError::New(env, msg).ThrowAsJavaScriptException();
+              return;
+        }
+        arrs[1] = (arrs[0]).Get(cur[0]).As<Napi::Array>();
+        if (sizes[1] == -1)
+          sizes[1] = arrs[1].Length();
+        else if (sizes[1] != (int)arrs[1].Length()){
+          auto msg = "Mat cols must be of uniform length, at column: " + std::to_string(cur[0]) + " find " + std::to_string(arrs[1].Length()) + " expecting " + std::to_string(sizes[1]);
+              Napi::TypeError::New(env, msg).ThrowAsJavaScriptException();
+              return;
+        }for (cur[1] = 0; cur[1] < sizes[1]; cur[1]++) {
+          if (!arrs[1].Get(cur[1]).IsArray()){
+            auto  msg = "All array in dimension 2 should be array, at position:" + std::to_string(cur[0]) + ", " + std::to_string(cur[1]);
+              Napi::TypeError::New(env, msg).ThrowAsJavaScriptException();
+              return;
+          }
+          arrs[2] = arrs[1].Get(cur[1]).As<Napi::Array>();
+          if (sizes[2] == -1)
+            sizes[2] = arrs[2].Length();
+          else if (sizes[2] != (int)arrs[2].Length()){
+            auto msg = "Mat cols must be of uniform length, at column: " + std::to_string(cur[0]) + ", " + std::to_string(cur[1]) + " find " + std::to_string(arrs[2].Length()) + " expecting " + std::to_string(sizes[2]);
+            Napi::TypeError::New(env, msg).ThrowAsJavaScriptException();
+            return;
+          }
+          for (cur[2] = 0; cur[2] < sizes[2]; cur[2]++) {
+            if (!arrs[2].Get(cur[2]).IsArray()) {
+              auto msg = "All array in dimension 3 should be array, at position: " + std::to_string(cur[0]) + ", " + std::to_string(cur[1]) + "," + std::to_string(cur[2]);
+              Napi::TypeError::New(env, msg).ThrowAsJavaScriptException();
+              return;
+            }
+            arrs[3] = (arrs[2]).Get(cur[2]).As<Napi::Array>();
+            if (sizes[3] == -1)
+            sizes[3] = arrs[3].Length();
+            else if (sizes[3] != (int)arrs[3].Length()){
+              auto msg = "Mat cols must be of uniform length, at column: " + std::to_string(cur[0]) + ", " + std::to_string(cur[1]) + ", " + std::to_string(cur[2]) + " find " + std::to_string(arrs[3].Length()) + " expecting " + std::to_string(sizes[3]);
+              Napi::TypeError::New(env, msg).ThrowAsJavaScriptException();
+              return;
+            }
+          }
+        }
+      }
+      // Mat (const std::vector< int > &sizes, int type)
+      cv::Mat mat = cv::Mat(sizes, type);
+      // TODO
+      // FF_MAT_APPLY_TYPED_OPERATOR(mat, rowArray0, type, FF_MAT_FROM_JS_ARRAY_4D, FF::matPut);
+      // self->setNativeObject(mat);
+      this->self = mat;
+    } else {
+      Napi::TypeError::New(env, "Mat::New - Support only 4 Dimmention provided payload contains " + std::to_string(dim)).ThrowAsJavaScriptException();
+      return;
+    }
+  }
+  /* row, col, type
+   * constructor(rows: number, cols: number, type: number, fillValue?: number | number[]);
+   * constructor(rows: number, cols: number, type: number, data: Buffer, step?: number);
+   */
+  else if (info[0].IsNumber() && info[1].IsNumber() && info[2].IsNumber()) {
+    int type = info[2].As<Napi::Number>().Int32Value();
+    if (info.Length() == 3 || info[3].IsArray() || info[3].IsNumber()) {
+
+      cv::Mat mat(info[0].As<Napi::Number>().Int32Value(), info[1].As<Napi::Number>().Int32Value(), type);
+
+      /* fill vector */
+      // TODO by Vec
+      if (info[3].IsArray()) {
+        Napi::Array vec = info[3].As<Napi::Array>();
+        if (mat.channels() != (long)vec.Length()) {
+          auto msg = std::string("Mat::New - number of channels (") + std::to_string(mat.channels())
+              + std::string(") do not match fill vector length ") + std::to_string(vec.Length());
+          Napi::TypeError::New(env, msg).ThrowAsJavaScriptException();
+          return;
+        }
+        // TODO
+        // FF_MAT_APPLY_TYPED_OPERATOR(mat, vec, type, FF_MAT_FILL, FF::matPut);
+      }
+      if (info[3].IsNumber()) {
+        // TODO
+        // FF_MAT_APPLY_TYPED_OPERATOR(mat, info[3], type, FF_MAT_FILL, FF::matPut);
+      }
+      this->self = mat;
+    } else if (info[3].IsObject()) {
+        if (!info[3].IsArrayBuffer()) {
+         Napi::Error::New(info.Env(), "Expected an ArrayBuffer").ThrowAsJavaScriptException();
+          return;
+      }
+        Napi::ArrayBuffer buf = info[3].As<Napi::ArrayBuffer>();
+        char* data = (char*)buf.Data();
+       //ArrayConsumer(reinterpret_cast<int32_t*>(buf.Data()), buf.ByteLength() / sizeof(int32_t));
+      // char* data = static_cast<char*>(info[3].As<Napi::Object>()..ToObject(Napi::GetCurrentContext(.As<Napi::Buffer<char>>().Data())));
+      if (info[4].IsNumber()) {
+        int step = info[4].As<Napi::Number>().Int32Value();
+        cv::Mat mat(
+            info[0].As<Napi::Number>().Int32Value(),
+            info[1].As<Napi::Number>().Int32Value(),
+            type,
+            data,
+            step);
+      this->self = mat;
+      } else {
+        cv::Mat mat(
+            info[0].As<Napi::Number>().Int32Value(),
+            info[1].As<Napi::Number>().Int32Value(),
+            type,
+            data);
+      this->self = mat;
+      }
+    }
+  }
+  /* raw data, row, col, type
+   * constructor(data: Buffer, rows: number, cols: number, type?: number);
+   */
+  else if (info.Length() == 4 && info[1].IsNumber() && info[2].IsNumber() && info[3].IsNumber()) {
+    int type = info[3].As<Napi::Number>().Int32Value();
+    Napi::ArrayBuffer buf = info[0].As<Napi::ArrayBuffer>();
+    char* data = (char*)buf.Data();
+    cv::Mat mat(info[1].As<Napi::Number>().Int32Value(), info[2].As<Napi::Number>().Int32Value(), type);
+    size_t size = mat.rows * mat.cols * mat.elemSize();
+    memcpy(mat.data, data, size);
+    this->self = mat;
+  }
   //self->Wrap(info.Holder());
 //
   //// if ExternalMemTracking is disabled, the following instruction will be a no op
@@ -700,7 +768,7 @@ Napi::Value Mat::New(const Napi::CallbackInfo& info) {
   //// so a good place to rationalise memory
   //ExternalMemTracking::onMatAllocated();
 // return info.Holder();
-  return env.Undefined();
+  // return env.Undefined();
 }
 
 Napi::Value Mat::Eye(const Napi::CallbackInfo& info) {
@@ -766,8 +834,8 @@ Napi::Value Mat::At(const Napi::CallbackInfo& info) {
   //   }
   //   FF_MAT_APPLY_TYPED_OPERATOR(matSelf, val, matSelf.type(), FF_MAT_AT_ARRAY, FF::matGet);
   // } else {
-  //   FF_ASSERT_INDEX_RANGE(info[0].ToInt32(Napi::GetCurrentContext())->Value(), matSelf.size[0] - 1, "Mat::At row");
-  //   FF_ASSERT_INDEX_RANGE(info[1].ToInt32(Napi::GetCurrentContext())->Value(), matSelf.size[1] - 1, "Mat::At col");
+  //   FF_ASSERT_INDEX_RANGE(info[0].As<Napi::Number>().Int32Value(), matSelf.size[0] - 1, "Mat::At row");
+  //   FF_ASSERT_INDEX_RANGE(info[1].As<Napi::Number>().Int32Value(), matSelf.size[1] - 1, "Mat::At col");
   //   FF_MAT_APPLY_TYPED_OPERATOR(matSelf, val, matSelf.type(), FF_MAT_AT, FF::matGet);
   // }
 // 
@@ -823,8 +891,8 @@ Napi::Value Mat::AtRaw(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
   // FF::TryCatch tryCatch(env, "Mat::AtRaw");
   // cv::Mat matSelf = Mat::unwrapSelf(info);
-  // FF_ASSERT_INDEX_RANGE(info[0].ToInt32(Napi::GetCurrentContext())->Value(), matSelf.size[0] - 1, "Mat::At row");
-  // FF_ASSERT_INDEX_RANGE(info[1].ToInt32(Napi::GetCurrentContext())->Value(), matSelf.size[1] - 1, "Mat::At col");
+  // FF_ASSERT_INDEX_RANGE(info[0].As<Napi::Number>().Int32Value(), matSelf.size[0] - 1, "Mat::At row");
+  // FF_ASSERT_INDEX_RANGE(info[1].As<Napi::Number>().Int32Value(), matSelf.size[1] - 1, "Mat::At col");
   // Napi::Value val;
   // FF_MAT_APPLY_TYPED_OPERATOR(matSelf, val, matSelf.type(), FF_MAT_AT, FF::matGet);
   // return val;
@@ -835,8 +903,8 @@ Napi::Value Mat::Set(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
   //FF::TryCatch tryCatch(env, "Mat::Set");
   //cv::Mat matSelf = Mat::unwrapSelf(info);
-  //FF_ASSERT_INDEX_RANGE(info[0].ToInt32(Napi::GetCurrentContext())->Value(), matSelf.size[0] - 1, "Mat::At row");
-  //FF_ASSERT_INDEX_RANGE(info[1].ToInt32(Napi::GetCurrentContext())->Value(), matSelf.size[1] - 1, "Mat::At col");
+  //FF_ASSERT_INDEX_RANGE(info[0].As<Napi::Number>().Int32Value(), matSelf.size[0] - 1, "Mat::At row");
+  //FF_ASSERT_INDEX_RANGE(info[1].As<Napi::Number>().Int32Value(), matSelf.size[1] - 1, "Mat::At col");
 //
   //int cn = matSelf.channels();
   //if (info[2].IsArray()) {

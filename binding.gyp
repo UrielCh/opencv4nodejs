@@ -4,6 +4,9 @@
 		"defines": [
 			"<!@(node ./bin/install.js OPENCV4NODEJS_DEFINES)",
 		],
+		'dependencies': [
+    		"<!(node -p \"require('node-addon-api').targets\"):node_addon_api_except",
+		],
 		"include_dirs" : [
 			"<!@(node ./bin/install.js OPENCV4NODEJS_INCLUDES)",
 			"cc",
@@ -14,8 +17,7 @@
 		"libraries": [
 			"<!@(node ./bin/install.js OPENCV4NODEJS_LIBRARIES)",
 		],
-		'defines': [ 'NAPI_DISABLE_CPP_EXCEPTIONS',
-                     'NODE_ADDON_API_ENABLE_MAYBE' ],
+		'defines': [],
 		"sources": [
 			"cc/opencv4nodejs.cc",
 			"cc/core/core.cc",
@@ -39,7 +41,8 @@
 		"xcode_settings": {
 			"OTHER_CFLAGS": [
 				"-std=c++17",
-				"-stdlib=libc++"
+				"-stdlib=libc++",
+				"-ferror-limit=5"
 			],
 			"GCC_ENABLE_CPP_EXCEPTIONS": "YES",
 			"MACOSX_DEPLOYMENT_TARGET": "11.0"
@@ -63,6 +66,7 @@
 			}],
 	        ["OS==\"mac\"",
 	          {
+				 "cflags+": ["-fvisibility=hidden"],
 				 "cflags": [
 					 "-fvisibility=hidden",
 	                 "-std=c++17",

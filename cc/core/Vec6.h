@@ -45,9 +45,9 @@ public:
   static Napi::Value At(const Napi::CallbackInfo& info) {
     Napi::Env env = info.Env();
     FF::TryCatch tryCatch(env, "Vec6::At");
-    FF_ASSERT_INDEX_RANGE(info[0].ToInt32(Napi::GetCurrentContext())->Value(), 5, "Vec6");
+    FF_ASSERT_INDEX_RANGE(info[0].As<Napi::Number>().Int32Value(), 5, "Vec6");
     cv::Vec6d vecSelf = Vec6::unwrapSelf(info);
-    return vecSelf[info[0].ToInt32(Napi::GetCurrentContext())->Value()];
+    return vecSelf[info[0].As<Napi::Number>().Int32Value()];
   }
 };
 

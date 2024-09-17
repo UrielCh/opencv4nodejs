@@ -17,19 +17,18 @@ static inline Napi::Function getFunction(Napi::FunctionReference fnTempl) {
 
 static inline Napi::Object newInstance(Napi::FunctionReference ctor) {
   // can be Napi::MaybeOrValue<Napi::Object> or Napi::Maybe<Napi::Object>
-  auto maybeObj = ctor.New({});
 #ifdef NODE_ADDON_API_ENABLE_MAYBE
+  auto maybeObj = ctor.New({});
   if (maybeObj.IsNothing()) // maybeObj.IsNull() ||
-#else
-  if (maybeObj.IsEmpty() || maybeObj.IsNull())
-#endif
   {
     // Handle the error appropriately, e.g., throw an exception or return a default object
     Napi::Error::New(ctor.Env(), "Failed to create new instance").ThrowAsJavaScriptException();
     return Napi::Object::New(ctor.Env());
   }
   return maybeObj.Unwrap();
-  // return maybeObj.As<Napi::Object>();
+#else
+  return ctor.New({});
+#endif
 }
 
 static inline bool hasArg(const Napi::CallbackInfo& info, int argN) {
@@ -46,6 +45,7 @@ static inline Napi::String newString(Napi::Env env, std::string str) {
 
 static inline bool hasOwnProperty(Napi::Object obj, const char* prop) {
   // Napi::Maybe<bool> maybeHasProp = obj.HasOwnProperty(prop);
+#ifdef NODE_ADDON_API_ENABLE_MAYBE
   auto maybeHasProp = obj.HasOwnProperty(prop);
   if (maybeHasProp.IsNothing()) {
     // Handle the error appropriately, e.g., throw an exception or return a default value
@@ -53,6 +53,9 @@ static inline bool hasOwnProperty(Napi::Object obj, const char* prop) {
     return false;
   }
   return true;
+#else
+  return obj.HasOwnProperty(prop);
+#endif
 }
 
 template <class TClass>

@@ -35,14 +35,14 @@ public:
     for (uint32_t i = 0; i < jsArr.Length(); i++) {
       std::vector<ElementCastType> vec;
       Napi::HandleScope scope(env);
-      // Napi::Value element = jsArr.Get(i);
-      Napi::MaybeOrValue<Napi::Value> maybeElement = jsArr.Get(i);
-      if (maybeElement.IsNothing()) {
-        // Handle the error case
-        Napi::Error::New(env, "Element is empty").ThrowAsJavaScriptException();
-        return env.Null();
-      }
-      Napi::Value element = maybeElement.Unwrap();
+      Napi::Value element = jsArr.Get(i);
+      // Napi::MaybeOrValue<Napi::Value> maybeElement = jsArr.Get(i);
+      // if (maybeElement.IsNothing()) {
+      //   // Handle the error case
+      //   Napi::Error::New(env, "Element is empty").ThrowAsJavaScriptException();
+      //   return env.Null();
+      // }
+      // Napi::Value element = maybeElement.Unwrap();
       if (super::unwrap(&vec, element)) {
         Napi::Error::New(env, "Error unwrapping element").ThrowAsJavaScriptException();
         return true;

@@ -38,10 +38,10 @@ public:
   static Napi::Value At(const Napi::CallbackInfo& info) {
     Napi::Env env = info.Env();
     FF::TryCatch tryCatch(env, "Point3::At");
-    FF_ASSERT_INDEX_RANGE(info[0].ToInt32(Napi::GetCurrentContext())->Value(), 2, "Point3");
+    FF_ASSERT_INDEX_RANGE(info[0].As<Napi::Number>().Int32Value(), 2, "Point3");
     cv::Point3d ptSelf = Point3::unwrapSelf(info);
     const double coords[] = {ptSelf.x, ptSelf.y, ptSelf.z};
-    return coords[info[0].ToInt32(Napi::GetCurrentContext())->Value()];
+    return coords[info[0].As<Napi::Number>().Int32Value()];
   }
 };
 
