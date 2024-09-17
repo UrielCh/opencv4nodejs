@@ -1,4 +1,5 @@
 #include "AbstractConverter.h"
+#include "ArrayOfArraysConverter.h"
 #include "ArrayConverter.h"
 #include "PrimitiveTypeConverters.h"
 

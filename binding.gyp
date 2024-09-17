@@ -21,6 +21,7 @@
 		"sources": [
 			"cc/opencv4nodejs.cc",
 			"cc/core/core.cc",
+			"cc/core/Mat.cc",
 			"cc/core/coreConstants.cc",
 		],
 		"cflags" : [

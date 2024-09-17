@@ -1,21 +1,23 @@
 #include "Mat.h"
-#include "MatBindings.h"
-#include "coreBindings.h"
+// #include "MatBindings.h"
+// #include "coreBindings.h"
 #include "opencv_modules.h"
+// #include "ObjectWrap.h"
 #include <string>
+// #include "matUtils.h"
 
-#ifdef HAVE_OPENCV_CALIB3D
-#include "../calib3d/MatCalib3d.h"
-#endif
-#ifdef HAVE_OPENCV_IMGPROC
-#include "../imgproc/MatImgproc.h"
-#endif
-#ifdef HAVE_OPENCV_PHOTO
-#include "../photo/MatPhoto.h"
-#endif
-#ifdef HAVE_OPENCV_XIMGPROC
-#include "../ximgproc/MatXimgproc.h"
-#endif
+// #ifdef HAVE_OPENCV_CALIB3D
+// #include "../calib3d/MatCalib3d.h"
+// #endif
+// #ifdef HAVE_OPENCV_IMGPROC
+// #include "../imgproc/MatImgproc.h"
+// #endif
+// #ifdef HAVE_OPENCV_PHOTO
+// #include "../photo/MatPhoto.h"
+// #endif
+// #ifdef HAVE_OPENCV_XIMGPROC
+// #include "../ximgproc/MatXimgproc.h"
+// #endif
 
 Napi::FunctionReference Mat::constructor;
 
@@ -25,7 +27,7 @@ namespace FF {
  */
 template <typename type, int n>
 static inline void matPutVal(cv::Mat mat, Napi::Value value, const cv::Vec<int, n>& idx) {
-  mat.at<type>(idx) = (type)value->ToNumber(Napi::GetCurrentContext())->Value();
+  mat.at<type>(idx) = (type)value.ToNumber().Int32Value();
 }
 
 /**
@@ -36,8 +38,8 @@ template <typename type, int n>
 static inline void matPutVec2(cv::Mat mat, Napi::Value vector, const cv::Vec<int, n>& idx) {
   Napi::Array vec = vector.As<Napi::Array>();
   mat.at<cv::Vec<type, 2>>(idx) = cv::Vec<type, 2>(
-      (type)FF::DoubleConverter::unwrapUnchecked((vec).Get(0)),
-      (type)FF::DoubleConverter::unwrapUnchecked((vec).Get(1)));
+      (type)FF::DoubleConverter::unwrapUnchecked((vec).Get(0u)),
+      (type)FF::DoubleConverter::unwrapUnchecked((vec).Get(1u)));
 }
 
 /**
@@ -48,9 +50,9 @@ template <typename type, int n>
 static inline void matPutVec3(cv::Mat mat, Napi::Value vector, const cv::Vec<int, n>& idx) {
   Napi::Array vec = vector.As<Napi::Array>();
   mat.at<cv::Vec<type, 3>>(idx) = cv::Vec<type, 3>(
-      (type)FF::DoubleConverter::unwrapUnchecked((vec).Get(0)),
-      (type)FF::DoubleConverter::unwrapUnchecked((vec).Get(1)),
-      (type)FF::DoubleConverter::unwrapUnchecked((vec).Get(2)));
+      (type)FF::DoubleConverter::unwrapUnchecked((vec).Get(0u)),
+      (type)FF::DoubleConverter::unwrapUnchecked((vec).Get(1u)),
+      (type)FF::DoubleConverter::unwrapUnchecked((vec).Get(2u)));
 }
 
 /**
@@ -61,49 +63,51 @@ template <typename type, int n>
 static inline void matPutVec4(cv::Mat mat, Napi::Value vector, const cv::Vec<int, n>& idx) {
   Napi::Array vec = vector.As<Napi::Array>();
   mat.at<cv::Vec<type, 4>>(idx) = cv::Vec<type, 4>(
-      (type)FF::DoubleConverter::unwrapUnchecked((vec).Get(0)),
-      (type)FF::DoubleConverter::unwrapUnchecked((vec).Get(1)),
-      (type)FF::DoubleConverter::unwrapUnchecked((vec).Get(2)),
-      (type)FF::DoubleConverter::unwrapUnchecked((vec).Get(3)));
+      (type)FF::DoubleConverter::unwrapUnchecked((vec).Get(0u)),
+      (type)FF::DoubleConverter::unwrapUnchecked((vec).Get(1u)),
+      (type)FF::DoubleConverter::unwrapUnchecked((vec).Get(2u)),
+      (type)FF::DoubleConverter::unwrapUnchecked((vec).Get(3u)));
 }
 
 template <typename type, int n>
-static inline Napi::Value matGetVal(cv::Mat mat, cv::Vec<int, n>& idx) {
+static inline Napi::Value matGetVal(const Napi::Env& env, cv::Mat mat, cv::Vec<int, n>& idx) {
   return Napi::Number::New(env, mat.at<type>(idx));
 }
 
 template <typename type, int n>
-static inline Napi::Value matGetVec2(cv::Mat mat, const cv::Vec<int, n>& idx) {
+static inline Napi::Value matGetVec2(const Napi::Env& env, cv::Mat mat, const cv::Vec<int, n>& idx) {
   Napi::Array vec = Napi::Array::New(env, 2);
-  (vec).Set(0, Napi::Number::New(env, mat.at<cv::Vec<type, 2>>(idx)[0]));
-  (vec).Set(1, Napi::Number::New(env, mat.at<cv::Vec<type, 2>>(idx)[1]));
+  (vec).Set(0u, Napi::Number::New(env, mat.at<cv::Vec<type, 2>>(idx)[0]));
+  (vec).Set(1u, Napi::Number::New(env, mat.at<cv::Vec<type, 2>>(idx)[1]));
   return vec;
 }
 
 template <typename type, int n>
-static inline Napi::Value matGetVec3(cv::Mat mat, const cv::Vec<int, n>& idx) {
+static inline Napi::Value matGetVec3(const Napi::Env& env, cv::Mat mat, const cv::Vec<int, n>& idx) {
   Napi::Array vec = Napi::Array::New(env, 3);
-  (vec).Set(0, Napi::Number::New(env, mat.at<cv::Vec<type, 3>>(idx)[0]));
-  (vec).Set(1, Napi::Number::New(env, mat.at<cv::Vec<type, 3>>(idx)[1]));
-  (vec).Set(2, Napi::Number::New(env, mat.at<cv::Vec<type, 3>>(idx)[2]));
+  (vec).Set(0u, Napi::Number::New(env, mat.at<cv::Vec<type, 3>>(idx)[0]));
+  (vec).Set(1u, Napi::Number::New(env, mat.at<cv::Vec<type, 3>>(idx)[1]));
+  (vec).Set(2u, Napi::Number::New(env, mat.at<cv::Vec<type, 3>>(idx)[2]));
   return vec;
 }
 
 template <typename type, int n>
-static inline Napi::Value matGetVec4(cv::Mat mat, const cv::Vec<int, n>& idx) {
+static inline Napi::Value matGetVec4(const Napi::Env& env, cv::Mat mat, const cv::Vec<int, n>& idx) {
   Napi::Array vec = Napi::Array::New(env, 4);
-  (vec).Set(0, Napi::Number::New(env, mat.at<cv::Vec<type, 4>>(idx)[0]));
-  (vec).Set(1, Napi::Number::New(env, mat.at<cv::Vec<type, 4>>(idx)[1]));
-  (vec).Set(2, Napi::Number::New(env, mat.at<cv::Vec<type, 4>>(idx)[2]));
-  (vec).Set(3, Napi::Number::New(env, mat.at<cv::Vec<type, 4>>(idx)[3]));
+  (vec).Set(0u, Napi::Number::New(env, mat.at<cv::Vec<type, 4>>(idx)[0]));
+  (vec).Set(1u, Napi::Number::New(env, mat.at<cv::Vec<type, 4>>(idx)[1]));
+  (vec).Set(2u, Napi::Number::New(env, mat.at<cv::Vec<type, 4>>(idx)[2]));
+  (vec).Set(3u, Napi::Number::New(env, mat.at<cv::Vec<type, 4>>(idx)[3]));
   return vec;
 }
 
 } // namespace FF
 
+
+
 Napi::Object Mat::Init(Napi::Object exports) {
   Napi::Env env = exports.Env();
-  Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, Mat::New));
+  // Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, Mat::New));
   // constructor.Reset(ctor);
 
   // ctor->SetClassName(Napi::String::New(env, "Mat"));
@@ -128,9 +132,9 @@ Napi::Object Mat::Init(Napi::Object exports) {
       {
         InstanceAccessor("rows", &Mat::Getrows, &Mat::Setrows),
         InstanceAccessor("cols", &Mat::Getcols, &Mat::Setcols),
-        //   using InstanceMethodCallback = Napi::Value (T::*)(const CallbackInfo& info);
-
-//        InstanceMethod("plusOne", &MyObject::PlusOne),
+        InstanceAccessor("type", &Mat::Gettype, nullptr),
+        // using InstanceMethodCallback = Napi::Value (T::*)(const CallbackInfo& info);
+        // InstanceMethod("plusOne", &MyObject::PlusOne),
       });
 
   Napi::FunctionReference* constructor = new Napi::FunctionReference();
@@ -141,14 +145,12 @@ Napi::Object Mat::Init(Napi::Object exports) {
   // func.Set("hello",
   //             Napi::Function::New(env, Method));
 
-  func.Set("flattenFloat", &Mat::FlattenFloat),
+  // func.Set("flattenFloat", &Mat::FlattenFloat),
   // func.Set("flattenFloat", Napi::Function::New(Mat::FlattenFloat)),
-
 
   exports.Set("Mat", func);
   return exports;
 
-//       
 //       InstanceMethod("at", &At),
 //       InstanceMethod("atRaw", &AtRaw),
 //       InstanceMethod("set", &Set),
@@ -286,6 +288,10 @@ void Mat::Setcols(const Napi::CallbackInfo& info,
   this->self.cols = num.DoubleValue();
 }
 
+Napi::Value Mat::Gettype(const Napi::CallbackInfo& info) {
+  int num = this->self.type();
+  return Napi::Number::New(info.Env(), num);
+}
 
 // only used in Mat::At and Mat::AtRaw
 #define FF_MAT_AT(mat, val, get)                                                                                                                                                   \
@@ -327,103 +333,101 @@ void Mat::Setcols(const Napi::CallbackInfo& info,
                                + std::to_string(cn) + " channels, have " + std::to_string(have)); \
   }
 
-#define FF_MAT_APPLY_TYPED_OPERATOR(mat, arg, type, ITERATOR, OPERATOR)       \
-  {                                                                           \
-    switch (type) {                                                           \
-    case CV_8UC1:                                                             \
-      ITERATOR(mat, arg, OPERATOR##Val<uchar>)                                \
-      break;                                                                  \
-    case CV_8UC2:                                                             \
-      ITERATOR(mat, arg, OPERATOR##Vec2<uchar>)                               \
-      break;                                                                  \
-    case CV_8UC3:                                                             \
-      ITERATOR(mat, arg, OPERATOR##Vec3<uchar>)                               \
-      break;                                                                  \
-    case CV_8UC4:                                                             \
-      ITERATOR(mat, arg, OPERATOR##Vec4<uchar>)                               \
-      break;                                                                  \
-    case CV_8SC1:                                                             \
-      ITERATOR(mat, arg, OPERATOR##Val<char>)                                 \
-      break;                                                                  \
-    case CV_8SC2:                                                             \
-      ITERATOR(mat, arg, OPERATOR##Vec2<char>)                                \
-      break;                                                                  \
-    case CV_8SC3:                                                             \
-      ITERATOR(mat, arg, OPERATOR##Vec3<char>)                                \
-      break;                                                                  \
-    case CV_8SC4:                                                             \
-      ITERATOR(mat, arg, OPERATOR##Vec4<char>)                                \
-      break;                                                                  \
-    case CV_16UC1:                                                            \
-      ITERATOR(mat, arg, OPERATOR##Val<ushort>)                               \
-      break;                                                                  \
-    case CV_16UC2:                                                            \
-      ITERATOR(mat, arg, OPERATOR##Vec2<ushort>)                              \
-      break;                                                                  \
-    case CV_16UC3:                                                            \
-      ITERATOR(mat, arg, OPERATOR##Vec3<ushort>)                              \
-      break;                                                                  \
-    case CV_16UC4:                                                            \
-      ITERATOR(mat, arg, OPERATOR##Vec4<ushort>)                              \
-      break;                                                                  \
-    case CV_16SC1:                                                            \
-      ITERATOR(mat, arg, OPERATOR##Val<short>)                                \
-      break;                                                                  \
-    case CV_16SC2:                                                            \
-      ITERATOR(mat, arg, OPERATOR##Vec2<short>)                               \
-      break;                                                                  \
-    case CV_16SC3:                                                            \
-      ITERATOR(mat, arg, OPERATOR##Vec3<short>)                               \
-      break;                                                                  \
-    case CV_16SC4:                                                            \
-      ITERATOR(mat, arg, OPERATOR##Vec4<short>)                               \
-      break;                                                                  \
-    case CV_32SC1:                                                            \
-      ITERATOR(mat, arg, OPERATOR##Val<int>)                                  \
-      break;                                                                  \
-    case CV_32SC2:                                                            \
-      ITERATOR(mat, arg, OPERATOR##Vec2<int>)                                 \
-      break;                                                                  \
-    case CV_32SC3:                                                            \
-      ITERATOR(mat, arg, OPERATOR##Vec3<int>)                                 \
-      break;                                                                  \
-    case CV_32SC4:                                                            \
-      ITERATOR(mat, arg, OPERATOR##Vec4<int>)                                 \
-      break;                                                                  \
-    case CV_32FC1:                                                            \
-      ITERATOR(mat, arg, OPERATOR##Val<float>)                                \
-      break;                                                                  \
-    case CV_32FC2:                                                            \
-      ITERATOR(mat, arg, OPERATOR##Vec2<float>)                               \
-      break;                                                                  \
-    case CV_32FC3:                                                            \
-      ITERATOR(mat, arg, OPERATOR##Vec3<float>)                               \
-      break;                                                                  \
-    case CV_32FC4:                                                            \
-      ITERATOR(mat, arg, OPERATOR##Vec4<float>)                               \
-      break;                                                                  \
-    case CV_64FC1:                                                            \
-      ITERATOR(mat, arg, OPERATOR##Val<double>)                               \
-      break;                                                                  \
-    case CV_64FC2:                                                            \
-      ITERATOR(mat, arg, OPERATOR##Vec2<double>)                              \
-      break;                                                                  \
-    case CV_64FC3:                                                            \
-      ITERATOR(mat, arg, OPERATOR##Vec3<double>)                              \
-      break;                                                                  \
-    case CV_64FC4:                                                            \
-      ITERATOR(mat, arg, OPERATOR##Vec4<double>)                              \
-      break;                                                                  \
-    default:                                                                  \
-      return tryCatch.throwError("invalid matType: " + std::to_string(type)); \
-      break;                                                                  \
-    }                                                                         \
-  }
+#define FF_MAT_APPLY_TYPED_OPERATOR(mat, arg, type, ITERATOR, OPERATOR) \
+    switch (type) {                                                     \
+    case CV_8UC1:                                                       \
+      ITERATOR(mat, arg, OPERATOR##Val<uchar>)                          \
+      break;                                                            \
+    case CV_8UC2:                                                       \
+      ITERATOR(mat, arg, OPERATOR##Vec2<uchar>)                         \
+      break;                                                            \
+    case CV_8UC3:                                                       \
+      ITERATOR(mat, arg, OPERATOR##Vec3<uchar>)                         \
+      break;                                                            \
+    case CV_8UC4:                                                       \
+      ITERATOR(mat, arg, OPERATOR##Vec4<uchar>)                         \
+      break;                                                            \
+    case CV_8SC1:                                                       \
+      ITERATOR(mat, arg, OPERATOR##Val<char>)                           \
+      break;                                                            \
+    case CV_8SC2:                                                       \
+      ITERATOR(mat, arg, OPERATOR##Vec2<char>)                          \
+      break;                                                            \
+    case CV_8SC3:                                                       \
+      ITERATOR(mat, arg, OPERATOR##Vec3<char>)                          \
+      break;                                                            \
+    case CV_8SC4:                                                       \
+      ITERATOR(mat, arg, OPERATOR##Vec4<char>)                          \
+      break;                                                            \
+    case CV_16UC1:                                                      \
+      ITERATOR(mat, arg, OPERATOR##Val<ushort>)                         \
+      break;                                                            \
+    case CV_16UC2:                                                      \
+      ITERATOR(mat, arg, OPERATOR##Vec2<ushort>)                        \
+      break;                                                            \
+    case CV_16UC3:                                                      \
+      ITERATOR(mat, arg, OPERATOR##Vec3<ushort>)                        \
+      break;                                                            \
+    case CV_16UC4:                                                      \
+      ITERATOR(mat, arg, OPERATOR##Vec4<ushort>)                        \
+      break;                                                            \
+    case CV_16SC1:                                                      \
+      ITERATOR(mat, arg, OPERATOR##Val<short>)                          \
+      break;                                                            \
+    case CV_16SC2:                                                      \
+      ITERATOR(mat, arg, OPERATOR##Vec2<short>)                         \
+      break;                                                            \
+    case CV_16SC3:                                                      \
+      ITERATOR(mat, arg, OPERATOR##Vec3<short>)                         \
+      break;                                                            \
+    case CV_16SC4:                                                      \
+      ITERATOR(mat, arg, OPERATOR##Vec4<short>)                         \
+      break;                                                            \
+    case CV_32SC1:                                                      \
+      ITERATOR(mat, arg, OPERATOR##Val<int>)                            \
+      break;                                                            \
+    case CV_32SC2:                                                      \
+      ITERATOR(mat, arg, OPERATOR##Vec2<int>)                           \
+      break;                                                            \
+    case CV_32SC3:                                                      \
+      ITERATOR(mat, arg, OPERATOR##Vec3<int>)                           \
+      break;                                                            \
+    case CV_32SC4:                                                      \
+      ITERATOR(mat, arg, OPERATOR##Vec4<int>)                           \
+      break;                                                            \
+    case CV_32FC1:                                                      \
+      ITERATOR(mat, arg, OPERATOR##Val<float>)                          \
+      break;                                                            \
+    case CV_32FC2:                                                      \
+      ITERATOR(mat, arg, OPERATOR##Vec2<float>)                         \
+      break;                                                            \
+    case CV_32FC3:                                                      \
+      ITERATOR(mat, arg, OPERATOR##Vec3<float>)                         \
+      break;                                                            \
+    case CV_32FC4:                                                      \
+      ITERATOR(mat, arg, OPERATOR##Vec4<float>)                         \
+      break;                                                            \
+    case CV_64FC1:                                                      \
+      ITERATOR(mat, arg, OPERATOR##Val<double>)                         \
+      break;                                                            \
+    case CV_64FC2:                                                      \
+      ITERATOR(mat, arg, OPERATOR##Vec2<double>)                        \
+      break;                                                            \
+    case CV_64FC3:                                                      \
+      ITERATOR(mat, arg, OPERATOR##Vec3<double>)                        \
+      break;                                                            \
+    case CV_64FC4:                                                      \
+      ITERATOR(mat, arg, OPERATOR##Vec4<double>)                        \
+      break;                                                            \
+    default:                                                            \
+      Napi::TypeError::New(env, "invalid matType: " + std::to_string(type)).ThrowAsJavaScriptException(); \
+      return;                                                           \
+    }
 
 // only used in Mat::New
 #define FF_MAT_FROM_JS_ARRAY_2D(mat, rowArray, put)             \
   for (int r = 0; r < mat.rows; r++) {                          \
-    Napi::Array colArray = (rowArray).Get(r.As<Napi::Array>()); \
+    Napi::Array colArray = (rowArray).Get(r).As<Napi::Array>(); \
     for (int c = 0; c < mat.cols; c++) {                        \
       put(mat, (colArray).Get(c), r, c);                        \
     }                                                           \
@@ -434,9 +438,9 @@ void Mat::Setcols(const Napi::CallbackInfo& info,
     cv::MatSize sizes = mat.size;                                          \
     cv::Vec3i cur = cv::Vec3b(0, 0, 0);                                    \
     for (cur[0] = 0; cur[0] < sizes[0]; cur[0]++) {                        \
-      Napi::Array colArray1 = (rowArray).Get(cur[0].As<Napi::Array>());    \
+      Napi::Array colArray1 = (rowArray).Get(cur[0]).As<Napi::Array>();    \
       for (cur[1] = 0; cur[1] < sizes[1]; cur[1]++) {                      \
-        Napi::Array colArray2 = (colArray1).Get(cur[1].As<Napi::Array>()); \
+        Napi::Array colArray2 = (colArray1).Get(cur[1]).As<Napi::Array>(); \
         for (cur[2] = 0; cur[2] < sizes[2]; cur[2]++) {                    \
           put(mat, (colArray2).Get(cur[2]), cur);                          \
         }                                                                  \
@@ -454,11 +458,11 @@ void Mat::Setcols(const Napi::CallbackInfo& info,
     cv::MatSize sizes = mat.size;                                            \
     cv::Vec4i cur = cv::Vec4i(0, 0, 0, 0);                                   \
     for (cur[0] = 0; cur[0] < sizes[0]; cur[0]++) {                          \
-      Napi::Array colArray1 = (rowArray).Get(cur[0].As<Napi::Array>());      \
+      Napi::Array colArray1 = (rowArray).Get(cur[0]).As<Napi::Array>();      \
       for (cur[1] = 0; cur[1] < sizes[1]; cur[1]++) {                        \
-        Napi::Array colArray2 = (colArray1).Get(cur[1].As<Napi::Array>());   \
+        Napi::Array colArray2 = (colArray1).Get(cur[1]).As<Napi::Array>();   \
         for (cur[2] = 0; cur[2] < sizes[2]; cur[2]++) {                      \
-          Napi::Array colArray3 = (colArray2).Get(cur[2].As<Napi::Array>()); \
+          Napi::Array colArray3 = (colArray2).Get(cur[2]).As<Napi::Array>(); \
           for (cur[3] = 0; cur[3] < sizes[3]; cur[3]++) {                    \
             put(mat, (colArray3).Get(cur[3]), cur);                          \
           }                                                                  \
@@ -472,13 +476,13 @@ void Mat::Setcols(const Napi::CallbackInfo& info,
     cv::MatSize sizes = mat.size;                                              \
     cv::Vec4i cur = cv::Vec5b(0, 0, 0, 0, 0);                                  \
     for (cur[0] = 0; cur[0] < sizes[0]; cur[0]++) {                            \
-      Napi::Array colArray1 = (rowArray).Get(cur[0].As<Napi::Array>());        \
+      Napi::Array colArray1 = (rowArray).Get(cur[0]).As<Napi::Array>();        \
       for (cur[1] = 0; cur[1] < sizes[1]; cur[1]++) {                          \
-        Napi::Array colArray2 = (colArray1).Get(cur[1].As<Napi::Array>());     \
+        Napi::Array colArray2 = (colArray1).Get(cur[1]).As<Napi::Array>();     \
         for (cur[2] = 0; cur[2] < sizes[2]; cur[2]++) {                        \
-          Napi::Array colArray3 = (colArray2).Get(cur[2].As<Napi::Array>());   \
+          Napi::Array colArray3 = (colArray2).Get(cur[2]).As<Napi::Array>();   \
           for (cur[3] = 0; cur[3] < sizes[3]; cur[3]++) {                      \
-            Napi::Array colArray4 = (colArray3).Get(cur[3].As<Napi::Array>()); \
+            Napi::Array colArray4 = (colArray3).Get(cur[3]).As<Napi::Array>(); \
             for (cur[4] = 0; cur[4] < sizes[4]; cur[4]++) {                    \
               put(mat, (colArray4).Get(cur[4]), cur);                          \
             }                                                                  \
@@ -522,7 +526,7 @@ Mat::Mat(const Napi::CallbackInfo& info): Napi::ObjectWrap<Mat>(info) {
       Napi::Value arrayItem = jsChannelMats[i];
       Napi::TypeError::New(env, "constructor from Channel not implemented yet").ThrowAsJavaScriptException();
       return;
-      // Napi::Object jsChannelMat = jsChannelMats.Get(i.To<Napi::Number>());
+      // Napi::Number jsChannelMat = jsChannelMats.Get(i).ToNumber();
       // Napi::Object jsChannelMat2 = jsChannelMats[i].Get(i.To<Napi::Object>());
       // if (!Napi::New(env, Mat::constructor)->HasInstance(jsChannelMat)) {
       //   return tryCatch.throwError("expected channel " + std::to_string(i) + " to be an instance of Mat");
@@ -596,8 +600,7 @@ Mat::Mat(const Napi::CallbackInfo& info): Napi::ObjectWrap<Mat>(info) {
       }
       // 	Mat (int rows, int cols, int type)
       cv::Mat mat = cv::Mat(rows, numCols, type);
-      // TODO
-      // FF_MAT_APPLY_TYPED_OPERATOR(mat, rowArray0, type, FF_MAT_FROM_JS_ARRAY_2D, FF::matPut);
+      FF_MAT_APPLY_TYPED_OPERATOR(mat, rowArray0, type, FF_MAT_FROM_JS_ARRAY_2D, FF::matPut);
       this->self = mat;
     } else if (dim == 3) {
       std::vector<int> sizes = {(int)rowArray0.Length(), -1, -1};
@@ -629,8 +632,7 @@ Mat::Mat(const Napi::CallbackInfo& info): Napi::ObjectWrap<Mat>(info) {
       }
       // Mat (const std::vector< int > &sizes, int type)
       cv::Mat mat = cv::Mat(sizes, type);
-      // TODO
-      // FF_MAT_APPLY_TYPED_OPERATOR(mat, rowArray0, type, FF_MAT_FROM_JS_ARRAY_3D, FF::matPut);
+      FF_MAT_APPLY_TYPED_OPERATOR(mat, rowArray0, type, FF_MAT_FROM_JS_ARRAY_3D, FF::matPut);
       this->self = mat;
     } else if (dim == 4) {
       std::vector<int> sizes = {(int)rowArray0.Length(), -1, -1, -1};
@@ -684,8 +686,7 @@ Mat::Mat(const Napi::CallbackInfo& info): Napi::ObjectWrap<Mat>(info) {
       }
       // Mat (const std::vector< int > &sizes, int type)
       cv::Mat mat = cv::Mat(sizes, type);
-      // TODO
-      // FF_MAT_APPLY_TYPED_OPERATOR(mat, rowArray0, type, FF_MAT_FROM_JS_ARRAY_4D, FF::matPut);
+      FF_MAT_APPLY_TYPED_OPERATOR(mat, rowArray0, type, FF_MAT_FROM_JS_ARRAY_4D, FF::matPut);
       // self->setNativeObject(mat);
       this->self = mat;
     } else {
@@ -713,12 +714,10 @@ Mat::Mat(const Napi::CallbackInfo& info): Napi::ObjectWrap<Mat>(info) {
           Napi::TypeError::New(env, msg).ThrowAsJavaScriptException();
           return;
         }
-        // TODO
-        // FF_MAT_APPLY_TYPED_OPERATOR(mat, vec, type, FF_MAT_FILL, FF::matPut);
+        FF_MAT_APPLY_TYPED_OPERATOR(mat, vec, type, FF_MAT_FILL, FF::matPut);
       }
       if (info[3].IsNumber()) {
-        // TODO
-        // FF_MAT_APPLY_TYPED_OPERATOR(mat, info[3], type, FF_MAT_FILL, FF::matPut);
+        FF_MAT_APPLY_TYPED_OPERATOR(mat, info[3], type, FF_MAT_FILL, FF::matPut);
       }
       this->self = mat;
     } else if (info[3].IsObject()) {
@@ -773,12 +772,12 @@ Mat::Mat(const Napi::CallbackInfo& info): Napi::ObjectWrap<Mat>(info) {
 
 Napi::Value Mat::Eye(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
-  // FF::TryCatch tryCatch(env, "Mat::Eye");
-  // int rows, cols, type;
-  // if (
-  //     FF::IntConverter::arg(0, &rows, info) || FF::IntConverter::arg(1, &cols, info) || FF::IntConverter::arg(2, &type, info)) {
-  //   return tryCatch.reThrow();
-  // }
+  int rows, cols, type;
+  if (
+      FF::IntConverter::arg(0, &rows, info) || FF::IntConverter::arg(1, &cols, info) || FF::IntConverter::arg(2, &type, info)) {
+      Napi::TypeError::New(env, "Mat::Eye").ThrowAsJavaScriptException();
+      return env.Undefined();
+  }
   // return Mat::Converter::wrap(cv::Mat::eye(cv::Size(cols, rows), type));
   return env.Undefined();
 }

@@ -13,8 +13,8 @@
 
 #ifndef __FF_CORE_H__
 #define __FF_CORE_H__
-
-class Core : public Napi::ObjectWrap<Core> {
+//  : public Napi::ObjectWrap<Core>
+class Core {
 public:
   static void Init(Napi::Object exports);
 

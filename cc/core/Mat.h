@@ -7,12 +7,11 @@
 // #include "Vec.h"
 // #include "coreUtils.h"
 #include "macros.h"
-// #include "matUtils.h"
+#include "Converters.h"
+#include "matUtils.h"
 
 #ifndef __FF_MAT_H__
 #define __FF_MAT_H__
-
-
 
 // #define NN_HEADER_ACC(ff_property_name) \
 //   static ff_property_converter::Type getProperty_##ff_property_name(ClassType* self) {     \
@@ -42,6 +41,9 @@ public:
 
   Napi::Value Getcols(const Napi::CallbackInfo& info);
   void Setcols(const Napi::CallbackInfo& info, const Napi::Value& value);
+
+  Napi::Value Gettype(const Napi::CallbackInfo& info);
+
 
   // FF_GETTER_CUSTOM(rows, FF::IntConverter, self.rows);
   // FF_GETTER_CUSTOM(cols, FF::IntConverter, self.cols);

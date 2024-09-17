@@ -18,4 +18,10 @@ describe('static Mat methods', () => {
   it('CV_8U', () => {
     expect(cv.CV_8U).to.be.equal(0);
   });
+  it('alloc Mat', () => {
+    const mat = new cv.Mat(2, 3, cv.CV_8U);
+    expect(mat.rows).to.be.equal(2);
+    expect(mat.cols).to.be.equal(3);
+    expect(mat.type).to.be.equal(cv.CV_8U);
+  });
 });
