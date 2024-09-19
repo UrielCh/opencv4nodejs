@@ -65,8 +65,8 @@ void Contour::New(const Napi::CallbackInfo& info) {
         Napi::Array jsObj = jsPt.As<Napi::Array>();
         if (jsObj->Length() != 2)
           return tryCatch.throwError("expected arg0 to consist of only Point2 or array of length 2");
-        double x = FF::DoubleConverter::unwrapUnchecked((jsObj).Get(0));
-        double y = FF::DoubleConverter::unwrapUnchecked((jsObj).Get(1));
+        double x = FF::DoubleConverter::unwrapUnchecked((jsObj).Get(0u));
+        double y = FF::DoubleConverter::unwrapUnchecked((jsObj).Get(1u));
         cv_pt = cv::Point2d(x, y);
       } else if (Point2::hasInstance(jsPt)) {
         cv_pt = Point2::Converter::unwrapUnchecked(jsPt);

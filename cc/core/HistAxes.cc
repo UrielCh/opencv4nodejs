@@ -52,11 +52,11 @@ void HistAxes::New(const Napi::CallbackInfo& info) {
     return tryCatch.throwError("expected object to have channel");
   }
 
-  Napi::Value jsRangesVal = (jsAxis).Get(Napi::String::New(env, "ranges"));
+  Napi::Value jsRangesVal = (jsAxis).Get("ranges");
   Napi::Array jsRanges = jsRangesVal.As<Napi::Array>();
 
   if (
-      jsRanges->Length() != 2 || !(jsRanges).Get(0).IsNumber() || !(jsRanges).Get(1).IsNumber()) {
+      jsRanges->Length() != 2 || !(jsRanges).Get(0u).IsNumber() || !(jsRanges).Get(1u).IsNumber()) {
     return tryCatch.throwError("expected ranges to be an array with 2 numbers");
   }
 

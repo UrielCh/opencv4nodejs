@@ -24,4 +24,19 @@ describe('static Mat methods', () => {
     expect(mat.cols).to.be.equal(3);
     expect(mat.type).to.be.equal(cv.CV_8U);
   });
+
+  it('basic Mat', () => {
+    const mat = new cv.Mat(1, 2, cv.CV_8U, 255);
+    expect(mat.at(0, 0)).to.be.equal(255);
+  });
+
+  it('ones', () => {
+    const expected = Buffer.alloc(4, 0).fill(1);
+    const mat = cv.Mat.ones(2, 2, cv.CV_8U);
+    expect(mat.cols).to.be.equal(2);
+    expect(mat.rows).to.be.equal(2);
+    // const buf: Buffer = mat.getData();
+    // expect(buf).to.be.deep.equal(expected);
+  });
+
 });

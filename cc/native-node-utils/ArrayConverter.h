@@ -24,7 +24,7 @@ public:
     return vec;
   }
 
-  static bool unwrap(Type* vec, Napi::Value& jsVal) {
+  static bool unwrap(Type* vec, const Napi::Value& jsVal) {
     if (!jsVal.IsArray()) {
       return true;
     }

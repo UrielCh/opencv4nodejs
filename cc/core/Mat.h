@@ -35,6 +35,7 @@ public:
   cv::Mat self;
 
   static Napi::Object Init(Napi::Object exports);
+  // static Napi::Object NewInstance(Napi::Env env, cv::Mat mat);
 
   Napi::Value Getrows(const Napi::CallbackInfo& info);
   void Setrows(const Napi::CallbackInfo& info, const Napi::Value& value);
@@ -80,7 +81,7 @@ public:
   static Napi::Value Ones(const Napi::CallbackInfo& info);
   static Napi::Value Zeros(const Napi::CallbackInfo& info);
   static Napi::Value FlattenFloat(const Napi::CallbackInfo& info);
-  static Napi::Value At(const Napi::CallbackInfo& info);
+  Napi::Value At(const Napi::CallbackInfo& info);
   static Napi::Value AtRaw(const Napi::CallbackInfo& info);
   static Napi::Value Set(const Napi::CallbackInfo& info);
   static Napi::Value SetTo(const Napi::CallbackInfo& info);

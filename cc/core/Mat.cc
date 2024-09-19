@@ -1,6 +1,7 @@
 #include "Mat.h"
 // #include "MatBindings.h"
 // #include "coreBindings.h"
+#include "coreUtils.h"
 #include "opencv_modules.h"
 // #include "ObjectWrap.h"
 #include <string>
@@ -18,6 +19,8 @@
 // #ifdef HAVE_OPENCV_XIMGPROC
 // #include "../ximgproc/MatXimgproc.h"
 // #endif
+
+#include "MatMacro.h"
 
 Napi::FunctionReference Mat::constructor;
 
@@ -103,8 +106,6 @@ static inline Napi::Value matGetVec4(const Napi::Env& env, cv::Mat mat, const cv
 
 } // namespace FF
 
-
-
 Napi::Object Mat::Init(Napi::Object exports) {
   Napi::Env env = exports.Env();
   // Napi::FunctionReference ctor = Napi::Persistent(Napi::Function::New(env, Mat::New));
@@ -123,18 +124,18 @@ Napi::Object Mat::Init(Napi::Object exports) {
   // Napi::SetAccessor(ctor->InstanceTemplate(), Napi::String::New(env, "step"), Mat::GetStep);
   // // Mat static metodas
   // Napi::SetMethod(ctor, "eye", Eye);
-  // Napi::SetMethod(ctor, "ones", Ones);
   // Napi::SetMethod(ctor, "zeros", Zeros);
 
   Napi::Function func = DefineClass(
       env,
       "Mat",
       {
-        InstanceAccessor("rows", &Mat::Getrows, &Mat::Setrows),
-        InstanceAccessor("cols", &Mat::Getcols, &Mat::Setcols),
-        InstanceAccessor("type", &Mat::Gettype, nullptr),
-        // using InstanceMethodCallback = Napi::Value (T::*)(const CallbackInfo& info);
-        // InstanceMethod("plusOne", &MyObject::PlusOne),
+          InstanceMethod("at", &Mat::At), // Napi::Value Mat::At(const Napi::CallbackInfo& info)
+          InstanceAccessor("rows", &Mat::Getrows, &Mat::Setrows),
+          InstanceAccessor("cols", &Mat::Getcols, &Mat::Setcols),
+          InstanceAccessor("type", &Mat::Gettype, nullptr),
+          // using InstanceMethodCallback = Napi::Value (T::*)(const CallbackInfo& info);
+          // InstanceMethod("plusOne", &MyObject::PlusOne),
       });
 
   Napi::FunctionReference* constructor = new Napi::FunctionReference();
@@ -147,111 +148,111 @@ Napi::Object Mat::Init(Napi::Object exports) {
 
   // func.Set("flattenFloat", &Mat::FlattenFloat),
   // func.Set("flattenFloat", Napi::Function::New(Mat::FlattenFloat)),
+  // func.Set("ones", &Mat::Ones);
 
   exports.Set("Mat", func);
   return exports;
 
-//       InstanceMethod("at", &At),
-//       InstanceMethod("atRaw", &AtRaw),
-//       InstanceMethod("set", &Set),
-//       InstanceMethod("setTo", &SetTo),
-//       InstanceMethod("setToAsync", &SetToAsync),
-//       InstanceMethod("push_back", &PushBack),
-//       InstanceMethod("push_backAsync", &PushBackAsync),
-//       InstanceMethod("pushBack", &PushBack),
-//       InstanceMethod("pushBackAsync", &PushBackAsync),
-//       InstanceMethod("pop_back", &PopBack),
-//       InstanceMethod("pop_backAsync", &PopBackAsync),
-//       InstanceMethod("popBack", &PopBack),
-//       InstanceMethod("popBackAsync", &PopBackAsync),
-//       InstanceMethod("getData", &GetData),
-//       InstanceMethod("getDataAsync", &GetDataAsync),
-//       InstanceMethod("getDataAsArray", &GetDataAsArray),
-//       InstanceMethod("setData", &SetData),
-//       InstanceMethod("getRegion", &GetRegion),
-//       InstanceMethod("row", &Row),
-//       InstanceMethod("rowRange", &RowRange),
-//       InstanceMethod("col", &Col),
-//       InstanceMethod("colRange", &ColRange),
-//       InstanceMethod("copy", &Copy),
-//       InstanceMethod("copyAsync", &CopyAsync),
-//       InstanceMethod("copyTo", &CopyTo),
-//       InstanceMethod("copyToAsync", &CopyToAsync),
-//       InstanceMethod("convertTo", &ConvertTo),
-//       InstanceMethod("convertToAsync", &ConvertToAsync),
-//       InstanceMethod("norm", &Norm),
-//       InstanceMethod("padToSquare", &PadToSquare),
-//       InstanceMethod("padToSquareAsync", &PadToSquareAsync),
-//       InstanceMethod("dct", &Dct),
-//       InstanceMethod("dctAsync", &DctAsync),
-//       InstanceMethod("idct", &Idct),
-//       InstanceMethod("idctAsync", &IdctAsync),
-//       InstanceMethod("dft", &Dft),
-//       InstanceMethod("dftAsync", &DftAsync),
-//       InstanceMethod("idft", &Idft),
-//       InstanceMethod("idftAsync", &IdftAsync),
-//       InstanceMethod("normalize", &Normalize),
-//       InstanceMethod("normalizeAsync", &NormalizeAsync),
-//       InstanceMethod("flip", &Flip),
-//       InstanceMethod("flipAsync", &FlipAsync),
-//       InstanceMethod("copyMakeBorder", &CopyMakeBorder),
-//       InstanceMethod("copyMakeBorderAsync", &CopyMakeBorderAsync),
-//       InstanceMethod("splitChannels", &Split),
-//       InstanceMethod("splitChannelsAsync", &SplitAsync),
-// 
-// #if CV_VERSION_GREATER_EQUAL(3, 2, 0)
-//       InstanceMethod("rotate", &Rotate),
-//       InstanceMethod("rotateAsync", &RotateAsync),
-// #endif
-// 
-//       InstanceMethod("release", &Release),
-// 
-//       InstanceMethod("addWeighted", &AddWeighted),
-//       InstanceMethod("addWeightedAsync", &AddWeightedAsync),
-//       InstanceMethod("minMaxLoc", &MinMaxLoc),
-//       InstanceMethod("minMaxLocAsync", &MinMaxLocAsync),
-//       InstanceMethod("findNonZero", &FindNonZero),
-//       InstanceMethod("findNonZeroAsync", &FindNonZeroAsync),
-//       InstanceMethod("countNonZero", &CountNonZero),
-//       InstanceMethod("countNonZeroAsync", &CountNonZeroAsync),
-//       InstanceMethod("split", &Split),
-//       InstanceMethod("splitAsync", &SplitAsync),
-//       InstanceMethod("mulSpectrums", &MulSpectrums),
-//       InstanceMethod("mulSpectrumsAsync", &MulSpectrumsAsync),
-//       InstanceMethod("transform", &Transform),
-//       InstanceMethod("transformAsync", &TransformAsync),
-//       InstanceMethod("perspectiveTransform", &PerspectiveTransform),
-//       InstanceMethod("perspectiveTransformAsync", &PerspectiveTransformAsync),
-//       InstanceMethod("convertScaleAbs", &ConvertScaleAbs),
-//       InstanceMethod("convertScaleAbsAsync", &ConvertScaleAbsAsync),
-//       InstanceMethod("sum", &Sum),
-//       InstanceMethod("sumAsync", &SumAsync),
-//       InstanceMethod("mean", &Mean),
-//       InstanceMethod("meanAsync", &MeanAsync),
-//       InstanceMethod("meanStdDev", &MeanStdDev),
-//       InstanceMethod("meanStdDevAsync", &MeanStdDevAsync),
-//       InstanceMethod("reduce", &Reduce),
-//       InstanceMethod("reduceAsync", &ReduceAsync),
-//       InstanceMethod("eigen", &Eigen),
-//       InstanceMethod("eigenAsync", &EigenAsync),
-//       InstanceMethod("solve", &Solve),
-//       InstanceMethod("solveAsync", &SolveAsync),
-//       });
-// 
-//       // FF_PROTO_SET_MAT_OPERATIONS(ctor);
-// 
-//#ifdef HAVE_OPENCV_CALIB3D
-//  MatCalib3d::Init(exports);
-//#endif
-//#ifdef HAVE_OPENCV_IMGPROC
-//  MatImgproc::Init(exports);
-//#endif
-//#ifdef HAVE_OPENCV_PHOTO
-//  MatPhoto::Init(exports);
-//#endif
-// #ifdef HAVE_OPENCV_XIMGPROC
-//   MatXimgproc::Init(exports);
-// #endif
+  //       InstanceMethod("atRaw", &AtRaw),
+  //       InstanceMethod("set", &Set),
+  //       InstanceMethod("setTo", &SetTo),
+  //       InstanceMethod("setToAsync", &SetToAsync),
+  //       InstanceMethod("push_back", &PushBack),
+  //       InstanceMethod("push_backAsync", &PushBackAsync),
+  //       InstanceMethod("pushBack", &PushBack),
+  //       InstanceMethod("pushBackAsync", &PushBackAsync),
+  //       InstanceMethod("pop_back", &PopBack),
+  //       InstanceMethod("pop_backAsync", &PopBackAsync),
+  //       InstanceMethod("popBack", &PopBack),
+  //       InstanceMethod("popBackAsync", &PopBackAsync),
+  //       InstanceMethod("getData", &GetData),
+  //       InstanceMethod("getDataAsync", &GetDataAsync),
+  //       InstanceMethod("getDataAsArray", &GetDataAsArray),
+  //       InstanceMethod("setData", &SetData),
+  //       InstanceMethod("getRegion", &GetRegion),
+  //       InstanceMethod("row", &Row),
+  //       InstanceMethod("rowRange", &RowRange),
+  //       InstanceMethod("col", &Col),
+  //       InstanceMethod("colRange", &ColRange),
+  //       InstanceMethod("copy", &Copy),
+  //       InstanceMethod("copyAsync", &CopyAsync),
+  //       InstanceMethod("copyTo", &CopyTo),
+  //       InstanceMethod("copyToAsync", &CopyToAsync),
+  //       InstanceMethod("convertTo", &ConvertTo),
+  //       InstanceMethod("convertToAsync", &ConvertToAsync),
+  //       InstanceMethod("norm", &Norm),
+  //       InstanceMethod("padToSquare", &PadToSquare),
+  //       InstanceMethod("padToSquareAsync", &PadToSquareAsync),
+  //       InstanceMethod("dct", &Dct),
+  //       InstanceMethod("dctAsync", &DctAsync),
+  //       InstanceMethod("idct", &Idct),
+  //       InstanceMethod("idctAsync", &IdctAsync),
+  //       InstanceMethod("dft", &Dft),
+  //       InstanceMethod("dftAsync", &DftAsync),
+  //       InstanceMethod("idft", &Idft),
+  //       InstanceMethod("idftAsync", &IdftAsync),
+  //       InstanceMethod("normalize", &Normalize),
+  //       InstanceMethod("normalizeAsync", &NormalizeAsync),
+  //       InstanceMethod("flip", &Flip),
+  //       InstanceMethod("flipAsync", &FlipAsync),
+  //       InstanceMethod("copyMakeBorder", &CopyMakeBorder),
+  //       InstanceMethod("copyMakeBorderAsync", &CopyMakeBorderAsync),
+  //       InstanceMethod("splitChannels", &Split),
+  //       InstanceMethod("splitChannelsAsync", &SplitAsync),
+  //
+  // #if CV_VERSION_GREATER_EQUAL(3, 2, 0)
+  //       InstanceMethod("rotate", &Rotate),
+  //       InstanceMethod("rotateAsync", &RotateAsync),
+  // #endif
+  //
+  //       InstanceMethod("release", &Release),
+  //
+  //       InstanceMethod("addWeighted", &AddWeighted),
+  //       InstanceMethod("addWeightedAsync", &AddWeightedAsync),
+  //       InstanceMethod("minMaxLoc", &MinMaxLoc),
+  //       InstanceMethod("minMaxLocAsync", &MinMaxLocAsync),
+  //       InstanceMethod("findNonZero", &FindNonZero),
+  //       InstanceMethod("findNonZeroAsync", &FindNonZeroAsync),
+  //       InstanceMethod("countNonZero", &CountNonZero),
+  //       InstanceMethod("countNonZeroAsync", &CountNonZeroAsync),
+  //       InstanceMethod("split", &Split),
+  //       InstanceMethod("splitAsync", &SplitAsync),
+  //       InstanceMethod("mulSpectrums", &MulSpectrums),
+  //       InstanceMethod("mulSpectrumsAsync", &MulSpectrumsAsync),
+  //       InstanceMethod("transform", &Transform),
+  //       InstanceMethod("transformAsync", &TransformAsync),
+  //       InstanceMethod("perspectiveTransform", &PerspectiveTransform),
+  //       InstanceMethod("perspectiveTransformAsync", &PerspectiveTransformAsync),
+  //       InstanceMethod("convertScaleAbs", &ConvertScaleAbs),
+  //       InstanceMethod("convertScaleAbsAsync", &ConvertScaleAbsAsync),
+  //       InstanceMethod("sum", &Sum),
+  //       InstanceMethod("sumAsync", &SumAsync),
+  //       InstanceMethod("mean", &Mean),
+  //       InstanceMethod("meanAsync", &MeanAsync),
+  //       InstanceMethod("meanStdDev", &MeanStdDev),
+  //       InstanceMethod("meanStdDevAsync", &MeanStdDevAsync),
+  //       InstanceMethod("reduce", &Reduce),
+  //       InstanceMethod("reduceAsync", &ReduceAsync),
+  //       InstanceMethod("eigen", &Eigen),
+  //       InstanceMethod("eigenAsync", &EigenAsync),
+  //       InstanceMethod("solve", &Solve),
+  //       InstanceMethod("solveAsync", &SolveAsync),
+  //       });
+  //
+  //       // FF_PROTO_SET_MAT_OPERATIONS(ctor);
+  //
+  // #ifdef HAVE_OPENCV_CALIB3D
+  //  MatCalib3d::Init(exports);
+  // #endif
+  // #ifdef HAVE_OPENCV_IMGPROC
+  //  MatImgproc::Init(exports);
+  // #endif
+  // #ifdef HAVE_OPENCV_PHOTO
+  //  MatPhoto::Init(exports);
+  // #endif
+  // #ifdef HAVE_OPENCV_XIMGPROC
+  //   MatXimgproc::Init(exports);
+  // #endif
 
   // exports.Set("Mat", FF::getFunction(ctor));
 };
@@ -262,7 +263,7 @@ Napi::Value Mat::Getrows(const Napi::CallbackInfo& info) {
 }
 
 void Mat::Setrows(const Napi::CallbackInfo& info,
-                        const Napi::Value& value) {
+                  const Napi::Value& value) {
   Napi::Env env = info.Env();
   if (!value.IsNumber()) {
     Napi::TypeError::New(env, "Number expected").ThrowAsJavaScriptException();
@@ -278,7 +279,7 @@ Napi::Value Mat::Getcols(const Napi::CallbackInfo& info) {
 }
 
 void Mat::Setcols(const Napi::CallbackInfo& info,
-                        const Napi::Value& value) {
+                  const Napi::Value& value) {
   Napi::Env env = info.Env();
   if (!value.IsNumber()) {
     Napi::TypeError::New(env, "Number expected").ThrowAsJavaScriptException();
@@ -293,207 +294,21 @@ Napi::Value Mat::Gettype(const Napi::CallbackInfo& info) {
   return Napi::Number::New(info.Env(), num);
 }
 
-// only used in Mat::At and Mat::AtRaw
-#define FF_MAT_AT(mat, val, get)                                                                                                                                                   \
-  if (mat.dims > 2)                                                                                                                                                                \
-    val = get(mat, info[0].As<Napi::Number>().Int32Value(), info[1].As<Napi::Number>().Int32Value(), info[2].As<Napi::Number>().Int32Value()); \
-  else                                                                                                                                                                             \
-    val = get(mat, info[0].As<Napi::Number>().Int32Value(), info[1].As<Napi::Number>().Int32Value());
+// Napi::Object Mat::NewInstance(Napi::Env env, cv::Mat mat) {
+//   Napi::EscapableHandleScope scope(env);
+// 
+//   Napi::Object obj = constructor.New({ Napi::External<cv::Mat>::New(env, &mat) });
+//   return scope.Escape(napi_value(obj)).ToObject();
+// }
 
-// only used in Mat::At
-#define FF_MAT_AT_ARRAY(mat, val, get)               \
-  {                                                  \
-    std::vector<int> vec;                            \
-    if (FF::IntArrayConverter::arg(0, &vec, info)) { \
-      return tryCatch.reThrow();                     \
-    }                                                \
-    const int* idx = &vec.front();                   \
-    val = get(mat, idx);                             \
-  }
+Mat::Mat(const Napi::CallbackInfo& info)
+    : Napi::ObjectWrap<Mat>(info) {
 
-// only used in Mat::Set
-#define FF_MAT_SET(mat, val, put)                                                                                                                                                 \
-  if (mat.dims > 2)                                                                                                                                                               \
-    put(mat, val, info[0].As<Napi::Number>().Int32Value(), info[1].As<Napi::Number>().Int32Value(), info[2].As<Napi::Number>().Int32Value()); \
-  else                                                                                                                                                                            \
-    put(mat, val, info[0].As<Napi::Number>().Int32Value(), info[1].As<Napi::Number>().Int32Value());
-
-// only used in Mat::New
-#define FF_MAT_FILL(mat, vec, put)       \
-  for (int r = 0; r < mat.rows; r++) {   \
-    for (int c = 0; c < mat.cols; c++) { \
-      put(mat, vec, r, c);               \
-    }                                    \
-  }
-
-// only used in Mat::Set
-#define FF_ASSERT_CHANNELS(cn, have, what)                                                        \
-  if (cn != have) {                                                                               \
-    return tryCatch.throwError(std::string(what) + " - expected vector with "                     \
-                               + std::to_string(cn) + " channels, have " + std::to_string(have)); \
-  }
-
-#define FF_MAT_APPLY_TYPED_OPERATOR(mat, arg, type, ITERATOR, OPERATOR) \
-    switch (type) {                                                     \
-    case CV_8UC1:                                                       \
-      ITERATOR(mat, arg, OPERATOR##Val<uchar>)                          \
-      break;                                                            \
-    case CV_8UC2:                                                       \
-      ITERATOR(mat, arg, OPERATOR##Vec2<uchar>)                         \
-      break;                                                            \
-    case CV_8UC3:                                                       \
-      ITERATOR(mat, arg, OPERATOR##Vec3<uchar>)                         \
-      break;                                                            \
-    case CV_8UC4:                                                       \
-      ITERATOR(mat, arg, OPERATOR##Vec4<uchar>)                         \
-      break;                                                            \
-    case CV_8SC1:                                                       \
-      ITERATOR(mat, arg, OPERATOR##Val<char>)                           \
-      break;                                                            \
-    case CV_8SC2:                                                       \
-      ITERATOR(mat, arg, OPERATOR##Vec2<char>)                          \
-      break;                                                            \
-    case CV_8SC3:                                                       \
-      ITERATOR(mat, arg, OPERATOR##Vec3<char>)                          \
-      break;                                                            \
-    case CV_8SC4:                                                       \
-      ITERATOR(mat, arg, OPERATOR##Vec4<char>)                          \
-      break;                                                            \
-    case CV_16UC1:                                                      \
-      ITERATOR(mat, arg, OPERATOR##Val<ushort>)                         \
-      break;                                                            \
-    case CV_16UC2:                                                      \
-      ITERATOR(mat, arg, OPERATOR##Vec2<ushort>)                        \
-      break;                                                            \
-    case CV_16UC3:                                                      \
-      ITERATOR(mat, arg, OPERATOR##Vec3<ushort>)                        \
-      break;                                                            \
-    case CV_16UC4:                                                      \
-      ITERATOR(mat, arg, OPERATOR##Vec4<ushort>)                        \
-      break;                                                            \
-    case CV_16SC1:                                                      \
-      ITERATOR(mat, arg, OPERATOR##Val<short>)                          \
-      break;                                                            \
-    case CV_16SC2:                                                      \
-      ITERATOR(mat, arg, OPERATOR##Vec2<short>)                         \
-      break;                                                            \
-    case CV_16SC3:                                                      \
-      ITERATOR(mat, arg, OPERATOR##Vec3<short>)                         \
-      break;                                                            \
-    case CV_16SC4:                                                      \
-      ITERATOR(mat, arg, OPERATOR##Vec4<short>)                         \
-      break;                                                            \
-    case CV_32SC1:                                                      \
-      ITERATOR(mat, arg, OPERATOR##Val<int>)                            \
-      break;                                                            \
-    case CV_32SC2:                                                      \
-      ITERATOR(mat, arg, OPERATOR##Vec2<int>)                           \
-      break;                                                            \
-    case CV_32SC3:                                                      \
-      ITERATOR(mat, arg, OPERATOR##Vec3<int>)                           \
-      break;                                                            \
-    case CV_32SC4:                                                      \
-      ITERATOR(mat, arg, OPERATOR##Vec4<int>)                           \
-      break;                                                            \
-    case CV_32FC1:                                                      \
-      ITERATOR(mat, arg, OPERATOR##Val<float>)                          \
-      break;                                                            \
-    case CV_32FC2:                                                      \
-      ITERATOR(mat, arg, OPERATOR##Vec2<float>)                         \
-      break;                                                            \
-    case CV_32FC3:                                                      \
-      ITERATOR(mat, arg, OPERATOR##Vec3<float>)                         \
-      break;                                                            \
-    case CV_32FC4:                                                      \
-      ITERATOR(mat, arg, OPERATOR##Vec4<float>)                         \
-      break;                                                            \
-    case CV_64FC1:                                                      \
-      ITERATOR(mat, arg, OPERATOR##Val<double>)                         \
-      break;                                                            \
-    case CV_64FC2:                                                      \
-      ITERATOR(mat, arg, OPERATOR##Vec2<double>)                        \
-      break;                                                            \
-    case CV_64FC3:                                                      \
-      ITERATOR(mat, arg, OPERATOR##Vec3<double>)                        \
-      break;                                                            \
-    case CV_64FC4:                                                      \
-      ITERATOR(mat, arg, OPERATOR##Vec4<double>)                        \
-      break;                                                            \
-    default:                                                            \
-      Napi::TypeError::New(env, "invalid matType: " + std::to_string(type)).ThrowAsJavaScriptException(); \
-      return;                                                           \
-    }
-
-// only used in Mat::New
-#define FF_MAT_FROM_JS_ARRAY_2D(mat, rowArray, put)             \
-  for (int r = 0; r < mat.rows; r++) {                          \
-    Napi::Array colArray = (rowArray).Get(r).As<Napi::Array>(); \
-    for (int c = 0; c < mat.cols; c++) {                        \
-      put(mat, (colArray).Get(c), r, c);                        \
-    }                                                           \
-  }
-
-#define FF_MAT_FROM_JS_ARRAY_3D(mat, rowArray, put)                        \
-  {                                                                        \
-    cv::MatSize sizes = mat.size;                                          \
-    cv::Vec3i cur = cv::Vec3b(0, 0, 0);                                    \
-    for (cur[0] = 0; cur[0] < sizes[0]; cur[0]++) {                        \
-      Napi::Array colArray1 = (rowArray).Get(cur[0]).As<Napi::Array>();    \
-      for (cur[1] = 0; cur[1] < sizes[1]; cur[1]++) {                      \
-        Napi::Array colArray2 = (colArray1).Get(cur[1]).As<Napi::Array>(); \
-        for (cur[2] = 0; cur[2] < sizes[2]; cur[2]++) {                    \
-          put(mat, (colArray2).Get(cur[2]), cur);                          \
-        }                                                                  \
-      }                                                                    \
-    }                                                                      \
-  }
-
-// std::cout << "loop line " << cur[0] << "/" << sizes[1] << std::endl;
-// std::cout << "loop cell " << cur[0] << "/" << sizes[0] << ", " << cur[1] << "/" << sizes[1] << std::endl;
-// std::cout << "loop cell " << cur[0] << "/" << sizes[0] << ", " << cur[1] << "/" << sizes[1] << ", " << cur[2] << "/" << sizes[2]<< std::endl;
-// std::cout << "loop pos " << cur[0] << ", " << cur[1] << ", " << cur[2] << ", " << cur[3] << std::endl;
-
-#define FF_MAT_FROM_JS_ARRAY_4D(mat, rowArray, put)                          \
-  {                                                                          \
-    cv::MatSize sizes = mat.size;                                            \
-    cv::Vec4i cur = cv::Vec4i(0, 0, 0, 0);                                   \
-    for (cur[0] = 0; cur[0] < sizes[0]; cur[0]++) {                          \
-      Napi::Array colArray1 = (rowArray).Get(cur[0]).As<Napi::Array>();      \
-      for (cur[1] = 0; cur[1] < sizes[1]; cur[1]++) {                        \
-        Napi::Array colArray2 = (colArray1).Get(cur[1]).As<Napi::Array>();   \
-        for (cur[2] = 0; cur[2] < sizes[2]; cur[2]++) {                      \
-          Napi::Array colArray3 = (colArray2).Get(cur[2]).As<Napi::Array>(); \
-          for (cur[3] = 0; cur[3] < sizes[3]; cur[3]++) {                    \
-            put(mat, (colArray3).Get(cur[3]), cur);                          \
-          }                                                                  \
-        }                                                                    \
-      }                                                                      \
-    }                                                                        \
-  }
-
-#define FF_MAT_FROM_JS_ARRAY_5D(mat, rowArray, put)                            \
-  {                                                                            \
-    cv::MatSize sizes = mat.size;                                              \
-    cv::Vec4i cur = cv::Vec5b(0, 0, 0, 0, 0);                                  \
-    for (cur[0] = 0; cur[0] < sizes[0]; cur[0]++) {                            \
-      Napi::Array colArray1 = (rowArray).Get(cur[0]).As<Napi::Array>();        \
-      for (cur[1] = 0; cur[1] < sizes[1]; cur[1]++) {                          \
-        Napi::Array colArray2 = (colArray1).Get(cur[1]).As<Napi::Array>();     \
-        for (cur[2] = 0; cur[2] < sizes[2]; cur[2]++) {                        \
-          Napi::Array colArray3 = (colArray2).Get(cur[2]).As<Napi::Array>();   \
-          for (cur[3] = 0; cur[3] < sizes[3]; cur[3]++) {                      \
-            Napi::Array colArray4 = (colArray3).Get(cur[3]).As<Napi::Array>(); \
-            for (cur[4] = 0; cur[4] < sizes[4]; cur[4]++) {                    \
-              put(mat, (colArray4).Get(cur[4]), cur);                          \
-            }                                                                  \
-          }                                                                    \
-        }                                                                      \
-      }                                                                        \
-    }                                                                          \
-  }
-
-
-Mat::Mat(const Napi::CallbackInfo& info): Napi::ObjectWrap<Mat>(info) {
+  // Initialize your Mat object here
+  if (info.Length() == 1 && info[0].IsExternal()) {
+    this->self = *info[0].As<Napi::External<cv::Mat>>().Data();
+    return;
+  } 
   Napi::Env env = info.Env();
 
   // int length = info.Length();
@@ -504,9 +319,9 @@ Mat::Mat(const Napi::CallbackInfo& info): Napi::ObjectWrap<Mat>(info) {
   // Napi::Number value = info[0].As<Napi::Number>();
   // this->value_ = value.DoubleValue();
 
-  //FF::TryCatch tryCatch(env, "Mat::New");
-  // FF_ASSERT_CONSTRUCT_CALL();
-  if (!info.IsConstructCall()) {      
+  // FF::TryCatch tryCatch(env, "Mat::New");
+  //  FF_ASSERT_CONSTRUCT_CALL();
+  if (!info.IsConstructCall()) {
     Napi::TypeError::New(env, "constructor has to be called with \"new\" keyword").ThrowAsJavaScriptException();
     return;
   }
@@ -523,9 +338,9 @@ Mat::Mat(const Napi::CallbackInfo& info): Napi::ObjectWrap<Mat>(info) {
     uint32_t len = jsChannelMats.Length();
     for (uint i = 0; i < len; i++) {
       // jsChannelMats.Get(i).UnwrapTo;
-      Napi::Value arrayItem = jsChannelMats[i];
       Napi::TypeError::New(env, "constructor from Channel not implemented yet").ThrowAsJavaScriptException();
       return;
+      // Napi::Value arrayItem = jsChannelMats[i];
       // Napi::Number jsChannelMat = jsChannelMats.Get(i).ToNumber();
       // Napi::Object jsChannelMat2 = jsChannelMats[i].Get(i.To<Napi::Object>());
       // if (!Napi::New(env, Mat::constructor)->HasInstance(jsChannelMat)) {
@@ -545,12 +360,14 @@ Mat::Mat(const Napi::CallbackInfo& info): Napi::ObjectWrap<Mat>(info) {
     cv::Mat mat;
     cv::merge(channels, mat);
     this->self = mat;
+    return;
   }
+
   /* data array, type
    * constructor(dataArray: number[][], type: number);
    * constructor(dataArray: number[][][], type: number);
    */
-  else if (info.Length() == 2 && info[0].IsArray() && info[1].IsNumber()) {
+  if (info.Length() == 2 && info[0].IsArray() && info[1].IsNumber()) {
     // get Type
     //  Napi::Number num = value.As<Napi::Number>();
     int type = info[1].As<Napi::Number>().Int32Value();
@@ -587,16 +404,16 @@ Mat::Mat(const Napi::CallbackInfo& info): Napi::ObjectWrap<Mat>(info) {
       long rows = rowArray0.Length();
       long numCols = -1;
       for (long i = 0; i < rows; i++) {
-        if (!rowArray0.Get(i).IsArray()){
-           Napi::TypeError::New(env, "Column should be an array, at column: " + std::to_string(i)).ThrowAsJavaScriptException();
-           return;
+        if (!rowArray0.Get(i).IsArray()) {
+          Napi::TypeError::New(env, "Column should be an array, at column: " + std::to_string(i)).ThrowAsJavaScriptException();
+          return;
         }
         Napi::Array colArray = rowArray0.Get(i).As<Napi::Array>();
         if (numCols == -1)
           numCols = colArray.Length();
         else if (numCols != colArray.Length())
-           Napi::TypeError::New(env, "Mat cols must be of uniform length, at column: " + std::to_string(i)).ThrowAsJavaScriptException();
-           return;
+          Napi::TypeError::New(env, "Mat cols must be of uniform length, at column: " + std::to_string(i)).ThrowAsJavaScriptException();
+        return;
       }
       // 	Mat (int rows, int cols, int type)
       cv::Mat mat = cv::Mat(rows, numCols, type);
@@ -613,20 +430,23 @@ Mat::Mat(const Napi::CallbackInfo& info): Napi::ObjectWrap<Mat>(info) {
         if (sizes[1] == -1)
           sizes[1] = rowArray1.Length();
         else if (sizes[1] != (int)rowArray1.Length()) {
-          Napi::TypeError::New(env, "Mat cols must be of uniform length, at column: " + std::to_string(i)).ThrowAsJavaScriptException();;
+          Napi::TypeError::New(env, "Mat cols must be of uniform length, at column: " + std::to_string(i)).ThrowAsJavaScriptException();
+          ;
           return;
         }
         for (int j = 0; j < sizes[1]; j++) {
-          if (!rowArray1.Get(j).IsArray()){
-          Napi::TypeError::New(env, "Column should be an array, at column: " + std::to_string(i) + ", " + std::to_string(j)).ThrowAsJavaScriptException();;
-          return;
-        }
+          if (!rowArray1.Get(j).IsArray()) {
+            Napi::TypeError::New(env, "Column should be an array, at column: " + std::to_string(i) + ", " + std::to_string(j)).ThrowAsJavaScriptException();
+            ;
+            return;
+          }
           Napi::Array rowArray2 = (rowArray1).Get(j).As<Napi::Array>();
           if (sizes[2] == -1)
             sizes[2] = rowArray2.Length();
           else if (sizes[2] != (int)rowArray2.Length()) {
-          Napi::TypeError::New(env, "Mat cols must be of uniform length, at column: " + std::to_string(i) + ", " + std::to_string(j)).ThrowAsJavaScriptException();;
-          return;
+            Napi::TypeError::New(env, "Mat cols must be of uniform length, at column: " + std::to_string(i) + ", " + std::to_string(j)).ThrowAsJavaScriptException();
+            ;
+            return;
           }
         }
       }
@@ -641,28 +461,29 @@ Mat::Mat(const Napi::CallbackInfo& info): Napi::ObjectWrap<Mat>(info) {
 
       arrs[0] = rowArray0;
       for (cur[0] = 0; cur[0] < sizes[0]; cur[0]++) {
-        if (!arrs[0].Get(cur[0]).IsArray()){
+        if (!arrs[0].Get(cur[0]).IsArray()) {
           auto msg = "All array in dimension 1 should be array, at position: " + std::to_string(cur[0]);
-              Napi::TypeError::New(env, msg).ThrowAsJavaScriptException();
-              return;
+          Napi::TypeError::New(env, msg).ThrowAsJavaScriptException();
+          return;
         }
         arrs[1] = (arrs[0]).Get(cur[0]).As<Napi::Array>();
         if (sizes[1] == -1)
           sizes[1] = arrs[1].Length();
-        else if (sizes[1] != (int)arrs[1].Length()){
+        else if (sizes[1] != (int)arrs[1].Length()) {
           auto msg = "Mat cols must be of uniform length, at column: " + std::to_string(cur[0]) + " find " + std::to_string(arrs[1].Length()) + " expecting " + std::to_string(sizes[1]);
-              Napi::TypeError::New(env, msg).ThrowAsJavaScriptException();
-              return;
-        }for (cur[1] = 0; cur[1] < sizes[1]; cur[1]++) {
-          if (!arrs[1].Get(cur[1]).IsArray()){
-            auto  msg = "All array in dimension 2 should be array, at position:" + std::to_string(cur[0]) + ", " + std::to_string(cur[1]);
-              Napi::TypeError::New(env, msg).ThrowAsJavaScriptException();
-              return;
+          Napi::TypeError::New(env, msg).ThrowAsJavaScriptException();
+          return;
+        }
+        for (cur[1] = 0; cur[1] < sizes[1]; cur[1]++) {
+          if (!arrs[1].Get(cur[1]).IsArray()) {
+            auto msg = "All array in dimension 2 should be array, at position:" + std::to_string(cur[0]) + ", " + std::to_string(cur[1]);
+            Napi::TypeError::New(env, msg).ThrowAsJavaScriptException();
+            return;
           }
           arrs[2] = arrs[1].Get(cur[1]).As<Napi::Array>();
           if (sizes[2] == -1)
             sizes[2] = arrs[2].Length();
-          else if (sizes[2] != (int)arrs[2].Length()){
+          else if (sizes[2] != (int)arrs[2].Length()) {
             auto msg = "Mat cols must be of uniform length, at column: " + std::to_string(cur[0]) + ", " + std::to_string(cur[1]) + " find " + std::to_string(arrs[2].Length()) + " expecting " + std::to_string(sizes[2]);
             Napi::TypeError::New(env, msg).ThrowAsJavaScriptException();
             return;
@@ -675,8 +496,8 @@ Mat::Mat(const Napi::CallbackInfo& info): Napi::ObjectWrap<Mat>(info) {
             }
             arrs[3] = (arrs[2]).Get(cur[2]).As<Napi::Array>();
             if (sizes[3] == -1)
-            sizes[3] = arrs[3].Length();
-            else if (sizes[3] != (int)arrs[3].Length()){
+              sizes[3] = arrs[3].Length();
+            else if (sizes[3] != (int)arrs[3].Length()) {
               auto msg = "Mat cols must be of uniform length, at column: " + std::to_string(cur[0]) + ", " + std::to_string(cur[1]) + ", " + std::to_string(cur[2]) + " find " + std::to_string(arrs[3].Length()) + " expecting " + std::to_string(sizes[3]);
               Napi::TypeError::New(env, msg).ThrowAsJavaScriptException();
               return;
@@ -693,65 +514,75 @@ Mat::Mat(const Napi::CallbackInfo& info): Napi::ObjectWrap<Mat>(info) {
       Napi::TypeError::New(env, "Mat::New - Support only 4 Dimmention provided payload contains " + std::to_string(dim)).ThrowAsJavaScriptException();
       return;
     }
-  }
+    return;
+  } // end constructor(dataArray: number[][] | number[][][], type: number);
+
   /* row, col, type
    * constructor(rows: number, cols: number, type: number, fillValue?: number | number[]);
    * constructor(rows: number, cols: number, type: number, data: Buffer, step?: number);
    */
-  else if (info[0].IsNumber() && info[1].IsNumber() && info[2].IsNumber()) {
+  if (info[0].IsNumber() && info[1].IsNumber() && info[2].IsNumber()) {
     int type = info[2].As<Napi::Number>().Int32Value();
+    int32_t rows = info[0].As<Napi::Number>().Int32Value();
+    int32_t cols = info[1].As<Napi::Number>().Int32Value();
+    // number, number, number
     if (info.Length() == 3 || info[3].IsArray() || info[3].IsNumber()) {
-
-      cv::Mat mat(info[0].As<Napi::Number>().Int32Value(), info[1].As<Napi::Number>().Int32Value(), type);
-
+      cv::Mat mat(rows, cols, type);
       /* fill vector */
       // TODO by Vec
       if (info[3].IsArray()) {
         Napi::Array vec = info[3].As<Napi::Array>();
         if (mat.channels() != (long)vec.Length()) {
           auto msg = std::string("Mat::New - number of channels (") + std::to_string(mat.channels())
-              + std::string(") do not match fill vector length ") + std::to_string(vec.Length());
+                     + std::string(") do not match fill vector length ") + std::to_string(vec.Length());
           Napi::TypeError::New(env, msg).ThrowAsJavaScriptException();
           return;
         }
         FF_MAT_APPLY_TYPED_OPERATOR(mat, vec, type, FF_MAT_FILL, FF::matPut);
       }
       if (info[3].IsNumber()) {
+        // std::cout << "fill from number type:" << type << "--"<<std::endl;
+        // std::cout << "fill use value:" << info[3].As<Napi::Number>().Int32Value() << "" <<std::endl;
+        // std::cout << "fill use value:" << info[3].ToNumber().Int32Value() << "" <<std::endl;
+        // std::cout << "fill use value:" << (uchar)info[3].ToNumber().Int32Value() << "" <<std::endl;
+        // Napi::TypeError::New(env, "Fail to matched any known Mat constructor").ThrowAsJavaScriptException();
+        // TODO optimise this get value from  info[3] only once
         FF_MAT_APPLY_TYPED_OPERATOR(mat, info[3], type, FF_MAT_FILL, FF::matPut);
       }
       this->self = mat;
-    } else if (info[3].IsObject()) {
-        if (!info[3].IsArrayBuffer()) {
-         Napi::Error::New(info.Env(), "Expected an ArrayBuffer").ThrowAsJavaScriptException();
-          return;
+      return;
+    }
+
+    if (info[3].IsObject()) {
+      std::cout << "in info[3].IsObject()" << std::endl;
+      if (!info[3].IsArrayBuffer()) {
+        Napi::Error::New(info.Env(), "Expected an ArrayBuffer").ThrowAsJavaScriptException();
+        return;
       }
-        Napi::ArrayBuffer buf = info[3].As<Napi::ArrayBuffer>();
-        char* data = (char*)buf.Data();
-       //ArrayConsumer(reinterpret_cast<int32_t*>(buf.Data()), buf.ByteLength() / sizeof(int32_t));
+      Napi::ArrayBuffer buf = info[3].As<Napi::ArrayBuffer>();
+      char* data = (char*)buf.Data();
+      // ArrayConsumer(reinterpret_cast<int32_t*>(buf.Data()), buf.ByteLength() / sizeof(int32_t));
       // char* data = static_cast<char*>(info[3].As<Napi::Object>()..ToObject(Napi::GetCurrentContext(.As<Napi::Buffer<char>>().Data())));
       if (info[4].IsNumber()) {
         int step = info[4].As<Napi::Number>().Int32Value();
-        cv::Mat mat(
-            info[0].As<Napi::Number>().Int32Value(),
-            info[1].As<Napi::Number>().Int32Value(),
-            type,
-            data,
-            step);
-      this->self = mat;
+        cv::Mat mat(rows, cols, type, data, step);
+        this->self = mat;
       } else {
-        cv::Mat mat(
-            info[0].As<Napi::Number>().Int32Value(),
-            info[1].As<Napi::Number>().Int32Value(),
-            type,
-            data);
-      this->self = mat;
+        cv::Mat mat(rows, cols, type, data);
+        this->self = mat;
       }
     }
-  }
+
+    // return;
+  } // end constuctor constructor(rows: number, cols: number, type: number, ......);
+  std::cout << ">>>> 764" << std::endl;
+
   /* raw data, row, col, type
    * constructor(data: Buffer, rows: number, cols: number, type?: number);
    */
-  else if (info.Length() == 4 && info[1].IsNumber() && info[2].IsNumber() && info[3].IsNumber()) {
+  if (info.Length() == 4 && info[1].IsNumber() && info[2].IsNumber() && info[3].IsNumber()) {
+    std::cout << "constructor(data: Buffer, rows: number, cols: number, type?: number);" << std::endl;
+
     int type = info[3].As<Napi::Number>().Int32Value();
     Napi::ArrayBuffer buf = info[0].As<Napi::ArrayBuffer>();
     char* data = (char*)buf.Data();
@@ -759,14 +590,19 @@ Mat::Mat(const Napi::CallbackInfo& info): Napi::ObjectWrap<Mat>(info) {
     size_t size = mat.rows * mat.cols * mat.elemSize();
     memcpy(mat.data, data, size);
     this->self = mat;
+    return;
   }
-  //self->Wrap(info.Holder());
-//
+  // self->Wrap(info.Holder());
+
+  std::cout << "BAD BAD BAD BAD" << std::endl;
+  Napi::TypeError::New(env, "Fail to matched any known Mat constructor").ThrowAsJavaScriptException();
+
+  //
   //// if ExternalMemTracking is disabled, the following instruction will be a no op
   //// notes: I *think* New should be called in JS thread where cv::mat has been created async,
   //// so a good place to rationalise memory
-  //ExternalMemTracking::onMatAllocated();
-// return info.Holder();
+  // ExternalMemTracking::onMatAllocated();
+  // return info.Holder();
   // return env.Undefined();
 }
 
@@ -775,8 +611,8 @@ Napi::Value Mat::Eye(const Napi::CallbackInfo& info) {
   int rows, cols, type;
   if (
       FF::IntConverter::arg(0, &rows, info) || FF::IntConverter::arg(1, &cols, info) || FF::IntConverter::arg(2, &type, info)) {
-      Napi::TypeError::New(env, "Mat::Eye").ThrowAsJavaScriptException();
-      return env.Undefined();
+    Napi::TypeError::New(env, "Mat::Eye").ThrowAsJavaScriptException();
+    return env.Undefined();
   }
   // return Mat::Converter::wrap(cv::Mat::eye(cv::Size(cols, rows), type));
   return env.Undefined();
@@ -785,11 +621,14 @@ Napi::Value Mat::Eye(const Napi::CallbackInfo& info) {
 Napi::Value Mat::Ones(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
   // FF::TryCatch tryCatch(env, "Mat::Ones");
-  // int rows, cols, type;
-  // if (
-  //     FF::IntConverter::arg(0, &rows, info) || FF::IntConverter::arg(1, &cols, info) || FF::IntConverter::arg(2, &type, info)) {
-  //   return tryCatch.reThrow();
-  // }
+  int rows, cols, type;
+  if (
+      FF::IntConverter::arg(0, &rows, info) || FF::IntConverter::arg(1, &cols, info) || FF::IntConverter::arg(2, &type, info)) {
+    Napi::TypeError::New(env, "Mat::Ones bad inputs").ThrowAsJavaScriptException();
+    return env.Undefined();
+  }
+  cv::Mat mat = cv::Mat::ones(cv::Size(cols, rows), type); // Create the cv::Mat object
+  // return Mat::NewInstance(env, mat); // Wrap and return the cv::Mat object
   // return Mat::Converter::wrap(cv::Mat::ones(cv::Size(cols, rows), type));
   return env.Undefined();
 }
@@ -810,78 +649,85 @@ Napi::Value Mat::FlattenFloat(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
   // FF::TryCatch tryCatch(env, "Mat::FlattenFloat");
   // int rows, cols;
-  //if (
+  // if (
   //    FF::IntConverter::arg(0, &rows, info) || FF::IntConverter::arg(1, &cols, info)) {
   //  return tryCatch.reThrow();
   //}
 
-  //cv::Mat matSelf = Mat::unwrapSelf(info);
-  //cv::Mat mat2D(rows, cols, CV_32F, matSelf.ptr<float>());
-  //return Mat::Converter::wrap(mat2D);
+  // cv::Mat matSelf = Mat::unwrapSelf(info);
+  // cv::Mat mat2D(rows, cols, CV_32F, matSelf.ptr<float>());
+  // return Mat::Converter::wrap(mat2D);
   return env.Undefined();
 }
 
 Napi::Value Mat::At(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
   // FF::TryCatch tryCatch(env, "Mat::At");
-  // cv::Mat matSelf = Mat::unwrapSelf(info);
-  // Napi::Value val;
-  // Napi::Value jsVal;
-  // if (info[0].IsArray()) {
-  //   if ((long)info[0].As<Napi::Array>()->Length() != matSelf.dims) {
-  //     tryCatch.throwError("expected array length to be equal to the dims, get " + std::to_string((long)info[0].As<Napi::Array>()->Length()) + " expecting " + std::to_string(matSelf.dims));
-  //   }
-  //   FF_MAT_APPLY_TYPED_OPERATOR(matSelf, val, matSelf.type(), FF_MAT_AT_ARRAY, FF::matGet);
-  // } else {
-  //   FF_ASSERT_INDEX_RANGE(info[0].As<Napi::Number>().Int32Value(), matSelf.size[0] - 1, "Mat::At row");
-  //   FF_ASSERT_INDEX_RANGE(info[1].As<Napi::Number>().Int32Value(), matSelf.size[1] - 1, "Mat::At col");
-  //   FF_MAT_APPLY_TYPED_OPERATOR(matSelf, val, matSelf.type(), FF_MAT_AT, FF::matGet);
-  // }
-// 
-  // if (val->IsArray()) {
-  //   Napi::Array vec = val.As<Napi::Array>();
-  //   Napi::Value jsVec;
-  //   if (vec->Length() == 2) {
-  //     jsVec = Vec2::Converter::wrap(cv::Vec2d(FF::DoubleConverter::unwrapUnchecked((vec).Get(0)), FF::DoubleConverter::unwrapUnchecked((vec).Get(1))));
-  //   } else if (vec->Length() == 3) {
-  //     jsVec = Vec3::Converter::wrap(cv::Vec3d(FF::DoubleConverter::unwrapUnchecked((vec).Get(0)), FF::DoubleConverter::unwrapUnchecked((vec).Get(1)), FF::DoubleConverter::unwrapUnchecked((vec).Get(2))));
-  //   } else {
-  //     jsVec = Vec4::Converter::wrap(cv::Vec4d(FF::DoubleConverter::unwrapUnchecked((vec).Get(0)), FF::DoubleConverter::unwrapUnchecked((vec).Get(1)), FF::DoubleConverter::unwrapUnchecked((vec).Get(2)), FF::DoubleConverter::unwrapUnchecked((vec).Get(3))));
-  //   }
-  //   jsVal = jsVec;
-  // } else {
-  //   //  std::string str;
-  //   //  if (matSelf.dims == 4) {
-  //   //    auto sizes = matSelf.size;
-  //   //    std::vector<Napi::Array> arrs(4);
-  //   //    // cv::Vec4i
-  //   //    // cv::Vec<int, 4> cur = cv::Vec4i(0, 0, 0, 0);
-  //   //    std::vector<int> cur(4);
-  //   //    //  = cv::Vec4i(0, 0, 0, 0);
-  //   //    str += "Iter ";
-  //   //    str += std::to_string(sizes[0]);
-  //   //    str += "\n";
-  //   //    for (cur[0] = 0; cur[0] < sizes[0]; cur[0]++) {
-  //   //      for (cur[1] = 0; cur[1] < sizes[1]; cur[1]++) {
-  //   //        for (cur[2] = 0; cur[2] < sizes[2]; cur[2]++) {
-  //   //          for (cur[3] = 0; cur[3] < sizes[3]; cur[3]++) {
-  //   //            int* ptr = (int*)cur.data();
-  //   //            //cv::Vec4i a;
-  //   //            // Point b;
-  //   //         		// , 0, Napi::New(env, mat.at< cv::Vec<type, 4> >(idx)[0]));
-  //   //            auto value = matSelf.at< cv::Vec<double, 4> >(ptr);
-  //   //            str += std::to_string(value[0]);
-  //   //            str += ", ";
-  //   //            // Mat((int)sizes.size(), (int*)sizes.begin(), traits::Type<_Tp>::value, (uchar*)list.begin()).copyTo(*this);
-  //   //          }
-  //   //          str += "\n";
-  //   //        }
-  //   //      }
-  //   //    }
-  //   //  }
-  //   // tryCatch.throwError(str);
-  //   jsVal = val.As<Napi::Value>();
-  // }
+  cv::Mat matSelf = this->self; // ::unwrapSelf(info);
+  Napi::Value val;
+  Napi::Value jsVal;
+  std::cout << "in At " << info[0].ToNumber().Int32Value() << "" << std::endl;
+
+  if (info[0].IsArray()) {
+    if ((long)info[0].As<Napi::Array>().Length() != matSelf.dims) {
+      auto msg = "expected array length to be equal to the dims, get " + std::to_string((long)info[0].As<Napi::Array>().Length()) + " expecting " + std::to_string(matSelf.dims);
+      Napi::TypeError::New(env, msg).ThrowAsJavaScriptException();
+    }
+    FF_MAT_APPLY_TYPED_OPERATOR(matSelf, val, matSelf.type(), FF_MAT_AT_ARRAY, FF::matGet);
+  } else {
+    int row = info[0].As<Napi::Number>().Int32Value();
+    int col = info[1].As<Napi::Number>().Int32Value();
+    FF_ASSERT_INDEX_RANGE(row, matSelf.size[0] - 1, "Mat::At row");
+    FF_ASSERT_INDEX_RANGE(col, matSelf.size[1] - 1, "Mat::At col");
+    FF_MAT_APPLY_TYPED_OPERATOR(matSelf, val, matSelf.type(), FF_MAT_AT, FF::matGet);
+    return val;
+  }
+
+  if (val.IsArray()) {
+    // Napi::Array vec = val.As<Napi::Array>();
+    // Napi::Value jsVec;
+    // TODO
+    // if (vec.Length() == 2) {
+    //   jsVec = Vec2::Converter::wrap(cv::Vec2d(FF::DoubleConverter::unwrapUnchecked((vec).Get(0u)), FF::DoubleConverter::unwrapUnchecked((vec).Get(1))));
+    // } else if (vec.Length() == 3) {
+    //   jsVec = Vec3::Converter::wrap(cv::Vec3d(FF::DoubleConverter::unwrapUnchecked((vec).Get(0u)), FF::DoubleConverter::unwrapUnchecked((vec).Get(1)), FF::DoubleConverter::unwrapUnchecked((vec).Get(2))));
+    // } else {
+    //   jsVec = Vec4::Converter::wrap(cv::Vec4d(FF::DoubleConverter::unwrapUnchecked((vec).Get(0u)), FF::DoubleConverter::unwrapUnchecked((vec).Get(1)), FF::DoubleConverter::unwrapUnchecked((vec).Get(2)), FF::DoubleConverter::unwrapUnchecked((vec).Get(3))));
+    // }
+    // jsVal = jsVec;
+  } else {
+    //  std::string str;
+    //  if (matSelf.dims == 4) {
+    //    auto sizes = matSelf.size;
+    //    std::vector<Napi::Array> arrs(4);
+    //    // cv::Vec4i
+    //    // cv::Vec<int, 4> cur = cv::Vec4i(0, 0, 0, 0);
+    //    std::vector<int> cur(4);
+    //    //  = cv::Vec4i(0, 0, 0, 0);
+    //    str += "Iter ";
+    //    str += std::to_string(sizes[0]);
+    //    str += "\n";
+    //    for (cur[0] = 0; cur[0] < sizes[0]; cur[0]++) {
+    //      for (cur[1] = 0; cur[1] < sizes[1]; cur[1]++) {
+    //        for (cur[2] = 0; cur[2] < sizes[2]; cur[2]++) {
+    //          for (cur[3] = 0; cur[3] < sizes[3]; cur[3]++) {
+    //            int* ptr = (int*)cur.data();
+    //            //cv::Vec4i a;
+    //            // Point b;
+    //         		// , 0, Napi::New(env, mat.at< cv::Vec<type, 4> >(idx)[0]));
+    //            auto value = matSelf.at< cv::Vec<double, 4> >(ptr);
+    //            str += std::to_string(value[0]);
+    //            str += ", ";
+    //            // Mat((int)sizes.size(), (int*)sizes.begin(), traits::Type<_Tp>::value, (uchar*)list.begin()).copyTo(*this);
+    //          }
+    //          str += "\n";
+    //        }
+    //      }
+    //    }
+    //  }
+    // tryCatch.throwError(str);
+    jsVal = val.As<Napi::Value>();
+  }
   // return jsVal;
   return env.Undefined();
 }
@@ -900,13 +746,13 @@ Napi::Value Mat::AtRaw(const Napi::CallbackInfo& info) {
 
 Napi::Value Mat::Set(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
-  //FF::TryCatch tryCatch(env, "Mat::Set");
-  //cv::Mat matSelf = Mat::unwrapSelf(info);
-  //FF_ASSERT_INDEX_RANGE(info[0].As<Napi::Number>().Int32Value(), matSelf.size[0] - 1, "Mat::At row");
-  //FF_ASSERT_INDEX_RANGE(info[1].As<Napi::Number>().Int32Value(), matSelf.size[1] - 1, "Mat::At col");
-//
-  //int cn = matSelf.channels();
-  //if (info[2].IsArray()) {
+  // FF::TryCatch tryCatch(env, "Mat::Set");
+  // cv::Mat matSelf = Mat::unwrapSelf(info);
+  // FF_ASSERT_INDEX_RANGE(info[0].As<Napi::Number>().Int32Value(), matSelf.size[0] - 1, "Mat::At row");
+  // FF_ASSERT_INDEX_RANGE(info[1].As<Napi::Number>().Int32Value(), matSelf.size[1] - 1, "Mat::At col");
+  //
+  // int cn = matSelf.channels();
+  // if (info[2].IsArray()) {
   //  Napi::Array vec = info[2].As<Napi::Array>();
   //  FF_ASSERT_CHANNELS(cn, (long)vec->Length(), "Mat::Set");
   //  FF_MAT_APPLY_TYPED_OPERATOR(matSelf, vec, matSelf.type(), FF_MAT_SET, FF::matPut);
@@ -928,88 +774,20 @@ Napi::Value Mat::Set(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value Mat::SetTo(const Napi::CallbackInfo& info) {
-  //FF::executeSyncBinding(
-  //    std::make_shared<MatBindings::SetToWorker>(Mat::unwrapSelf(info)),
-  //    "Mat::SetTo",
-  //    info);
+  // FF::executeSyncBinding(
+  //     std::make_shared<MatBindings::SetToWorker>(Mat::unwrapSelf(info)),
+  //     "Mat::SetTo",
+  //     info);
   return info.Env().Undefined();
 }
 
 Napi::Value Mat::SetToAsync(const Napi::CallbackInfo& info) {
-  //FF::executeAsyncBinding(
-  //    std::make_shared<MatBindings::SetToWorker>(Mat::unwrapSelf(info)),
-  //    "Mat::SetToAsync",
-  //    info);
+  // FF::executeAsyncBinding(
+  //     std::make_shared<MatBindings::SetToWorker>(Mat::unwrapSelf(info)),
+  //     "Mat::SetToAsync",
+  //     info);
   return info.Env().Undefined();
 }
-
-#define FF_JS_ARRAY_FROM_MAT_2D(mat, rowArray, get)         \
-  for (int r = 0; r < mat.rows; r++) {                      \
-    Napi::Array colArray = Napi::Array::New(env, mat.cols); \
-    for (int c = 0; c < mat.cols; c++) {                    \
-      (colArray).Set(c, get(mat, r, c));                    \
-    }                                                       \
-    (rowArray).Set(r, colArray);                            \
-  }
-
-#define FF_JS_ARRAY_FROM_MAT_3D(mat, rowArray, get)                \
-  for (int r = 0; r < mat.size[0]; r++) {                          \
-    Napi::Array colArray = Napi::Array::New(env, mat.size[1]);     \
-    for (int c = 0; c < mat.size[1]; c++) {                        \
-      Napi::Array depthArray = Napi::Array::New(env, mat.size[2]); \
-      for (int z = 0; z < mat.size[2]; z++) {                      \
-        (depthArray).Set(z, get(mat, r, c, z));                    \
-      }                                                            \
-      (colArray).Set(c, depthArray);                               \
-    }                                                              \
-    (rowArray).Set(r, colArray);                                   \
-  }
-
-#define FF_JS_ARRAY_FROM_MAT_4D(mat, rowArray, get)             \
-  {                                                             \
-    cv::MatSize sizes = mat.size;                               \
-    cv::Vec4i cur = cv::Vec4i(0, 0, 0, 0);                      \
-    for (cur[0] = 0; cur[0] < sizes[0]; cur[0]++) {             \
-      Napi::Array array1 = Napi::Array::New(env, sizes[1]);     \
-      for (cur[1] = 0; cur[1] < sizes[1]; cur[1]++) {           \
-        Napi::Array array2 = Napi::Array::New(env, sizes[2]);   \
-        for (cur[2] = 0; cur[2] < sizes[2]; cur[2]++) {         \
-          Napi::Array array3 = Napi::Array::New(env, sizes[3]); \
-          for (cur[3] = 0; cur[3] < sizes[3]; cur[3]++) {       \
-            (array3).Set(cur[3], get(mat, cur));                \
-          }                                                     \
-          (array2).Set(cur[2], array3);                         \
-        }                                                       \
-        (array1).Set(cur[1], array2);                           \
-      }                                                         \
-      (rowArray).Set(cur[0], array1);                           \
-    }                                                           \
-  }
-
-#define FF_JS_ARRAY_FROM_MAT_5D(mat, rowArray, get)               \
-  {                                                               \
-    cv::MatSize sizes = mat.size;                                 \
-    cv::Vec4i cur = cv::Vec5i(0, 0, 0, 0, 0);                     \
-    for (cur[0] = 0; cur[0] < sizes[0]; cur[0]++) {               \
-      Napi::Array array1 = Napi::Array::New(env, sizes[1]);       \
-      for (cur[1] = 0; cur[1] < sizes[1]; cur[1]++) {             \
-        Napi::Array array2 = Napi::Array::New(env, sizes[2]);     \
-        for (cur[2] = 0; cur[2] < sizes[2]; cur[2]++) {           \
-          Napi::Array array3 = Napi::Array::New(env, sizes[3]);   \
-          for (cur[3] = 0; cur[3] < sizes[3]; cur[3]++) {         \
-            Napi::Array array4 = Napi::Array::New(env, sizes[4]); \
-            for (cur[4] = 0; cur[4] < sizes[4]; cur[4]++) {       \
-              (array4).Set(cur[4], get(mat, cur));                \
-            }                                                     \
-            (array3).Set(cur[3], array3);                         \
-          }                                                       \
-          (array2).Set(cur[2], array3);                           \
-        }                                                         \
-        (array1).Set(cur[1], array2);                             \
-      }                                                           \
-      (rowArray).Set(cur[0], array1);                             \
-    }                                                             \
-  }
 
 
 Napi::Value Mat::GetDataAsArray(const Napi::CallbackInfo& info) {
@@ -1017,7 +795,7 @@ Napi::Value Mat::GetDataAsArray(const Napi::CallbackInfo& info) {
   // FF::TryCatch tryCatch(env, "Mat::GetDataAsArray");
   // cv::Mat mat = Mat::unwrapSelf(info);
   // Napi::Array rowArray = Napi::Array::New(env, mat.size[0]);
-// 
+  //
   // switch (mat.dims) {
   // case 2:
   //   FF_MAT_APPLY_TYPED_OPERATOR(mat, rowArray, mat.type(), FF_JS_ARRAY_FROM_MAT_2D, FF::matGet);
@@ -1036,7 +814,6 @@ Napi::Value Mat::GetDataAsArray(const Napi::CallbackInfo& info) {
   return env.Undefined();
 }
 
-
 Napi::Value Mat::SetData(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
   // FF::TryCatch tryCatch(env, "Mat::SetData");
@@ -1047,7 +824,6 @@ Napi::Value Mat::SetData(const Napi::CallbackInfo& info) {
   // return Mat::Converter::wrap(mat);
   return env.Undefined();
 }
-
 
 Napi::Value Mat::GetRegion(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
@@ -1071,19 +847,19 @@ Napi::Value Mat::Norm(const Napi::CallbackInfo& info) {
   // bool withSrc2 = FF::hasArg(info, 0) && Mat::hasInstance(info[0]);
   // uint i = withSrc2 ? 1 : 0;
   // double norm;
-// 
+  //
   // // optional args
   // bool hasOptArgsObj = FF::isArgObject(info, i);
   // Napi::Object optArgs = hasOptArgsObj ? info[i].ToObject(Napi::GetCurrentContext()) : Napi::Object::New(env);
-// 
+  //
   // uint normType = cv::NORM_L2;
   // cv::Mat mask = cv::noArray().getMat();
-// 
+  //
   // if (
   //     (hasOptArgsObj && (FF::UintConverter::optProp(&normType, "normType", optArgs) || Mat::Converter::optProp(&mask, "mask", optArgs))) || (FF::UintConverter::optArg(i, &normType, info) || Mat::Converter::optArg(i + 1, &mask, info))) {
   //   return tryCatch.reThrow();
   // }
-// 
+  //
   // if (withSrc2) {
   //   cv::Mat src2;
   //   if (Mat::Converter::arg(0, &src2, info)) {
@@ -1159,7 +935,7 @@ Napi::Value Mat::Release(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value Mat::PushBack(const Napi::CallbackInfo& info) {
-  //Mat::syncBinding<MatBindings::PushBack>("PushBack", info);
+  // Mat::syncBinding<MatBindings::PushBack>("PushBack", info);
   return info.Env().Undefined();
 }
 
@@ -1187,15 +963,15 @@ Napi::Value Mat::GetData(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value Mat::GetDataAsync(const Napi::CallbackInfo& info) {
-  //FF::executeAsyncBinding(
-  //    std::make_shared<MatBindings::GetDataWorker>(Mat::unwrapSelf(info)),
-  //    "Mat::GetDataAsync",
-  //    info);
+  // FF::executeAsyncBinding(
+  //     std::make_shared<MatBindings::GetDataWorker>(Mat::unwrapSelf(info)),
+  //     "Mat::GetDataAsync",
+  //     info);
   return info.Env().Undefined();
 }
 
 Napi::Value Mat::Copy(const Napi::CallbackInfo& info) {
-  //Mat::syncBinding<MatBindings::Copy>("Copy", info);
+  // Mat::syncBinding<MatBindings::Copy>("Copy", info);
   return info.Env().Undefined();
 }
 
@@ -1215,20 +991,23 @@ Napi::Value Mat::CopyToAsync(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value Mat::ConvertTo(const Napi::CallbackInfo& info) {
-  //Mat::syncBinding<MatBindings::ConvertTo>("ConvertTo", info);
+  // Mat::syncBinding<MatBindings::ConvertTo>("ConvertTo", info);
   return info.Env().Undefined();
 }
 
 Napi::Value Mat::ConvertToAsync(const Napi::CallbackInfo& info) {
   // Mat::asyncBinding<MatBindings::ConvertTo>("ConvertTo", info);
+  return info.Env().Undefined();
 }
 
 Napi::Value Mat::PadToSquare(const Napi::CallbackInfo& info) {
   // Mat::syncBinding<MatBindings::PadToSquare>("PadToSquare", info);
+  return info.Env().Undefined();
 }
 
 Napi::Value Mat::PadToSquareAsync(const Napi::CallbackInfo& info) {
   // Mat::asyncBinding<MatBindings::PadToSquare>("PadToSquare", info);
+  return info.Env().Undefined();
 }
 
 Napi::Value Mat::Dct(const Napi::CallbackInfo& info) {
@@ -1248,10 +1027,10 @@ Napi::Value Mat::DctAsync(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value Mat::Idct(const Napi::CallbackInfo& info) {
-  //FF::executeSyncBinding(
-  //    std::make_shared<MatBindings::DCTWorker>(Mat::unwrapSelf(info)),
-  //    "Mat::Idct",
-  //    info);
+  // FF::executeSyncBinding(
+  //     std::make_shared<MatBindings::DCTWorker>(Mat::unwrapSelf(info)),
+  //     "Mat::Idct",
+  //     info);
   return info.Env().Undefined();
 }
 
@@ -1288,10 +1067,10 @@ Napi::Value Mat::Idft(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value Mat::IdftAsync(const Napi::CallbackInfo& info) {
-  //FF::executeAsyncBinding(
-  //    std::make_shared<MatBindings::DFTWorker>(Mat::unwrapSelf(info)),
-  //    "Mat::IdftAsync",
-  //    info);
+  // FF::executeAsyncBinding(
+  //     std::make_shared<MatBindings::DFTWorker>(Mat::unwrapSelf(info)),
+  //     "Mat::IdftAsync",
+  //     info);
   return info.Env().Undefined();
 }
 
@@ -1337,10 +1116,10 @@ Napi::Value Mat::Rotate(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value Mat::RotateAsync(const Napi::CallbackInfo& info) {
-  //FF::executeAsyncBinding(
-  //    std::make_shared<MatBindings::RotateWorker>(Mat::unwrapSelf(info)),
-  //    "Mat::RotateAsync",
-  //    info);
+  // FF::executeAsyncBinding(
+  //     std::make_shared<MatBindings::RotateWorker>(Mat::unwrapSelf(info)),
+  //     "Mat::RotateAsync",
+  //     info);
   return info.Env().Undefined();
 }
 #endif

@@ -117,14 +117,14 @@ void Core::Init(Napi::Object exports) {
 //   Napi::Function cb = info[1].As<Napi::Function>();
 // 
 // #ifdef NODE_ADDON_API_ENABLE_MAYBE
-//   Napi::Maybe<Napi::Value> mayBeData0 = jsData.Get(uint32_t(0));
+//   Napi::Maybe<Napi::Value> mayBeData0 = jsData.Get(0u);
 //   if (mayBeData0.IsNothing()) {
 //     // duplicated protection ?
 //     return tryCatch.throwError("expected data to contain at least 1 element");
 //   }
 //   Napi::Value data0 = mayBeData0.Unwrap();
 // #else
-//   Napi::Value data0 = jsData.Get(uint32_t(0));
+//   Napi::Value data0 = jsData.Get(0u);
 // #endif
 // 
 //   int numLabels = 0;
@@ -196,14 +196,14 @@ void Core::Init(Napi::Object exports) {
 //     return tryCatch.throwError("expected data to contain at least 1 element");
 //   }
 // #ifdef NODE_ADDON_API_ENABLE_MAYBE
-//   Napi::Maybe<Napi::Value> mayBeData0 = jsData.Get(uint32_t(0));
+//   Napi::Maybe<Napi::Value> mayBeData0 = jsData.Get(0u);
 //   if (mayBeData0.IsNothing()) {
 //     // duplicated protection ?
 //     return tryCatch.throwError("expected data to contain at least 1 element");
 //   }
 //   Napi::Value data0 = mayBeData0.Unwrap();
 // #else
-//   Napi::Value data0 = jsData.Get(uint32_t(0));
+//   Napi::Value data0 = jsData.Get(0u);
 // #endif
 // 
 //   bool isPoint2 = Point2::hasInstance(data0);

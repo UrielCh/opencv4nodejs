@@ -4,9 +4,9 @@
 #ifndef __FF_COREUTILS_H__
 #define __FF_COREUTILS_H__
 
-#define FF_ASSERT_INDEX_RANGE(idx, max, what)                                                                     \
-  if (idx < 0 || max < idx) {                                                                                     \
-    return tryCatch.throwError("Index out of bounds: " + std::string(what) + " at index " + std::to_string(idx)); \
+#define FF_ASSERT_INDEX_RANGE(idx, max, what) \
+  if (idx < 0 || max < idx) { \
+    Napi::TypeError::New(env, "Index out of bounds: " + std::string(what) + " at index " + std::to_string(idx)).ThrowAsJavaScriptException(); \
   }
 
 #define FF_APPLY_FUNC(func, arg0, arg1, ret) func(arg0, arg1, ret);
@@ -167,10 +167,10 @@
 
 namespace FF {
 template <int cn>
-static Napi::Array vecToJsArr(cv::Vec<double, cn> vec) {
+static Napi::Array vecToJsArr(Napi::Env& env, cv::Vec<double, cn> vec) {
   Napi::Array jsVec = Napi::Array::New(env, cn);
   for (int i = 0; i < cn; i++)
-    (jsVec).Set(i, Napi::New(env, vec[i]));
+    (jsVec).Set(i, Napi::Number::New(env, vec[i]));
   return jsVec;
 }
 } // namespace FF

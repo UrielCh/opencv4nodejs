@@ -27,7 +27,7 @@ static inline void matPutVec2(cv::Mat mat, Napi::Value vector, int r, int c) {
   Napi::Array vec = vector.As<Napi::Array>();
   mat.at<cv::Vec<type, 2>>(r, c) = cv::Vec<type, 2>(
       (type)(vec).Get(0u).ToNumber().Int32Value(),
-      (type)(vec).Get(1).ToNumber().Int32Value());
+      (type)(vec).Get(1u).ToNumber().Int32Value());
 }
 
 template <typename type>
@@ -35,7 +35,7 @@ static inline void matPutVec2(cv::Mat mat, Napi::Value vector, int r, int c, int
   Napi::Array vec = vector.As<Napi::Array>();
   mat.at<cv::Vec<type, 2>>(r, c, z) = cv::Vec<type, 2>(
       (type)FF::DoubleConverter::unwrapUnchecked((vec).Get(0u)),
-      (type)FF::DoubleConverter::unwrapUnchecked((vec).Get(1)));
+      (type)FF::DoubleConverter::unwrapUnchecked((vec).Get(1u)));
 }
 
 /**
@@ -46,8 +46,8 @@ static inline void matPutVec3(cv::Mat mat, Napi::Value vector, int r, int c) {
   Napi::Array vec = vector.As<Napi::Array>();
   mat.at<cv::Vec<type, 3>>(r, c) = cv::Vec<type, 3>(
       (type)FF::DoubleConverter::unwrapUnchecked((vec).Get(0u)),
-      (type)FF::DoubleConverter::unwrapUnchecked((vec).Get(1)),
-      (type)FF::DoubleConverter::unwrapUnchecked((vec).Get(2)));
+      (type)FF::DoubleConverter::unwrapUnchecked((vec).Get(1u)),
+      (type)FF::DoubleConverter::unwrapUnchecked((vec).Get(2u)));
 }
 
 template <typename type>
@@ -55,8 +55,8 @@ static inline void matPutVec3(cv::Mat mat, Napi::Value vector, int r, int c, int
   Napi::Array vec = vector.As<Napi::Array>();
   mat.at<cv::Vec<type, 3>>(r, c, z) = cv::Vec<type, 3>(
       (type)FF::DoubleConverter::unwrapUnchecked((vec).Get(0u)),
-      (type)FF::DoubleConverter::unwrapUnchecked((vec).Get(1)),
-      (type)FF::DoubleConverter::unwrapUnchecked((vec).Get(2)));
+      (type)FF::DoubleConverter::unwrapUnchecked((vec).Get(1u)),
+      (type)FF::DoubleConverter::unwrapUnchecked((vec).Get(2u)));
 }
 
 /**
@@ -67,9 +67,9 @@ static inline void matPutVec4(cv::Mat mat, Napi::Value vector, int r, int c) {
   Napi::Array vec = vector.As<Napi::Array>();
   mat.at<cv::Vec<type, 4>>(r, c) = cv::Vec<type, 4>(
       (type)FF::DoubleConverter::unwrapUnchecked((vec).Get(0u)),
-      (type)FF::DoubleConverter::unwrapUnchecked((vec).Get(1)),
-      (type)FF::DoubleConverter::unwrapUnchecked((vec).Get(2)),
-      (type)FF::DoubleConverter::unwrapUnchecked((vec).Get(3)));
+      (type)FF::DoubleConverter::unwrapUnchecked((vec).Get(1u)),
+      (type)FF::DoubleConverter::unwrapUnchecked((vec).Get(2u)),
+      (type)FF::DoubleConverter::unwrapUnchecked((vec).Get(3u)));
 }
 
 template <typename type>
@@ -77,9 +77,9 @@ static inline void matPutVec4(cv::Mat mat, Napi::Value vector, int r, int c, int
   Napi::Array vec = vector.As<Napi::Array>();
   mat.at<cv::Vec<type, 4>>(r, c, z) = cv::Vec<type, 4>(
       (type)FF::DoubleConverter::unwrapUnchecked((vec).Get(0u)),
-      (type)FF::DoubleConverter::unwrapUnchecked((vec).Get(1)),
-      (type)FF::DoubleConverter::unwrapUnchecked((vec).Get(2)),
-      (type)FF::DoubleConverter::unwrapUnchecked((vec).Get(3)));
+      (type)FF::DoubleConverter::unwrapUnchecked((vec).Get(1u)),
+      (type)FF::DoubleConverter::unwrapUnchecked((vec).Get(2u)),
+      (type)FF::DoubleConverter::unwrapUnchecked((vec).Get(3u)));
 }
 
 /**
@@ -143,18 +143,18 @@ static inline Napi::Value matGetVec3(const Napi::Env& env, cv::Mat& mat, int r, 
 template <typename type>
 static inline Napi::Value matGetVec3(const Napi::Env& env, cv::Mat& mat, int r, int c, int z) {
   Napi::Array vec = Napi::Array::New(env, 3);
-  (vec).Set(0, Napi::Number::New(env, mat.at<cv::Vec<type, 3>>(r, c, z)[0]));
-  (vec).Set(1, Napi::Number::New(env, mat.at<cv::Vec<type, 3>>(r, c, z)[1]));
-  (vec).Set(2, Napi::Number::New(env, mat.at<cv::Vec<type, 3>>(r, c, z)[2]));
+  (vec).Set(0u, Napi::Number::New(env, mat.at<cv::Vec<type, 3>>(r, c, z)[0]));
+  (vec).Set(1u, Napi::Number::New(env, mat.at<cv::Vec<type, 3>>(r, c, z)[1]));
+  (vec).Set(2u, Napi::Number::New(env, mat.at<cv::Vec<type, 3>>(r, c, z)[2]));
   return vec;
 }
 
 template <typename type>
 static inline Napi::Value matGetVec3(const Napi::Env& env, cv::Mat& mat, const int* idx) {
   Napi::Array vec = Napi::Array::New(env, 3);
-  (vec).Set(0, Napi::Number::New(env, mat.at<cv::Vec<type, 3>>(idx)[0]));
-  (vec).Set(1, Napi::Number::New(env, mat.at<cv::Vec<type, 3>>(idx)[1]));
-  (vec).Set(2, Napi::Number::New(env, mat.at<cv::Vec<type, 3>>(idx)[2]));
+  (vec).Set(0u, Napi::Number::New(env, mat.at<cv::Vec<type, 3>>(idx)[0]));
+  (vec).Set(1u, Napi::Number::New(env, mat.at<cv::Vec<type, 3>>(idx)[1]));
+  (vec).Set(2u, Napi::Number::New(env, mat.at<cv::Vec<type, 3>>(idx)[2]));
   return vec;
 }
 
@@ -164,30 +164,30 @@ static inline Napi::Value matGetVec3(const Napi::Env& env, cv::Mat& mat, const i
 template <typename type>
 static inline Napi::Value matGetVec4(const Napi::Env& env, cv::Mat& mat, int r, int c) {
   Napi::Array vec = Napi::Array::New(env, 4);
-  (vec).Set(0, Napi::Number::New(env, mat.at<cv::Vec<type, 4>>(r, c)[0]));
-  (vec).Set(1, Napi::Number::New(env, mat.at<cv::Vec<type, 4>>(r, c)[1]));
-  (vec).Set(2, Napi::Number::New(env, mat.at<cv::Vec<type, 4>>(r, c)[2]));
-  (vec).Set(3, Napi::Number::New(env, mat.at<cv::Vec<type, 4>>(r, c)[3]));
+  (vec).Set(0u, Napi::Number::New(env, mat.at<cv::Vec<type, 4>>(r, c)[0]));
+  (vec).Set(1u, Napi::Number::New(env, mat.at<cv::Vec<type, 4>>(r, c)[1]));
+  (vec).Set(2u, Napi::Number::New(env, mat.at<cv::Vec<type, 4>>(r, c)[2]));
+  (vec).Set(3u, Napi::Number::New(env, mat.at<cv::Vec<type, 4>>(r, c)[3]));
   return vec;
 }
 
 template <typename type>
 static inline Napi::Value matGetVec4(const Napi::Env& env, cv::Mat& mat, int r, int c, int z) {
   Napi::Array vec = Napi::Array::New(env, 4);
-  (vec).Set(0, Napi::Number::New(env, mat.at<cv::Vec<type, 4>>(r, c, z)[0]));
-  (vec).Set(1, Napi::Number::New(env, mat.at<cv::Vec<type, 4>>(r, c, z)[1]));
-  (vec).Set(2, Napi::Number::New(env, mat.at<cv::Vec<type, 4>>(r, c, z)[2]));
-  (vec).Set(3, Napi::Number::New(env, mat.at<cv::Vec<type, 4>>(r, c, z)[3]));
+  (vec).Set(0u, Napi::Number::New(env, mat.at<cv::Vec<type, 4>>(r, c, z)[0]));
+  (vec).Set(1u, Napi::Number::New(env, mat.at<cv::Vec<type, 4>>(r, c, z)[1]));
+  (vec).Set(2u, Napi::Number::New(env, mat.at<cv::Vec<type, 4>>(r, c, z)[2]));
+  (vec).Set(3u, Napi::Number::New(env, mat.at<cv::Vec<type, 4>>(r, c, z)[3]));
   return vec;
 }
 
 template <typename type>
 static inline Napi::Value matGetVec4(const Napi::Env& env, cv::Mat& mat, const int* idx) {
   Napi::Array vec = Napi::Array::New(env, 4);
-  (vec).Set(0, Napi::Number::New(env, mat.at<cv::Vec<type, 4>>(idx)[0]));
-  (vec).Set(1, Napi::Number::New(env, mat.at<cv::Vec<type, 4>>(idx)[1]));
-  (vec).Set(2, Napi::Number::New(env, mat.at<cv::Vec<type, 4>>(idx)[2]));
-  (vec).Set(3, Napi::Number::New(env, mat.at<cv::Vec<type, 4>>(idx)[3]));
+  (vec).Set(0u, Napi::Number::New(env, mat.at<cv::Vec<type, 4>>(idx)[0]));
+  (vec).Set(1u, Napi::Number::New(env, mat.at<cv::Vec<type, 4>>(idx)[1]));
+  (vec).Set(2u, Napi::Number::New(env, mat.at<cv::Vec<type, 4>>(idx)[2]));
+  (vec).Set(3u, Napi::Number::New(env, mat.at<cv::Vec<type, 4>>(idx)[3]));
   return vec;
 }
 } // namespace FF
