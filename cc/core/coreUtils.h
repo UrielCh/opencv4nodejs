@@ -6,7 +6,7 @@
 
 #define FF_ASSERT_INDEX_RANGE(idx, max, what) \
   if (idx < 0 || max < idx) { \
-    Napi::TypeError::New(env, "Index out of bounds: " + std::string(what) + " at index " + std::to_string(idx)).ThrowAsJavaScriptException(); \
+    throw Napi::TypeError::New(env, "Index out of bounds: " + std::string(what) + " at index " + std::to_string(idx)); \
   }
 
 #define FF_APPLY_FUNC(func, arg0, arg1, ret) func(arg0, arg1, ret);

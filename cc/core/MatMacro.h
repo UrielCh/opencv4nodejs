@@ -9,14 +9,14 @@
     val = get(env, mat, info[0].As<Napi::Number>().Int32Value(), info[1].As<Napi::Number>().Int32Value());
 
 // only used in Mat::At
-#define FF_MAT_AT_ARRAY(mat, val, get)                                                 \
-  {                                                                                    \
-    std::vector<int> vec;                                                              \
-    if (FF::IntArrayConverter::arg(0, &vec, info)) {                                   \
-      Napi::TypeError::New(env, "FF_MAT_AT_ARRAY ERROR").ThrowAsJavaScriptException(); \
-    }                                                                                  \
-    const int* idx = &vec.front();                                                     \
-    val = get(env, mat, idx);                                                          \
+#define FF_MAT_AT_ARRAY(mat, val, get)                          \
+  {                                                             \
+    std::vector<int> vec;                                       \
+    if (FF::IntArrayConverter::arg(0, &vec, info)) {            \
+      throw Napi::TypeError::New(env, "FF_MAT_AT_ARRAY ERROR"); \
+    }                                                           \
+    const int* idx = &vec.front();                              \
+    val = get(env, mat, idx);                                   \
   }
 
 // only used in Mat::Set
@@ -72,7 +72,7 @@
   case CV_64FC3: ITERATOR(mat, arg, OPERATOR##Vec3<double>) break;       \
   case CV_64FC4: ITERATOR(mat, arg, OPERATOR##Vec4<double>) break;       \
   default:                                                               \
-    Napi::TypeError::New(env, "invalid matType: " + std::to_string(type)).ThrowAsJavaScriptException(); \
+    throw Napi::TypeError::New(env, "invalid matType: " + std::to_string(type)); \
   }
 // return env.Undefined();
 

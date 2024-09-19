@@ -35,7 +35,7 @@ public:
       #ifdef NODE_ADDON_API_ENABLE_MAYBE
       // Napi::MaybeOrValue<Napi::Value> maybeElement = jsArr.Get(i);
       // if (maybeElement.IsNothing()) {
-      //   Napi::TypeError::New(env, "Failed to get element from array").ThrowAsJavaScriptException();
+      //   throw Napi::TypeError::New(env, "Failed to get element from array");
       //   return true;
       // }
       // Napi::Value element = maybeElement.Unwrap();
@@ -43,10 +43,8 @@ public:
       Napi::Value element = jsArr.Get(i);
       #endif
       if (!ElementConverterImpl::assertType(element)) {
-        Napi::TypeError::New(env,
-                             "expected array element at index " + std::to_string(i) + " to be of type " + ElementConverterImpl::getTypeName())
-            .ThrowAsJavaScriptException();
-        return true;
+        throw Napi::TypeError::New(env,
+                             "expected array element at index " + std::to_string(i) + " to be of type " + ElementConverterImpl::getTypeName());
       }
 
       ElementCastType obj = (ElementCastType)ElementConverterImpl::unwrapUnchecked(element);

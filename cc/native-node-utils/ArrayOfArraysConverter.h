@@ -39,13 +39,11 @@ public:
       // Napi::MaybeOrValue<Napi::Value> maybeElement = jsArr.Get(i);
       // if (maybeElement.IsNothing()) {
       //   // Handle the error case
-      //   Napi::Error::New(env, "Element is empty").ThrowAsJavaScriptException();
-      //   return env.Null();
+      //   throw Napi::Error::New(env, "Element is empty");
       // }
       // Napi::Value element = maybeElement.Unwrap();
       if (super::unwrap(&vec, element)) {
-        Napi::Error::New(env, "Error unwrapping element").ThrowAsJavaScriptException();
-        return true;
+        throw Napi::Error::New(env, "Error unwrapping element");
       }
       vecOfVecs->push_back(vec);
     }

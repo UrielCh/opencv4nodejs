@@ -139,9 +139,7 @@ protected:
   public:
     bool applyUnwrappers(const Napi::CallbackInfo& info) {
       if (!info.IsConstructCall()) {
-        Napi::Error::New(info.Env(), "constructor has to be called with \"new\" keyword").ThrowAsJavaScriptException();
-
-        return true;
+        throw Napi::Error::New(info.Env(), "constructor has to be called with \"new\" keyword");
       }
       return BindingBase::applyUnwrappers(info);
     }

@@ -46,8 +46,7 @@ public:
     if (ConverterImpl::unwrap(val, jsVal)) {
       Napi::Env env = jsVal.Env();
       auto msg = std::string("failed to unwrap value, expected ") + std::string(ConverterImpl::getTypeName());
-      Napi::Error::New(env, msg).ThrowAsJavaScriptException();
-      return true;
+      throw Napi::Error::New(env, msg);
     }
     return false;
   }
@@ -60,12 +59,10 @@ public:
                                 + std::to_string(argN)
                                 + std::string(" to be of type ")
                                 + std::string(ConverterImpl::getTypeName());
-        Napi::Error::New(env, msg).ThrowAsJavaScriptException();
-        return true;
+        throw Napi::Error::New(env, msg);
       }
     } catch (const Napi::Error& e) {
-      e.ThrowAsJavaScriptException();
-      return true;
+      throw e;
     }
     return false;
   }
@@ -78,17 +75,16 @@ public:
     Napi::Env env = info.Env();
     try {
       if (hasArg(info, argN) && ConverterImpl::unwrap(val, info[argN])) {
-        Napi::Error::New(env, Napi::String::New(env,
-                                                std::string("expected argument ")
+        throw Napi::Error::New(env, Napi::String::New(env,
+                                                "expected argument "
                                                     + std::to_string(argN)
-                                                    + std::string(" to be of type ")
-                                                    + std::string(ConverterImpl::getTypeName())))
-            .ThrowAsJavaScriptException();
-        return true;
+                                                    + " to be of type "
+                                                    + std::string(ConverterImpl::getTypeName())));
       }
     } catch (const Napi::Error& e) {
-      e.ThrowAsJavaScriptException();
-      return true;
+      throw e;
+      // e.ThrowAsJavaScriptException();
+      // return true;
     }
     return false;
   }
@@ -96,10 +92,7 @@ public:
   static bool prop(Type* val, const char* prop, Napi::Object opts) {
     if (!FF::hasOwnProperty(opts, prop)) {
       Napi::Env env = opts.Env();
-      Napi::Error::New(env, Napi::String::New(env,
-                                              std::string("expected object to have property: ") + std::string(prop)))
-          .ThrowAsJavaScriptException();
-      return true;
+      throw  Napi::Error::New(env, Napi::String::New(env, "expected object to have property: " + std::string(prop)));
     }
     return AbstractConverter::optProp(val, prop, opts);
   }
@@ -113,12 +106,12 @@ public:
       if (FF::hasOwnProperty(opts, prop)
           && ConverterImpl::unwrap(val, opts.Get(prop))) {
           auto msg = std::string("expected property ") + prop + " to be of type " + ConverterImpl::getTypeName();
-        Napi::Error::New(env, msg).ThrowAsJavaScriptException();
-        return true;
+        throw Napi::Error::New(env, msg);
       }
     } catch (const Napi::Error& e) {
-      e.ThrowAsJavaScriptException();
-      return true;
+      throw e;
+      // e.ThrowAsJavaScriptException();
+      // return true;
     }
     return false;
   }

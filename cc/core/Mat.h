@@ -35,7 +35,7 @@ public:
   cv::Mat self;
 
   static Napi::Object Init(Napi::Object exports);
-  // static Napi::Object NewInstance(Napi::Env env, cv::Mat mat);
+  static Napi::Object NewInstance(Napi::Env env, cv::Mat mat);
 
   Napi::Value Getrows(const Napi::CallbackInfo& info);
   void Setrows(const Napi::CallbackInfo& info, const Napi::Value& value);

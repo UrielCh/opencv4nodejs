@@ -12,20 +12,15 @@ static inline Napi::Value executeSyncBinding(std::shared_ptr<ISyncWorker> worker
 
   try {
     if (worker->applyUnwrappers(info)) {
-      Napi::Error::New(env, "Error in applyUnwrappers").ThrowAsJavaScriptException();
-      return env.Undefined();
+      throw Napi::Error::New(env, "Error in applyUnwrappers");
     }
-
     std::string err = worker->execute();
     if (!err.empty()) {
-      Napi::Error::New(env, err).ThrowAsJavaScriptException();
-      return env.Undefined();
+      throw Napi::Error::New(env, err);
     }
-
     return worker->getReturnValue(info);
   } catch (const std::exception& e) {
-    Napi::Error::New(env, e.what()).ThrowAsJavaScriptException();
-    return env.Undefined();
+    throw Napi::Error::New(env, e.what());
   }
 }
 
@@ -34,8 +29,7 @@ static inline Napi::Value executeAsyncBinding(std::shared_ptr<IAsyncWorker> work
   Napi::HandleScope scope(env);
 
   if (!info[info.Length() - 1].IsFunction()) {
-    Napi::TypeError::New(env, "callback function required").ThrowAsJavaScriptException();
-    return env.Undefined();
+    throw Napi::TypeError::New(env, "callback function required");
   }
 
   Napi::Function callback = info[info.Length() - 1].As<Napi::Function>();

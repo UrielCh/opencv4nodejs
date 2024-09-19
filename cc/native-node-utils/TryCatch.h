@@ -29,14 +29,13 @@ public:
 
   Napi::Value throwError(Napi::Value message) {
     Napi::Env env = message.Env();
-    // Napi::Error::New(env, message.ToString()).ThrowAsJavaScriptException();
+    // throw Napi::Error::New(env, message.ToString());
     Napi::Maybe<Napi::String> maybeString = message.ToString();
     if (maybeString.IsNothing()) {
-      Napi::Error::New(env, "Failed to convert message to string").ThrowAsJavaScriptException();
-      return env.Undefined();
+      throw Napi::Error::New(env, "Failed to convert message to string");
     }
     std::string errorMessage = maybeString.Unwrap().Utf8Value();
-    Napi::Error::New(env, errorMessage).ThrowAsJavaScriptException();
+    throw Napi::Error::New(env, errorMessage);
   }
 
   Napi::Value throwError(std::string errorMessage) {

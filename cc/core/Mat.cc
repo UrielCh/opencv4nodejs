@@ -148,7 +148,7 @@ Napi::Object Mat::Init(Napi::Object exports) {
 
   // func.Set("flattenFloat", &Mat::FlattenFloat),
   // func.Set("flattenFloat", Napi::Function::New(Mat::FlattenFloat)),
-  // func.Set("ones", &Mat::Ones);
+  // func.Set("ones", Napi::Function::New(env, &Mat::Ones));
 
   exports.Set("Mat", func);
   return exports;
@@ -266,8 +266,7 @@ void Mat::Setrows(const Napi::CallbackInfo& info,
                   const Napi::Value& value) {
   Napi::Env env = info.Env();
   if (!value.IsNumber()) {
-    Napi::TypeError::New(env, "Number expected").ThrowAsJavaScriptException();
-    return;
+    throw Napi::TypeError::New(env, "Number expected");
   }
   Napi::Number num = value.As<Napi::Number>();
   this->self.rows = num.DoubleValue();
@@ -282,8 +281,7 @@ void Mat::Setcols(const Napi::CallbackInfo& info,
                   const Napi::Value& value) {
   Napi::Env env = info.Env();
   if (!value.IsNumber()) {
-    Napi::TypeError::New(env, "Number expected").ThrowAsJavaScriptException();
-    return;
+    throw Napi::TypeError::New(env, "Number expected");
   }
   Napi::Number num = value.As<Napi::Number>();
   this->self.cols = num.DoubleValue();
@@ -294,12 +292,12 @@ Napi::Value Mat::Gettype(const Napi::CallbackInfo& info) {
   return Napi::Number::New(info.Env(), num);
 }
 
-// Napi::Object Mat::NewInstance(Napi::Env env, cv::Mat mat) {
-//   Napi::EscapableHandleScope scope(env);
-// 
-//   Napi::Object obj = constructor.New({ Napi::External<cv::Mat>::New(env, &mat) });
-//   return scope.Escape(napi_value(obj)).ToObject();
-// }
+Napi::Object Mat::NewInstance(Napi::Env env, cv::Mat mat) {
+  Napi::EscapableHandleScope scope(env);
+
+  Napi::Object obj = constructor.New({ Napi::External<cv::Mat>::New(env, &mat) });
+  return scope.Escape(napi_value(obj)).ToObject();
+}
 
 Mat::Mat(const Napi::CallbackInfo& info)
     : Napi::ObjectWrap<Mat>(info) {
@@ -313,8 +311,7 @@ Mat::Mat(const Napi::CallbackInfo& info)
 
   // int length = info.Length();
   // if (length <= 0 || !info[0].IsNumber()) {
-  //   Napi::TypeError::New(env, "Number expected").ThrowAsJavaScriptException();
-  //   return;
+  //   throw Napi::TypeError::New(env, "Number expected");
   // }
   // Napi::Number value = info[0].As<Napi::Number>();
   // this->value_ = value.DoubleValue();
@@ -322,8 +319,7 @@ Mat::Mat(const Napi::CallbackInfo& info)
   // FF::TryCatch tryCatch(env, "Mat::New");
   //  FF_ASSERT_CONSTRUCT_CALL();
   if (!info.IsConstructCall()) {
-    Napi::TypeError::New(env, "constructor has to be called with \"new\" keyword").ThrowAsJavaScriptException();
-    return;
+    throw Napi::TypeError::New(env, "constructor has to be called with \"new\" keyword");
   }
 
   // Mat* self = new Mat();
@@ -338,8 +334,7 @@ Mat::Mat(const Napi::CallbackInfo& info)
     uint32_t len = jsChannelMats.Length();
     for (uint i = 0; i < len; i++) {
       // jsChannelMats.Get(i).UnwrapTo;
-      Napi::TypeError::New(env, "constructor from Channel not implemented yet").ThrowAsJavaScriptException();
-      return;
+      throw Napi::TypeError::New(env, "constructor from Channel not implemented yet");
       // Napi::Value arrayItem = jsChannelMats[i];
       // Napi::Number jsChannelMat = jsChannelMats.Get(i).ToNumber();
       // Napi::Object jsChannelMat2 = jsChannelMats[i].Get(i.To<Napi::Object>());
@@ -405,15 +400,13 @@ Mat::Mat(const Napi::CallbackInfo& info)
       long numCols = -1;
       for (long i = 0; i < rows; i++) {
         if (!rowArray0.Get(i).IsArray()) {
-          Napi::TypeError::New(env, "Column should be an array, at column: " + std::to_string(i)).ThrowAsJavaScriptException();
-          return;
+          throw Napi::TypeError::New(env, "Column should be an array, at column: " + std::to_string(i));
         }
         Napi::Array colArray = rowArray0.Get(i).As<Napi::Array>();
         if (numCols == -1)
           numCols = colArray.Length();
         else if (numCols != colArray.Length())
-          Napi::TypeError::New(env, "Mat cols must be of uniform length, at column: " + std::to_string(i)).ThrowAsJavaScriptException();
-        return;
+          throw Napi::TypeError::New(env, "Mat cols must be of uniform length, at column: " + std::to_string(i));
       }
       // 	Mat (int rows, int cols, int type)
       cv::Mat mat = cv::Mat(rows, numCols, type);
@@ -423,30 +416,23 @@ Mat::Mat(const Napi::CallbackInfo& info)
       std::vector<int> sizes = {(int)rowArray0.Length(), -1, -1};
       for (int i = 0; i < sizes[0]; i++) {
         if (!rowArray0.Get(i).IsArray()) {
-          Napi::TypeError::New(env, "Column should be an array, at column: " + std::to_string(i)).ThrowAsJavaScriptException();
-          return;
+          throw Napi::TypeError::New(env, "Column should be an array, at column: " + std::to_string(i));
         }
         Napi::Array rowArray1 = (rowArray0).Get(i).As<Napi::Array>();
         if (sizes[1] == -1)
           sizes[1] = rowArray1.Length();
         else if (sizes[1] != (int)rowArray1.Length()) {
-          Napi::TypeError::New(env, "Mat cols must be of uniform length, at column: " + std::to_string(i)).ThrowAsJavaScriptException();
-          ;
-          return;
+          throw Napi::TypeError::New(env, "Mat cols must be of uniform length, at column: " + std::to_string(i));
         }
         for (int j = 0; j < sizes[1]; j++) {
           if (!rowArray1.Get(j).IsArray()) {
-            Napi::TypeError::New(env, "Column should be an array, at column: " + std::to_string(i) + ", " + std::to_string(j)).ThrowAsJavaScriptException();
-            ;
-            return;
+            throw Napi::TypeError::New(env, "Column should be an array, at column: " + std::to_string(i) + ", " + std::to_string(j));
           }
           Napi::Array rowArray2 = (rowArray1).Get(j).As<Napi::Array>();
           if (sizes[2] == -1)
             sizes[2] = rowArray2.Length();
           else if (sizes[2] != (int)rowArray2.Length()) {
-            Napi::TypeError::New(env, "Mat cols must be of uniform length, at column: " + std::to_string(i) + ", " + std::to_string(j)).ThrowAsJavaScriptException();
-            ;
-            return;
+            throw Napi::TypeError::New(env, "Mat cols must be of uniform length, at column: " + std::to_string(i) + ", " + std::to_string(j));
           }
         }
       }
@@ -463,7 +449,7 @@ Mat::Mat(const Napi::CallbackInfo& info)
       for (cur[0] = 0; cur[0] < sizes[0]; cur[0]++) {
         if (!arrs[0].Get(cur[0]).IsArray()) {
           auto msg = "All array in dimension 1 should be array, at position: " + std::to_string(cur[0]);
-          Napi::TypeError::New(env, msg).ThrowAsJavaScriptException();
+          throw Napi::TypeError::New(env, msg);
           return;
         }
         arrs[1] = (arrs[0]).Get(cur[0]).As<Napi::Array>();
@@ -471,36 +457,31 @@ Mat::Mat(const Napi::CallbackInfo& info)
           sizes[1] = arrs[1].Length();
         else if (sizes[1] != (int)arrs[1].Length()) {
           auto msg = "Mat cols must be of uniform length, at column: " + std::to_string(cur[0]) + " find " + std::to_string(arrs[1].Length()) + " expecting " + std::to_string(sizes[1]);
-          Napi::TypeError::New(env, msg).ThrowAsJavaScriptException();
-          return;
+          throw Napi::TypeError::New(env, msg);
         }
         for (cur[1] = 0; cur[1] < sizes[1]; cur[1]++) {
           if (!arrs[1].Get(cur[1]).IsArray()) {
             auto msg = "All array in dimension 2 should be array, at position:" + std::to_string(cur[0]) + ", " + std::to_string(cur[1]);
-            Napi::TypeError::New(env, msg).ThrowAsJavaScriptException();
-            return;
+            throw Napi::TypeError::New(env, msg);
           }
           arrs[2] = arrs[1].Get(cur[1]).As<Napi::Array>();
           if (sizes[2] == -1)
             sizes[2] = arrs[2].Length();
           else if (sizes[2] != (int)arrs[2].Length()) {
             auto msg = "Mat cols must be of uniform length, at column: " + std::to_string(cur[0]) + ", " + std::to_string(cur[1]) + " find " + std::to_string(arrs[2].Length()) + " expecting " + std::to_string(sizes[2]);
-            Napi::TypeError::New(env, msg).ThrowAsJavaScriptException();
-            return;
+            throw Napi::TypeError::New(env, msg);
           }
           for (cur[2] = 0; cur[2] < sizes[2]; cur[2]++) {
             if (!arrs[2].Get(cur[2]).IsArray()) {
               auto msg = "All array in dimension 3 should be array, at position: " + std::to_string(cur[0]) + ", " + std::to_string(cur[1]) + "," + std::to_string(cur[2]);
-              Napi::TypeError::New(env, msg).ThrowAsJavaScriptException();
-              return;
+              throw Napi::TypeError::New(env, msg);
             }
             arrs[3] = (arrs[2]).Get(cur[2]).As<Napi::Array>();
             if (sizes[3] == -1)
               sizes[3] = arrs[3].Length();
             else if (sizes[3] != (int)arrs[3].Length()) {
               auto msg = "Mat cols must be of uniform length, at column: " + std::to_string(cur[0]) + ", " + std::to_string(cur[1]) + ", " + std::to_string(cur[2]) + " find " + std::to_string(arrs[3].Length()) + " expecting " + std::to_string(sizes[3]);
-              Napi::TypeError::New(env, msg).ThrowAsJavaScriptException();
-              return;
+              throw Napi::TypeError::New(env, msg);
             }
           }
         }
@@ -511,8 +492,7 @@ Mat::Mat(const Napi::CallbackInfo& info)
       // self->setNativeObject(mat);
       this->self = mat;
     } else {
-      Napi::TypeError::New(env, "Mat::New - Support only 4 Dimmention provided payload contains " + std::to_string(dim)).ThrowAsJavaScriptException();
-      return;
+      throw  Napi::TypeError::New(env, "Mat::New - Support only 4 Dimmention provided payload contains " + std::to_string(dim));
     }
     return;
   } // end constructor(dataArray: number[][] | number[][][], type: number);
@@ -535,8 +515,7 @@ Mat::Mat(const Napi::CallbackInfo& info)
         if (mat.channels() != (long)vec.Length()) {
           auto msg = std::string("Mat::New - number of channels (") + std::to_string(mat.channels())
                      + std::string(") do not match fill vector length ") + std::to_string(vec.Length());
-          Napi::TypeError::New(env, msg).ThrowAsJavaScriptException();
-          return;
+          throw Napi::TypeError::New(env, msg);
         }
         FF_MAT_APPLY_TYPED_OPERATOR(mat, vec, type, FF_MAT_FILL, FF::matPut);
       }
@@ -545,7 +524,7 @@ Mat::Mat(const Napi::CallbackInfo& info)
         // std::cout << "fill use value:" << info[3].As<Napi::Number>().Int32Value() << "" <<std::endl;
         // std::cout << "fill use value:" << info[3].ToNumber().Int32Value() << "" <<std::endl;
         // std::cout << "fill use value:" << (uchar)info[3].ToNumber().Int32Value() << "" <<std::endl;
-        // Napi::TypeError::New(env, "Fail to matched any known Mat constructor").ThrowAsJavaScriptException();
+        // throw Napi::TypeError::New(env, "Fail to matched any known Mat constructor");
         // TODO optimise this get value from  info[3] only once
         FF_MAT_APPLY_TYPED_OPERATOR(mat, info[3], type, FF_MAT_FILL, FF::matPut);
       }
@@ -556,8 +535,7 @@ Mat::Mat(const Napi::CallbackInfo& info)
     if (info[3].IsObject()) {
       std::cout << "in info[3].IsObject()" << std::endl;
       if (!info[3].IsArrayBuffer()) {
-        Napi::Error::New(info.Env(), "Expected an ArrayBuffer").ThrowAsJavaScriptException();
-        return;
+        throw Napi::Error::New(info.Env(), "Expected an ArrayBuffer");
       }
       Napi::ArrayBuffer buf = info[3].As<Napi::ArrayBuffer>();
       char* data = (char*)buf.Data();
@@ -595,7 +573,7 @@ Mat::Mat(const Napi::CallbackInfo& info)
   // self->Wrap(info.Holder());
 
   std::cout << "BAD BAD BAD BAD" << std::endl;
-  Napi::TypeError::New(env, "Fail to matched any known Mat constructor").ThrowAsJavaScriptException();
+  throw Napi::TypeError::New(env, "Fail to matched any known Mat constructor");
 
   //
   //// if ExternalMemTracking is disabled, the following instruction will be a no op
@@ -611,7 +589,7 @@ Napi::Value Mat::Eye(const Napi::CallbackInfo& info) {
   int rows, cols, type;
   if (
       FF::IntConverter::arg(0, &rows, info) || FF::IntConverter::arg(1, &cols, info) || FF::IntConverter::arg(2, &type, info)) {
-    Napi::TypeError::New(env, "Mat::Eye").ThrowAsJavaScriptException();
+    throw Napi::TypeError::New(env, "Mat::Eye");
     return env.Undefined();
   }
   // return Mat::Converter::wrap(cv::Mat::eye(cv::Size(cols, rows), type));
@@ -624,11 +602,13 @@ Napi::Value Mat::Ones(const Napi::CallbackInfo& info) {
   int rows, cols, type;
   if (
       FF::IntConverter::arg(0, &rows, info) || FF::IntConverter::arg(1, &cols, info) || FF::IntConverter::arg(2, &type, info)) {
-    Napi::TypeError::New(env, "Mat::Ones bad inputs").ThrowAsJavaScriptException();
-    return env.Undefined();
+    throw Napi::TypeError::New(env, "Mat::Ones bad inputs");
   }
   cv::Mat mat = cv::Mat::ones(cv::Size(cols, rows), type); // Create the cv::Mat object
   // return Mat::NewInstance(env, mat); // Wrap and return the cv::Mat object
+
+  // Napi::Object obj = env.GetInstanceData<Napi::FunctionReference>()->New({constructor.New({ Napi::External<cv::Mat>::New(env, &mat)})});
+  // return obj;
   // return Mat::Converter::wrap(cv::Mat::ones(cv::Size(cols, rows), type));
   return env.Undefined();
 }
@@ -671,7 +651,7 @@ Napi::Value Mat::At(const Napi::CallbackInfo& info) {
   if (info[0].IsArray()) {
     if ((long)info[0].As<Napi::Array>().Length() != matSelf.dims) {
       auto msg = "expected array length to be equal to the dims, get " + std::to_string((long)info[0].As<Napi::Array>().Length()) + " expecting " + std::to_string(matSelf.dims);
-      Napi::TypeError::New(env, msg).ThrowAsJavaScriptException();
+      throw Napi::TypeError::New(env, msg);
     }
     FF_MAT_APPLY_TYPED_OPERATOR(matSelf, val, matSelf.type(), FF_MAT_AT_ARRAY, FF::matGet);
   } else {

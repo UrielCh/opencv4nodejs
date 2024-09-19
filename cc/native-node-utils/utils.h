@@ -22,8 +22,8 @@ static inline Napi::Object newInstance(Napi::FunctionReference ctor) {
   if (maybeObj.IsNothing()) // maybeObj.IsNull() ||
   {
     // Handle the error appropriately, e.g., throw an exception or return a default object
-    Napi::Error::New(ctor.Env(), "Failed to create new instance").ThrowAsJavaScriptException();
-    return Napi::Object::New(ctor.Env());
+    throw Napi::Error::New(ctor.Env(), "Failed to create new instance");
+    // return Napi::Object::New(ctor.Env());
   }
   return maybeObj.Unwrap();
 #else
@@ -49,7 +49,7 @@ static inline bool hasOwnProperty(Napi::Object obj, const char* prop) {
   auto maybeHasProp = obj.HasOwnProperty(prop);
   if (maybeHasProp.IsNothing()) {
     // Handle the error appropriately, e.g., throw an exception or return a default value
-    Napi::Error::New(obj.Env(), "Failed to check property").ThrowAsJavaScriptException();
+    throw Napi::Error::New(obj.Env(), "Failed to check property");
     return false;
   }
   return true;
