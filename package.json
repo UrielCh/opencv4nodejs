@@ -1,6 +1,6 @@
 {
   "name": "@u4/opencv4nodejs",
-  "version": "7.1.2",
+  "version": "7.2.0",
   "description": "Asynchronous OpenCV 3.x / 4.x nodejs bindings with JavaScript and TypeScript API.",
   "keywords": [
     "opencv",
@@ -78,17 +78,17 @@
     "picocolors": "^1.1.0"
   },
   "devDependencies": {
-    "@eslint/js": "^9.10.0",
-    "@types/node": "^22.5.4",
+    "@eslint/js": "^9.11.1",
+    "@types/node": "^22.7.2",
     "@types/progress": "^2.0.7",
     "axios": "^1.7.7",
     "cross-env": "^7.0.3",
-    "eslint": "^9.10.0",
+    "eslint": "^9.11.1",
     "progress": "^2.0.3",
     "rimraf": "^6.0.1",
     "shx": "^0.3.4",
     "typescript": "^5.6.2",
-    "typescript-eslint": "8.5.0"
+    "typescript-eslint": "8.7.0"
   },
   "files": [
     "cc",

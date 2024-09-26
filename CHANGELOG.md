@@ -1,5 +1,8 @@
 # changelog
 
+## Version 7.2.0
+- @see github
+
 ## Version 7.1.2
 - @see github
 
