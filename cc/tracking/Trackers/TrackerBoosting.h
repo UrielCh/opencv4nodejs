@@ -17,12 +17,13 @@ public:
   static Nan::Persistent<v8::FunctionTemplate> constructor;
 
 #if CV_VERSION_GREATER_EQUAL(4, 5, 2)
-  cv::Ptr<cv::legacy::Tracker> getTracker(){
+  cv::Ptr<cv::legacy::Tracker> getTracker()
 #else
-  cv::Ptr<cv::Tracker> getTracker() {
+  cv::Ptr<cv::Tracker> getTracker() 
 #endif
+  {
       return tracker;
-}
+  }
 }
 ;
 

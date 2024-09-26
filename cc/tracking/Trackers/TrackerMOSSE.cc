@@ -4,6 +4,7 @@
 
 #include "TrackerMOSSE.h"
 
+// Ensure that this code is only compiled if OpenCV is 3.4.0 or greater
 #if CV_VERSION_GREATER_EQUAL(3, 4, 0)
 
 Nan::Persistent<v8::FunctionTemplate> TrackerMOSSE::constructor;

@@ -9,6 +9,21 @@
 
 Nan::Persistent<v8::FunctionTemplate> TrackerNano::constructor;
 
+NAN_MODULE_INIT(TrackerNano::Init) {
+  v8::Local<v8::FunctionTemplate> ctor = Nan::New<v8::FunctionTemplate>(TrackerNano::New);
+  v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
+
+  Nan::SetPrototypeMethod(ctor, "init", TrackerNano::Init);
+  Nan::SetPrototypeMethod(ctor, "update", TrackerNano::Update);
+
+  constructor.Reset(ctor);
+  ctor->SetClassName(FF::newString("TrackerNano"));
+  instanceTemplate->SetInternalFieldCount(1);
+
+  Nan::Set(target, FF::newString("TrackerNano"), FF::getFunction(ctor));
+};
+
+
 NAN_METHOD(TrackerNano::Init) {
   FF::TryCatch tryCatch("TrackerNano::Init");
   cv::Mat image;
@@ -52,20 +67,6 @@ NAN_METHOD(TrackerNano::Update) {
     info.GetReturnValue().Set(Nan::Null());
   }
 }
-
-NAN_MODULE_INIT(TrackerNano::Init) {
-  v8::Local<v8::FunctionTemplate> ctor = Nan::New<v8::FunctionTemplate>(TrackerNano::New);
-  v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
-
-  Nan::SetPrototypeMethod(ctor, "init", TrackerNano::Init);
-  Nan::SetPrototypeMethod(ctor, "update", TrackerNano::Update);
-
-  constructor.Reset(ctor);
-  ctor->SetClassName(FF::newString("TrackerNano"));
-  instanceTemplate->SetInternalFieldCount(1);
-
-  Nan::Set(target, FF::newString("TrackerNano"), FF::getFunction(ctor));
-};
 
 NAN_METHOD(TrackerNano::New) {
   FF::TryCatch tryCatch("TrackerNano::New");

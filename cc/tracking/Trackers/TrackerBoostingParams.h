@@ -8,11 +8,12 @@
 #define __FF_TRACKERBOOSTINGPARAMS_H__
 
 #if CV_VERSION_GREATER_EQUAL(4, 5, 2)
-class TrackerBoostingParams : public FF::ObjectWrap<TrackerBoostingParams, cv::legacy::TrackerBoosting::Params> {
+class TrackerBoostingParams : public FF::ObjectWrap<TrackerBoostingParams, cv::legacy::TrackerBoosting::Params>
 #else
-class TrackerBoostingParams : public FF::ObjectWrap<TrackerBoostingParams, cv::TrackerBoosting::Params> {
+class TrackerBoostingParams : public FF::ObjectWrap<TrackerBoostingParams, cv::TrackerBoosting::Params>
 #endif
-public:
+{
+  public:
   static Nan::Persistent<v8::FunctionTemplate> constructor;
 
   static const char* getClassName() {

@@ -1,12 +1,11 @@
 #include "../Tracker.h"
 
+// Ensure that TrackerNano is only defined for OpenCV 4.7.0 or greater
 #if CV_VERSION_GREATER_EQUAL(4, 7, 0)
 
 #ifndef __FF_TRACKERNANO_H__
 #define __FF_TRACKERNANO_H__
 
-// Ensure that TrackerNano is only defined for OpenCV 4.7.0 or greater
-#if CV_VERSION_GREATER_EQUAL(4, 7, 0)
 class TrackerNano : public FF::ObjectWrapBase<TrackerNano>, public Nan::ObjectWrap {
 public:
   cv::Ptr<cv::TrackerNano> tracker;
@@ -22,8 +21,6 @@ public:
     return tracker;
   }
 };
-#endif
-
 #endif
 
 #endif

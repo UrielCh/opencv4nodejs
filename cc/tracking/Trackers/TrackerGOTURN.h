@@ -6,10 +6,11 @@
 #define __FF_TRACKERGOTURN_H__
 
 #if CV_VERSION_GREATER_EQUAL(4, 5, 2)
-class TrackerGOTURN : public FF::ObjectWrapBase<TrackerGOTURN>, public Nan::ObjectWrap {
+class TrackerGOTURN : public FF::ObjectWrapBase<TrackerGOTURN>, public Nan::ObjectWrap
 #else
-class TrackerGOTURN : public Tracker {
+class TrackerGOTURN : public Tracker
 #endif
+{
 public:
   cv::Ptr<cv::TrackerGOTURN> tracker;
 

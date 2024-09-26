@@ -1,5 +1,6 @@
 #include "../Tracker.h"
 
+// Ensure that TrackerNano is only defined for OpenCV 3.4.0 or greater
 #if CV_VERSION_GREATER_EQUAL(3, 4, 0)
 
 #ifndef __FF_TRACKERMOSSE_H__
@@ -19,14 +20,14 @@ public:
   static Nan::Persistent<v8::FunctionTemplate> constructor;
 
 #if CV_VERSION_GREATER_EQUAL(4, 5, 2)
-  cv::Ptr<cv::legacy::Tracker> getTracker(){
+  cv::Ptr<cv::legacy::Tracker> getTracker() 
 #else
-  cv::Ptr<cv::Tracker> getTracker() {
+  cv::Ptr<cv::Tracker> getTracker()
 #endif
-      return tracker;
-}
-}
-;
+  {
+    return tracker;
+  }
+};
 
 #endif
 
