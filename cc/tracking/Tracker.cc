@@ -19,13 +19,17 @@ NAN_METHOD(Tracker::Init) {
   FF::TryCatch tryCatch("Tracker::Init");
   cv::Mat image;
   cv::Rect2d boundingBox;
-  if (
-      Mat::Converter::arg(0, &image, info) || Rect::Converter::arg(1, &boundingBox, info)) {
+  if (Mat::Converter::arg(0, &image, info) || Rect::Converter::arg(1, &boundingBox, info)) {
     return tryCatch.reThrow();
   }
 
-  bool ret = Tracker::unwrapThis(info)->getTracker()->init(image, boundingBox);
-  info.GetReturnValue().Set(Nan::New(ret));
+  try {
+    bool ret = Tracker::unwrapThis(info)->getTracker()->init(image, boundingBox);
+    // If no error is thrown, return true
+    info.GetReturnValue().Set(Nan::New(ret));
+  } catch (const std::exception& e) {
+    return tryCatch.throwError(e.what());
+  }
 }
 
 NAN_METHOD(Tracker::Update) {

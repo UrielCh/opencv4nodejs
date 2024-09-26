@@ -13,6 +13,7 @@ NAN_MODULE_INIT(TrackerNano::Init) {
   v8::Local<v8::FunctionTemplate> ctor = Nan::New<v8::FunctionTemplate>(TrackerNano::New);
   v8::Local<v8::ObjectTemplate> instanceTemplate = ctor->InstanceTemplate();
 
+  // TrackerNano::Init(ctor);
   Nan::SetPrototypeMethod(ctor, "init", TrackerNano::Init);
   Nan::SetPrototypeMethod(ctor, "update", TrackerNano::Update);
 
@@ -36,14 +37,12 @@ NAN_METHOD(TrackerNano::Init) {
 
   try {
     TrackerNano::unwrapThis(info)->getTracker()->init(image, boundingBox);
-    
     // If no error is thrown, return true
     info.GetReturnValue().Set(Nan::True());
   } catch (const std::exception& e) {
     return tryCatch.throwError(e.what());
   }
 }
-
 
 NAN_METHOD(TrackerNano::Update) {
   FF::TryCatch tryCatch("TrackerNano::Update");

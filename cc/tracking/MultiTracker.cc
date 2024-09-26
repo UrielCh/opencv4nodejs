@@ -23,10 +23,10 @@ NAN_MODULE_INIT(MultiTracker::Init) {
   Nan::SetPrototypeMethod(ctor, "addKCF", MultiTracker::AddKCF);
 #if CV_VERSION_GREATER_EQUAL(3, 4, 0)
   Nan::SetPrototypeMethod(ctor, "addMOSSE", MultiTracker::AddTLD);
-#endif
+#endif // CV_VERSION_GREATER_EQUAL(3, 4, 0)
 #if CV_VERSION_GREATER_EQUAL(3, 4, 1)
   Nan::SetPrototypeMethod(ctor, "addCSRT", MultiTracker::AddKCF);
-#endif
+#endif // CV_VERSION_GREATER_EQUAL(3, 4, 1)
   Nan::SetPrototypeMethod(ctor, "update", MultiTracker::Update);
 
   Nan::Set(target, FF::newString("MultiTracker"), FF::getFunction(ctor));
@@ -38,9 +38,9 @@ NAN_METHOD(MultiTracker::New) {
   MultiTracker* self = new MultiTracker();
 #if CV_VERSION_GREATER_EQUAL(4, 5, 2)
   self->setNativeObject(cv::makePtr<cv::legacy::MultiTracker>());
-#else
+#else // CV_VERSION_GREATER_EQUAL(4, 5, 2)
   self->setNativeObject(cv::makePtr<cv::MultiTracker>());
-#endif
+#endif // CV_VERSION_GREATER_EQUAL(4, 5, 2)
   self->Wrap(info.Holder());
   info.GetReturnValue().Set(info.Holder());
 };
@@ -57,9 +57,9 @@ NAN_METHOD(MultiTracker::AddMIL) {
   cv::Ptr<cv::legacy::Tracker> type = cv::legacy::TrackerMIL::create();
 #elif CV_VERSION_GREATER_EQUAL(3, 3, 0)
   cv::Ptr<cv::Tracker> type = cv::TrackerMIL::create();
-#else
+#else // CV_VERSION_GREATER_EQUAL(3, 3, 0)
   const std::string type("MIL");
-#endif
+#endif // CV_VERSION_GREATER_EQUAL(4, 5, 2)
   bool ret = MultiTracker::unwrapSelf(info)->add(type, image, boundingBox);
   info.GetReturnValue().Set(Nan::New(ret));
 }
@@ -76,9 +76,9 @@ NAN_METHOD(MultiTracker::AddBOOSTING) {
   cv::Ptr<cv::legacy::Tracker> type = cv::legacy::TrackerBoosting::create();
 #elif CV_VERSION_GREATER_EQUAL(3, 3, 0)
   cv::Ptr<cv::Tracker> type = cv::TrackerBoosting::create();
-#else
+#else // CV_VERSION_GREATER_EQUAL(3, 3, 0)
   const std::string type("BOOSTING");
-#endif
+#endif // CV_VERSION_GREATER_EQUAL(4, 5, 2)
   bool ret = MultiTracker::unwrapSelf(info)->add(type, image, boundingBox);
   info.GetReturnValue().Set(Nan::New(ret));
 }
@@ -95,9 +95,9 @@ NAN_METHOD(MultiTracker::AddMEDIANFLOW) {
   cv::Ptr<cv::legacy::Tracker> type = cv::legacy::TrackerMedianFlow::create();
 #elif CV_VERSION_GREATER_EQUAL(3, 3, 0)
   cv::Ptr<cv::Tracker> type = cv::TrackerMedianFlow::create();
-#else
+#else // CV_VERSION_GREATER_EQUAL(3, 3, 0)
   const std::string type("MEDIANFLOW");
-#endif
+#endif // CV_VERSION_GREATER_EQUAL(4, 5, 2)
   bool ret = MultiTracker::unwrapSelf(info)->add(type, image, boundingBox);
   info.GetReturnValue().Set(Nan::New(ret));
 }
@@ -114,9 +114,9 @@ NAN_METHOD(MultiTracker::AddTLD) {
   cv::Ptr<cv::legacy::Tracker> type = cv::legacy::TrackerTLD::create();
 #elif CV_VERSION_GREATER_EQUAL(3, 3, 0)
   cv::Ptr<cv::Tracker> type = cv::TrackerTLD::create();
-#else
+#else // CV_VERSION_GREATER_EQUAL(3, 3, 0)
   const std::string type("TLD");
-#endif
+#endif // CV_VERSION_GREATER_EQUAL(4, 5, 2)
   bool ret = MultiTracker::unwrapSelf(info)->add(type, image, boundingBox);
   info.GetReturnValue().Set(Nan::New(ret));
 }
@@ -133,9 +133,9 @@ NAN_METHOD(MultiTracker::AddKCF) {
   cv::Ptr<cv::legacy::Tracker> type = cv::legacy::TrackerKCF::create();
 #elif CV_VERSION_GREATER_EQUAL(3, 3, 0)
   cv::Ptr<cv::Tracker> type = cv::TrackerKCF::create();
-#else
+#else // CV_VERSION_GREATER_EQUAL(3, 3, 0)
   const std::string type("KCF");
-#endif
+#endif // CV_VERSION_GREATER_EQUAL(4, 5, 2)
   bool ret = MultiTracker::unwrapSelf(info)->add(type, image, boundingBox);
   info.GetReturnValue().Set(Nan::New(ret));
 }
@@ -151,6 +151,7 @@ NAN_METHOD(MultiTracker::Update) {
   MultiTracker::unwrapSelf(info)->update(image, rects);
   info.GetReturnValue().Set(Rect::ArrayConverter::wrap(rects));
 }
+
 #if CV_VERSION_GREATER_EQUAL(3, 4, 0)
 
 NAN_METHOD(MultiTracker::AddMOSSE) {
@@ -163,14 +164,14 @@ NAN_METHOD(MultiTracker::AddMOSSE) {
   }
 #if CV_VERSION_GREATER_EQUAL(4, 5, 2)
   cv::Ptr<cv::legacy::Tracker> type = cv::legacy::TrackerMOSSE::create();
-#else
+#else // CV_VERSION_GREATER_EQUAL(4, 5, 2)
   cv::Ptr<cv::Tracker> type = cv::TrackerMOSSE::create();
-#endif
+#endif // CV_VERSION_GREATER_EQUAL(4, 5, 2)
   bool ret = MultiTracker::unwrapSelf(info)->add(type, image, boundingBox);
   info.GetReturnValue().Set(Nan::New(ret));
 }
+#endif // CV_VERSION_GREATER_EQUAL(3, 4, 0)
 
-#endif
 #if CV_VERSION_GREATER_EQUAL(3, 4, 1)
 
 NAN_METHOD(MultiTracker::AddCSRT) {
@@ -183,14 +184,14 @@ NAN_METHOD(MultiTracker::AddCSRT) {
   }
 #if CV_VERSION_GREATER_EQUAL(4, 5, 2)
   cv::Ptr<cv::legacy::Tracker> type = cv::legacy::TrackerCSRT::create();
-#else
+#else // CV_VERSION_GREATER_EQUAL(4, 5, 2)
   cv::Ptr<cv::Tracker> type = cv::TrackerCSRT::create();
-#endif
+#endif // CV_VERSION_GREATER_EQUAL(4, 5, 2)
   bool ret = MultiTracker::unwrapSelf(info)->add(type, image, boundingBox);
   info.GetReturnValue().Set(Nan::New(ret));
 }
-#endif
+#endif // CV_VERSION_GREATER_EQUAL(3, 4, 1)
 
-#endif
+#endif // CV_VERSION_GREATER_EQUAL(3, 1, 0)
 
-#endif
+#endif // HAVE_OPENCV_TRACKING

@@ -2,7 +2,7 @@
 #include <opencv2/tracking.hpp>
 #if CV_VERSION_GREATER_EQUAL(4, 5, 2)
 #include <opencv2/tracking/tracking_legacy.hpp>
-#endif
+#endif // CV_VERSION_GREATER_EQUAL(4, 5, 2)
 #include "Mat.h"
 #include "Rect.h"
 
@@ -11,11 +11,13 @@
 #ifndef __FF_MULTITRACKER_H__
 #define __FF_MULTITRACKER_H__
 
+class MultiTracker
 #if CV_VERSION_GREATER_EQUAL(4, 5, 2)
-class MultiTracker : public FF::ObjectWrap<MultiTracker, cv::Ptr<cv::legacy::MultiTracker>> {
-#else
-class MultiTracker : public FF::ObjectWrap<MultiTracker, cv::Ptr<cv::MultiTracker>> {
-#endif
+ : public FF::ObjectWrap<MultiTracker, cv::Ptr<cv::legacy::MultiTracker>>
+#else // CV_VERSION_GREATER_EQUAL(4, 5, 2)
+ : public FF::ObjectWrap<MultiTracker, cv::Ptr<cv::MultiTracker>>
+#endif // CV_VERSION_GREATER_EQUAL(4, 5, 2)
+{
 public:
   static Nan::Persistent<v8::FunctionTemplate> constructor;
 
@@ -36,6 +38,6 @@ public:
   static NAN_METHOD(Update);
 };
 
-#endif
+#endif // __FF_MULTITRACKER_H__
 
-#endif
+#endif // CV_VERSION_GREATER_EQUAL(3, 1, 0)

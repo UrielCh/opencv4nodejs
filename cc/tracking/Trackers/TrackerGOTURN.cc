@@ -52,7 +52,7 @@ NAN_METHOD(TrackerGOTURN::GetModel) {
   // TBD
 }
 
-#endif
+#endif // CV_VERSION_GREATER_EQUAL(4, 5, 2)
 
 NAN_MODULE_INIT(TrackerGOTURN::Init) {
   v8::Local<v8::FunctionTemplate> ctor = Nan::New<v8::FunctionTemplate>(TrackerGOTURN::New);
@@ -63,9 +63,9 @@ NAN_MODULE_INIT(TrackerGOTURN::Init) {
   Nan::SetPrototypeMethod(ctor, "init", TrackerGOTURN::Init);
   Nan::SetPrototypeMethod(ctor, "update", TrackerGOTURN::Update);
   Nan::SetPrototypeMethod(ctor, "getModel", TrackerGOTURN::GetModel);
-#else
+#else // CV_VERSION_GREATER_EQUAL(4, 5, 2)
   Tracker::Init(ctor);
-#endif
+#endif // CV_VERSION_GREATER_EQUAL(4, 5, 2)
   constructor.Reset(ctor);
   ctor->SetClassName(FF::newString("TrackerGOTURN"));
   instanceTemplate->SetInternalFieldCount(1);
@@ -80,14 +80,14 @@ NAN_METHOD(TrackerGOTURN::New) {
   TrackerGOTURN* self = new TrackerGOTURN();
 #if CV_VERSION_GREATER_EQUAL(3, 3, 0)
   self->tracker = cv::TrackerGOTURN::create();
-#else
+#else // CV_VERSION_GREATER_EQUAL(3, 3, 0)
   self->tracker = cv::TrackerGOTURN::createTracker();
-#endif
+#endif // CV_VERSION_GREATER_EQUAL(3, 3, 0)
 
   self->Wrap(info.Holder());
   info.GetReturnValue().Set(info.Holder());
 };
 
-#endif
+#endif // CV_VERSION_GREATER_EQUAL(3, 2, 0)
 
-#endif
+#endif // HAVE_OPENCV_TRACKING
